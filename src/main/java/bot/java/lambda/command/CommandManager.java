@@ -29,6 +29,7 @@ public class CommandManager {
         // Fun Commands
         addCommand(new MemeCommand());
         addCommand(new JokeCommand());
+        addCommand(new CatCommand());
 
         // Music Commands
         addCommand(new JoinCommand());
