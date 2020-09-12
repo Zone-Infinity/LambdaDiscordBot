@@ -30,6 +30,7 @@ public class CommandManager {
         addCommand(new MemeCommand());
         addCommand(new JokeCommand());
         addCommand(new CatCommand());
+        addCommand(new DogCommand());
 
         // Music Commands
         addCommand(new JoinCommand());
