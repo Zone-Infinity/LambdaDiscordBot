@@ -23,8 +23,11 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    public void endTrack(){
+        this.player.getPlayingTrack().setPosition(player.getPlayingTrack().getDuration()-1);
+    }
+
     public void nextTrack() {
-        this.player.getPlayingTrack().setPosition(this.player.getPlayingTrack().getDuration()-1000);
         this.player.startTrack(this.queue.poll(), false);
     }
 

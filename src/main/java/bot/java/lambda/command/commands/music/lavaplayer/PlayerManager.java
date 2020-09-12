@@ -87,7 +87,6 @@ public class PlayerManager {
                         .queue();
 
                 final Consumer<AudioTrack> queue = musicManager.scheduler::queue;
-                queue.accept(track);
 
             }
 

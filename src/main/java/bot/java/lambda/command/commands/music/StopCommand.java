@@ -25,8 +25,9 @@ public class StopCommand implements ICommand {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
         }
 
-        if (!ctx.getMember().hasPermission(Permission.ADMINISTRATOR)) {
-            Objects.requireNonNull(Objects.requireNonNull(ctx.getSelfMember().getVoiceState()).getChannel()).getMembers();
+        if(playerManager.getMusicManager(ctx.getGuild()).audioPlayer.getPlayingTrack()==null){
+            channel.sendMessage("Nothing in the queue to clear").queue();
+            return;
         }
 
         musicManager.scheduler.getQueue().clear();

@@ -28,20 +28,23 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         LOGGER.info("{} is ready",event.getJDA().getSelfUser().getAsTag());
-        final int guilds = event.getGuildTotalCount();
-        event.getJDA().getPresence().setActivity(Activity.watching(guilds+" servers"+" | "+Config.get("prefix")+"help | Contact Zone_Infinity#7763 for help"));
+        event.getJDA().getPresence().setActivity(Activity.playing(Config.get("prefix")+"help | Contact Zone_Infinity#7763 for help"));
         event.getJDA().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
 
     }
 
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
-        globalAuditsChannel = event.getGuild().getTextChannelById(753995632556900544L);
+        globalAuditsChannel = event.getJDA().getTextChannelById(753995632556900544L);
+        assert globalAuditsChannel != null;
+        globalAuditsChannel.sendMessage("```Added to "+event.getGuild()+"```").queue();
     }
 
     @Override
     public void onGuildLeave(@NotNull GuildLeaveEvent event) {
-        globalAuditsChannel = event.getGuild().getTextChannelById(753995632556900544L);
+        globalAuditsChannel = event.getJDA().getTextChannelById(753995632556900544L);
+        assert globalAuditsChannel != null;
+        globalAuditsChannel.sendMessage("```Removed to "+event.getGuild()+"```").queue();
     }
 
     @Override
@@ -60,18 +63,22 @@ public class Listener extends ListenerAdapter {
         String prefix  = this.getPrefix();
         String raw = event.getMessage().getContentRaw();
 
-        if(raw.equalsIgnoreCase(event.getJDA().getSelfUser().getAsMention())){
-            event.getChannel().sendMessageFormat("Hi %s , my prefix is %s",event.getAuthor(),Config.get("prefix")).queue();
-        }
-
         if(raw.equalsIgnoreCase(prefix+"guilds")){
             final List<Guild> guilds = event.getJDA().getGuilds();
             StringBuilder guildList = new StringBuilder();
             guildList.append("```");
             for (Guild guild : guilds)
-                guildList.append("- ").append(guild.getName()).append("\n");
+                guildList.append("-")
+                        .append(guild.getName())
+                        .append(":")
+                        .append(guild.getMemberCount())
+                        .append("\n");
             guildList.append("```");
             event.getChannel().sendMessage(guildList).queue();
+        }
+
+        if(raw.equals("<@!752052866809593906>")){
+            event.getChannel().sendMessageFormat("Hi %s , my prefix is %s",event.getAuthor(),Config.get("prefix")).queue();
         }
 
         if(raw.equalsIgnoreCase(prefix+"close")){

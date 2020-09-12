@@ -19,6 +19,7 @@ public class CommandManager {
     public CommandManager(){
         // Info Commands
         addCommand(new HelpCommand(this));
+        addCommand(new GuildCountCommand());
 
         // Common Commands
         addCommand(new PingCommand());

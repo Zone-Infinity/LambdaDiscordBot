@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class SkipCommand implements ICommand {
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -22,29 +23,27 @@ public class SkipCommand implements ICommand {
         TrackScheduler scheduler = musicManager.scheduler;
         AudioPlayer player = musicManager.audioPlayer;
 
+        if(!ctx.getMember().getVoiceState().inVoiceChannel()){
+            channel.sendMessage("You are not in the voice channel").queue();
+        }
+
         if(player.getPlayingTrack()==null){
             channel.sendMessage("The player isn't playing anything").queue();
             return;
         }
 
-        try{
-            if (ctx.getMember().hasPermission(Permission.ADMINISTRATOR) || Objects.requireNonNull(Objects.requireNonNull(ctx.getSelfMember().getVoiceState()).getChannel()).getMembers().size() <= 3) {
-                scheduler.nextTrack();
-                channel.sendMessage("Skipping the current track").queue();
-                return;
+        try {
+            //scheduler.endTrack();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.fillInStackTrace();
             }
-            int skips = 0;
-            skips++;
-            if (skips == Objects.requireNonNull(Objects.requireNonNull(ctx.getSelfMember().getVoiceState()).getChannel()).getMembers().size() - 2) {
-                scheduler.nextTrack();
-                channel.sendMessage("Skipping the current track").queue();
-            }
-
+            scheduler.nextTrack();
         }catch (IllegalStateException e){
             e.fillInStackTrace();
-            scheduler.nextTrack();
-            channel.sendMessage("Skipping the current track").queue();
         }
+        channel.sendMessage("Skipping the current track").queue();
     }
 
     @Override

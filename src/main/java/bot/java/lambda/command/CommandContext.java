@@ -24,7 +24,7 @@ public class CommandContext implements ICommandContext {
         EmbedUtils.setEmbedBuilder(
                 ()-> new EmbedBuilder()
                         .setThumbnail(event.getAuthor().getAvatarUrl())
-                        .setAuthor(u.getAuthorRequested(event),"",event.getAuthor().getAvatarUrl())
+                        .setAuthor(u.getAuthorRequested(event),event.getAuthor().getAvatarUrl(),event.getAuthor().getAvatarUrl())
                         .setColor(new Color(r, g, b))
                         .setFooter("Lambda Equations in java are amazing","https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
                         .setTimestamp(Instant.now())

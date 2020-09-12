@@ -26,7 +26,7 @@ public class QueueCommand implements ICommand {
         EmbedBuilder builder = EmbedUtils.getDefaultEmbed();
 
         if(queue.isEmpty()){
-            builder.setThumbnail("https://images-ext-1.discordapp.net/external/OuYMb1QeuL4MpNC1oZQXPXTG55gr3ROmO8L2iiDqpBY/%3Fv%3D1/https/cdn.discordapp.com/emojis/749516410983678003.png")
+            builder.setThumbnail("https://images-ext-2.discordapp.net/external/frvcoRmUh1i7edHL92fPYF3qwlg8ZQ-Hh6v1tFeRF6s/%3Fv%3D1/https/cdn.discordapp.com/emojis/753940153780928522.png")
                     .setTitle("The queue is empty")
                     .setDescription("Use -play <song_url> for adding song in the queue");
             channel.sendMessage(builder.build()).queue();
