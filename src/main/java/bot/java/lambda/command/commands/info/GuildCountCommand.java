@@ -25,7 +25,7 @@ public class GuildCountCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.INFO;
     }
 
     @Override
