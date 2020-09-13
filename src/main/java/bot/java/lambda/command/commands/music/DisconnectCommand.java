@@ -65,8 +65,8 @@ public class DisconnectCommand implements ICommand {
             }
         }
 
+        channel.sendMessageFormat("Disconnected `\uD83D\uDD0A %s`", selfVoiceState.getChannel().getName()).queue();
         audioManager.closeAudioConnection();
-        channel.sendMessageFormat("Disconnected `\uD83D\uDD0A %s`", memberChannel.getName()).queue();
 
     }
 

@@ -63,6 +63,10 @@ public class PlayCommand implements ICommand {
 
         String link = String.join(" ",ctx.getArgs());
 
+        if(ctx.getArgs().size()==1){
+            link = String.join(" ",ctx.getArgs()) + " .";
+        }
+
         if(!isUrl(link)){
             link = "ytsearch:" + link;
         }

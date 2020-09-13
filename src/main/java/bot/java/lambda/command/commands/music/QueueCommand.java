@@ -85,6 +85,6 @@ public class QueueCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("q","playlist","songlist");
+        return List.of("q","songlist");
     }
 }
