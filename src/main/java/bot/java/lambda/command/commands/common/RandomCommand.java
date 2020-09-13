@@ -12,7 +12,7 @@ public class RandomCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
 
-        if(args.isEmpty()){
+        if(args.size() < 2){
             ctx.getChannel().sendMessage("Missing Arguments").queue();
             return;
         }
