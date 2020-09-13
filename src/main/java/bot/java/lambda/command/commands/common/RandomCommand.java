@@ -18,7 +18,13 @@ public class RandomCommand implements ICommand {
         }
 
         Random random = new Random();
-        ctx.getChannel().sendMessage(""+random.ints(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)))).queue();
+
+        int a = Integer.parseInt(args.get(0));
+        final int b = Integer.parseInt(args.get(1));
+
+        final int num = a<b?random.ints(a, b).findFirst().getAsInt():random.ints(b, a).findFirst().getAsInt();
+
+        ctx.getChannel().sendMessage(""+num).queue();
     }
 
     @Override
