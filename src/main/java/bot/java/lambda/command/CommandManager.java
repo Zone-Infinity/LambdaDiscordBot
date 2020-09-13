@@ -42,6 +42,8 @@ public class CommandManager {
         addCommand(new InviteCommand());
         addCommand(new InstagramCommand());
         addCommand(new GenPassCommand());
+        addCommand(new RollCommand());
+        addCommand(new RandomCommand());
 
         // Fun Commands
         addCommand(new MemeCommand());
