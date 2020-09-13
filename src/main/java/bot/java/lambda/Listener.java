@@ -17,29 +17,40 @@
 package bot.java.lambda;
 
 import bot.java.lambda.command.CommandManager;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.BotCommons;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Listener extends ListenerAdapter {
 
     private static final Logger LOGGER  = LoggerFactory.getLogger(Listener.class);
     private final CommandManager manager = new CommandManager();
     private TextChannel globalAuditsChannel;
+
+    EventWaiter waiter;
+
+    public Listener(EventWaiter waiter){
+        this.waiter = waiter;
+    }
+
+    public EventWaiter getWaiter(){
+        return waiter;
+    }
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
@@ -93,6 +104,26 @@ public class Listener extends ListenerAdapter {
             event.getChannel().sendMessage(guildList).queue();
         }
 
+        if(raw.equalsIgnoreCase("test")){
+            event.getChannel().sendMessage("React to this message").queue(
+                    message -> {
+                        message.addReaction("🆗").queue();
+                        checkReaction(message.getId(),message,event.getAuthor(),event.getChannel());
+                    }
+            );
+        }
+
+        if(raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi")){
+            event.getChannel().sendMessage("Hello. What is your name?").queue();
+
+            waiter.waitForEvent(MessageReceivedEvent.class,
+                    e -> e.getAuthor().equals(event.getAuthor())
+                            && e.getChannel().equals(event.getChannel())
+                            && !e.getMessage().equals(event.getMessage()),
+                    e -> event.getChannel().sendMessage("Hello, `"+e.getMessage().getContentRaw()+"`! I'm `"+e.getJDA().getSelfUser().getName()+"`!").queue(),
+                    1, TimeUnit.MINUTES, () -> event.getChannel().sendMessage("Sorry, you took too long.").queue());
+        }
+
         if(raw.equals("<@!752052866809593906>")){
             event.getChannel().sendMessageFormat("Hi %s , my prefix is %s",event.getAuthor(),Config.get("prefix")).queue();
         }
@@ -121,6 +152,22 @@ public class Listener extends ListenerAdapter {
         if(raw.startsWith(prefix)){
             manager.handle(event, prefix);
         }
+    }
+
+    public void checkReaction(String id, Message message, User user, TextChannel channel){
+        waiter.waitForEvent(MessageReactionAddEvent.class,
+                e -> !user.isBot() && id.equals(message.getId()),
+                e -> {
+                    final long count = e.getReaction().retrieveUsers().stream().count();
+                    message.editMessage(count+" reacted").queue();
+                    if (count>1){
+                        channel.sendMessage("Test Successful").queue();
+                        return;
+                    }
+                    checkReaction(id,message, user, channel);
+                },
+                1, TimeUnit.MINUTES, () -> channel.sendMessage("Timed out").queue());
+
     }
 
     private String getPrefix(){

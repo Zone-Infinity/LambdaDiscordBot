@@ -16,6 +16,7 @@
 
 package bot.java.lambda.command;
 
+import bot.java.lambda.Bot;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import bot.java.lambda.command.commands.common.*;
@@ -33,6 +34,8 @@ public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
 
     public CommandManager(){
+        Bot bot = new Bot();
+
         // Info Commands
         addCommand(new HelpCommand(this));
         addCommand(new GuildCountCommand());
@@ -44,6 +47,7 @@ public class CommandManager {
         addCommand(new GenPassCommand());
         addCommand(new RollCommand());
         addCommand(new RandomCommand());
+        addCommand(new EvalCommand());
 
         // Fun Commands
         addCommand(new MemeCommand());
@@ -66,7 +70,7 @@ public class CommandManager {
         addCommand(new DisconnectCommand());
         addCommand(new PlayCommand());
         addCommand(new QueueCommand());
-        addCommand(new SkipCommand());
+        addCommand(new SkipCommand(bot.getWaiter()));
         addCommand(new StopCommand());
         addCommand(new UserCountCommand());
         addCommand(new NowPlayingCommand());

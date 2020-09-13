@@ -22,14 +22,22 @@ import bot.java.lambda.command.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.command.commands.music.lavaplayer.TrackScheduler;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("ConstantConditions")
 public class SkipCommand implements ICommand {
-    @SuppressWarnings("ConstantConditions")
+    EventWaiter waiter;
+    public SkipCommand(EventWaiter waiter){
+        this.waiter = waiter;
+    }
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -48,18 +56,46 @@ public class SkipCommand implements ICommand {
             return;
         }
 
-        try {
-            //scheduler.endTrack();
+        final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
+        final int size = voiceState.getChannel().getMembers().size();
+
+        if(size < 2){
             try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
+                scheduler.nextTrack();
+            }catch (IllegalStateException e){
                 e.fillInStackTrace();
             }
-            scheduler.nextTrack();
-        }catch (IllegalStateException e){
-            e.fillInStackTrace();
+            return;
         }
-        channel.sendMessage("Skipping the current track").queue();
+
+        channel.sendMessage("Skip more").queue(
+                message -> checkReaction(channel,ctx,scheduler)
+        );
+    }
+
+    public void checkReaction(TextChannel channel, CommandContext ctx, TrackScheduler scheduler){
+        final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
+        final int size = voiceState.getChannel().getMembers().size();
+
+        for (int i=0;i<=size-3;i++){
+            int finalI = i;
+            waiter.waitForEvent(MessageReceivedEvent.class,
+                    e -> e.getChannel().equals(channel),
+                    e -> {
+                        if(e.getMessage().getContentRaw().equalsIgnoreCase(">skip"))
+                            channel.sendMessage(finalI + " out of " + (size - 2)).queue();
+                    },
+                    3, TimeUnit.MINUTES, () -> channel.sendMessage("Time up !! can't skip").queue());
+            if(i==size-2) {
+                channel.sendMessage("Track Skipped ").queue();
+                try {
+                    scheduler.nextTrack();
+                } catch (IllegalStateException e) {
+                    e.fillInStackTrace();
+                }
+                break;
+            }
+        }
     }
 
     @Override

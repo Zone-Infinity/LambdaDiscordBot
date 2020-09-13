@@ -58,64 +58,69 @@ public class PlayerManager {
     public void loadAndPlay(TextChannel channel, String trackUrl) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
-        this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
-            @Override
-            public void trackLoaded(AudioTrack track) {
-                musicManager.scheduler.queue(track);
+        try {
+            this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
+                @Override
+                public void trackLoaded(AudioTrack track) {
+                    musicManager.scheduler.queue(track);
 
-                channel.sendMessage("Adding to queue: `")
-                        .append(track.getInfo().title)
-                        .append("` by `")
-                        .append(track.getInfo().author)
-                        .append('`')
-                        .queue();
-            }
+                    channel.sendMessage("Adding to queue: `")
+                            .append(track.getInfo().title)
+                            .append("` by `")
+                            .append(track.getInfo().author)
+                            .append('`')
+                            .queue();
+                }
 
-            @Override
-            public void playlistLoaded(AudioPlaylist playlist) {
-                final List<AudioTrack> tracks = playlist.getTracks();
-                final AudioTrack track = tracks.get(0);
+                @Override
+                public void playlistLoaded(AudioPlaylist playlist) {
+                    final List<AudioTrack> tracks = playlist.getTracks();
+                    final AudioTrack track = tracks.get(0);
 
                 /*for(final AudioTrack track : tracks){
                     musicManager.scheduler.queue(track);
                     duration = track.getDuration();
                 }*/
 
-                musicManager.scheduler.queue(track);
+                    musicManager.scheduler.queue(track);
 
-                long duration = track.getDuration()/1000;
-                long mins = duration/60;
-                long secs = duration%60;
-                String seconds = String.valueOf(secs);
-                if(secs<10){
-                    seconds = "0"+ secs;
+                    long duration = track.getDuration() / 1000;
+                    long mins = duration / 60;
+                    long secs = duration % 60;
+                    String seconds = String.valueOf(secs);
+                    if (secs < 10) {
+                        seconds = "0" + secs;
+                    }
+
+                    channel.sendMessage("Adding to queue: `")
+                            .append(track.getInfo().title)
+                            .append("` by `")
+                            .append(track.getInfo().author)
+                            .append("` for `")
+                            .append(String.valueOf(mins))
+                            .append(":")
+                            .append(seconds)
+                            .append('`')
+                            .queue();
+
+                    final Consumer<AudioTrack> queue = musicManager.scheduler::queue;
+
                 }
 
-                channel.sendMessage("Adding to queue: `")
-                        .append(track.getInfo().title)
-                        .append("` by `")
-                        .append(track.getInfo().author)
-                        .append("` for `")
-                        .append(String.valueOf(mins))
-                        .append(":")
-                        .append(seconds)
-                        .append('`')
-                        .queue();
+                @Override
+                public void noMatches() {
+                    channel.sendMessage("No Match Found").queue();
+                }
 
-                final Consumer<AudioTrack> queue = musicManager.scheduler::queue;
-
-            }
-
-            @Override
-            public void noMatches() {
-                channel.sendMessage("No Match Found").queue();
-            }
-
-            @Override
-            public void loadFailed(FriendlyException exception) {
-                channel.sendMessage("Failed to Load the track").queue();
-            }
-        });
+                @Override
+                public void loadFailed(FriendlyException exception) {
+                    exception.printStackTrace();
+                    channel.sendMessage("Failed to Load the track").queue();
+                }
+            });
+        }catch (Exception e){
+            channel.sendMessage("Failed to Load the track").queue();
+        }
     }
 
     public void loadListAndPlay(TextChannel channel, String trackUrl) {

@@ -20,6 +20,7 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -32,7 +33,7 @@ public class PlayCommand implements ICommand {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void handle(CommandContext ctx) {
+    public void handle(CommandContext ctx) throws FriendlyException {
         final TextChannel channel = ctx.getChannel();
 
         if(ctx.getArgs().isEmpty()){
