@@ -25,6 +25,7 @@ public class SkipCommand implements ICommand {
 
         if(!ctx.getMember().getVoiceState().inVoiceChannel()){
             channel.sendMessage("You are not in the voice channel").queue();
+            return;
         }
 
         if(player.getPlayingTrack()==null){

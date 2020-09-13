@@ -48,17 +48,37 @@ public class HelpCommand implements ICommand {
             InfoBuild.append("`->`    ");
             MusicBuild.append("`->`    ");
 
+            int count = 0;
             for(String cmd : FunCmd){
+                if(count%5==0 && count!=0){
+                    FunBuild.append("\n");
+                }
                 FunBuild.append("`").append(cmd).append("` , ");
+                count++;
             }
+            count = 0;
             for(String cmd : ComCmd){
+                if(count%5==0 && count!=0){
+                    ComBuild.append("\n");
+                }
                 ComBuild.append("`").append(cmd).append("` , ");
+                count++;
             }
+            count = 0;
             for(String cmd : InfoCmd){
+                if(count%5==0 && count!=0){
+                    InfoBuild.append("\n");
+                }
                 InfoBuild.append("`").append(cmd).append("` , ");
+                count++;
             }
+            count = 0;
             for(String cmd : MusicCmd){
+                if(count%5==0 && count!=0){
+                    MusicBuild.append("\n");
+                }
                 MusicBuild.append("`").append(cmd).append("` , ");
+                count++;
             }
             FunBuild.delete(FunBuild.length()-2, FunBuild.length()-1);
             ComBuild.delete(ComBuild.length()-2, ComBuild.length()-1);
@@ -80,7 +100,8 @@ public class HelpCommand implements ICommand {
                     .addField("<:LambdaBlack:753942805101019238> Commons",ComBuild.toString(),false)
                     .addField("\uD83C\uDF89 Fun",FunBuild.toString(),false)
                     .addField("<:InfoLambda:753955328160170065> Info",InfoBuild.toString(),false)
-                    .addField("\uD83D\uDD09 Music",MusicBuild.toString(),false);
+                    .addField("\uD83D\uDD09 Music",MusicBuild.toString(),false)
+                    .setFooter("Total Commands : "+manager.getCommands().size(),"https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
             channel.sendMessage(embed.build()).queue();
             return;
         }

@@ -25,12 +25,23 @@ public class CommandManager {
         addCommand(new PingCommand());
         addCommand(new InviteCommand());
         addCommand(new InstagramCommand());
+        addCommand(new GenPassCommand());
 
         // Fun Commands
         addCommand(new MemeCommand());
         addCommand(new JokeCommand());
         addCommand(new CatCommand());
         addCommand(new DogCommand());
+        addCommand(new LlamaCommand());
+        addCommand(new DuckCommand());
+        addCommand(new AlpacaCommand());
+        addCommand(new SealCommand());
+        addCommand(new CamelCommand());
+        addCommand(new LizardCommand());
+        addCommand(new FoxCommand());
+        addCommand(new BirdCommand());
+        addCommand(new WolfCommand());
+        addCommand(new PandaCommand());
 
         // Music Commands
         addCommand(new JoinCommand());
