@@ -30,10 +30,6 @@ public class StopCommand implements ICommand {
         GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
         final TextChannel channel = ctx.getChannel();
 
-        musicManager.scheduler.getQueue().clear();
-        musicManager.audioPlayer.stopTrack();
-        musicManager.audioPlayer.setPaused(false);
-
         if(ctx.getMember().getVoiceState()==null){
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
         }
