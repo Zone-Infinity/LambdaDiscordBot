@@ -39,13 +39,14 @@ import java.util.concurrent.TimeUnit;
 public class Listener extends ListenerAdapter {
 
     private static final Logger LOGGER  = LoggerFactory.getLogger(Listener.class);
-    private final CommandManager manager = new CommandManager();
     private TextChannel globalAuditsChannel;
+    private final CommandManager manager;
 
-    EventWaiter waiter;
+    private final EventWaiter waiter;
 
     public Listener(EventWaiter waiter){
         this.waiter = waiter;
+        manager = new CommandManager(waiter);
     }
 
     public EventWaiter getWaiter(){
@@ -102,15 +103,6 @@ public class Listener extends ListenerAdapter {
                         .append("\n");
             guildList.append("```");
             event.getChannel().sendMessage(guildList).queue();
-        }
-
-        if(raw.equalsIgnoreCase("test")){
-            event.getChannel().sendMessage("React to this message").queue(
-                    message -> {
-                        message.addReaction("🆗").queue();
-                        checkReaction(message.getId(),message,event.getAuthor(),event.getChannel());
-                    }
-            );
         }
 
         if(raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi")){

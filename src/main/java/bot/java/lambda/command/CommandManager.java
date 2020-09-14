@@ -16,7 +16,7 @@
 
 package bot.java.lambda.command;
 
-import bot.java.lambda.Bot;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import bot.java.lambda.command.commands.common.*;
@@ -33,8 +33,7 @@ import java.util.regex.Pattern;
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
 
-    public CommandManager(){
-        Bot bot = new Bot();
+    public CommandManager(EventWaiter waiter){
 
         // Info Commands
         addCommand(new HelpCommand(this));
@@ -70,8 +69,8 @@ public class CommandManager {
         addCommand(new DisconnectCommand());
         addCommand(new PlayCommand());
         addCommand(new QueueCommand());
-        addCommand(new SkipCommand(bot.getWaiter()));
-        addCommand(new StopCommand());
+        addCommand(new SkipCommand(waiter));
+        addCommand(new StopCommand(waiter));
         addCommand(new UserCountCommand());
         addCommand(new NowPlayingCommand());
         addCommand(new PlaylistCommand());

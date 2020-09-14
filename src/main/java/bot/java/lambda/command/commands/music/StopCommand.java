@@ -21,9 +21,20 @@ import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+
+import java.util.concurrent.TimeUnit;
 
 public class StopCommand implements ICommand {
+    EventWaiter waiter;
+    public StopCommand(EventWaiter waiter){
+        this.waiter = waiter;
+    }
+
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         PlayerManager playerManager = PlayerManager.getInstance();
@@ -39,10 +50,26 @@ public class StopCommand implements ICommand {
             return;
         }
 
-        musicManager.scheduler.getQueue().clear();
-        musicManager.audioPlayer.stopTrack();
-        musicManager.audioPlayer.setPaused(false);
-        channel.sendMessage("Stopping the player and clearing the queue").queue();
+        final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
+        final int size = voiceState.getChannel().getMembers().size();
+
+        channel.sendMessage("React to the message to skip\n" +
+                "Need "+(size-2)+" reactions ( only ⏹️)").queue(
+                message -> {
+                    message.addReaction("⏹️").queue();
+                    waiter.waitForEvent(MessageReactionAddEvent.class,
+                            e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
+                                    e.getChannel().equals(channel) &&
+                                    e.getMessageIdLong() == message.getIdLong(),
+                            e -> {
+                                channel.sendMessage("Stopping the player and clearing the queue").queue();
+                                musicManager.scheduler.getQueue().clear();
+                                musicManager.audioPlayer.stopTrack();
+                                musicManager.audioPlayer.setPaused(false);
+                            },
+                            70, TimeUnit.SECONDS, () -> channel.sendMessage("Time up !! can't stop").queue());
+                }
+        );
     }
 
     @Override

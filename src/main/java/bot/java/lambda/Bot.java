@@ -47,10 +47,6 @@ public class Bot {
                 .build();
     }
 
-    public EventWaiter getWaiter(){
-        return waiter;
-    }
-
     public static void main(String[] args) throws LoginException {
         Bot bot = new Bot();
         bot.ready();

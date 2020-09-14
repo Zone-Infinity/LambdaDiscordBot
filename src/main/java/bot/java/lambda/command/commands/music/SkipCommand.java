@@ -34,7 +34,6 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("ConstantConditions")
 public class SkipCommand implements ICommand {
     EventWaiter waiter;
-    final int[] a = {0};
 
     public SkipCommand(EventWaiter waiter){
         this.waiter = waiter;
@@ -60,7 +59,7 @@ public class SkipCommand implements ICommand {
         final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
         final int size = voiceState.getChannel().getMembers().size();
 
-        if(size < 2){
+        if(size < 3){
             channel.sendMessage("Track Skipped").queue();
             try {
                 scheduler.nextTrack();
@@ -70,26 +69,25 @@ public class SkipCommand implements ICommand {
             return;
         }
 
-        if(a[0] ==0) {
-            channel.sendMessage("React to the message to skip " + (size - 2)).queue(
-                    message -> {
-                        message.addReaction("🆗").queue();
-                        waiter.waitForEvent(MessageReactionAddEvent.class,
-                                e -> e.getReaction().retrieveUsers().stream().count() > 1 &&
-                                        e.getChannel().equals(channel) &&
-                                        e.getMessageIdLong() == message.getIdLong(),
-                                e -> {
-                                    channel.sendMessage("Track Skipped ").queue();
-                                    try {
-                                        scheduler.nextTrack();
-                                    } catch (IllegalStateException ex) {
-                                        ex.fillInStackTrace();
-                                    }
-                                },
-                                80, TimeUnit.SECONDS, () -> channel.sendMessage("Time up !! can't skip").queue());
-                    }
-            );
-        }
+        channel.sendMessage("React to the message to skip\n" +
+                "Need "+(size-2)+" reactions ( only ⏭️ )").queue(
+                message -> {
+                    message.addReaction("⏭️").queue();
+                    waiter.waitForEvent(MessageReactionAddEvent.class,
+                            e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
+                                    e.getChannel().equals(channel) &&
+                                    e.getMessageIdLong() == message.getIdLong(),
+                            e -> {
+                                channel.sendMessage("Track Skipped ").queue();
+                                try {
+                                    scheduler.nextTrack();
+                                } catch (IllegalStateException ex) {
+                                    ex.fillInStackTrace();
+                                }
+                            },
+                            70, TimeUnit.SECONDS, () -> channel.sendMessage("Time up !! can't skip").queue());
+                }
+        );
     }
 
 
