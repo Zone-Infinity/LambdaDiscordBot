@@ -26,11 +26,10 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings("ConstantConditions")
 public class SkipCommand implements ICommand {
@@ -72,60 +71,25 @@ public class SkipCommand implements ICommand {
         }
 
         if(a[0] ==0) {
-            channel.sendMessage("1 out of " + (size - 2)).queue(
+            channel.sendMessage("React to the message to skip " + (size - 2)).queue(
                     message -> {
-                        AtomicInteger i = new AtomicInteger(1);
-                        Wait(channel, ctx, scheduler);
-                        a[0] = change(a[0]);
-                        waiter.waitForEvent(MessageReceivedEvent.class,
-                                e -> !e.getAuthor().isBot() &&
+                        message.addReaction("🆗").queue();
+                        waiter.waitForEvent(MessageReactionAddEvent.class,
+                                e -> e.getReaction().retrieveUsers().stream().count() > 1 &&
                                         e.getChannel().equals(channel) &&
-                                        e.getMessage().getContentRaw().equalsIgnoreCase(">skip") ,
+                                        e.getMessageIdLong() == message.getIdLong(),
                                 e -> {
-                                    channel.sendMessage(i + " out of " + (size - 2)).queue();
-                                    i.getAndSet(i.get()+1);
-                                    if(i.get() ==size-2) {
-                                        channel.sendMessage("Track Skipped ").queue();
-                                        try {
-                                            scheduler.nextTrack();
-                                        } catch (IllegalStateException ex) {
-                                            ex.fillInStackTrace();
-                                        }
+                                    channel.sendMessage("Track Skipped ").queue();
+                                    try {
+                                        scheduler.nextTrack();
+                                    } catch (IllegalStateException ex) {
+                                        ex.fillInStackTrace();
                                     }
                                 },
-                                3, TimeUnit.MINUTES, () -> channel.sendMessage("Time up !! can't skip").queue());
-
+                                80, TimeUnit.SECONDS, () -> channel.sendMessage("Time up !! can't skip").queue());
                     }
             );
         }
-    }
-
-    public int change(int a){
-        return a+1;
-    }
-
-    public void Wait(TextChannel channel, CommandContext ctx, TrackScheduler scheduler){
-
-        final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
-        final int size = voiceState.getChannel().getMembers().size();
-        AtomicInteger i = new AtomicInteger(1);
-            waiter.waitForEvent(MessageReceivedEvent.class,
-                    e -> !e.getAuthor().isBot() &&
-                            e.getChannel().equals(channel) &&
-                            e.getMessage().getContentRaw().equalsIgnoreCase(">skip") ,
-                    e -> {
-                        channel.sendMessage(i + " out of " + (size - 2)).queue();
-                        i.getAndSet(i.get()+1);
-                        if(i.get() ==size-2) {
-                            channel.sendMessage("Track Skipped ").queue();
-                            try {
-                                scheduler.nextTrack();
-                            } catch (IllegalStateException ex) {
-                                ex.fillInStackTrace();
-                            }
-                        }
-                    },
-                    3, TimeUnit.MINUTES, () -> channel.sendMessage("Time up !! can't skip").queue());
     }
 
 

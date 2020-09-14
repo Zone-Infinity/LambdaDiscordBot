@@ -28,10 +28,6 @@ import java.util.EnumSet;
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
-    public EventWaiter getWaiter(){
-        return waiter;
-    }
-
     private void ready() throws LoginException {
         WebUtils.setUserAgent("S-Zone_Infinity#7763");
 
@@ -49,6 +45,10 @@ public class Bot {
                 ))
                 .addEventListeners(waiter, new Listener(waiter))
                 .build();
+    }
+
+    public EventWaiter getWaiter(){
+        return waiter;
     }
 
     public static void main(String[] args) throws LoginException {
