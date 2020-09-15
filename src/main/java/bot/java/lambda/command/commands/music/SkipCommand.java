@@ -25,6 +25,7 @@ import bot.java.lambda.command.commands.music.lavaplayer.TrackScheduler;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
@@ -57,10 +58,11 @@ public class SkipCommand implements ICommand {
         }
 
         final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
-        final int size = voiceState.getChannel().getMembers().size();
+        final List<Member> members = voiceState.getChannel().getMembers();
+        final int size = members.size();
 
         if(size < 3){
-            channel.sendMessage("Track Skipped").queue();
+            channel.sendMessage("<:NextTrack:755372945617977354> Track Skipped").queue();
             try {
                 scheduler.nextTrack();
             }catch (IllegalStateException e){
@@ -68,13 +70,13 @@ public class SkipCommand implements ICommand {
             }
             return;
         }
-
         channel.sendMessage("React to the message to skip\n" +
-                "Need "+(size-2)+" reactions ( only ⏭️ )").queue(
+                "Need "+(size-2)+" reactions ( only <:NextTrack:755372945617977354> )").queue(
                 message -> {
-                    message.addReaction("⏭️").queue();
+                    message.addReaction(":NextTrack:755372945617977354").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
-                            e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
+                            e -> e.getReaction().getReactionEmote().getEmoji().equals("<:NextTrack:755372945617977354>") &&
+                                    e.getReaction().retrieveUsers().stream().count() > size-2 &&
                                     e.getChannel().equals(channel) &&
                                     e.getMessageIdLong() == message.getIdLong(),
                             e -> {

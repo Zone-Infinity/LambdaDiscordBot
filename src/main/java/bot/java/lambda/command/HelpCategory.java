@@ -25,6 +25,7 @@ public enum HelpCategory {
     FUN("Fun","Fun Commands which include games and images"),
     INFO("Info","Info Commands for info of the bot , server and members"),
     MUSIC("Music","Music Commands when you are in a Voice Channel"),
+    GAME("Game","Commands to play Small fun games"),
     VAR_FOR_USE("",""),
     UNKNOWN("UNKNOWN","UNKNOWN");
 

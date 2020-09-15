@@ -45,11 +45,13 @@ public class HelpCommand implements ICommand {
         List<String> FunCmd = new ArrayList<>(),
                 ComCmd = new ArrayList<>(),
                 InfoCmd = new ArrayList<>(),
-                MusicCmd = new ArrayList<>();
+                MusicCmd = new ArrayList<>(),
+                GameCmd = new ArrayList<>();
         StringBuilder FunBuild = new StringBuilder(),
                 ComBuild = new StringBuilder(),
                 InfoBuild = new StringBuilder(),
-                MusicBuild = new StringBuilder();
+                MusicBuild = new StringBuilder(),
+                GameBuild = new StringBuilder();
 
         if(args.isEmpty()){
             for(ICommand command : commands){
@@ -57,12 +59,14 @@ public class HelpCommand implements ICommand {
                 else if (command.getHelpCategory().equals(HelpCategory.COM)) ComCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.INFO)) InfoCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.MUSIC)) MusicCmd.add(command.getName());
+                else if (command.getHelpCategory().equals(HelpCategory.GAME)) GameCmd.add(command.getName());
             }
 
             FunBuild.append("`->`    ");
             ComBuild.append("`->`    ");
             InfoBuild.append("`->`    ");
             MusicBuild.append("`->`    ");
+            GameBuild.append("`->`    ");
 
             int count = 0;
             for(String cmd : FunCmd){
@@ -96,11 +100,19 @@ public class HelpCommand implements ICommand {
                 MusicBuild.append("`").append(cmd).append("` , ");
                 count++;
             }
+            count = 0;
+            for(String cmd : GameCmd){
+                if(count%5==0 && count!=0){
+                    GameBuild.append("\n");
+                }
+                GameBuild.append("`").append(cmd).append("` , ");
+                count++;
+            }
             FunBuild.delete(FunBuild.length()-2, FunBuild.length()-1);
             ComBuild.delete(ComBuild.length()-2, ComBuild.length()-1);
             InfoBuild.delete(InfoBuild.length()-2, InfoBuild.length()-1);
             MusicBuild.delete(MusicBuild.length()-2, MusicBuild.length()-1);
-
+            GameBuild.delete(GameBuild.length()-2, GameBuild.length()-1);
 
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
@@ -115,6 +127,7 @@ public class HelpCommand implements ICommand {
                             "\n**Take a look on these commands** <:LambdaWhite:753958007196614706>")
                     .addField("<:LambdaBlack:753942805101019238> Commons",ComBuild.toString(),false)
                     .addField("\uD83C\uDF89 Fun",FunBuild.toString(),false)
+                    .addField("<:VideoGame:755305135504097290> Games",GameBuild.toString(),false)
                     .addField("<:InfoLambda:753955328160170065> Info",InfoBuild.toString(),false)
                     .addField("\uD83D\uDD09 Music",MusicBuild.toString(),false)
                     .setFooter("Total Commands : "+manager.getCommands().size(),"https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
