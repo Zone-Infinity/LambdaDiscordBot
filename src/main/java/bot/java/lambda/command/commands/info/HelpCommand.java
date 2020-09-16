@@ -60,6 +60,7 @@ public class HelpCommand implements ICommand {
                 else if (command.getHelpCategory().equals(HelpCategory.INFO)) InfoCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.MUSIC)) MusicCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.GAME)) GameCmd.add(command.getName());
+
             }
 
             FunBuild.append("`->`    ");

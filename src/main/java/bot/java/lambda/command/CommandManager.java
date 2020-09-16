@@ -38,6 +38,7 @@ public class CommandManager {
         // Info Commands
         addCommand(new HelpCommand(this));
         addCommand(new GuildCountCommand());
+        addCommand(new UserInfoCommand());
 
         // Common Commands
         addCommand(new PingCommand());
@@ -47,6 +48,10 @@ public class CommandManager {
         addCommand(new RollCommand());
         addCommand(new RandomCommand());
         addCommand(new EvalCommand());
+        addCommand(new SayCommand());
+        addCommand(new EmojiCommand());
+        addCommand(new DistractorCommand());
+        addCommand(new LMGTFYCommand());
 
         // Fun Commands
         addCommand(new MemeCommand());

@@ -31,6 +31,11 @@ public class Bot {
     private void ready() throws LoginException {
         WebUtils.setUserAgent("S-Zone_Infinity#7763");
 
+        Object[] listeners  = {
+                waiter,
+                new Listener(waiter)
+        };
+
         JDABuilder.createDefault(
                 Config.get("token"),
                 GatewayIntent.GUILD_MEMBERS,
@@ -43,7 +48,7 @@ public class Bot {
                         CacheFlag.CLIENT_STATUS,
                         CacheFlag.ACTIVITY
                 ))
-                .addEventListeners(waiter, new Listener(waiter))
+                .addEventListeners(listeners)
                 .build();
     }
 

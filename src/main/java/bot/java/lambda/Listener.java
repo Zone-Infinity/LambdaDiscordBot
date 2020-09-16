@@ -27,13 +27,13 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Listener extends ListenerAdapter {
@@ -80,9 +80,21 @@ public class Listener extends ListenerAdapter {
         globalAuditsChannel = event.getGuild().getTextChannelById(753995632556900544L);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         User user = event.getAuthor();
+                
+        Random random = new Random();
+        int i = random.nextInt(1000);
+        if(i==99 && !event.getAuthor().isBot() && !event.isWebhookMessage()){
+            try {
+                Emote emoji = event.getJDA().getGuildById(740228383446925402L).getEmotesByName("Distractor", true).get(0);
+                event.getChannel().sendMessage("" + emoji.getAsMention()).queue();
+            }catch (Exception e){
+                e.fillInStackTrace();
+            }
+        }
 
         if(user.isBot() || event.isWebhookMessage()){
             return;
@@ -92,20 +104,22 @@ public class Listener extends ListenerAdapter {
         String raw = event.getMessage().getContentRaw();
 
         if(raw.equalsIgnoreCase(prefix+"guilds")){
-            final List<Guild> guilds = event.getJDA().getGuilds();
-            StringBuilder guildList = new StringBuilder();
-            guildList.append("```");
-            for (Guild guild : guilds)
-                guildList.append("-")
-                        .append(guild.getName())
-                        .append(":")
-                        .append(guild.getMemberCount())
-                        .append("\n");
-            guildList.append("```");
-            event.getChannel().sendMessage(guildList).queue();
+            if( event.getAuthor().getIdLong() == Long.parseLong(Config.get("owner_id"))) {
+                final List<Guild> guilds = event.getJDA().getGuilds();
+                StringBuilder guildList = new StringBuilder();
+                guildList.append("```");
+                for (Guild guild : guilds)
+                    guildList.append("-")
+                            .append(guild.getName())
+                            .append(":")
+                            .append(guild.getMemberCount())
+                            .append("\n");
+                guildList.append("```");
+                event.getChannel().sendMessage(guildList).queue();
+            }
         }
 
-        if(raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi")){
+        if(raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")){
             event.getChannel().sendMessage("Hello. What is your name?").queue();
 
             waiter.waitForEvent(MessageReceivedEvent.class,
@@ -144,22 +158,6 @@ public class Listener extends ListenerAdapter {
         if(raw.startsWith(prefix)){
             manager.handle(event, prefix);
         }
-    }
-
-    public void checkReaction(String id, Message message, User user, TextChannel channel){
-        waiter.waitForEvent(MessageReactionAddEvent.class,
-                e -> !user.isBot() && id.equals(message.getId()),
-                e -> {
-                    final long count = e.getReaction().retrieveUsers().stream().count();
-                    message.editMessage(count+" reacted").queue();
-                    if (count>1){
-                        channel.sendMessage("Test Successful").queue();
-                        return;
-                    }
-                    checkReaction(id,message, user, channel);
-                },
-                1, TimeUnit.MINUTES, () -> channel.sendMessage("Timed out").queue());
-
     }
 
     private String getPrefix(){
