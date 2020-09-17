@@ -20,6 +20,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
@@ -36,7 +37,7 @@ public class Bot {
                 new Listener(waiter)
         };
 
-        JDABuilder.createDefault(
+        JDABuilder jdaBuilder = JDABuilder.createDefault(
                 Config.get("token"),
                 GatewayIntent.GUILD_MEMBERS,
                 GatewayIntent.GUILD_MESSAGES,
@@ -48,9 +49,12 @@ public class Bot {
                         CacheFlag.CLIENT_STATUS,
                         CacheFlag.ACTIVITY
                 ))
-                .addEventListeners(listeners)
-                .build();
+                .addEventListeners(listeners);
+
+        jdaBuilder.build();
     }
+
+
 
     public static void main(String[] args) throws LoginException {
         Bot bot = new Bot();

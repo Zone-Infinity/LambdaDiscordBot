@@ -59,6 +59,7 @@ public class Listener extends ListenerAdapter {
         event.getJDA().getPresence().setActivity(Activity.playing(Config.get("prefix")+"help | Contact Zone_Infinity#7763 for help"));
         event.getJDA().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
 
+
     }
 
     @Override

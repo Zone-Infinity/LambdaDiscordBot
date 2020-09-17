@@ -75,8 +75,7 @@ public class SkipCommand implements ICommand {
                 message -> {
                     message.addReaction(":NextTrack:755372945617977354").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
-                            e -> e.getReaction().getReactionEmote().getEmoji().equals("<:NextTrack:755372945617977354>") &&
-                                    e.getReaction().retrieveUsers().stream().count() > size-2 &&
+                            e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
                                     e.getChannel().equals(channel) &&
                                     e.getMessageIdLong() == message.getIdLong(),
                             e -> {

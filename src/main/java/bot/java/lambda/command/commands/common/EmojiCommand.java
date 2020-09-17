@@ -13,8 +13,8 @@ public class EmojiCommand implements ICommand {
     @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
-        Guild freedom = ctx.getJDA().getGuildById(740228383446925402L);
-        final List<Emote> emotes = freedom.getEmotes();
+        Guild guild = ctx.getJDA().getGuildById(740228383446925402L);
+        final List<Emote> emotes = guild.getEmotes();
         StringBuilder allEmotes = new StringBuilder();
         for (Emote emote : emotes){
             allEmotes.append(emote.getAsMention())

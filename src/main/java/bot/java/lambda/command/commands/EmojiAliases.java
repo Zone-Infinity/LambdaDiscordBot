@@ -16,7 +16,6 @@
 
 package bot.java.lambda.command.commands;
 
-import bot.java.lambda.Config;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -24,18 +23,24 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
 public class EmojiAliases extends ListenerAdapter {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if(event.getMessage().getContentRaw().equalsIgnoreCase(Config.get("prefix")+"emojis")) {
-            Guild freedom = event.getJDA().getGuildById(740228383446925402L);
-            System.out.println(Objects.requireNonNull(freedom).getName());
-            final List<Emote> emotes = freedom.getEmotes();
-            for (Emote emote : emotes) {
-                event.getChannel().sendMessage("<:"+emote.getName()+":"+emote.getId()+">").queue();
-            }
-        }
+        final String message = event.getMessage().getContentRaw();
+        final String[] split = message.split(" ");
+
+        /*Guild guild = event.getJDA().getGuildById(740228383446925402L);
+        final List<Emote> emotes = guild.getEmotes();
+        StringBuilder allEmotes = new StringBuilder();
+        for (Emote emote : emotes){
+            allEmotes.append(emote.getAsMention())
+                    .append(" - ")
+                    .append(emote.getName())
+                    .append("\n");
+        }*/
+
+
+
     }
 }
