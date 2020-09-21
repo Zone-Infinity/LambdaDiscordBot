@@ -1,21 +1,6 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command;
 
+import bot.java.lambda.command.commands.games._8BallCommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -38,6 +23,7 @@ public class CommandManager {
         // Info Commands
         addCommand(new HelpCommand(this));
         addCommand(new GuildCountCommand());
+        addCommand(new EmoteUseCommand());
 
         // Common Commands
         addCommand(new PingCommand());
@@ -51,6 +37,9 @@ public class CommandManager {
         addCommand(new EmojiCommand());
         addCommand(new DistractorCommand());
         addCommand(new LMGTFYCommand());
+
+        //Game Commands
+        addCommand(new _8BallCommand());
 
         // Fun Commands
         addCommand(new MemeCommand());

@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.fun;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -25,6 +25,6 @@ public class DistractorCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.FUN;
     }
 }
