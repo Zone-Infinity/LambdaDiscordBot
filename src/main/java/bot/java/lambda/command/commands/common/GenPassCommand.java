@@ -76,7 +76,7 @@ public class GenPassCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "genPass";
+        return "genpass";
     }
 
     @Override
@@ -93,7 +93,7 @@ public class GenPassCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("generatePass","password");
+        return List.of("generatePass","password","genPass");
     }
 
 }
