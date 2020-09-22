@@ -39,6 +39,7 @@ public class CommandManager {
         addCommand(new LMGTFYCommand());
         addCommand(new UrbanCommand());
         addCommand(new PollCommand());
+        addCommand(new UptimeCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());

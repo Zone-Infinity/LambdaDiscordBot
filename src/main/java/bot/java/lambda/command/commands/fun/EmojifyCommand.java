@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
-import static bot.java.lambda.command.Utils.getEmojiFor;
+import bot.java.lambda.command.Utils;
 
 public class EmojifyCommand implements ICommand {
 
@@ -27,10 +27,10 @@ public class EmojifyCommand implements ICommand {
         }
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < len; i++) {
-            if(getEmojiFor(String.valueOf(join.charAt(i)))==null){
+            if(Utils.getEmojiFor(String.valueOf(join.charAt(i)))==null){
                 output.append(join.charAt(i));
             }
-            output.append(getEmojiFor(String.valueOf(join.charAt(i))));
+            output.append(Utils.getEmojiFor(String.valueOf(join.charAt(i))));
             output.append("\u200B");
         }
         channel.sendMessage(output).queue();

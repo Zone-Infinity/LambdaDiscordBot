@@ -20,7 +20,7 @@ public class EmoteUseCommand implements ICommand {
             channel.sendMessage("Missing Arguments").queue();
         }
 
-        final Emote emote = new Utils().searchEmote(ctx, args.get(0));
+        final Emote emote = Utils.searchEmote(ctx, args.get(0));
         if(emote==null){
             channel.sendMessage("No Emote Found").queue();
         }

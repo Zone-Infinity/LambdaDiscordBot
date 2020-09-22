@@ -4,12 +4,14 @@ import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import me.duncte123.botcommons.messaging.EmbedUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.regex.Pattern;
 
-import static bot.java.lambda.command.Utils.getEmojiFor;
+import bot.java.lambda.command.Utils;
 
 public class PollCommand implements ICommand {
     @Override
@@ -17,13 +19,14 @@ public class PollCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Message message = ctx.getMessage();
 
-        if(ctx.getArgs().size()<31){
-            channel.sendMessage("Need at least 3 arguments").queue();
-        }
-
         String[] split = message.getContentRaw()
                 .replaceFirst("(?i)" + Pattern.quote(Config.get("prefix"))+getName(), "")
                 .split(";");
+
+        if(split.length<3){
+            channel.sendMessage("Need at least 3 arguments").queue();
+            return;
+        }
 
         String question = split[0];
         String[] options = new String[split.length-1];
@@ -35,12 +38,19 @@ public class PollCommand implements ICommand {
         StringBuilder optionSB = new StringBuilder();
         int count = 1;
         for(String option : options){
-            optionSB.append(getEmojiFor(String.valueOf(count)));
-            optionSB.append(option);
+            optionSB.append(Utils.getEmojiFor(String.valueOf(count)))
+                    .append(" ")
+                    .append(option)
+                    .append("\n");
             count++;
         }
 
-        channel.sendMessage(optionSB.toString()).queue();
+        EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
+                .setDescription(optionSB);
+
+        channel.sendMessage(embed.build()).queue(
+
+        );
 
     }
 

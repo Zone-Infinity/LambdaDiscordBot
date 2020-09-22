@@ -1,10 +1,15 @@
 package bot.java.lambda;
 
 import bot.java.lambda.command.CommandManager;
+
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.BotCommons;
+
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
@@ -12,12 +17,14 @@ import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Listener extends ListenerAdapter {
@@ -33,16 +40,29 @@ public class Listener extends ListenerAdapter {
         manager = new CommandManager(waiter);
     }
 
-    public EventWaiter getWaiter(){
-        return waiter;
-    }
-
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         LOGGER.info("{} is ready",event.getJDA().getSelfUser().getAsTag());
-        event.getJDA().getPresence().setActivity(Activity.playing(Config.get("prefix")+"help | Contact Zone_Infinity#7763 for help"));
         event.getJDA().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
 
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+        int totalUsers = 0;
+        for(Guild guild : event.getJDA().getGuilds()){
+            totalUsers += guild.getMemberCount();
+        }
+        final int finalTotalUsers = totalUsers;
+        Runnable task = () -> {
+            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinity#7763 for help"));
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            event.getJDA().getPresence().setActivity(Activity.watching(finalTotalUsers + " users | Contact Zone_Infinity#7763 for help"));
+        };
+
+        executor.scheduleWithFixedDelay(task, 0, 5, TimeUnit.SECONDS);
 
     }
 
@@ -57,29 +77,19 @@ public class Listener extends ListenerAdapter {
     public void onGuildLeave(@NotNull GuildLeaveEvent event) {
         globalAuditsChannel = event.getJDA().getTextChannelById(753995632556900544L);
         assert globalAuditsChannel != null;
-        globalAuditsChannel.sendMessage("```Removed to "+event.getGuild()+"```").queue();
+        globalAuditsChannel.sendMessage("```Removed from "+event.getGuild()+"```").queue();
     }
 
     @Override
     public void onGuildBan(@NotNull GuildBanEvent event) {
         globalAuditsChannel = event.getGuild().getTextChannelById(753995632556900544L);
+        assert globalAuditsChannel != null;
+        globalAuditsChannel.sendMessage("```Banned from "+event.getGuild()+"```").queue();
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         User user = event.getAuthor();
-                
-        Random random = new Random();
-        int i = random.nextInt(1000);
-        if(i==99 && !event.getAuthor().isBot() && !event.isWebhookMessage()){
-            try {
-                Emote emoji = event.getJDA().getGuildById(740228383446925402L).getEmotesByName("Distractor", true).get(0);
-                event.getChannel().sendMessage("" + emoji.getAsMention()).queue();
-            }catch (Exception e){
-                e.fillInStackTrace();
-            }
-        }
 
         if(user.isBot() || event.isWebhookMessage()){
             return;
@@ -111,7 +121,14 @@ public class Listener extends ListenerAdapter {
                     e -> e.getAuthor().equals(event.getAuthor())
                             && e.getChannel().equals(event.getChannel())
                             && !e.getMessage().equals(event.getMessage()),
-                    e -> event.getChannel().sendMessage("Hello, `"+e.getMessage().getContentRaw()+"`! I'm `"+e.getJDA().getSelfUser().getName()+"`!").queue(),
+                    e -> {
+                        final String message = e.getMessage().getContentRaw();
+                        if(message.equalsIgnoreCase("Lambda") || message.replaceAll("\\W","").equalsIgnoreCase("Lambda λ") || message.contains("Lambda")){
+                            e.getChannel().sendMessage("Eh <:Wot:755715077029625916> , Lambda is my name bruh").queue();
+                            return;
+                        }
+                        event.getChannel().sendMessage("Hello, `" + message + "`! I'm `" + e.getJDA().getSelfUser().getName() + "`!").queue();
+                    },
                     1, TimeUnit.MINUTES, () -> event.getChannel().sendMessage("Sorry, you took too long.").queue());
         }
 

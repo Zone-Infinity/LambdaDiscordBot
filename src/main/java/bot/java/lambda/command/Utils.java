@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,16 +40,16 @@ public class Utils {
         emojis.put("x", "\uD83C\uDDFD");
         emojis.put("y", "\uD83C\uDDFE");
         emojis.put("z", "\uD83C\uDDFF");
-        emojis.put("0", "\u0030");
-        emojis.put("1", "\u0031");
-        emojis.put("2", "\u0032");
-        emojis.put("3", "\u0033");
-        emojis.put("4", "\u0034");
-        emojis.put("5", "\u0035");
-        emojis.put("6", "\u0036");
-        emojis.put("7", "\u0037");
-        emojis.put("8", "\u0038");
-        emojis.put("9", "\u0039");
+        emojis.put("0", ":zero:");
+        emojis.put("1", ":one:");
+        emojis.put("2", ":two:");
+        emojis.put("3", ":three:");
+        emojis.put("4", ":four:");
+        emojis.put("5", ":five:");
+        emojis.put("6", ":six:");
+        emojis.put("7", ":seven:");
+        emojis.put("8", ":eight:");
+        emojis.put("9", ":nine:");
         emojis.put("?", "\u2754");
         emojis.put("!", "\u2755");
         emojis.put(" ", "\u25AB");
@@ -61,12 +63,12 @@ public class Utils {
         return ".";
     }
 
-    public String getAuthorRequested(GuildMessageReceivedEvent event){
+    public static String getAuthorRequested(GuildMessageReceivedEvent event){
         final String asTag = event.getAuthor().getAsTag();
         return "Requested by "+asTag.substring(0,asTag.length()-5)+"λ"+ asTag.substring(asTag.length()-4);
     }
     @SuppressWarnings("ConstantConditions")
-    public Emote searchEmote(CommandContext ctx , String name){
+    public static Emote searchEmote(CommandContext ctx, String name){
         Guild guild = ctx.getJDA().getGuildById(755433534495391805L);
         final List<Emote> emotes = guild.getEmotes();
         for (Emote emote : emotes){
@@ -76,4 +78,17 @@ public class Utils {
         }
         return null;
     }
+
+    public static String getUptime(){
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+        long uptime = runtimeMXBean.getUptime();
+        long uptimeInSeconds = uptime / 1000;
+        long numberOfHours = uptimeInSeconds / (60 * 60);
+        long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfHours * 60);
+        long numberOfSeconds = uptimeInSeconds % 60;
+
+        return String.format("%s hours, %s minutes, %s seconds",
+                numberOfHours, numberOfMinutes, numberOfSeconds);
+    }
+
 }

@@ -34,13 +34,12 @@ public class CommandContext implements ICommandContext {
     public CommandContext(GuildMessageReceivedEvent event, List<String> args) {
         this.event = event;
         this.args = args;
-        Utils u = new Utils();
         Random random = new Random();
         int r = random.nextInt(255),g = random.nextInt(255),b = random.nextInt(255);
         EmbedUtils.setEmbedBuilder(
                 ()-> new EmbedBuilder()
                         .setThumbnail(event.getAuthor().getAvatarUrl())
-                        .setAuthor(u.getAuthorRequested(event),event.getAuthor().getAvatarUrl(),event.getAuthor().getAvatarUrl())
+                        .setAuthor(Utils.getAuthorRequested(event),event.getAuthor().getAvatarUrl(),event.getAuthor().getAvatarUrl())
                         .setColor(new Color(r, g, b))
                         .setFooter("Lambda Equations in java are amazing","https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
                         .setTimestamp(Instant.now())
