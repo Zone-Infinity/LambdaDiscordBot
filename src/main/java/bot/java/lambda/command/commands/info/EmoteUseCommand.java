@@ -11,18 +11,19 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.List;
 
 public class EmoteUseCommand implements ICommand {
-    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
         final TextChannel channel = ctx.getChannel();
         if(args.isEmpty()){
             channel.sendMessage("Missing Arguments").queue();
+            return;
         }
 
         final Emote emote = Utils.searchEmote(ctx, args.get(0));
         if(emote==null){
             channel.sendMessage("No Emote Found").queue();
+            return;
         }
         channel.sendMessage(emote.getAsMention()).queue();
     }

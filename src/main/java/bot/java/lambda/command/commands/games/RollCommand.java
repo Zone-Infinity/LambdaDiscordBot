@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.games;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -46,6 +46,6 @@ public class RollCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.GAME;
     }
 }

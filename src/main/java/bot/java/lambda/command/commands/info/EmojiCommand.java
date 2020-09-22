@@ -11,29 +11,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmojiCommand implements ICommand {
-    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
-        Guild guild = ctx.getJDA().getGuildById(755433534495391805L);
-        final List<Emote> emotes = guild.getEmotes();
         List<StringBuilder> listOfAllEmote = new ArrayList<>();
         int count = 0;
         int page = 0;
-        for (Emote emote : emotes){
-            if(count%10==1 && count!=1){
-                page++;
+        for(Guild guild : ctx.getJDA().getGuilds()) {
+            final List<Emote> emotes = guild.getEmotes();
+            for (Emote emote : emotes) {
+                if (count % 10 == 1 && count != 1) {
+                    page++;
+                }
+                try {
+                    listOfAllEmote.get(page).append(emote.getAsMention())
+                            .append(" - ")
+                            .append(emote.getName())
+                            .append("\n");
+                } catch (IndexOutOfBoundsException e) {
+                    e.fillInStackTrace();
+                    listOfAllEmote.add(new StringBuilder());
+                }
+                count++;
             }
-            try {
-                listOfAllEmote.get(page).append(emote.getAsMention())
-                        .append(" - ")
-                        .append(emote.getName())
-                        .append("\n");
-            }catch (IndexOutOfBoundsException e){
-                e.fillInStackTrace();
-                listOfAllEmote.add(new StringBuilder());
-            }
-            count++;
         }
 
         if(args.isEmpty()){

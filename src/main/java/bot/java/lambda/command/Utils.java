@@ -67,13 +67,15 @@ public class Utils {
         final String asTag = event.getAuthor().getAsTag();
         return "Requested by "+asTag.substring(0,asTag.length()-5)+"λ"+ asTag.substring(asTag.length()-4);
     }
-    @SuppressWarnings("ConstantConditions")
+
     public static Emote searchEmote(CommandContext ctx, String name){
-        Guild guild = ctx.getJDA().getGuildById(755433534495391805L);
-        final List<Emote> emotes = guild.getEmotes();
-        for (Emote emote : emotes){
-            if(emote.getName().equalsIgnoreCase(name)){
-                return emote;
+
+        for(Guild guild : ctx.getJDA().getGuilds()) {
+            final List<Emote> emotes = guild.getEmotes();
+            for (Emote emote : emotes) {
+                if (emote.getName().equals(name.replaceAll("\\W", ""))) {
+                    return emote;
+                }
             }
         }
         return null;

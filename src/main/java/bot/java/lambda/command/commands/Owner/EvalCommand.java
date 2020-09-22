@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.Owner;
 
 import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandContext;
@@ -91,6 +91,6 @@ public class EvalCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.UNKNOWN;
+        return HelpCategory.OWNER;
     }
 }

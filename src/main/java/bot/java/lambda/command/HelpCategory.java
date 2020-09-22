@@ -27,7 +27,9 @@ public enum HelpCategory {
     MUSIC("Music","Music Commands when you are in a Voice Channel"),
     GAME("Game","Commands to play Small fun games"),
     VAR_FOR_USE("",""),
-    UNKNOWN("UNKNOWN","UNKNOWN");
+    UNKNOWN("UNKNOWN","UNKNOWN"),
+    OWNER("Owner","Only Owners can use these commands and normal members can't see these commands"),
+    SECRET("Secret","Secret Commands You have to find out , for hints {>hint <number>}");
 
     private final String category;
     private final String description;
