@@ -33,7 +33,6 @@ public class JokeCommand implements ICommand {
                 (json) -> {
                     if(!json.get("success").asBoolean()){
                         channel.sendMessage("Something went wrong, try again later").queue();
-                        System.out.println(json);
                         return;
                     }
                     final JsonNode data = json.get("data");

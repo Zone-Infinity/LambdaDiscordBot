@@ -37,6 +37,8 @@ public class CommandManager {
         addCommand(new EmojiCommand());
         addCommand(new DistractorCommand());
         addCommand(new LMGTFYCommand());
+        addCommand(new UrbanCommand());
+        addCommand(new PollCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
@@ -56,6 +58,8 @@ public class CommandManager {
         addCommand(new BirdCommand());
         addCommand(new WolfCommand());
         addCommand(new PandaCommand());
+        addCommand(new GifCommand());
+        addCommand(new EmojifyCommand());
 
         // Music Commands
         addCommand(new JoinCommand());
