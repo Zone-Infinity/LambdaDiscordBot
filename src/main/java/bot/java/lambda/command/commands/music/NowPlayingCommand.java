@@ -43,8 +43,6 @@ public class NowPlayingCommand implements ICommand {
 
         AudioTrackInfo info = player.getPlayingTrack().getInfo();
 
-
-
         channel.sendMessage(EmbedUtils.embedMessage(String.format(
                 "**Playing** [%s] (%s)",info.title,info.uri
         )).build()).queue();
@@ -58,7 +56,8 @@ public class NowPlayingCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Shows currently playing track";
+        return "Shows currently playing track\n" +
+                "Aliases : {np, nplaying, nowp}";
     }
 
     @Override

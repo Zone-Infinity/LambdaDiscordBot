@@ -163,7 +163,8 @@ public class HelpCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Shows the list with commands in the bot\n" +
-                "Usage : <prefix> help <command>";
+                "Usage : <prefix> help <command>\n" +
+                "Aliases : {commands, cmd}";
     }
 
     @Override

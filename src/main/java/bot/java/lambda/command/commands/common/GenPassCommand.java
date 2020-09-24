@@ -82,8 +82,9 @@ public class GenPassCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Generate Random password for you\n" +
-                "Usage : <prefix> genPass <length>\n" +
-                "        <prefix> genPass <length> dm ";
+                "Usage : >genPass <length>\n" +
+                "        >genPass <length> dm \n" +
+                "Aliases : {generatePass, password, genPass}";
     }
 
     @Override

@@ -36,7 +36,8 @@ public class GuildCountCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Sends the number of guilds the bot is in";
+        return "Sends the number of guilds the bot is in\n" +
+                "Aliases : {gcount, gc}";
     }
 
     @Override

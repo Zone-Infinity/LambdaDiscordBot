@@ -48,7 +48,8 @@ public class UserCountCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Gives you the number of users there in your voice channel";
+        return "Gives you the number of users there in your voice channel\n" +
+                "Aliases : {u}";
     }
 
     @Override
@@ -58,6 +59,6 @@ public class UserCountCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("u","users");
+        return List.of("u");
     }
 }

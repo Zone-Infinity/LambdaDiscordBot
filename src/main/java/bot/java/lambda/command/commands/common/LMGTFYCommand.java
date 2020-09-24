@@ -20,7 +20,8 @@ public class LMGTFYCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Googles things for u";
+        return "Googles things for u\n" +
+                "Aliases : {google, lmgtfu}";
     }
 
     @Override

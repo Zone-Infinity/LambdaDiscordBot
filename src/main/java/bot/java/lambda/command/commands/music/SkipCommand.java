@@ -83,7 +83,8 @@ public class SkipCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Skips the current song";
+        return "Skips the current song\n" +
+                "Aliases : {s, skipsong}";
     }
 
     @Override

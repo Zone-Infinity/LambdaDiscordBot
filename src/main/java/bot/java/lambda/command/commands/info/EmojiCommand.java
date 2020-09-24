@@ -63,7 +63,8 @@ public class EmojiCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Shows you the list of Emojis of the Bot";
+        return "Shows you the list of Emojis of the Bot\n" +
+                "Aliases : {emotes, allEmoji}";
     }
 
     @Override

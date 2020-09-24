@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +70,14 @@ public class Utils {
     }
 
     public static Emote searchEmote(CommandContext ctx, String name){
+        List<Guild> guilds = new ArrayList<>();
+        for(Guild guild: ctx.getJDA().getGuilds()){
+            if(guild.getEmotes().size()>15){
+                guilds.add(guild);
+            }
+        }
 
-        for(Guild guild : ctx.getJDA().getGuilds()) {
+        for(Guild guild : guilds) {
             final List<Emote> emotes = guild.getEmotes();
             for (Emote emote : emotes) {
                 if (emote.getName().equals(name.replaceAll("\\W", ""))) {

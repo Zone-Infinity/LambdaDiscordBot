@@ -32,7 +32,8 @@ public class GuildUserCountCommand implements ICommand {
     public String getHelp() {
         return "Sends the number of users in the server\n" +
                 "Usage : >guildusercount or >guc\n" +
-                "For Total Member Bot can Watch : >guc total";
+                "For Total Member Bot can Watch : >guc total\n" +
+                "Aliases : {gucount, guc, gusercount}";
     }
 
     @Override

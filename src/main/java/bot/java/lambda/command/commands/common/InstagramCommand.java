@@ -82,7 +82,8 @@ public class InstagramCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Shows instagram statistics of a user with the latest image\n" +
-                "Usage <prefix> instagram <username>";
+                "Usage >instagram <username>\n" +
+                "Aliases : {insta}";
     }
 
     @Override

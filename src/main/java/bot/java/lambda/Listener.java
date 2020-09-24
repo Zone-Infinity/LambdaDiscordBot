@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Listener extends ListenerAdapter {
 
@@ -49,13 +49,13 @@ public class Listener extends ListenerAdapter {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
         Runnable task = () -> {
-            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinity#7763 for help"));
+            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinityλ7763 for help"));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            event.getJDA().getPresence().setActivity(Activity.watching(">help | Contact Zone_Infinity#7763 for help"));
+            event.getJDA().getPresence().setActivity(Activity.watching(">help | Contact Zone_Infinityλ7763 for help"));
         };
 
         executor.scheduleWithFixedDelay(task, 0, 5, TimeUnit.SECONDS);
@@ -154,7 +154,11 @@ public class Listener extends ListenerAdapter {
 
 
         if(raw.startsWith(prefix)){
-            manager.handle(event, prefix);
+            try {
+                manager.handle(event, prefix);
+            }catch (PermissionException e){
+                e.fillInStackTrace();
+            }
         }
     }
 

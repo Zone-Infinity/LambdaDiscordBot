@@ -35,7 +35,7 @@ public class RandomCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Gives you random number between your bounds\n" +
-                "Usage : <prefix> random <number> <number>";
+                "Usage : >random <number> <number>";
     }
 
     @Override

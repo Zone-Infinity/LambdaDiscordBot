@@ -77,7 +77,8 @@ public class DisconnectCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Makes the bot disconnect from it's voice channel";
+        return "Makes the bot disconnect from it's voice channel\n" +
+                "Aliases : {dis, d}";
     }
 
     @Override

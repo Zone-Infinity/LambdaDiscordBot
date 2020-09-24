@@ -74,7 +74,8 @@ public class QueueCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Shows the current queue for the music player";
+        return "Shows the current queue for the music player\n" +
+                "Aliases : {q, songlist}";
     }
 
     @Override
