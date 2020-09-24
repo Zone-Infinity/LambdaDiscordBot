@@ -16,18 +16,29 @@ public class LeaveCommand implements ICommand {
         TextChannel globalAuditsChannel = ctx.getJDA().getTextChannelById(753995632556900544L);
         if(!ctx.getArgs().isEmpty()){
             ctx.getJDA().getGuildById(ctx.getArgs().get(0)).leave().queue(
-                    (success)-> globalAuditsChannel.sendMessage("```Left "+ctx.getGuild()+"```").queue(),
-                    (failure)-> ctx.getChannel().sendMessage("Failed to Leave this server").queue()
+                    (success)-> {
+                        globalAuditsChannel.sendMessage("```Left " + ctx.getJDA().getGuildById(ctx.getArgs().get(0)) + "```").queue();
+                        ctx.getChannel().sendMessage("```Leaving " + ctx.getJDA().getGuildById(ctx.getArgs().get(0)) + "```").queue();
+                    },
+                    (failure)-> {
+                        ctx.getChannel().sendMessage("Failed to Leave this server").queue();
+                        failure.fillInStackTrace();
+                    }
             );
             return;
         }
 
         ctx.getChannel().sendMessage("Leaving the server...").queue();
         ctx.getGuild().leave().queue(
-                (success)-> globalAuditsChannel.sendMessage("```Left "+ctx.getGuild()+"```").queue(),
-                (failure)-> ctx.getChannel().sendMessage("Failed to Leave this server").queue()
+                (success)-> {
+                    globalAuditsChannel.sendMessage("```Left " + ctx.getGuild() + "```").queue();
+                    ctx.getChannel().sendMessage("```Leaving " + ctx.getGuild() + "```").queue();
+                },
+                (failure)-> {
+                    ctx.getChannel().sendMessage("Failed to Leave this server").queue();
+                    failure.fillInStackTrace();
+                }
         );
-
     }
 
     @Override

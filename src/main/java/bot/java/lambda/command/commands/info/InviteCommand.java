@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -32,7 +32,7 @@ public class InviteCommand implements ICommand {
         final String author = "Requested by "+asTag.substring(0,asTag.length()-5)+"λ"+ asTag.substring(asTag.length()-4);
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setAuthor(author)
-                .setTitle("<:LockBlack:753960253061595186> Click here to invite me","https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
+                .setTitle("<:LambdaLock:755716500643512370> Click here to invite me","https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
                 .setDescription("\uD83D\uDE0A Here you go , invite me to as many servers as possible\n" +
                         "And help me becoming a verified bot <:Verified:753964332001394748>")
                 .setThumbnail(ctx.getAuthor().getAvatarUrl());
@@ -51,6 +51,6 @@ public class InviteCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.INFO;
     }
 }

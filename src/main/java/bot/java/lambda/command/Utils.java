@@ -80,7 +80,7 @@ public class Utils {
         for(Guild guild : guilds) {
             final List<Emote> emotes = guild.getEmotes();
             for (Emote emote : emotes) {
-                if (emote.getName().equals(name.replaceAll("\\W", ""))) {
+                if (emote.getName().equalsIgnoreCase(name.replaceAll("\\W", ""))) {
                     return emote;
                 }
             }

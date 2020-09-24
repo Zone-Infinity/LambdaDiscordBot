@@ -11,13 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmojiCommand implements ICommand {
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
         List<StringBuilder> listOfAllEmote = new ArrayList<>();
+        List<Guild> guilds = new ArrayList<>();
+        for(Guild guild: ctx.getJDA().getGuilds()){
+            if(guild.getEmotes().size()>15){
+                guilds.add(guild);
+            }
+        }
         int count = 0;
         int page = 0;
-        for(Guild guild : ctx.getJDA().getGuilds()) {
+        for(Guild guild : guilds) {
             final List<Emote> emotes = guild.getEmotes();
             for (Emote emote : emotes) {
                 if (count % 10 == 1 && count != 1) {
@@ -25,8 +32,8 @@ public class EmojiCommand implements ICommand {
                 }
                 try {
                     listOfAllEmote.get(page).append(emote.getAsMention())
-                            .append(" - ")
-                            .append(emote.getName())
+                            .append(" - ").append("`").append(emote.getName()).append("`")
+                            .append(" : ").append("`").append(emote.getGuild().getName()).append("`")
                             .append("\n");
                 } catch (IndexOutOfBoundsException e) {
                     e.fillInStackTrace();
@@ -53,6 +60,9 @@ public class EmojiCommand implements ICommand {
         }catch (NumberFormatException e){
             e.fillInStackTrace();
             ctx.getChannel().sendMessage("Pls provide a page number").queue();
+        }catch (IndexOutOfBoundsException e){
+            e.fillInStackTrace();
+            ctx.getChannel().sendMessage("Only "+listOfAllEmote.size()+" page exist").queue();
         }
     }
 

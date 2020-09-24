@@ -46,7 +46,7 @@ public class SkipCommand implements ICommand {
         final int size = members.size();
 
         if(size < 3){
-            channel.sendMessage("<:NextTrack:755372945617977354> Track Skipped").queue();
+            channel.sendMessage("<:NextTract:755716597842182164> Track Skipped").queue();
             try {
                 scheduler.nextTrack();
             }catch (IllegalStateException e){
@@ -55,9 +55,9 @@ public class SkipCommand implements ICommand {
             return;
         }
         channel.sendMessage("React to the message to skip\n" +
-                "Need "+(size-2)+" reactions ( only <:NextTrack:755372945617977354> )").queue(
+                "Need "+(size-2)+" reactions ( only <:NextTract:755716597842182164> )").queue(
                 message -> {
-                    message.addReaction(":NextTrack:755372945617977354").queue();
+                    message.addReaction(":NextTract:755716597842182164").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
                             e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
                                     e.getChannel().equals(channel) &&

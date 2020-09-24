@@ -102,8 +102,10 @@ public class Listener extends ListenerAdapter {
                 for (Guild guild : guilds)
                     guildList.append("-")
                             .append(guild.getName())
-                            .append(":")
+                            .append(" : ")
                             .append(guild.getMemberCount())
+                            .append(" : ")
+                            .append(guild.getId())
                             .append("\n");
                 guildList.append("```");
                 event.getChannel().sendMessage(guildList).queue();
