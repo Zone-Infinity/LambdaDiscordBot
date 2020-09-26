@@ -28,6 +28,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class HelpCommand implements ICommand {
 
@@ -68,7 +69,7 @@ public class HelpCommand implements ICommand {
                 if(count%10==0 && count!=0){
                     MusicBuild.append("\n");
                 }
-                FunBuild.append("`").append(cmd).append("` | ");
+                FunBuild.append("`").append(cmd).append("`| ");
                 count++;
             }
             count = 0;
@@ -76,7 +77,7 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     ComBuild.append("\n");
                 }
-                ComBuild.append("`").append(cmd).append("` | ");
+                ComBuild.append("`").append(cmd).append("`| ");
                 count++;
             }
             count = 0;
@@ -84,7 +85,7 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     InfoBuild.append("\n");
                 }
-                InfoBuild.append("`").append(cmd).append("` | ");
+                InfoBuild.append("`").append(cmd).append("`| ");
                 count++;
             }
             count = 0;
@@ -92,7 +93,7 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     MusicBuild.append("\n");
                 }
-                MusicBuild.append("`").append(cmd).append("` | ");
+                MusicBuild.append("`").append(cmd).append("`| ");
                 count++;
             }
             count = 0;
@@ -100,9 +101,14 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     GameBuild.append("\n");
                 }
-                GameBuild.append("`").append(cmd).append("` | ");
+                GameBuild.append("`").append(cmd).append("`| ");
                 count++;
             }
+            FunBuild.deleteCharAt(FunBuild.length()-1);
+            GameBuild.deleteCharAt(GameBuild.length()-1);
+            InfoBuild.deleteCharAt(InfoBuild.length()-1);
+            MusicBuild.deleteCharAt(MusicBuild.length()-1);
+            ComBuild.deleteCharAt(ComBuild.length()-1);
 
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
