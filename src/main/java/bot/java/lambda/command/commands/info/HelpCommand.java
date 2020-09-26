@@ -63,74 +63,67 @@ public class HelpCommand implements ICommand {
 
             }
 
-            FunBuild.append("`->`    ");
-            ComBuild.append("`->`    ");
-            InfoBuild.append("`->`    ");
-            MusicBuild.append("`->`    ");
-            GameBuild.append("`->`    ");
-
             int count = 0;
             for(String cmd : FunCmd){
-                if(count%5==0 && count!=0){
-                    FunBuild.append("\n");
+                if(count%10==0 && count!=0){
+                    MusicBuild.append("\n");
                 }
-                FunBuild.append("`").append(cmd).append("` , ");
+                FunBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
             for(String cmd : ComCmd){
-                if(count%5==0 && count!=0){
+                if(count%4==0 && count!=0){
                     ComBuild.append("\n");
                 }
-                ComBuild.append("`").append(cmd).append("` , ");
+                ComBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
             for(String cmd : InfoCmd){
-                if(count%5==0 && count!=0){
+                if(count%4==0 && count!=0){
                     InfoBuild.append("\n");
                 }
-                InfoBuild.append("`").append(cmd).append("` , ");
+                InfoBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
             for(String cmd : MusicCmd){
-                if(count%5==0 && count!=0){
+                if(count%4==0 && count!=0){
                     MusicBuild.append("\n");
                 }
-                MusicBuild.append("`").append(cmd).append("` , ");
+                MusicBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
             for(String cmd : GameCmd){
-                if(count%5==0 && count!=0){
+                if(count%4==0 && count!=0){
                     GameBuild.append("\n");
                 }
-                GameBuild.append("`").append(cmd).append("` , ");
+                GameBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
-            FunBuild.delete(FunBuild.length()-2, FunBuild.length()-1);
-            ComBuild.delete(ComBuild.length()-2, ComBuild.length()-1);
-            InfoBuild.delete(InfoBuild.length()-2, InfoBuild.length()-1);
-            MusicBuild.delete(MusicBuild.length()-2, MusicBuild.length()-1);
-            GameBuild.delete(GameBuild.length()-2, GameBuild.length()-1);
 
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
+                    .setThumbnail(null)
                     .setTitle("**λ** Help")
                     .setDescription("**Bot prefix** : ``"+ Config.get("prefix")+"``\n " +
-                            "`A Fun Bot which has many commands       \n" +
+                            "```A Fun Bot which has many commands       \n" +
                             "It provides you with some Common commands\n" +
                             "Some Fun and most important MUSIC !! \uD83D\uDE04 \n" +
-                            "If you have any confusion about the bot, \n " +
+                            "If you have any confusion about the bot, \n" +
                             "   Contact Zone_Infinity#7763           \n" +
-                            "       for help, bugs and suggestions    `\n"+
-                            "\n**Take a look on these commands** <:LambdaWhite:753958007196614706>")
-                    .addField("<:LambdaBlack:753942805101019238> Commons",ComBuild.toString(),false)
-                    .addField("\uD83C\uDF89 Fun",FunBuild.toString(),false)
-                    .addField("<:VideoGame:755305135504097290> Games",GameBuild.toString(),false)
-                    .addField("<:InfoLambda:753955328160170065> Info",InfoBuild.toString(),false)
-                    .addField("\uD83D\uDD09 Music",MusicBuild.toString(),false)
+                            "      for help, bugs and suggestions    ```\n"+
+                            "**Take a look on these commands** <:LambdaWhite:755717368386289721>")
+                    .addField("<:LambdaBlack:755717304989384714>  Commons",ComBuild.toString(),true)
+                    .addField("<:VideoGame:755715386980171796> Games",GameBuild.toString(),true)
+                    .addBlankField(true)
+                    .addField("<:LambdaInfo:755717519410724884> Info",InfoBuild.toString(),true)
+                    .addField("<:Music:755716546827124787> Music",MusicBuild.toString(),true)
+                    .addBlankField(true)
+                    .addField("\uD83C\uDF89 Fun",FunBuild.toString(),true)
+                    .addBlankField(true)
                     .setFooter("Total Commands : "+manager.getCommands().size(),"https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
             channel.sendMessage(embed.build()).queue();
             return;

@@ -16,6 +16,7 @@
 
 package bot.java.lambda.command.commands.music.lavaplayer;
 
+import bot.java.lambda.command.Utils;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -69,6 +70,10 @@ public class PlayerManager {
                             .append("` by `")
                             .append(track.getInfo().author)
                             .append('`')
+                            .append(" for ")
+                            .append("`")
+                            .append(Utils.getTimestamp(track.getDuration()))
+                            .append("`")
                             .queue();
                 }
 
@@ -84,23 +89,14 @@ public class PlayerManager {
 
                     musicManager.scheduler.queue(track);
 
-                    long duration = track.getDuration() / 1000;
-                    long mins = duration / 60;
-                    long secs = duration % 60;
-                    String seconds = String.valueOf(secs);
-                    if (secs < 10) {
-                        seconds = "0" + secs;
-                    }
-
                     channel.sendMessage("Adding to queue: `")
                             .append(track.getInfo().title)
                             .append("` by `")
                             .append(track.getInfo().author)
-                            .append("` for `")
-                            .append(String.valueOf(mins))
-                            .append(":")
-                            .append(seconds)
-                            .append('`')
+                            .append(" for ")
+                            .append("`")
+                            .append(Utils.getTimestamp(track.getDuration()))
+                            .append("`")
                             .queue();
 
                     final Consumer<AudioTrack> queue = musicManager.scheduler::queue;
@@ -136,6 +132,10 @@ public class PlayerManager {
                         .append("` by `")
                         .append(track.getInfo().author)
                         .append('`')
+                        .append(" for ")
+                        .append("`")
+                        .append(Utils.getTimestamp(track.getDuration()))
+                        .append("`")
                         .queue();
             }
 

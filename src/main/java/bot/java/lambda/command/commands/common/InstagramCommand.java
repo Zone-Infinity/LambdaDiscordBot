@@ -108,6 +108,6 @@ public class InstagramCommand implements ICommand {
     }
 
     private String toEmote(boolean bool){
-        return bool?"<:TickYes:754219982128283760>":"<:TickNo:754219951811854406>";
+        return bool?"<:TickYes:755716208191602738>":"<:TickNo:755716160472875079>";
     }
 }

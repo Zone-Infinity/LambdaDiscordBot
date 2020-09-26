@@ -43,6 +43,7 @@ public class StopCommand implements ICommand {
 
         if(ctx.getMember().getVoiceState()==null){
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
+            return;
         }
 
         if(playerManager.getMusicManager(ctx.getGuild()).audioPlayer.getPlayingTrack()==null){
@@ -52,6 +53,14 @@ public class StopCommand implements ICommand {
 
         final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
         final int size = voiceState.getChannel().getMembers().size();
+
+        if(voiceState.getChannel().getMembers().size()==2){
+            channel.sendMessage("Stopping the player and clearing the queue").queue();
+            musicManager.scheduler.getQueue().clear();
+            musicManager.audioPlayer.stopTrack();
+            musicManager.audioPlayer.setPaused(false);
+            return;
+        }
 
         channel.sendMessage("React to the message to skip\n" +
                 "Need "+(size-2)+" reactions ( only ⏹️)").queue(

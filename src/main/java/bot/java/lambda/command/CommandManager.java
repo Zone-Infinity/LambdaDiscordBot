@@ -35,13 +35,13 @@ public class CommandManager {
         addCommand(new GuildCountCommand());
         addCommand(new EmoteUseCommand());
         addCommand(new GuildUserCountCommand());
+        addCommand(new ServerInfoCommand());
 
         // Common Commands
         addCommand(new PingCommand());
         addCommand(new InviteCommand());
         addCommand(new InstagramCommand());
         addCommand(new GenPassCommand());
-        addCommand(new RollCommand());
         addCommand(new RandomCommand());
         addCommand(new SayCommand());
         addCommand(new EmojiCommand());
@@ -53,6 +53,7 @@ public class CommandManager {
 
         //Game Commands
         addCommand(new _8BallCommand());
+        addCommand(new RollCommand());
 
         // Fun Commands
         addCommand(new MemeCommand());
@@ -82,7 +83,7 @@ public class CommandManager {
         addCommand(new UserCountCommand());
         addCommand(new NowPlayingCommand());
         addCommand(new PlaylistCommand());
-
+        addCommand(new ShuffleCommand());
     }
 
     private void addCommand(ICommand cmd){

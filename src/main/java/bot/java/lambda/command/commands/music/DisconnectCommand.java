@@ -24,7 +24,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.List;
@@ -53,7 +52,6 @@ public class DisconnectCommand implements ICommand {
         }
 
         final AudioManager audioManager = ctx.getGuild().getAudioManager();
-        final VoiceChannel memberChannel = memberVoiceState.getChannel();
 
         if(!memberVoiceState.inVoiceChannel()){
             if(selfVoiceState.getChannel().getMembers().size()-1==0){
