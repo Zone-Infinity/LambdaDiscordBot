@@ -69,9 +69,7 @@ public class PlayerManager {
                             .append(track.getInfo().title)
                             .append("` by `")
                             .append(track.getInfo().author)
-                            .append('`')
-                            .append(" for ")
-                            .append("`")
+                            .append("` for `")
                             .append(Utils.getTimestamp(track.getDuration()))
                             .append("`")
                             .queue();
@@ -93,8 +91,7 @@ public class PlayerManager {
                             .append(track.getInfo().title)
                             .append("` by `")
                             .append(track.getInfo().author)
-                            .append(" for ")
-                            .append("`")
+                            .append("` for `")
                             .append(Utils.getTimestamp(track.getDuration()))
                             .append("`")
                             .queue();

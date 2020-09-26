@@ -50,7 +50,7 @@ public class PlayCommand implements ICommand {
 
         if(!isUrl(link)){
             if(ctx.getArgs().size()==1){
-                link = String.join(" ",ctx.getArgs()) + " . . .";
+                link = link + ".";
             }
             link = "ytsearch:" + link;
         }
@@ -76,7 +76,7 @@ public class PlayCommand implements ICommand {
     public String getHelp() {
         return "Plays a song\n" +
                 "Usage: <prefix> play <youtube link>\n" +
-                "Aliases : {p, playsong}";
+                "Aliases : "+this.getAliases();
     }
 
     @Override
