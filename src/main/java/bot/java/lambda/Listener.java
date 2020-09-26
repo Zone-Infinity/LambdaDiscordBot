@@ -121,11 +121,12 @@ public class Listener extends ListenerAdapter {
                             && !e.getMessage().equals(event.getMessage()),
                     e -> {
                         final String message = e.getMessage().getContentRaw();
-                        if(message.equalsIgnoreCase("Lambda") || message.replaceAll("\\W","").equalsIgnoreCase("Lambda λ") || message.contains("Lambda")){
-                            e.getChannel().sendMessage("Eh <:Wot:755715077029625916> , Lambda is my name bruh").queue();
+                        String name = e.getGuild().getSelfMember().getNickname() == null ?e.getJDA().getSelfUser().getName():e.getGuild().getSelfMember().getNickname();
+                        if(message.contains(name) || message.contains("Lambda")){
+                            e.getChannel().sendMessage("<:Wot:755715077029625916> Eh , it's my name. Bruh!!").queue();
                             return;
                         }
-                        event.getChannel().sendMessage("Hello, `" + message + "`! I'm `" + e.getJDA().getSelfUser().getName() + "`!").queue();
+                        event.getChannel().sendMessage("Hello, `" + message + "`! I'm `" + name + "`!").queue();
                     },
                     1, TimeUnit.MINUTES, () -> event.getChannel().sendMessage("Sorry, you took too long.").queue());
         }
