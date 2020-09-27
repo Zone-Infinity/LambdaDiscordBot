@@ -16,10 +16,9 @@
 
 package bot.java.lambda.command.commands.info;
 
-
-import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandContext;
+import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -28,7 +27,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class HelpCommand implements ICommand {
 
@@ -47,12 +45,14 @@ public class HelpCommand implements ICommand {
                 ComCmd = new ArrayList<>(),
                 InfoCmd = new ArrayList<>(),
                 MusicCmd = new ArrayList<>(),
-                GameCmd = new ArrayList<>();
+                GameCmd = new ArrayList<>(),
+                AnimalCmd = new ArrayList<>();
         StringBuilder FunBuild = new StringBuilder(),
                 ComBuild = new StringBuilder(),
                 InfoBuild = new StringBuilder(),
                 MusicBuild = new StringBuilder(),
-                GameBuild = new StringBuilder();
+                GameBuild = new StringBuilder(),
+                AnimalBuild = new StringBuilder();
 
         if(args.isEmpty()){
             for(ICommand command : commands){
@@ -151,7 +151,7 @@ public class HelpCommand implements ICommand {
             return;
         }
 
-        channel.sendMessage("Command```"+command.getHelp()+"```").queue();
+        channel.sendMessage("Command```prolog\n"+command.getHelp().toUpperCase()+"```").queue();
     }
 
     @Override

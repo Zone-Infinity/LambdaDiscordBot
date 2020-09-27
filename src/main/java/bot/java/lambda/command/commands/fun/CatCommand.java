@@ -29,18 +29,12 @@ public class CatCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/cat").async(
+        WebUtils.ins.getJSONObject("https://www.nekos.life/api/v2/img/meow").async(
                 (json) -> {
-                    if(!json.get("success").asBoolean()){
-                        channel.sendMessage("Something went wrong, try again later").queue();
-                        System.out.println(json);
-                        return;
-                    }
-                    final JsonNode data = json.get("data");
-                    final String file = data.get("file").asText();
+                    final String url = json.get("url").asText();
 
                     final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                            .setImage(file);
+                            .setImage(url);
 
                     channel.sendMessage(embed.build()).queue();
                 }
