@@ -37,10 +37,7 @@ public class Bot {
         jdaBuilder.build();
     }
 
-
-
     public static void main(String[] args) throws LoginException {
-        Bot bot = new Bot();
-        bot.ready();
+        new Bot().ready();
     }
 }

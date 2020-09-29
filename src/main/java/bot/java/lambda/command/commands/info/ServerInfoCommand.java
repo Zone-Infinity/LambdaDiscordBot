@@ -23,8 +23,9 @@ public class ServerInfoCommand implements ICommand {
         );
 
         String numberInfo = String.format(
-            "> **Total Roles** : %s\n> **Total Members** : %s\n> **Categories** : %s\n> **Text Channels** : %s\n> **Voice Channels** : %s",
+            "> **Total Roles** : %s\n> **Total Emotes** : %s\n> **Total Members** : %s\n> **Categories** : %s\n> **Text Channels** : %s\n> **Voice Channels** : %s",
             guild.getRoleCache().size(),
+            guild.getEmotes().size(),
             guild.getMemberCount(),
             guild.getCategories().size(),
             guild.getTextChannels().size(),

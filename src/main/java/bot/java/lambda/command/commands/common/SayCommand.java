@@ -9,6 +9,7 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.WebhookAction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +26,14 @@ public class SayCommand implements ICommand {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
+
+        final String join = String.join(" ", args);
+
+        if(join.contains("@everyone")|| join.contains("@here")|| join.contains("<@&")){
+            channel.sendMessage("Please don't tell me to ping some roles or everyone").queue();
+            return;
+        }
+
         message.delete().queue();
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
         channel.retrieveWebhooks().queue(

@@ -36,6 +36,7 @@ public class CommandManager {
         addCommand(new EmoteUseCommand());
         addCommand(new GuildUserCountCommand());
         addCommand(new ServerInfoCommand());
+        addCommand(new ServerEmojisCommand());
 
         // Common Commands
         addCommand(new PingCommand());
