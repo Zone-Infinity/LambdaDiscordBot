@@ -30,6 +30,4 @@ public interface ICommand {
     default List<String> getAliases(){
         return List.of();
     }
-
 }
-
