@@ -1,27 +1,61 @@
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\HelpCategory.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\JokeCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\UserCountCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\Config.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\Listener.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\InstagramCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\MemeCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\PingCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\GuildMusicManager.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\PlaylistCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\SkipCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\CommandManager.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\TrackScheduler.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\QueueCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\PlayCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\InviteCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\JoinCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\CommandContext.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\PlayerManager.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\Utils.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\HelpCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\StopCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\DisconnectCommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\Bot.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\AudioPlayerSendHandler.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\ICommand.java
-C:\Users\Lenovo\Desktop\Soham's Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\NowPlayingCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\TrackScheduler.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\DisconnectCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\HelpCategory.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\SayCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\FoxCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\BirdCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\QueueCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\DuckCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\GenPassCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\DistractorCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\LMGTFYCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\games\RollCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\LizardCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\EmojiCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\CommandManager.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\WolfCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\PandaCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\GifCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\CamelCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\JoinCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\UptimeCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\GuildMusicManager.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\AudioPlayerSendHandler.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\PlayCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\EmojifyCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\SkipCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\UrbanCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\JokeCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\ShuffleCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\Listener.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\PollCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\games\_8BallCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\ICommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\GuildCountCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\Owner\LeaveCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\Config.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\PlaylistCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\StopCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\AlpacaCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\ServerEmojisCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\CatCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\HelpCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\Utils.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\lavaplayer\PlayerManager.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\NowPlayingCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\Owner\TestCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\Bot.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\PingCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\music\UserCountCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\fun\MemeCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\DogCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\GuildUserCountCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\CommandContext.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\InviteCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\RandomCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\SealCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\ServerInfoCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\images\LlamaCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\common\InstagramCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\Owner\EvalCommand.java
+C:\Users\Lenovo\Desktop\Soham_s_Program\IdeaProjects\LambdaDiscordBot\src\main\java\bot\java\lambda\command\commands\info\EmoteUseCommand.java
