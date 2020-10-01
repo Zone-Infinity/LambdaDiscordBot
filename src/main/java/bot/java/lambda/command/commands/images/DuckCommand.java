@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package bot.java.lambda.command.commands.fun;
+package bot.java.lambda.command.commands.images;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -59,6 +59,6 @@ public class DuckCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.FUN;
+        return HelpCategory.IMAGES;
     }
 }

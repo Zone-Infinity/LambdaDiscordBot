@@ -33,7 +33,6 @@ public class Bot {
                         CacheFlag.ACTIVITY
                 ))
                 .addEventListeners(listeners);
-
         jdaBuilder.build();
     }
 

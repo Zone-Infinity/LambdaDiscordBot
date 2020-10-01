@@ -22,7 +22,7 @@ import java.util.List;
 
 public enum HelpCategory {
     COM("Common","Common Commands for the server members"),
-    ANIMAL("Animal","Animal Commands"),
+    IMAGES("Images","Commands that sends images"),
     FUN("Fun","Fun Commands which include games and images"),
     INFO("Info","Info Commands for info of the bot , server and members"),
     MUSIC("Music","Music Commands when you are in a Voice Channel"),

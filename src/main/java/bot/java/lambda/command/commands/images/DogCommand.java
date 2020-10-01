@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package bot.java.lambda.command.commands.fun;
+package bot.java.lambda.command.commands.images;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -25,16 +25,22 @@ import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class CatCommand implements ICommand {
+public class DogCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        WebUtils.ins.getJSONObject("https://www.nekos.life/api/v2/img/meow").async(
+        WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/dog").async(
                 (json) -> {
-                    final String url = json.get("url").asText();
+                    if(!json.get("success").asBoolean()){
+                        channel.sendMessage("Something went wrong, try again later").queue();
+                        System.out.println(json);
+                        return;
+                    }
+                    final JsonNode data = json.get("data");
+                    final String file = data.get("file").asText();
 
                     final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                            .setImage(url);
+                            .setImage(file);
 
                     channel.sendMessage(embed.build()).queue();
                 }
@@ -43,16 +49,16 @@ public class CatCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "cat";
+        return "dog";
     }
 
     @Override
     public String getHelp() {
-        return "Gives random image of cats UwU";
+        return "Gives random image of dogs";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.FUN;
+        return HelpCategory.IMAGES;
     }
 }

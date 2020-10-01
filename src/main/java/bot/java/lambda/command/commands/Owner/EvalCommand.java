@@ -20,19 +20,19 @@ import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import groovy.lang.GroovyShell;
+//import groovy.lang.GroovyShell;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
 public class EvalCommand implements ICommand {
-    private final GroovyShell engine;
-    private final String imports;
+    //private final GroovyShell engine;
+    //private final String imports;
 
     public EvalCommand(){
-        this.engine = new GroovyShell();
-        this.imports = "import java.io.*\n" +
+        //this.engine = new GroovyShell();
+        /*this.imports = "import java.io.*\n" +
                 "import java.lang.*\n" +
                 "import java.util.*\n" +
                 "import java.util.concurrent.*\n" +
@@ -41,7 +41,7 @@ public class EvalCommand implements ICommand {
                 "import net.dv8tion.jda.core.entities.impl.*\n" +
                 "import net.dv8tion.jda.core.managers.*\n" +
                 "import net.dv8tion.jda.core.managers.impl.*\n" +
-                "import net.dv8tion.jda.core.utils.*\n";
+                "import net.dv8tion.jda.core.utils.*\n";*/
     }
 
     @Override
@@ -55,7 +55,7 @@ public class EvalCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Message message = ctx.getMessage();
 
-        if(args.isEmpty()){
+        /*if(args.isEmpty()){
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
@@ -76,7 +76,7 @@ public class EvalCommand implements ICommand {
 
         }catch (Exception e){
             channel.sendMessage(e.getMessage()).queue();
-        }
+        }*/
     }
 
     @Override

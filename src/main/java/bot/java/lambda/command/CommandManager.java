@@ -2,8 +2,10 @@ package bot.java.lambda.command;
 
 import bot.java.lambda.command.commands.Owner.EvalCommand;
 import bot.java.lambda.command.commands.Owner.LeaveCommand;
+import bot.java.lambda.command.commands.Owner.TestCommand;
 import bot.java.lambda.command.commands.games.RollCommand;
 import bot.java.lambda.command.commands.games._8BallCommand;
+import bot.java.lambda.command.commands.images.*;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -26,6 +28,7 @@ public class CommandManager {
         // Owner Commands
         addCommand(new EvalCommand());
         addCommand(new LeaveCommand());
+        addCommand(new TestCommand(waiter));
 
         // Secret Commands
 

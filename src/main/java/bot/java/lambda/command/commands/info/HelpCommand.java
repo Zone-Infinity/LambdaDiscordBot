@@ -46,13 +46,13 @@ public class HelpCommand implements ICommand {
                 InfoCmd = new ArrayList<>(),
                 MusicCmd = new ArrayList<>(),
                 GameCmd = new ArrayList<>(),
-                AnimalCmd = new ArrayList<>();
+                ImagesCmd = new ArrayList<>();
         StringBuilder FunBuild = new StringBuilder(),
                 ComBuild = new StringBuilder(),
                 InfoBuild = new StringBuilder(),
                 MusicBuild = new StringBuilder(),
                 GameBuild = new StringBuilder(),
-                AnimalBuild = new StringBuilder();
+                ImagesBuild = new StringBuilder();
 
         if(args.isEmpty()){
             for(ICommand command : commands){
@@ -61,7 +61,7 @@ public class HelpCommand implements ICommand {
                 else if (command.getHelpCategory().equals(HelpCategory.INFO)) InfoCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.MUSIC)) MusicCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.GAME)) GameCmd.add(command.getName());
-
+                else if (command.getHelpCategory().equals(HelpCategory.IMAGES)) ImagesCmd.add(command.getName());
             }
 
             int count = 0;
@@ -69,7 +69,7 @@ public class HelpCommand implements ICommand {
                 if(count%10==0 && count!=0){
                     MusicBuild.append("\n");
                 }
-                FunBuild.append("`").append(cmd).append("`| ");
+                FunBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
@@ -77,7 +77,7 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     ComBuild.append("\n");
                 }
-                ComBuild.append("`").append(cmd).append("`| ");
+                ComBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
@@ -85,7 +85,7 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     InfoBuild.append("\n");
                 }
-                InfoBuild.append("`").append(cmd).append("`| ");
+                InfoBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
@@ -93,7 +93,7 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     MusicBuild.append("\n");
                 }
-                MusicBuild.append("`").append(cmd).append("`| ");
+                MusicBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
@@ -101,14 +101,23 @@ public class HelpCommand implements ICommand {
                 if(count%4==0 && count!=0){
                     GameBuild.append("\n");
                 }
-                GameBuild.append("`").append(cmd).append("`| ");
+                GameBuild.append("`").append(cmd).append("` | ");
                 count++;
             }
-            FunBuild.deleteCharAt(FunBuild.length()-1);
-            GameBuild.deleteCharAt(GameBuild.length()-1);
-            InfoBuild.deleteCharAt(InfoBuild.length()-1);
-            MusicBuild.deleteCharAt(MusicBuild.length()-1);
-            ComBuild.deleteCharAt(ComBuild.length()-1);
+            count = 0;
+            for(String cmd : ImagesCmd){
+                if(count%4==0 && count!=0){
+                    ImagesBuild.append("\n");
+                }
+                ImagesBuild.append("`").append(cmd).append("` | ");
+                count++;
+            }
+            FunBuild.deleteCharAt(FunBuild.length()-3);
+            GameBuild.deleteCharAt(GameBuild.length()-3);
+            InfoBuild.deleteCharAt(InfoBuild.length()-3);
+            MusicBuild.deleteCharAt(MusicBuild.length()-3);
+            ComBuild.deleteCharAt(ComBuild.length()-3);
+            ImagesBuild.deleteCharAt(ComBuild.length()-3);
 
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
@@ -129,6 +138,7 @@ public class HelpCommand implements ICommand {
                     .addField("<:Music:755716546827124787> Music",MusicBuild.toString(),true)
                     .addBlankField(true)
                     .addField("\uD83C\uDF89 Fun",FunBuild.toString(),true)
+                    .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(),true)
                     .addBlankField(true)
                     .setFooter("Total Commands : "+manager.getCommands().size(),"https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
             channel.sendMessage(embed.build()).queue();

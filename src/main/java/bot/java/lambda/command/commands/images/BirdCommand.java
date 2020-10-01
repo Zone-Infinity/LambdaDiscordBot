@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package bot.java.lambda.command.commands.fun;
+package bot.java.lambda.command.commands.images;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -25,11 +25,11 @@ import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class SealCommand implements ICommand {
+public class BirdCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/seal").async(
+        WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/bird").async(
                 (json) -> {
                     if(!json.get("success").asBoolean()){
                         channel.sendMessage("Something went wrong, try again later").queue();
@@ -49,16 +49,16 @@ public class SealCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "seal";
+        return "bird";
     }
 
     @Override
     public String getHelp() {
-        return "Gives random image of seal";
+        return "Gives random image of bird";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.FUN;
+        return HelpCategory.IMAGES;
     }
 }

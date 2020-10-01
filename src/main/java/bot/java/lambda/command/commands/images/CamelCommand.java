@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package bot.java.lambda.command.commands.fun;
+package bot.java.lambda.command.commands.images;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -25,11 +25,11 @@ import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class WolfCommand implements ICommand {
+public class CamelCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/wolf").async(
+        WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/camel").async(
                 (json) -> {
                     if(!json.get("success").asBoolean()){
                         channel.sendMessage("Something went wrong, try again later").queue();
@@ -40,8 +40,7 @@ public class WolfCommand implements ICommand {
                     final String file = data.get("file").asText();
 
                     final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                            .setImage(file)
-                            .setFooter("Password Makers","https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
+                            .setImage(file);
 
                     channel.sendMessage(embed.build()).queue();
                 }
@@ -50,16 +49,16 @@ public class WolfCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "wolf";
+        return "camel";
     }
 
     @Override
     public String getHelp() {
-        return "Gives random image of wolf";
+        return "Gives random image of camel";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.FUN;
+        return HelpCategory.IMAGES;
     }
 }
