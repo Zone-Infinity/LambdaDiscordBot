@@ -46,6 +46,10 @@ public class Listener extends ListenerAdapter {
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
+        globalAuditsChannel = event.getJDA().getTextChannelById(753995632556900544L);
+        assert globalAuditsChannel != null;
+        globalAuditsChannel.sendMessage("```I am ready```").queue();
+
         Runnable task = () -> {
             event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinityλ7763 for help"));
             try {
