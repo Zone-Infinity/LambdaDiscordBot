@@ -54,6 +54,7 @@ public class CommandManager {
         addCommand(new UrbanCommand());
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
+        addCommand(new AdviceCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
@@ -62,6 +63,11 @@ public class CommandManager {
         // Fun Commands
         addCommand(new MemeCommand());
         addCommand(new JokeCommand());
+        addCommand(new GifCommand());
+        addCommand(new EmojifyCommand());
+
+        // Image Commands
+        addCommand(new CoffeeCommand());
         addCommand(new CatCommand());
         addCommand(new DogCommand());
         addCommand(new LlamaCommand());
@@ -74,8 +80,6 @@ public class CommandManager {
         addCommand(new BirdCommand());
         addCommand(new WolfCommand());
         addCommand(new PandaCommand());
-        addCommand(new GifCommand());
-        addCommand(new EmojifyCommand());
 
         // Music Commands
         addCommand(new JoinCommand());
