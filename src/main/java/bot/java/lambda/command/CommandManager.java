@@ -40,6 +40,7 @@ public class CommandManager {
         addCommand(new GuildUserCountCommand());
         addCommand(new ServerInfoCommand());
         addCommand(new ServerEmojisCommand());
+        addCommand(new ServerRolesCommand());
 
         // Common Commands
         addCommand(new PingCommand());
