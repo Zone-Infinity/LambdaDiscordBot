@@ -51,7 +51,7 @@ public class CommandManager {
         addCommand(new GenPassCommand());
         addCommand(new RandomCommand());
         addCommand(new SayCommand());
-        addCommand(new EmojiCommand());
+        addCommand(new EmojiCommand(waiter));
         addCommand(new DistractorCommand());
         addCommand(new LMGTFYCommand());
         addCommand(new UrbanCommand());

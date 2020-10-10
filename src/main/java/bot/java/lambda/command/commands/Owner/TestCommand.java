@@ -6,13 +6,13 @@ import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
 
 public class TestCommand implements ICommand {
     EventWaiter waiter;
+    int i = 0;
     public TestCommand(EventWaiter waiter){
         this.waiter = waiter;
     }
@@ -20,11 +20,11 @@ public class TestCommand implements ICommand {
     public void handle(CommandContext ctx) {
         if(!ctx.getAuthor().getId().equals(Config.get("owner_id")))
             return;
-        ctx.getChannel().sendMessage("0").queue(
+        ctx.getChannel().sendMessage(i+"").queue(
                 message -> {
-                    message.addReaction("➡").queue();
-                    message.addReaction("🛑").queue();
                     message.addReaction("⬅").queue();
+                    message.addReaction("🛑").queue();
+                    message.addReaction("➡").queue();
                     testWaiter(message, ctx);
                 }
         );
@@ -38,16 +38,16 @@ public class TestCommand implements ICommand {
                         && !e.getMessageId().equals(ctx.getMessage().getId()),
                 e -> {
                     final String asReactionCode = e.getReactionEmote().getAsReactionCode();
-                    e.getReaction().clearReactions().queue();
-                    message.addReaction("➡").queue();
-                    message.addReaction("🛑").queue();
-                    message.addReaction("⬅").queue();
+                    e.getReaction().removeReaction(e.getUser()).queue();
+
                     if(!asReactionCode.equals("🛑")){
                         if(asReactionCode.equals("➡")) {
-                            message.editMessage("Right").queue();
+                            i++;
+                            message.editMessage(i+"").queue();
                         }
                         if(asReactionCode.equals("⬅")) {
-                            message.editMessage("Left").queue();
+                            i--;
+                            message.editMessage(i+"").queue();
                         }
                         testWaiter(message, ctx);
                         return;
