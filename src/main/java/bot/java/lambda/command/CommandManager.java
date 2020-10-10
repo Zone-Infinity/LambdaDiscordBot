@@ -43,6 +43,7 @@ public class CommandManager {
         addCommand(new ServerInfoCommand());
         addCommand(new ServerEmojisCommand());
         addCommand(new ServerRolesCommand());
+        addCommand(new AvatarCommand());
 
         // Common Commands
         addCommand(new PingCommand());

@@ -4,22 +4,24 @@ import bot.java.lambda.command.CommandManager;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.BotCommons;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.internal.handle.GuildSetupController;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +62,31 @@ public class Listener extends ListenerAdapter {
 
         executor.scheduleWithFixedDelay(task, 0, 5, TimeUnit.SECONDS);
 
+    }
+
+    @Override
+    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
+        if(event.getGuild().getId().equals("755433534495391805")){
+            if(event.getChannelJoined().getName().equals("Create VC")){
+                event.getGuild().createVoiceChannel("Lobby #" + (Objects.requireNonNull(event.getGuild().getCategoryById("758701038399389727")).
+                        getVoiceChannels().size() - 2), event.getChannelJoined().getParent()).queue(
+                        channel -> {
+                            event.getGuild().moveVoiceMember(event.getMember(), channel).queue();
+                            channel.getManager().setUserLimit(10).queue();
+                            waitForVoiceLeave(channel);
+                        }
+                );
+            }
+        }
+    }
+
+    public void waitForVoiceLeave(VoiceChannel channel){
+        waiter.waitForEvent(
+                GuildVoiceLeaveEvent.class,
+                e -> e.getChannelLeft().getMembers().isEmpty() &&
+                        e.getChannelLeft().equals(channel),
+                e -> e.getChannelLeft().delete().queue()
+        );
     }
 
     @Override
