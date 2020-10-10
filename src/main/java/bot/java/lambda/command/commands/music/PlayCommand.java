@@ -50,7 +50,7 @@ public class PlayCommand implements ICommand {
 
         if(!isUrl(link)){
             if(ctx.getArgs().size()==1){
-                link = link + ".";
+                link = link + " .";
             }
             link = "ytsearch:" + link;
         }

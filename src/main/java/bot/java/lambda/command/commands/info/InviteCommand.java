@@ -34,7 +34,7 @@ public class InviteCommand implements ICommand {
                 .setAuthor(author)
                 .setTitle("<:LambdaLock:755716500643512370> Click here to invite me","https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
                 .setDescription("\uD83D\uDE0A Here you go , invite me to as many servers as possible\n" +
-                        "And help me becoming a verified bot <:Verified:753964332001394748>")
+                        "And help me becoming a verified bot <:Verified:755715351798480897>")
                 .setThumbnail(ctx.getAuthor().getAvatarUrl());
         channel.sendMessage(embed.build()).queue();
     }

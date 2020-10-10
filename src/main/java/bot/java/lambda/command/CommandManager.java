@@ -3,6 +3,8 @@ package bot.java.lambda.command;
 import bot.java.lambda.command.commands.Owner.EvalCommand;
 import bot.java.lambda.command.commands.Owner.LeaveCommand;
 import bot.java.lambda.command.commands.Owner.TestCommand;
+import bot.java.lambda.command.commands.games.CountCommand;
+import bot.java.lambda.command.commands.games.RPSCommand;
 import bot.java.lambda.command.commands.games.RollCommand;
 import bot.java.lambda.command.commands.games._8BallCommand;
 import bot.java.lambda.command.commands.images.*;
@@ -60,12 +62,15 @@ public class CommandManager {
         //Game Commands
         addCommand(new _8BallCommand());
         addCommand(new RollCommand());
+        addCommand(new RPSCommand());
+        addCommand(new CountCommand(waiter));
 
         // Fun Commands
         addCommand(new MemeCommand());
         addCommand(new JokeCommand());
         addCommand(new GifCommand());
         addCommand(new EmojifyCommand());
+        addCommand(new EchoCommand());
 
         // Image Commands
         addCommand(new CoffeeCommand());
