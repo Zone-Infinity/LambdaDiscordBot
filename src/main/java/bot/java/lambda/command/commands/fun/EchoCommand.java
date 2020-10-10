@@ -23,10 +23,6 @@ public class EchoCommand implements ICommand {
         }
 
         for(String a : args){
-            if(a.toLowerCase().contains("stupid") && a.toLowerCase().contains("i")){
-                channel.sendMessage("Yeah we know").queue();
-                return;
-            }
             if(messages.contains(a.toLowerCase())){
                 channel.sendMessage(replies.get(new Random().nextInt(replies.size()))).queue();
                 return;
@@ -34,6 +30,11 @@ public class EchoCommand implements ICommand {
         }
 
         final String join = String.join(" ", args);
+
+        if(join.toLowerCase().contains("stupid") && join.toLowerCase().contains("i")){
+            channel.sendMessage("Yeah we know").queue();
+            return;
+        }
 
         channel.sendTyping().queue();
         channel.sendMessage(join).queueAfter(join.length()*50, TimeUnit.MILLISECONDS);
