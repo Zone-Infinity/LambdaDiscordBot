@@ -28,6 +28,11 @@ public class PollCommand implements ICommand {
             return;
         }
 
+        if(split.length>11){
+            channel.sendMessage("Can't poll question with more than 10 answers").queue();
+            return;
+        }
+
         String question = split[0];
         String[] options = new String[split.length-1];
         int i=0;
@@ -46,10 +51,16 @@ public class PollCommand implements ICommand {
         }
 
         EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
+                .setAuthor("🔢 Poll")
+                .setTitle("❓ "+question)
                 .setDescription(optionSB);
 
         channel.sendMessage(embed.build()).queue(
-
+            msg -> {
+                for(int a=1;a<=options.length;a++){
+                    msg.addReaction(Utils.getEmojiFor(String.valueOf(a))).queue();
+                }
+            }
         );
 
     }

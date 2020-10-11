@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandManager;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.BotCommons;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -47,6 +49,11 @@ public class Listener extends ListenerAdapter {
         globalAuditsChannel = event.getJDA().getTextChannelById(758724135790051368L);
         assert globalAuditsChannel != null;
         globalAuditsChannel.sendMessage("```I am ready```").queue();
+        final Guild lambdaGuild = event.getJDA().getGuildById(755433534495391805L);
+        if(!(lambdaGuild==null)) {
+            final VoiceChannel create_vc = lambdaGuild.getVoiceChannelsByName("Create VC", true).get(0);
+            create_vc.getManager().putPermissionOverride(Objects.requireNonNull(lambdaGuild.getRolesByName("@everyone",true).get(0)), Collections.singletonList(Permission.VOICE_CONNECT), Collections.emptyList()).queue();
+        }
 
         Runnable task = () -> {
             event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinityλ7763 for help"));
@@ -89,22 +96,16 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
-        globalAuditsChannel = event.getJDA().getTextChannelById(753995632556900544L);
-        assert globalAuditsChannel != null;
         globalAuditsChannel.sendMessage("```Added to "+event.getGuild()+"```").queue();
     }
 
     @Override
     public void onGuildLeave(@NotNull GuildLeaveEvent event) {
-        globalAuditsChannel = event.getJDA().getTextChannelById(753995632556900544L);
-        assert globalAuditsChannel != null;
         globalAuditsChannel.sendMessage("```Removed from "+event.getGuild()+"```").queue();
     }
 
     @Override
     public void onGuildBan(@NotNull GuildBanEvent event) {
-        globalAuditsChannel = event.getGuild().getTextChannelById(753995632556900544L);
-        assert globalAuditsChannel != null;
         globalAuditsChannel.sendMessage("```Banned from "+event.getGuild()+"```").queue();
     }
 
@@ -139,6 +140,13 @@ public class Listener extends ListenerAdapter {
 
         if(raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")){
             event.getChannel().sendMessage("Hello. What is your name?").queue();
+            List<String> blacklist = List.of(
+                    "752664145580654632"
+            );
+
+            if(blacklist.contains(event.getGuild().getId())){
+                return;
+            }
 
             waiter.waitForEvent(MessageReceivedEvent.class,
                     e -> e.getAuthor().equals(event.getAuthor())
@@ -165,6 +173,11 @@ public class Listener extends ListenerAdapter {
                 event.getChannel().sendMessage("Shutting Down").queue();
                 event.getMessage().addReaction("✅").queue();
                 LOGGER.info("Shutting Down");
+
+                if(event.getGuild().getId().equals("755433534495391805")){
+                    final VoiceChannel create_vc = event.getGuild().getVoiceChannelsByName("Create VC", true).get(0);
+                    create_vc.getManager().putPermissionOverride(Objects.requireNonNull(event.getGuild().getRoleById(755433534495391805L)), Collections.emptyList(),Collections.singletonList(Permission.VOICE_CONNECT)).queue();
+                }
 
                 try {
                     Thread.sleep(500);
