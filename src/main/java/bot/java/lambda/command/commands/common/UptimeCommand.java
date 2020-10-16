@@ -8,7 +8,7 @@ import bot.java.lambda.command.Utils;
 public class UptimeCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
-        ctx.getChannel().sendMessage("My Uptime is `"+Utils.getUptime()+"`").queue();
+        ctx.getChannel().sendMessage("My Uptime is `" + Utils.getUptime() + "`").queue();
     }
 
     @Override

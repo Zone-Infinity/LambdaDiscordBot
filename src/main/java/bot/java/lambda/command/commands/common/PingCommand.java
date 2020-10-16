@@ -29,11 +29,11 @@ public class PingCommand implements ICommand {
         JDA jda = ctx.getJDA();
 
         jda.getRestPing().queue(
-                (ping)-> {
+                (ping) -> {
                     final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                             .setTitle("PING")
-                            .addField("\uD83E\uDDE1 Rest ping",ping+"ms",true)
-                            .addField("<:PingPong:755716114834522135> WS ping",jda.getGatewayPing()+"ms",true);
+                            .addField("\uD83E\uDDE1 Rest ping", ping + "ms", true)
+                            .addField("<:PingPong:755716114834522135> WS ping", jda.getGatewayPing() + "ms", true);
                     ctx.getChannel().sendMessage(embed.build()).queue();
                 }
         );

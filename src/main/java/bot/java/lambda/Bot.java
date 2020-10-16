@@ -15,7 +15,7 @@ public class Bot {
     private void ready() throws LoginException {
         WebUtils.setUserAgent("S-Zone_Infinity#7763");
 
-        Object[] listeners  = {
+        Object[] listeners = {
                 waiter,
                 new Listener(waiter)
         };

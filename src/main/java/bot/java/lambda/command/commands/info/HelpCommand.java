@@ -32,7 +32,7 @@ public class HelpCommand implements ICommand {
 
     private final CommandManager manager;
 
-    public HelpCommand(CommandManager manager){
+    public HelpCommand(CommandManager manager) {
         this.manager = manager;
     }
 
@@ -54,8 +54,8 @@ public class HelpCommand implements ICommand {
                 GameBuild = new StringBuilder(),
                 ImagesBuild = new StringBuilder();
 
-        if(args.isEmpty()){
-            for(ICommand command : commands){
+        if (args.isEmpty()) {
+            for (ICommand command : commands) {
                 if (command.getHelpCategory().equals(HelpCategory.FUN)) FunCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.COM)) ComCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.INFO)) InfoCmd.add(command.getName());
@@ -65,82 +65,82 @@ public class HelpCommand implements ICommand {
             }
 
             int count = 0;
-            for(String cmd : FunCmd){
-                if(count%10==0 && count!=0){
+            for (String cmd : FunCmd) {
+                if (count % 10 == 0 && count != 0) {
                     MusicBuild.append("\n");
                 }
-                FunBuild.append("`").append(cmd).append("` | ");
+                FunBuild.append(" `").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
-            for(String cmd : ComCmd){
-                if(count%4==0 && count!=0){
+            for (String cmd : ComCmd) {
+                if (count % 4 == 0 && count != 0) {
                     ComBuild.append("\n");
                 }
-                ComBuild.append("`").append(cmd).append("` | ");
+                ComBuild.append(" `").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
-            for(String cmd : InfoCmd){
-                if(count%4==0 && count!=0){
+            for (String cmd : InfoCmd) {
+                if (count % 4 == 0 && count != 0) {
                     InfoBuild.append("\n");
                 }
-                InfoBuild.append("`").append(cmd).append("` | ");
+                InfoBuild.append(" `").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
-            for(String cmd : MusicCmd){
-                if(count%4==0 && count!=0){
+            for (String cmd : MusicCmd) {
+                if (count % 4 == 0 && count != 0) {
                     MusicBuild.append("\n");
                 }
-                MusicBuild.append("`").append(cmd).append("` | ");
+                MusicBuild.append(" `").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
-            for(String cmd : GameCmd){
-                if(count%4==0 && count!=0){
+            for (String cmd : GameCmd) {
+                if (count % 4 == 0 && count != 0) {
                     GameBuild.append("\n");
                 }
-                GameBuild.append("`").append(cmd).append("` | ");
+                GameBuild.append(" `").append(cmd).append("` | ");
                 count++;
             }
             count = 0;
-            for(String cmd : ImagesCmd){
-                if(count%4==0 && count!=0){
+            for (String cmd : ImagesCmd) {
+                if (count % 4 == 0 && count != 0) {
                     ImagesBuild.append("\n");
                 }
-                ImagesBuild.append("`").append(cmd).append("` | ");
+                ImagesBuild.append(" `").append(cmd).append("` | ");
                 count++;
             }
-            FunBuild.deleteCharAt(FunBuild.length()-3);
-            GameBuild.deleteCharAt(GameBuild.length()-3);
-            InfoBuild.deleteCharAt(InfoBuild.length()-3);
-            MusicBuild.deleteCharAt(MusicBuild.length()-3);
-            ComBuild.deleteCharAt(ComBuild.length()-3);
-            ImagesBuild.deleteCharAt(ComBuild.length()-3);
+            FunBuild.deleteCharAt(FunBuild.length() - 3);
+            GameBuild.deleteCharAt(GameBuild.length() - 3);
+            InfoBuild.deleteCharAt(InfoBuild.length() - 3);
+            MusicBuild.deleteCharAt(MusicBuild.length() - 3);
+            ComBuild.deleteCharAt(ComBuild.length() - 3);
+            ImagesBuild.deleteCharAt(ComBuild.length() - 3);
 
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
                     .setTitle("**λ** Help")
-                    .setDescription("**Bot prefix** : ``"+ Config.get("prefix")+"``\n " +
+                    .setDescription("**Bot prefix** : ``" + Config.get("prefix") + "``\n " +
                             "```A Fun Bot which has many commands       \n" +
                             "It provides you with some Common commands\n" +
                             "Some Fun and most important MUSIC !! \uD83D\uDE04 \n" +
                             "If you have any confusion about the bot, \n" +
                             "   Contact Zone_Infinity#7763           \n" +
-                            "      for help, bugs and suggestions    ```\n"+
+                            "      for help, bugs and suggestions    ```\n" +
                             "**Take a look on these commands** <:LambdaWhite:755717368386289721>")
-                    .addField("<:LambdaBlack:755717304989384714>  Commons",ComBuild.toString(),true)
-                    .addField("<:VideoGame:755715386980171796> Games",GameBuild.toString(),true)
+                    .addField("<:LambdaBlack:755717304989384714>  Commons", ComBuild.toString(), true)
+                    .addField("<:VideoGame:755715386980171796> Games", GameBuild.toString(), true)
                     .addBlankField(true)
-                    .addField("<:LambdaInfo:755717519410724884> Info",InfoBuild.toString(),true)
-                    .addField("<:Music:755716546827124787> Music",MusicBuild.toString(),true)
+                    .addField("<:LambdaInfo:755717519410724884> Info", InfoBuild.toString(), true)
+                    .addField("<:Music:755716546827124787> Music", MusicBuild.toString(), true)
                     .addBlankField(true)
-                    .addField("\uD83C\uDF89 Fun",FunBuild.toString(),true)
-                    .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(),true)
+                    .addField("\uD83C\uDF89 Fun", FunBuild.toString(), true)
+                    .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(), true)
                     .addBlankField(true)
-                    .setFooter("Total Commands : "+manager.getCommands().size(),"https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
+                    .setFooter("Total Commands : " + manager.getCommands().size(), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
             channel.sendMessage(embed.build()).queue();
             return;
         }
@@ -148,20 +148,20 @@ public class HelpCommand implements ICommand {
         String search = args.get(0);
         ICommand command = manager.getCommand(search);
 
-        if(command == null){
+        if (command == null) {
             HelpCategory category = HelpCategory.VAR_FOR_USE.getCommand(search);
             String categoryName = category.getCategory();
 
-            if(category == HelpCategory.UNKNOWN) {
+            if (category == HelpCategory.UNKNOWN) {
                 channel.sendMessage("Nothing found for " + search).queue();
                 return;
             }
             channel.sendMessageFormat("Command Category```%s\n" +
-                    "%s ```",categoryName,category.getDescription()).queue();
+                    "%s ```", categoryName, category.getDescription()).queue();
             return;
         }
 
-        channel.sendMessage("Command```prolog\n"+command.getHelp().toUpperCase()+"```").queue();
+        channel.sendMessage("Command```prolog\n" + command.getHelp().toUpperCase() + "```").queue();
     }
 
     @Override

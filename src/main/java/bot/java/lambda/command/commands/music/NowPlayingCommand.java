@@ -20,7 +20,7 @@ public class NowPlayingCommand implements ICommand {
         final GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
         final AudioPlayer player = musicManager.audioPlayer;
 
-        if(player.getPlayingTrack() == null){
+        if (player.getPlayingTrack() == null) {
             channel.sendMessage("The player is not playing any track").queue();
             return;
         }
@@ -28,9 +28,8 @@ public class NowPlayingCommand implements ICommand {
         AudioTrackInfo info = player.getPlayingTrack().getInfo();
 
 
-
         channel.sendMessage(EmbedUtils.embedMessage(String.format(
-                "**Playing** [%s] (%s)",info.title,info.uri
+                "**Playing** [%s] (%s)", info.title, info.uri
         )).build()).queue();
 
     }
@@ -53,6 +52,6 @@ public class NowPlayingCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("np","nplaying","nowp");
+        return List.of("np", "nplaying", "nowp");
     }
 }

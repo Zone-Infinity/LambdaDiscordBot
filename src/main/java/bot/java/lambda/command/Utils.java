@@ -6,7 +6,10 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Utils {
     private static final Map<String, String> emojis = new HashMap<>();
@@ -61,20 +64,20 @@ public class Utils {
         return ".";
     }
 
-    public static String getAuthorRequested(GuildMessageReceivedEvent event){
+    public static String getAuthorRequested(GuildMessageReceivedEvent event) {
         final String asTag = event.getAuthor().getAsTag();
-        return "Requested by "+asTag.substring(0,asTag.length()-5)+"λ"+ asTag.substring(asTag.length()-4);
+        return "Requested by " + asTag.substring(0, asTag.length() - 5) + "λ" + asTag.substring(asTag.length() - 4);
     }
 
-    public static Emote searchEmote(CommandContext ctx, String name){
+    public static Emote searchEmote(CommandContext ctx, String name) {
         List<Guild> guilds = new ArrayList<>();
-        for(Guild guild: ctx.getJDA().getGuilds()){
-            if(guild.getEmotes().size()>15){
+        for (Guild guild : ctx.getJDA().getGuilds()) {
+            if (guild.getEmotes().size() > 15) {
                 guilds.add(guild);
             }
         }
 
-        for(Guild guild : guilds) {
+        for (Guild guild : guilds) {
             final List<Emote> emotes = guild.getEmotes();
             for (Emote emote : emotes) {
                 if (emote.getName().equalsIgnoreCase(name.replaceAll("\\W", ""))) {
@@ -85,7 +88,7 @@ public class Utils {
         return null;
     }
 
-    public static String getUptime(){
+    public static String getUptime() {
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         long uptime = runtimeMXBean.getUptime();
         long uptimeInSeconds = uptime / 1000;
@@ -97,11 +100,10 @@ public class Utils {
                 numberOfHours, numberOfMinutes, numberOfSeconds);
     }
 
-    public static String getTimestamp(long milliseconds)
-    {
-        int seconds = (int) (milliseconds / 1000) % 60 ;
+    public static String getTimestamp(long milliseconds) {
+        int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
-        int hours   = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+        int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
 
         if (hours > 0)
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);

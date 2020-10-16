@@ -34,7 +34,7 @@ public class PlaylistCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
 
-        if(ctx.getArgs().isEmpty()){
+        if (ctx.getArgs().isEmpty()) {
             channel.sendMessage("Correct usage is : <prefix> play <youtube link>").queue();
             return;
         }
@@ -60,9 +60,9 @@ public class PlaylistCommand implements ICommand {
             return;
         }
 
-        String link = String.join(" ",ctx.getArgs());
+        String link = String.join(" ", ctx.getArgs());
 
-        if(!isUrl(link)){
+        if (!isUrl(link)) {
             link = "ytsearch:" + link;
         }
 
@@ -70,10 +70,10 @@ public class PlaylistCommand implements ICommand {
     }
 
     private boolean isUrl(String url) {
-        try{
+        try {
             new URI(url);
             return true;
-        }catch (URISyntaxException e){
+        } catch (URISyntaxException e) {
             return false;
         }
     }
@@ -97,6 +97,6 @@ public class PlaylistCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("pl","plist");
+        return List.of("pl", "plist");
     }
 }

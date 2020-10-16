@@ -19,12 +19,12 @@ public class ShuffleCommand implements ICommand {
         TrackScheduler scheduler = musicManager.scheduler;
         AudioPlayer player = musicManager.audioPlayer;
 
-        if(!ctx.getMember().getVoiceState().inVoiceChannel()){
+        if (!ctx.getMember().getVoiceState().inVoiceChannel()) {
             channel.sendMessage("You are not in the voice channel").queue();
             return;
         }
 
-        if(player.getPlayingTrack()==null){
+        if (player.getPlayingTrack() == null) {
             channel.sendMessage("The queue is empty").queue();
             return;
         }

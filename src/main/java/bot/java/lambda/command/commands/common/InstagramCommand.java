@@ -34,15 +34,15 @@ public class InstagramCommand implements ICommand {
         final List<String> args = ctx.getArgs();
         final TextChannel channel = ctx.getChannel();
 
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             channel.sendMessage("You myst provide a username to look up").queue();
             return;
         }
 
         final String usn = args.get(0);
 
-        WebUtils.ins.getJSONObject("http://apis.duncte123.me/insta/"+usn).async((json)->{
-            if(!json.get("success").asBoolean()){
+        WebUtils.ins.getJSONObject("http://apis.duncte123.me/insta/" + usn).async((json) -> {
+            if (!json.get("success").asBoolean()) {
                 channel.sendMessage(json.get("error").get("message").asText()).queue();
                 return;
             }
@@ -57,7 +57,7 @@ public class InstagramCommand implements ICommand {
             final int uploads = user.get("uploads").get("count").asInt();
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                    .setTitle("Instagram info of "+username,"https://www.instagram.com/"+username)
+                    .setTitle("Instagram info of " + username, "https://www.instagram.com/" + username)
                     .setThumbnail(pfp)
                     .setDescription(String.format(
                             "**Private account:** %s\n" +
@@ -65,7 +65,7 @@ public class InstagramCommand implements ICommand {
                                     "**Following:** %s\n" +
                                     "**Followers:** %s\n" +
                                     "**Uploads:** %s",
-                            toEmote(isPrivate),biography,following,follower,uploads
+                            toEmote(isPrivate), biography, following, follower, uploads
                     ))
                     .setImage(getLatestImage(json.get("images")));
 
@@ -96,18 +96,18 @@ public class InstagramCommand implements ICommand {
         return Collections.singletonList("insta");
     }
 
-    private String getLatestImage(JsonNode json){
-        if(!json.isArray()){
+    private String getLatestImage(JsonNode json) {
+        if (!json.isArray()) {
             return null;
         }
-        if(json.size() == 0){
+        if (json.size() == 0) {
             return null;
         }
 
         return json.get(0).get("url").asText();
     }
 
-    private String toEmote(boolean bool){
-        return bool?"<:TickYes:755716208191602738>":"<:TickNo:755716160472875079>";
+    private String toEmote(boolean bool) {
+        return bool ? "<:TickYes:755716208191602738>" : "<:TickNo:755716160472875079>";
     }
 }

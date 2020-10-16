@@ -18,23 +18,24 @@ public class EmojiCommand implements ICommand {
     List<StringBuilder> listOfAllEmote = new ArrayList<>();
     int pageNumber = 1;
 
-    public EmojiCommand(EventWaiter waiter){
+    public EmojiCommand(EventWaiter waiter) {
         this.waiter = waiter;
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
+        listOfAllEmote.clear();
         final List<String> args = ctx.getArgs();
         List<Guild> guilds = new ArrayList<>();
-        for(Guild guild: ctx.getJDA().getGuilds()){
-            if(guild.getEmotes().size()>15){
+        for (Guild guild : ctx.getJDA().getGuilds()) {
+            if (guild.getEmotes().size() > 15) {
                 guilds.add(guild);
             }
         }
         int count = 0;
         int page = 0;
-        for(Guild guild : guilds) {
+        for (Guild guild : guilds) {
             final List<Emote> emotes = guild.getEmotes();
             for (Emote emote : emotes) {
                 if (count % 10 == 1 && count != 1) {
@@ -53,22 +54,22 @@ public class EmojiCommand implements ICommand {
             }
         }
 
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             ctx.getChannel().sendMessage(EmbedUtils.getDefaultEmbed()
-                                    .setTitle("Emojis you can use : Page 1 out of "+listOfAllEmote.size())
-                                    .setDescription(listOfAllEmote.get(0))
-                                    .build()).queue(
-                                            message -> {
-                                                message.addReaction("⬅").queue();
-                                                message.addReaction("🛑").queue();
-                                                message.addReaction("➡").queue();
-                                                emojiPageWaiter(message, ctx);
-                                            }
-                                    );
+                    .setTitle("Emojis you can use : Page 1 out of " + listOfAllEmote.size())
+                    .setDescription(listOfAllEmote.get(0))
+                    .build()).queue(
+                    message -> {
+                        message.addReaction("⬅").queue();
+                        message.addReaction("🛑").queue();
+                        message.addReaction("➡").queue();
+                        emojiPageWaiter(message, ctx);
+                    }
+            );
             return;
         }
 
-        try{
+        try {
             ctx.getChannel().sendMessage(EmbedUtils.getDefaultEmbed()
                     .setTitle("Emojis you can use : Page " + (Integer.parseInt(args.get(0))) + " out of " + listOfAllEmote.size())
                     .setDescription(listOfAllEmote.get((Integer.parseInt(args.get(0))) - 1))
@@ -79,17 +80,17 @@ public class EmojiCommand implements ICommand {
                         message.addReaction("➡").queue();
                         emojiPageWaiter(message, ctx);
                     }
-                );
-        }catch (NumberFormatException e){
+            );
+        } catch (NumberFormatException e) {
             e.fillInStackTrace();
             ctx.getChannel().sendMessage("Pls provide a page number").queue();
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.fillInStackTrace();
-            ctx.getChannel().sendMessage("Only "+listOfAllEmote.size()+" page exist").queue();
+            ctx.getChannel().sendMessage("Only " + listOfAllEmote.size() + " page exist").queue();
         }
     }
 
-    private void emojiPageWaiter(Message message, CommandContext ctx){
+    private void emojiPageWaiter(Message message, CommandContext ctx) {
         waiter.waitForEvent(
                 GuildMessageReactionAddEvent.class,
                 e -> e.getUser().equals(ctx.getAuthor())
@@ -97,12 +98,15 @@ public class EmojiCommand implements ICommand {
                         && !e.getMessageId().equals(ctx.getMessage().getId()),
                 e -> {
                     final String asReactionCode = e.getReactionEmote().getAsReactionCode();
+                    if (!e.getUser().equals(ctx.getAuthor())) {
+                        return;
+                    }
                     e.getReaction().removeReaction(e.getUser()).queue();
 
-                    if(!asReactionCode.equals("🛑")){
-                        if(asReactionCode.equals("➡")) {
+                    if (!asReactionCode.equals("🛑")) {
+                        if (asReactionCode.equals("➡")) {
                             pageNumber++;
-                            if(pageNumber > (listOfAllEmote.size())){
+                            if (pageNumber > (listOfAllEmote.size())) {
                                 pageNumber--;
                                 emojiPageWaiter(message, ctx);
                                 return;
@@ -112,9 +116,9 @@ public class EmojiCommand implements ICommand {
                                     .setDescription(listOfAllEmote.get(pageNumber - 1))
                                     .build()).queue();
                         }
-                        if(asReactionCode.equals("⬅")) {
+                        if (asReactionCode.equals("⬅")) {
                             pageNumber--;
-                            if(pageNumber < 1){
+                            if (pageNumber < 1) {
                                 pageNumber++;
                                 emojiPageWaiter(message, ctx);
                                 return;
@@ -151,6 +155,6 @@ public class EmojiCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("emotes","allEmoji");
+        return List.of("emotes", "allEmoji");
     }
 }

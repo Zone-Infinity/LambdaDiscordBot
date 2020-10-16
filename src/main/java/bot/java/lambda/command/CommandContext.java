@@ -19,13 +19,13 @@ public class CommandContext implements ICommandContext {
         this.event = event;
         this.args = args;
         Random random = new Random();
-        int r = random.nextInt(255),g = random.nextInt(255),b = random.nextInt(255);
+        int r = random.nextInt(255), g = random.nextInt(255), b = random.nextInt(255);
         EmbedUtils.setEmbedBuilder(
-                ()-> new EmbedBuilder()
+                () -> new EmbedBuilder()
                         .setThumbnail(event.getAuthor().getAvatarUrl())
-                        .setAuthor(Utils.getAuthorRequested(event),event.getAuthor().getAvatarUrl(),event.getAuthor().getAvatarUrl())
+                        .setAuthor(Utils.getAuthorRequested(event), event.getAuthor().getAvatarUrl(), event.getAuthor().getAvatarUrl())
                         .setColor(new Color(r, g, b))
-                        .setFooter("Lambda Equations in java are amazing","https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
+                        .setFooter("Lambda Equations in java are amazing", "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
                         .setTimestamp(Instant.now())
         );
     }
@@ -40,7 +40,7 @@ public class CommandContext implements ICommandContext {
         return this.event;
     }
 
-    public List<String> getArgs(){
+    public List<String> getArgs() {
         return this.args;
     }
 

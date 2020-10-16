@@ -30,7 +30,8 @@ import java.util.concurrent.TimeUnit;
 
 public class StopCommand implements ICommand {
     EventWaiter waiter;
-    public StopCommand(EventWaiter waiter){
+
+    public StopCommand(EventWaiter waiter) {
         this.waiter = waiter;
     }
 
@@ -41,12 +42,12 @@ public class StopCommand implements ICommand {
         GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
         final TextChannel channel = ctx.getChannel();
 
-        if(ctx.getMember().getVoiceState()==null){
+        if (ctx.getMember().getVoiceState() == null) {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
             return;
         }
 
-        if(playerManager.getMusicManager(ctx.getGuild()).audioPlayer.getPlayingTrack()==null){
+        if (playerManager.getMusicManager(ctx.getGuild()).audioPlayer.getPlayingTrack() == null) {
             channel.sendMessage("Nothing in the queue to clear").queue();
             return;
         }
@@ -54,7 +55,7 @@ public class StopCommand implements ICommand {
         final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
         final int size = voiceState.getChannel().getMembers().size();
 
-        if(voiceState.getChannel().getMembers().size()==2){
+        if (voiceState.getChannel().getMembers().size() == 2) {
             channel.sendMessage("Stopping the player and clearing the queue").queue();
             musicManager.scheduler.getQueue().clear();
             musicManager.audioPlayer.stopTrack();
@@ -63,11 +64,11 @@ public class StopCommand implements ICommand {
         }
 
         channel.sendMessage("React to the message to skip\n" +
-                "Need "+(size-2)+" reactions ( only ⏹️)").queue(
+                "Need " + (size - 2) + " reactions ( only ⏹️)").queue(
                 message -> {
                     message.addReaction("⏹️").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
-                            e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
+                            e -> e.getReaction().retrieveUsers().stream().count() > size - 2 &&
                                     e.getChannel().equals(channel) &&
                                     e.getMessageIdLong() == message.getIdLong(),
                             e -> {

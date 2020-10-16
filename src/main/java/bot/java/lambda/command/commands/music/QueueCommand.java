@@ -41,7 +41,7 @@ public class QueueCommand implements ICommand {
 
         EmbedBuilder builder = EmbedUtils.getDefaultEmbed();
 
-        if(queue.isEmpty()){
+        if (queue.isEmpty()) {
             builder.setThumbnail("https://images-ext-2.discordapp.net/external/frvcoRmUh1i7edHL92fPYF3qwlg8ZQ-Hh6v1tFeRF6s/%3Fv%3D1/https/cdn.discordapp.com/emojis/753940153780928522.png")
                     .setTitle("The queue is empty")
                     .setDescription("Use -play <song_url> for adding song in the queue");
@@ -52,10 +52,10 @@ public class QueueCommand implements ICommand {
         int trackCount = Math.min(queue.size(), 20);
         List<AudioTrack> tracks = new ArrayList<>(queue);
 
-        builder.setTitle("Current Queue (Total : "+queue.size()+")");
+        builder.setTitle("Current Queue (Total : " + queue.size() + ")");
 
 
-        for(AudioTrack track : tracks){
+        for (AudioTrack track : tracks) {
             AudioTrackInfo info = track.getInfo();
 
             builder.appendDescription(String.format(
@@ -85,6 +85,6 @@ public class QueueCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("q","songlist");
+        return List.of("q", "songlist");
     }
 }

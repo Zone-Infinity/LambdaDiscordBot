@@ -19,29 +19,29 @@ public class AvatarCommand implements ICommand {
 
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setThumbnail(null)
-                .setFooter("|","https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
+                .setFooter("|", "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
                 .setTimestamp(Instant.now());
 
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             channel.sendMessage(embed.setImage(ctx.getAuthor().getEffectiveAvatarUrl()).build()).queue();
             return;
         }
 
         final List<Member> mentionedMembers = ctx.getMessage().getMentionedMembers();
-        if(!mentionedMembers.isEmpty()) {
+        if (!mentionedMembers.isEmpty()) {
             final Member member = mentionedMembers.get(0);
             channel.sendMessage(embed.setImage(member.getUser().getEffectiveAvatarUrl()).build()).queue();
             return;
         }
 
-        if(!isDiscordID(args.get(0))){
+        if (!isDiscordID(args.get(0))) {
             channel.sendMessage("Arguments doesn't have a mention or a id").queue();
             return;
         }
 
         final Member memberById = ctx.getGuild().getMemberById(args.get(0));
 
-        if(memberById==null){
+        if (memberById == null) {
             channel.sendMessage("No user found having this id").queue();
             return;
         }
@@ -50,15 +50,15 @@ public class AvatarCommand implements ICommand {
 
     }
 
-    public static boolean isDiscordID(String s){
+    public static boolean isDiscordID(String s) {
         boolean hasDigits = false;
-        try{
+        try {
             Long.parseLong(s);
             hasDigits = true;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             e.fillInStackTrace();
         }
-        return hasDigits && s.length()==18;
+        return hasDigits && s.length() == 18;
     }
 
     @Override

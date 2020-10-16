@@ -109,7 +109,7 @@ public class PlayerManager {
                     channel.sendMessage("Failed to Load the track").queue();
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             channel.sendMessage("Failed to Load the track").queue();
         }
     }
@@ -138,7 +138,7 @@ public class PlayerManager {
             public void playlistLoaded(AudioPlaylist playlist) {
                 final List<AudioTrack> tracks = playlist.getTracks();
 
-                for(final AudioTrack track : tracks){
+                for (final AudioTrack track : tracks) {
                     musicManager.scheduler.queue(track);
                 }
 

@@ -35,7 +35,7 @@ public class DisconnectCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Member self = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = self.getVoiceState();
-        if(!selfVoiceState.inVoiceChannel()){
+        if (!selfVoiceState.inVoiceChannel()) {
             channel.sendMessage("I'm not in a voice channel").queue();
             return;
         }
@@ -43,8 +43,8 @@ public class DisconnectCommand implements ICommand {
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
-        if(selfVoiceState.getChannel().getMembers().size()-1>1) {
-            if(!member.hasPermission(Permission.MANAGE_SERVER)){
+        if (selfVoiceState.getChannel().getMembers().size() - 1 > 1) {
+            if (!member.hasPermission(Permission.MANAGE_SERVER)) {
                 channel.sendMessage("You don't have ADMIN Permission\n" +
                         "The bot will disconnect automatically if is inactive").queue();
                 return;
@@ -53,11 +53,10 @@ public class DisconnectCommand implements ICommand {
 
         final AudioManager audioManager = ctx.getGuild().getAudioManager();
 
-        if(!memberVoiceState.inVoiceChannel()){
-            if(selfVoiceState.getChannel().getMembers().size()-1==0){
+        if (!memberVoiceState.inVoiceChannel()) {
+            if (selfVoiceState.getChannel().getMembers().size() - 1 == 0) {
                 channel.sendMessage("👍🏻").queue();
-            }
-            else {
+            } else {
                 channel.sendMessage("You need to be in a voice channel for this command to work").queue();
                 return;
             }
@@ -86,7 +85,7 @@ public class DisconnectCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("dis","d");
+        return List.of("dis", "d");
     }
 }
 

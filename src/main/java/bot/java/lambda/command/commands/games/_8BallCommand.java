@@ -33,7 +33,7 @@ public class _8BallCommand implements ICommand {
                 "Very doubtful"
         );
         ctx.getChannel().sendMessageFormat("Question : %s\n" +
-                "Answer : %s",String.join(" ",ctx.getArgs()),responses.get(new Random().nextInt(responses.size()))).queue();
+                "Answer : %s", String.join(" ", ctx.getArgs()), responses.get(new Random().nextInt(responses.size()))).queue();
     }
 
     @Override

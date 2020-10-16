@@ -31,7 +31,7 @@ public class WolfCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/wolf").async(
                 (json) -> {
-                    if(!json.get("success").asBoolean()){
+                    if (!json.get("success").asBoolean()) {
                         channel.sendMessage("Something went wrong, try again later").queue();
                         System.out.println(json);
                         return;
@@ -41,7 +41,7 @@ public class WolfCommand implements ICommand {
 
                     final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                             .setImage(file)
-                            .setFooter("Password Makers","https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
+                            .setFooter("Password Makers", "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
 
                     channel.sendMessage(embed.build()).queue();
                 }

@@ -35,7 +35,7 @@ public class JoinCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Member self = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = self.getVoiceState();
-        if(selfVoiceState.inVoiceChannel()){
+        if (selfVoiceState.inVoiceChannel()) {
             channel.sendMessage("I'm already in a voice channel").queue();
             return;
         }
@@ -43,7 +43,7 @@ public class JoinCommand implements ICommand {
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
-        if(!memberVoiceState.inVoiceChannel()){
+        if (!memberVoiceState.inVoiceChannel()) {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
             return;
         }
@@ -74,7 +74,7 @@ public class JoinCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("j","come");
+        return List.of("j", "come");
     }
 }
 

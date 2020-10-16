@@ -31,7 +31,7 @@ public class CamelCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/camel").async(
                 (json) -> {
-                    if(!json.get("success").asBoolean()){
+                    if (!json.get("success").asBoolean()) {
                         channel.sendMessage("Something went wrong, try again later").queue();
                         System.out.println(json);
                         return;

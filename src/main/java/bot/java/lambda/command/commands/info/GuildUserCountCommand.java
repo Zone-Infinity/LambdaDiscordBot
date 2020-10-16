@@ -12,15 +12,15 @@ public class GuildUserCountCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        if(!ctx.getArgs().isEmpty() && ctx.getArgs().get(0).equalsIgnoreCase("total")){
+        if (!ctx.getArgs().isEmpty() && ctx.getArgs().get(0).equalsIgnoreCase("total")) {
             int total = 0;
-            for(Guild guild : ctx.getJDA().getGuilds()){
+            for (Guild guild : ctx.getJDA().getGuilds()) {
                 total += guild.getMemberCount();
             }
-            channel.sendMessage("Total Members I can see : "+total).queue();
+            channel.sendMessage("Total Members I can see : " + total).queue();
             return;
         }
-        channel.sendMessage("Members in this server : " +ctx.getGuild().getMemberCount()).queue();
+        channel.sendMessage("Members in this server : " + ctx.getGuild().getMemberCount()).queue();
     }
 
     @Override
@@ -43,6 +43,6 @@ public class GuildUserCountCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("gucount","guc","gusercount");
+        return List.of("gucount", "guc", "gusercount");
     }
 }

@@ -14,16 +14,16 @@ public class EchoCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
         final TextChannel channel = ctx.getChannel();
-                                                                                                                                                                List<String> messages = List.of("fuck", "bitch", "porn", "ass", "boob");
+        List<String> messages = List.of("fuck", "bitch", "porn", "ass", "boob");
         List<String> replies = List.of("Nah", "We know", "I know", "No U", "ok");
 
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
 
-        for(String a : args){
-            if(messages.contains(a.toLowerCase())){
+        for (String a : args) {
+            if (messages.contains(a.toLowerCase())) {
                 channel.sendMessage(replies.get(new Random().nextInt(replies.size()))).queue();
                 return;
             }
@@ -31,13 +31,13 @@ public class EchoCommand implements ICommand {
 
         final String join = String.join(" ", args);
 
-        if(join.toLowerCase().contains("stupid") && join.toLowerCase().contains("i")){
+        if (join.toLowerCase().contains("stupid") && join.toLowerCase().contains("i")) {
             channel.sendMessage("Yeah we know").queue();
             return;
         }
 
         channel.sendTyping().queue();
-        channel.sendMessage(join).queueAfter(join.length()*50, TimeUnit.MILLISECONDS);
+        channel.sendMessage(join).queueAfter(join.length() * 50, TimeUnit.MILLISECONDS);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class RollCommand implements ICommand {
         Random random = new Random();
         ctx.getChannel().sendMessage("Rolling...").queue(
                 message -> message.editMessage(
-                        ""+(random.nextInt(6)+1)
+                        "" + (random.nextInt(6) + 1)
                 ).queueAfter(500, TimeUnit.MILLISECONDS)
         );
     }

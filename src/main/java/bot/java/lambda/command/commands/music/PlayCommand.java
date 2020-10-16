@@ -20,7 +20,7 @@ public class PlayCommand implements ICommand {
     public void handle(CommandContext ctx) throws FriendlyException {
         final TextChannel channel = ctx.getChannel();
 
-        if(ctx.getArgs().isEmpty()){
+        if (ctx.getArgs().isEmpty()) {
             channel.sendMessage("Correct usage is : <prefix> play <youtube link>").queue();
             return;
         }
@@ -46,10 +46,10 @@ public class PlayCommand implements ICommand {
             return;
         }
 
-        String link = String.join(" ",ctx.getArgs());
+        String link = String.join(" ", ctx.getArgs());
 
-        if(!isUrl(link)){
-            if(ctx.getArgs().size()==1){
+        if (!isUrl(link)) {
+            if (ctx.getArgs().size() == 1) {
                 link = link + " .";
             }
             link = "ytsearch:" + link;
@@ -59,10 +59,10 @@ public class PlayCommand implements ICommand {
     }
 
     private boolean isUrl(String url) {
-        try{
+        try {
             new URI(url);
             return true;
-        }catch (URISyntaxException e){
+        } catch (URISyntaxException e) {
             return false;
         }
     }
@@ -76,7 +76,7 @@ public class PlayCommand implements ICommand {
     public String getHelp() {
         return "Plays a song\n" +
                 "Usage: <prefix> play <youtube link>\n" +
-                "Aliases : "+this.getAliases();
+                "Aliases : " + this.getAliases();
     }
 
     @Override
@@ -86,6 +86,6 @@ public class PlayCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("p","playsong");
+        return List.of("p", "playsong");
     }
 }

@@ -3,10 +3,7 @@ package bot.java.lambda.command;
 import bot.java.lambda.command.commands.Owner.EvalCommand;
 import bot.java.lambda.command.commands.Owner.LeaveCommand;
 import bot.java.lambda.command.commands.Owner.TestCommand;
-import bot.java.lambda.command.commands.games.CountCommand;
-import bot.java.lambda.command.commands.games.RPSCommand;
-import bot.java.lambda.command.commands.games.RollCommand;
-import bot.java.lambda.command.commands.games._8BallCommand;
+import bot.java.lambda.command.commands.games.*;
 import bot.java.lambda.command.commands.images.*;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -58,13 +55,14 @@ public class CommandManager {
         addCommand(new UrbanCommand());
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
-        addCommand(new AdviceCommand());
+        addCommand(new SimplifyCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
         addCommand(new RollCommand());
         addCommand(new RPSCommand());
         addCommand(new CountCommand(waiter));
+        addCommand(new TriviaCommand(waiter));
 
         // Fun Commands
         addCommand(new MemeCommand());
@@ -72,6 +70,9 @@ public class CommandManager {
         addCommand(new GifCommand());
         addCommand(new EmojifyCommand());
         addCommand(new EchoCommand());
+        addCommand(new BoredCommand());
+        addCommand(new ProgrammingJokeCommand());
+        addCommand(new AdviceCommand());
 
         // Image Commands
         addCommand(new CoffeeCommand());

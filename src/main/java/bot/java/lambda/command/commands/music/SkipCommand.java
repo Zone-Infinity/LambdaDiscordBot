@@ -20,9 +20,10 @@ import java.util.concurrent.TimeUnit;
 public class SkipCommand implements ICommand {
     EventWaiter waiter;
 
-    public SkipCommand(EventWaiter waiter){
+    public SkipCommand(EventWaiter waiter) {
         this.waiter = waiter;
     }
+
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -31,12 +32,12 @@ public class SkipCommand implements ICommand {
         TrackScheduler scheduler = musicManager.scheduler;
         AudioPlayer player = musicManager.audioPlayer;
 
-        if(!ctx.getMember().getVoiceState().inVoiceChannel()){
+        if (!ctx.getMember().getVoiceState().inVoiceChannel()) {
             channel.sendMessage("You are not in the voice channel").queue();
             return;
         }
 
-        if(player.getPlayingTrack()==null){
+        if (player.getPlayingTrack() == null) {
             channel.sendMessage("The player isn't playing anything").queue();
             return;
         }
@@ -45,21 +46,21 @@ public class SkipCommand implements ICommand {
         final List<Member> members = voiceState.getChannel().getMembers();
         final int size = members.size();
 
-        if(size < 3){
+        if (size < 3) {
             channel.sendMessage("<:NextTract:755716597842182164> Track Skipped").queue();
             try {
                 scheduler.nextTrack();
-            }catch (IllegalStateException e){
+            } catch (IllegalStateException e) {
                 e.fillInStackTrace();
             }
             return;
         }
         channel.sendMessage("React to the message to skip\n" +
-                "Need "+(size-2)+" reactions ( only <:NextTract:755716597842182164> )").queue(
+                "Need " + (size - 2) + " reactions ( only <:NextTract:755716597842182164> )").queue(
                 message -> {
                     message.addReaction(":NextTract:755716597842182164").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
-                            e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
+                            e -> e.getReaction().retrieveUsers().stream().count() > size - 2 &&
                                     e.getChannel().equals(channel) &&
                                     e.getMessageIdLong() == message.getIdLong(),
                             e -> {
@@ -94,6 +95,6 @@ public class SkipCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("s","skipsong");
+        return List.of("s", "skipsong");
     }
 }

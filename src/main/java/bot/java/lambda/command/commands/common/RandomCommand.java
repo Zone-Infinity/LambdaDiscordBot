@@ -12,7 +12,7 @@ public class RandomCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
 
-        if(args.size() < 2){
+        if (args.size() < 2) {
             ctx.getChannel().sendMessage("Missing Arguments").queue();
             return;
         }
@@ -22,9 +22,9 @@ public class RandomCommand implements ICommand {
         int a = Integer.parseInt(args.get(0));
         final int b = Integer.parseInt(args.get(1));
 
-        final int num = a<b?random.ints(a, b).findFirst().getAsInt():random.ints(b, a).findFirst().getAsInt();
+        final int num = a < b ? random.ints(a, b).findFirst().getAsInt() : random.ints(b, a).findFirst().getAsInt();
 
-        ctx.getChannel().sendMessage(""+num).queue();
+        ctx.getChannel().sendMessage("" + num).queue();
     }
 
     @Override

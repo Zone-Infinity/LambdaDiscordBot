@@ -30,7 +30,7 @@ public class GenPassCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final List<String> args = ctx.getArgs();
 
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments \n" +
                     "do `<prefix> help genPass`").queue();
             return;
@@ -58,16 +58,15 @@ public class GenPassCommand implements ICommand {
                     ctx.getMessage().addReaction("✅").queue();
                     ctx.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here's your Pass - \n```" + password.toString() + "```").queue());
                     channel.sendMessage("Sent you a DM").queue();
-                }
-                else {
+                } else {
                     ctx.getMessage().addReaction("✅").queue();
                     channel.sendMessage("Here's your Pass - \n``` " + password.toString() + " ```").queue();
                 }
-            }catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 ctx.getMessage().addReaction("✅").queue();
                 channel.sendMessage("Here's your Pass - \n``` " + password.toString() + " ```").queue();
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             e.fillInStackTrace();
             ctx.getMessage().addReaction("❌").queue();
             channel.sendMessage("Enter a number to specify the length !! ").queue();
@@ -94,7 +93,7 @@ public class GenPassCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("generatePass","password","genPass");
+        return List.of("generatePass", "password", "genPass");
     }
 
 }

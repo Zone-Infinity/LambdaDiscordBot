@@ -26,7 +26,7 @@ public class GuildCountCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final int guilds = ctx.getJDA().getGuilds().size();
-        ctx.getChannel().sendMessage("Currently the bot is in : "+guilds+" guilds").queue();
+        ctx.getChannel().sendMessage("Currently the bot is in : " + guilds + " guilds").queue();
     }
 
     @Override
@@ -47,6 +47,6 @@ public class GuildCountCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("gcount","gc");
+        return List.of("gcount", "gc");
     }
 }

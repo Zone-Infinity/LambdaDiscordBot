@@ -10,7 +10,7 @@ public class LMGTFYCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         String link = String.join("+", ctx.getArgs());
-        ctx.getChannel().sendMessage("http://lmgtfy.com/?q="+link).queue();
+        ctx.getChannel().sendMessage("http://lmgtfy.com/?q=" + link).queue();
     }
 
     @Override
@@ -31,6 +31,6 @@ public class LMGTFYCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("google","lmgtfu");
+        return List.of("google", "lmgtfu");
     }
 }

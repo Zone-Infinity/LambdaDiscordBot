@@ -59,7 +59,7 @@ public class CountCommand implements ICommand {
                         }
                     }
 
-                    if(sb.toString().isEmpty()){
+                    if (sb.toString().isEmpty()) {
                         waitForEvent(channel, guild);
                         return;
                     }
@@ -72,7 +72,7 @@ public class CountCommand implements ICommand {
                         waitForEvent(channel, guild);
                     } else {
                         message.addReaction(":TickNo:755716160472875079").queue();
-                        channel.sendMessage(e.getAuthor().getAsMention() + " ruined the counting on number " + (num.get(guild)-1)).queue();
+                        channel.sendMessage(e.getAuthor().getAsMention() + " ruined the counting on number " + (num.get(guild) - 1)).queue();
                         countGoingOn.replace(guild, false);
                         num.replace(guild, 1);
                     }

@@ -1,33 +1,29 @@
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.fun;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import com.fasterxml.jackson.databind.JsonNode;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class AdviceCommand implements ICommand {
+public class BoredCommand implements ICommand {
+
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        WebUtils.ins.getJSONObject("https://api.adviceslip.com/advice").async(
-                (json) -> {
-                    final JsonNode slip = json.get("slip");
-                    final String advice = slip.get("advice").asText();
-                    channel.sendMessageFormat(advice).queue();
-                }
+        WebUtils.ins.getJSONObject("http://www.boredapi.com/api/activity/").async(
+                (json) -> channel.sendMessage(json.get("activity").asText()).queue()
         );
     }
 
     @Override
     public String getName() {
-        return "advice";
+        return "bored";
     }
 
     @Override
     public String getHelp() {
-        return "Gives a advice to you";
+        return "Sends random things to do when you are bored";
     }
 
     @Override

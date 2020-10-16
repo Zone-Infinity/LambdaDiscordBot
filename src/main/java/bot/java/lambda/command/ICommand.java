@@ -11,7 +11,7 @@ public interface ICommand {
 
     HelpCategory getHelpCategory();
 
-    default List<String> getAliases(){
+    default List<String> getAliases() {
         return List.of();
     }
 }
