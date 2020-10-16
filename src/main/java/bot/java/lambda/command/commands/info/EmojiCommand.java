@@ -26,6 +26,7 @@ public class EmojiCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         listOfAllEmote.clear();
+        pageNumber = 1;
         final List<String> args = ctx.getArgs();
         List<Guild> guilds = new ArrayList<>();
         for (Guild guild : ctx.getJDA().getGuilds()) {
