@@ -55,7 +55,6 @@ public class CommandManager {
         addCommand(new UrbanCommand());
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
-        addCommand(new SimplifyCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
@@ -125,9 +124,7 @@ public class CommandManager {
                 return cmd;
             }
         }
-
         return null;
-
     }
 
     public void handle(GuildMessageReceivedEvent event, String prefix){

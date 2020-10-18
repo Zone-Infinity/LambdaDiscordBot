@@ -3,6 +3,8 @@ package bot.java.lambda;
 import bot.java.lambda.command.CommandManager;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.BotCommons;
+import me.duncte123.botcommons.messaging.EmbedUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -14,6 +16,7 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -46,14 +49,6 @@ public class Listener extends ListenerAdapter {
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-        globalAuditsChannel = event.getJDA().getTextChannelById(758724135790051368L);
-        assert globalAuditsChannel != null;
-        final Guild lambdaGuild = event.getJDA().getGuildById(755433534495391805L);
-        if (!(lambdaGuild == null)) {
-            final VoiceChannel create_vc = lambdaGuild.getVoiceChannelsByName("Create VC", true).get(0);
-            create_vc.getManager().putPermissionOverride(Objects.requireNonNull(lambdaGuild.getRolesByName("@everyone", true).get(0)), Collections.singletonList(Permission.VOICE_CONNECT), Collections.emptyList()).queue();
-        }
-
         Runnable task = () -> {
             event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinityλ7763 for help"));
             try {
@@ -65,6 +60,14 @@ public class Listener extends ListenerAdapter {
         };
 
         executor.scheduleWithFixedDelay(task, 0, 5, TimeUnit.SECONDS);
+
+        final Guild lambdaGuild = event.getJDA().getGuildById(755433534495391805L);
+        if (!(lambdaGuild == null)) {
+            final VoiceChannel create_vc = lambdaGuild.getVoiceChannelsByName("Create VC", true).get(0);
+            create_vc.getManager().putPermissionOverride(Objects.requireNonNull(lambdaGuild.getRolesByName("@everyone", true).get(0)), Collections.singletonList(Permission.VOICE_CONNECT), Collections.emptyList()).queue();
+        }
+
+        globalAuditsChannel = event.getJDA().getTextChannelById(758724135790051368L);
 
     }
 
