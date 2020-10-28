@@ -3,14 +3,13 @@ package bot.java.lambda.command.commands.music;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.command.Utils;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 public class PlayCommand implements ICommand {
@@ -48,7 +47,7 @@ public class PlayCommand implements ICommand {
 
         String link = String.join(" ", ctx.getArgs());
 
-        if (!isUrl(link)) {
+        if (Utils.isNotUrl(link)) {
             if (ctx.getArgs().size() == 1) {
                 link = link + " .";
             }
@@ -56,15 +55,6 @@ public class PlayCommand implements ICommand {
         }
 
         PlayerManager.getInstance().loadAndPlay(channel, link);
-    }
-
-    private boolean isUrl(String url) {
-        try {
-            new URI(url);
-            return true;
-        } catch (URISyntaxException e) {
-            return false;
-        }
     }
 
     @Override

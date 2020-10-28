@@ -1,17 +1,17 @@
 package bot.java.lambda.command;
 
-import bot.java.lambda.command.commands.Owner.EvalCommand;
+import bot.java.lambda.command.commands.DMs.MessagesCommand;
+import bot.java.lambda.command.commands.DMs.ReplyCommand;
 import bot.java.lambda.command.commands.Owner.LeaveCommand;
 import bot.java.lambda.command.commands.Owner.TestCommand;
-import bot.java.lambda.command.commands.games.*;
-import bot.java.lambda.command.commands.images.*;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;
+import bot.java.lambda.command.commands.games.*;
+import bot.java.lambda.command.commands.images.*;
 import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -22,12 +22,14 @@ import java.util.regex.Pattern;
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
 
-    public CommandManager(EventWaiter waiter){
+    public CommandManager(EventWaiter waiter) {
 
         // Owner Commands
-        addCommand(new EvalCommand());
-        addCommand(new LeaveCommand());
+        //addCommand(new EvalCommand())
         addCommand(new TestCommand(waiter));
+        addCommand(new LeaveCommand());
+        addCommand(new ReplyCommand());
+        addCommand(new MessagesCommand());
 
         // Secret Commands
 
@@ -41,6 +43,7 @@ public class CommandManager {
         addCommand(new ServerEmojisCommand());
         addCommand(new ServerRolesCommand());
         addCommand(new AvatarCommand());
+        addCommand(new IDCommand());
 
         // Common Commands
         addCommand(new PingCommand());
@@ -55,6 +58,8 @@ public class CommandManager {
         addCommand(new UrbanCommand());
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
+        //addCommand(new EmbedCommand());
+        addCommand(new ColorCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
@@ -72,6 +77,8 @@ public class CommandManager {
         addCommand(new BoredCommand());
         addCommand(new ProgrammingJokeCommand());
         addCommand(new AdviceCommand());
+        addCommand(new FlipCommand());
+        addCommand(new PixelCommand());
 
         // Image Commands
         addCommand(new CoffeeCommand());
@@ -87,6 +94,14 @@ public class CommandManager {
         addCommand(new BirdCommand());
         addCommand(new WolfCommand());
         addCommand(new PandaCommand());
+        addCommand(new InvertCommand());
+        addCommand(new BlackAndWhiteCommand());
+        addCommand(new BlurCommand());
+        addCommand(new PixelateCommand());
+        addCommand(new DarkenCommand());
+        addCommand(new DrakeCommand());
+        addCommand(new Drake2Command());
+        addCommand(new DiscordMonsterCommand());
 
         // Music Commands
         addCommand(new JoinCommand());
@@ -101,33 +116,33 @@ public class CommandManager {
         addCommand(new ShuffleCommand());
     }
 
-    private void addCommand(ICommand cmd){
+    private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
 
-        if(nameFound){
+        if (nameFound) {
             throw new IllegalArgumentException("A command with this name is already present");
         }
 
         commands.add(cmd);
     }
 
-    public List<ICommand> getCommands(){
+    public List<ICommand> getCommands() {
         return commands;
     }
 
     @Nullable
-    public ICommand getCommand(String search){
+    public ICommand getCommand(String search) {
         String searchLower = search.toLowerCase();
 
         for (ICommand cmd : this.commands) {
-            if(cmd.getName().equals(searchLower)||cmd.getAliases().contains(searchLower)){
+            if (cmd.getName().equals(searchLower) || cmd.getAliases().contains(searchLower)) {
                 return cmd;
             }
         }
         return null;
     }
 
-    public void handle(GuildMessageReceivedEvent event, String prefix){
+    public void handle(GuildMessageReceivedEvent event, String prefix) {
         String[] split = event.getMessage().getContentRaw()
                 .replaceFirst("(?i)" + Pattern.quote(prefix), "")
                 .split("\\s+");
@@ -135,7 +150,7 @@ public class CommandManager {
         String invoke = split[0].toLowerCase();
         ICommand cmd = this.getCommand(invoke);
 
-        if(cmd != null){
+        if (cmd != null) {
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);

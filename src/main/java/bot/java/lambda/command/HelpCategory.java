@@ -13,8 +13,7 @@ public enum HelpCategory {
     GAME("Game", "Commands to play Small fun games"),
     VAR_FOR_USE("", ""),
     UNKNOWN("UNKNOWN", "UNKNOWN"),
-    OWNER("Owner", "Only Owners can use these commands and normal members can't see these commands"),
-    SECRET("Secret", "Secret Commands You have to find out , for hints {>hint <number>}");
+    OWNER("Owner", "Only Owners can use these commands and normal members can't see these commands");
 
     private final String category;
     private final String description;

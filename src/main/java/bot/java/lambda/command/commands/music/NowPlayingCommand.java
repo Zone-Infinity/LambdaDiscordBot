@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.music;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.command.Utils;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -27,9 +28,28 @@ public class NowPlayingCommand implements ICommand {
 
         AudioTrackInfo info = player.getPlayingTrack().getInfo();
 
+        final long position = player.getPlayingTrack().getPosition();
+        final long length = info.length;
+        int Position = (int) (position/(length/8.0));
+
+
+        StringBuilder bar = new StringBuilder();
+
+        bar.append("▶️ ");
+        for(int i=0;i<8;i++){
+            if(i==Position){
+                bar.append("\uD83D\uDD18");
+                continue;
+            }
+            bar.append("▬");
+        }
+        bar.append(" `[").append(Utils.getTimestamp(position))
+                .append("/").append(Utils.getTimestamp(length)).append("]` ");
+        bar.append("\uD83D\uDD0A");
 
         channel.sendMessage(EmbedUtils.embedMessage(String.format(
-                "**Playing** [%s] (%s)", info.title, info.uri
+                "**Playing**  [%s](%s) by %s\n" +
+                        "%s", info.title, info.uri, info.author, bar.toString()
         )).build()).queue();
 
     }

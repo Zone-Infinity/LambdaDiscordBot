@@ -1,9 +1,10 @@
-package bot.java.lambda;
+package bot.java.lambda.listeners;
 
+import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandManager;
+import bot.java.lambda.listeners.audits.AuditUtils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.BotCommons;
-import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
@@ -16,15 +17,12 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,8 +32,8 @@ public class Listener extends ListenerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(Listener.class);
     private TextChannel globalAuditsChannel;
     private final CommandManager manager;
-
     private final EventWaiter waiter;
+    private final List<User> saidHello = new ArrayList<>();
 
     public Listener(EventWaiter waiter) {
         this.waiter = waiter;
@@ -115,6 +113,26 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         User user = event.getAuthor();
+        final Guild eventGuild = event.getGuild();
+
+        final Member self = eventGuild.getSelfMember();
+        final GuildVoiceState voiceState = self.getVoiceState();
+
+        if (voiceState != null) {
+            if (voiceState.inVoiceChannel()) {
+                if (voiceState.getChannel() != null) {
+                    if (voiceState.getChannel().getMembers().size() - 1 == 0) {
+                        waiter.waitForEvent(
+                                GuildVoiceJoinEvent.class,
+                                e -> e.getChannelJoined().equals(voiceState.getChannel()),
+                                e -> {
+                                },
+                                30, TimeUnit.SECONDS, () -> eventGuild.getAudioManager().closeAudioConnection()
+                        );
+                    }
+                }
+            }
+        }
 
         if (user.isBot() || event.isWebhookMessage()) {
             return;
@@ -142,17 +160,19 @@ public class Listener extends ListenerAdapter {
         }
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
-            event.getChannel().sendMessage("Hello. What is your name?").queue();
-            List<String> blacklist = List.of(
-                    "752664145580654632"
-            );
 
-            if (blacklist.contains(event.getGuild().getId())) {
+            if(!eventGuild.getId().equals("755433534495391805"))
                 return;
-            }
+
+            if(saidHello.contains(user))
+                return;
+
+            saidHello.add(user);
+
+            event.getChannel().sendMessage("Hello. What is your name?").queue();
 
             waiter.waitForEvent(MessageReceivedEvent.class,
-                    e -> e.getAuthor().equals(event.getAuthor())
+                    e -> e.getAuthor().equals(user)
                             && e.getChannel().equals(event.getChannel())
                             && !e.getMessage().equals(event.getMessage()),
                     e -> {
@@ -168,7 +188,7 @@ public class Listener extends ListenerAdapter {
         }
 
         if (raw.equals("<@!752052866809593906>")) {
-            event.getChannel().sendMessageFormat("Hi %s , my prefix is %s", event.getAuthor(), Config.get("prefix")).queue();
+            event.getChannel().sendMessageFormat("Hi %s , my prefix is %s", user.getAsMention(), Config.get("prefix")).queue();
         }
 
         if (raw.equalsIgnoreCase(prefix + "close")) {
@@ -177,9 +197,9 @@ public class Listener extends ListenerAdapter {
                 event.getMessage().addReaction("✅").queue();
                 LOGGER.info("Shutting Down");
 
-                if (event.getGuild().getId().equals("755433534495391805")) {
-                    final VoiceChannel create_vc = event.getGuild().getVoiceChannelsByName("Create VC", true).get(0);
-                    create_vc.getManager().putPermissionOverride(Objects.requireNonNull(event.getGuild().getRoleById(755433534495391805L)), Collections.emptyList(), Collections.singletonList(Permission.VOICE_CONNECT)).queue();
+                if (eventGuild.getId().equals("755433534495391805")) {
+                    final VoiceChannel create_vc = eventGuild.getVoiceChannelsByName("Create VC", true).get(0);
+                    create_vc.getManager().putPermissionOverride(Objects.requireNonNull(eventGuild.getRoleById(755433534495391805L)), Collections.emptyList(), Collections.singletonList(Permission.VOICE_CONNECT)).queue();
                 }
 
                 try {
@@ -200,7 +220,12 @@ public class Listener extends ListenerAdapter {
             try {
                 manager.handle(event, prefix);
             } catch (Exception e) {
-                e.printStackTrace();
+                final EmbedBuilder embedBuilder = new EmbedBuilder()
+                        .addField("Exception", e.getClass().getName(), false)
+                        .addField("Message", e.getMessage(), false)
+                        .addField("Stack Trace", e.getStackTrace().length > 1000 ? "Big enough" : Arrays.toString(e.getStackTrace()), false);
+                Objects.requireNonNull(event.getJDA().getTextChannelById(AuditUtils.errorChannelId)).sendMessage(embedBuilder.build()).queue();
+                e.fillInStackTrace();
             }
         }
     }

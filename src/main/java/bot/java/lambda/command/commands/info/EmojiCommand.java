@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEve
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EmojiCommand implements ICommand {
     EventWaiter waiter;
@@ -134,7 +135,7 @@ public class EmojiCommand implements ICommand {
                     }
                     message.delete().queue();
                     ctx.getMessage().addReaction(":TickYes:755716208191602738").queue();
-                }
+                },30, TimeUnit.SECONDS,() -> message.clearReactions().queue()
         );
     }
 

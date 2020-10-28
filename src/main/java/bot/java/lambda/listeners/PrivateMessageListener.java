@@ -1,4 +1,4 @@
-package bot.java.lambda;
+package bot.java.lambda.listeners;
 
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -21,7 +21,8 @@ public class PrivateMessageListener extends ListenerAdapter {
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setTitle(name)
                 .setThumbnail(avatarUrl)
-                .setDescription(message);
+                .setDescription(message)
+                .setFooter(event.getAuthor().getId());
 
         final TextChannel channel = event.getJDA().getTextChannelById("766902384584032287");
 

@@ -13,6 +13,7 @@ public class GifCommand implements ICommand {
 
         if (ctx.getArgs().isEmpty()) {
             ctx.getChannel().sendMessage("Missing Arguments").queue();
+            return;
         }
         try {
             if (ctx.getArgs().get(0).equalsIgnoreCase("trend")) {

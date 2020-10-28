@@ -1,5 +1,9 @@
 package bot.java.lambda;
 
+import bot.java.lambda.listeners.Listener;
+import bot.java.lambda.listeners.PrivateMessageListener;
+import bot.java.lambda.listeners.audits.JDAEventListener;
+import bot.java.lambda.listeners.audits.UserEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDABuilder;
@@ -14,13 +18,14 @@ public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
     private void ready() throws LoginException {
-        WebUtils.setUserAgent("S-Zone_Infinity#7763");
+        WebUtils.setUserAgent("Zone Infinity#7763");
 
         Object[] listeners = {
                 waiter,
                 new Listener(waiter),
                 new PrivateMessageListener(),
-                new AuditListener()
+                new JDAEventListener(),
+                new UserEventListener()
         };
 
         JDABuilder jdaBuilder = JDABuilder.createDefault(

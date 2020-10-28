@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,4 +112,14 @@ public class Utils {
         else
             return String.format("%02d:%02d", minutes, seconds);
     }
+
+    public static boolean isNotUrl(String url) {
+        try {
+            new URI(url);
+            return false;
+        } catch (URISyntaxException e) {
+            return true;
+        }
+    }
+
 }

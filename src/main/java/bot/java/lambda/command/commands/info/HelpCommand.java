@@ -26,7 +26,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class HelpCommand implements ICommand {
 
@@ -64,12 +67,19 @@ public class HelpCommand implements ICommand {
                 else if (command.getHelpCategory().equals(HelpCategory.IMAGES)) ImagesCmd.add(command.getName());
             }
 
+            Collections.sort(FunCmd);
+            Collections.sort(ComCmd);
+            Collections.sort(InfoCmd);
+            Collections.sort(MusicCmd);
+            Collections.sort(GameCmd);
+            Collections.sort(ImagesCmd);
+
             int count = 0;
             for (String cmd : FunCmd) {
-                if (count % 10 == 0 && count != 0) {
-                    MusicBuild.append("\n");
+                if (count % 4 == 0 && count != 0) {
+                    FunBuild.append("\n");
                 }
-                FunBuild.append(" `").append(cmd).append("` | ");
+                FunBuild.append("`").append(cmd).append("`|");
                 count++;
             }
             count = 0;
@@ -77,7 +87,7 @@ public class HelpCommand implements ICommand {
                 if (count % 4 == 0 && count != 0) {
                     ComBuild.append("\n");
                 }
-                ComBuild.append(" `").append(cmd).append("` | ");
+                ComBuild.append("`").append(cmd).append("`|");
                 count++;
             }
             count = 0;
@@ -85,7 +95,7 @@ public class HelpCommand implements ICommand {
                 if (count % 4 == 0 && count != 0) {
                     InfoBuild.append("\n");
                 }
-                InfoBuild.append(" `").append(cmd).append("` | ");
+                InfoBuild.append("`").append(cmd).append("`|");
                 count++;
             }
             count = 0;
@@ -93,7 +103,7 @@ public class HelpCommand implements ICommand {
                 if (count % 4 == 0 && count != 0) {
                     MusicBuild.append("\n");
                 }
-                MusicBuild.append(" `").append(cmd).append("` | ");
+                MusicBuild.append("`").append(cmd).append("`|");
                 count++;
             }
             count = 0;
@@ -101,7 +111,7 @@ public class HelpCommand implements ICommand {
                 if (count % 4 == 0 && count != 0) {
                     GameBuild.append("\n");
                 }
-                GameBuild.append(" `").append(cmd).append("` | ");
+                GameBuild.append("`").append(cmd).append("`|");
                 count++;
             }
             count = 0;
@@ -109,15 +119,15 @@ public class HelpCommand implements ICommand {
                 if (count % 4 == 0 && count != 0) {
                     ImagesBuild.append("\n");
                 }
-                ImagesBuild.append(" `").append(cmd).append("` | ");
+                ImagesBuild.append("`").append(cmd).append("`|");
                 count++;
             }
-            FunBuild.deleteCharAt(FunBuild.length() - 3);
-            GameBuild.deleteCharAt(GameBuild.length() - 3);
-            InfoBuild.deleteCharAt(InfoBuild.length() - 3);
-            MusicBuild.deleteCharAt(MusicBuild.length() - 3);
-            ComBuild.deleteCharAt(ComBuild.length() - 3);
-            ImagesBuild.deleteCharAt(ComBuild.length() - 3);
+            FunBuild.deleteCharAt(FunBuild.length() - 1);
+            GameBuild.deleteCharAt(GameBuild.length() - 1);
+            InfoBuild.deleteCharAt(InfoBuild.length() - 1);
+            MusicBuild.deleteCharAt(MusicBuild.length() - 1);
+            ComBuild.deleteCharAt(ComBuild.length() - 1);
+            ImagesBuild.deleteCharAt(ImagesBuild.length() - 1);
 
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
@@ -140,7 +150,7 @@ public class HelpCommand implements ICommand {
                     .addField("\uD83C\uDF89 Fun", FunBuild.toString(), true)
                     .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(), true)
                     .addBlankField(true)
-                    .setFooter("Total Commands : " + manager.getCommands().size(), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
+                    .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory()== HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
             channel.sendMessage(embed.build()).queue();
             return;
         }
@@ -156,12 +166,19 @@ public class HelpCommand implements ICommand {
                 channel.sendMessage("Nothing found for " + search).queue();
                 return;
             }
+
             channel.sendMessageFormat("Command Category```%s\n" +
                     "%s ```", categoryName, category.getDescription()).queue();
             return;
         }
 
+        if(command.getName().equals("embed")) {
+            channel.sendMessage("Command```css\n"+command.getHelp()+"```").queue();
+            return;
+        }
+
         channel.sendMessage("Command```prolog\n" + command.getHelp().toUpperCase() + "```").queue();
+
     }
 
     @Override

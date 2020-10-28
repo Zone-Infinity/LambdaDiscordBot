@@ -52,7 +52,7 @@ public class JoinCommand implements ICommand {
         final VoiceChannel memberChannel = memberVoiceState.getChannel();
 
         audioManager.openAudioConnection(memberChannel);
-        channel.sendMessageFormat("Connecting to <:Music:755026465065795634>`%s`", memberChannel.getName()).queue();
+        channel.sendMessageFormat("Connecting to <:Music:755716546827124787>`%s`", memberChannel.getName()).queue();
 
     }
 

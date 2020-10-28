@@ -22,14 +22,19 @@ public class EchoCommand implements ICommand {
             return;
         }
 
+        final String join = String.join(" ", args);
+
+        if (join.contains("@everyone") || join.contains("@here") || join.contains("<@&")) {
+            channel.sendMessage("Please don't tell me to ping some roles or everyone").queue();
+            return;
+        }
+
         for (String a : args) {
             if (messages.contains(a.toLowerCase())) {
                 channel.sendMessage(replies.get(new Random().nextInt(replies.size()))).queue();
                 return;
             }
         }
-
-        final String join = String.join(" ", args);
 
         if (join.toLowerCase().contains("stupid") && join.toLowerCase().contains("i")) {
             channel.sendMessage("Yeah we know").queue();
