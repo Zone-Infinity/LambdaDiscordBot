@@ -1,5 +1,6 @@
-package bot.java.lambda.listeners.audits;
+package bot.java.lambda.events.audits;
 
+import bot.java.lambda.utils.AuditUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.*;

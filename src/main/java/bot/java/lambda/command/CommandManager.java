@@ -2,14 +2,15 @@ package bot.java.lambda.command;
 
 import bot.java.lambda.command.commands.DMs.MessagesCommand;
 import bot.java.lambda.command.commands.DMs.ReplyCommand;
-import bot.java.lambda.command.commands.Owner.LeaveCommand;
-import bot.java.lambda.command.commands.Owner.TestCommand;
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;
 import bot.java.lambda.command.commands.games.*;
 import bot.java.lambda.command.commands.images.*;
 import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
+import bot.java.lambda.command.commands.owner.EvalCommand;
+import bot.java.lambda.command.commands.owner.LeaveCommand;
+import bot.java.lambda.command.commands.owner.TestCommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -25,18 +26,14 @@ public class CommandManager {
     public CommandManager(EventWaiter waiter) {
 
         // Owner Commands
-        //addCommand(new EvalCommand())
+        addCommand(new EvalCommand());
         addCommand(new TestCommand(waiter));
         addCommand(new LeaveCommand());
         addCommand(new ReplyCommand());
         addCommand(new MessagesCommand());
 
-        // Secret Commands
-
-
         // Info Commands
         addCommand(new HelpCommand(this));
-        addCommand(new GuildCountCommand());
         addCommand(new EmoteUseCommand());
         addCommand(new GuildUserCountCommand());
         addCommand(new ServerInfoCommand());
@@ -48,7 +45,7 @@ public class CommandManager {
         // Common Commands
         addCommand(new PingCommand());
         addCommand(new InviteCommand());
-        addCommand(new InstagramCommand());
+        //addCommand(new InstagramCommand());
         addCommand(new GenPassCommand());
         addCommand(new RandomCommand());
         addCommand(new SayCommand());
@@ -58,7 +55,6 @@ public class CommandManager {
         addCommand(new UrbanCommand());
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
-        //addCommand(new EmbedCommand());
         addCommand(new ColorCommand());
 
         //Game Commands

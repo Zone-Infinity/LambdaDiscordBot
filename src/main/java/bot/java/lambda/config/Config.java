@@ -1,4 +1,4 @@
-package bot.java.lambda;
+package bot.java.lambda.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

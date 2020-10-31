@@ -12,11 +12,11 @@ public class FlipCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final Random random = new Random();
         ctx.getChannel().sendMessage(new EmbedBuilder()
-                                .setColor(random.nextInt(256*256*256))
-                                .setImage(random.nextBoolean()?
-                                        "https://media.discordapp.net/attachments/741153014080864267/767282060997165056/heads.png":
-                                        "https://media.discordapp.net/attachments/741153014080864267/767282063656222721/tails.png")
-                                .build()).queue();
+                .setColor(random.nextInt(256 * 256 * 256))
+                .setImage(random.nextBoolean() ?
+                        "https://media.discordapp.net/attachments/741153014080864267/767282060997165056/heads.png" :
+                        "https://media.discordapp.net/attachments/741153014080864267/767282063656222721/tails.png")
+                .build()).queue();
 
     }
 

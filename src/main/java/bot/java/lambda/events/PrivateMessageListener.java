@@ -1,4 +1,4 @@
-package bot.java.lambda.listeners;
+package bot.java.lambda.events;
 
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -11,10 +11,10 @@ public class PrivateMessageListener extends ListenerAdapter {
     @Override
     public void onPrivateMessageReceived(@NotNull PrivateMessageReceivedEvent event) {
 
-        if(event.getAuthor().isBot())
+        if (event.getAuthor().isBot())
             return;
 
-        final String name = event.getAuthor().getName()+"#"+event.getAuthor().getDiscriminator();
+        final String name = event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator();
         final String message = event.getMessage().getContentRaw();
         final String avatarUrl = event.getAuthor().getEffectiveAvatarUrl();
 
@@ -26,7 +26,7 @@ public class PrivateMessageListener extends ListenerAdapter {
 
         final TextChannel channel = event.getJDA().getTextChannelById("766902384584032287");
 
-        if(channel==null)
+        if (channel == null)
             return;
 
         channel.sendMessage(embed.build()).queue();

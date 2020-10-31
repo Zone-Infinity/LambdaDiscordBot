@@ -1,17 +1,20 @@
 package bot.java.lambda;
 
-import bot.java.lambda.listeners.Listener;
-import bot.java.lambda.listeners.PrivateMessageListener;
-import bot.java.lambda.listeners.audits.JDAEventListener;
-import bot.java.lambda.listeners.audits.UserEventListener;
+import bot.java.lambda.config.Config;
+import bot.java.lambda.events.Listener;
+import bot.java.lambda.events.PrivateMessageListener;
+import bot.java.lambda.events.audits.JDAEventListener;
+import bot.java.lambda.events.audits.UserEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
 import java.util.EnumSet;
 
 public class Bot {
@@ -41,6 +44,7 @@ public class Bot {
                 GatewayIntent.DIRECT_MESSAGE_REACTIONS
         )
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setChunkingFilter(ChunkingFilter.ALL)
                 .disableCache(EnumSet.of(
                         CacheFlag.CLIENT_STATUS,
                         CacheFlag.ACTIVITY

@@ -6,74 +6,76 @@ import bot.java.lambda.command.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class StopCommand implements ICommand {
-    EventWaiter waiter;
+public class PauseCommand implements ICommand {
 
-    public StopCommand(EventWaiter waiter) {
+    private final EventWaiter waiter;
+
+    public PauseCommand(EventWaiter waiter) {
         this.waiter = waiter;
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
-        PlayerManager playerManager = PlayerManager.getInstance();
-        GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
         final TextChannel channel = ctx.getChannel();
+        final PlayerManager playerManager = PlayerManager.getInstance();
+        final GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
+        AudioPlayer player = musicManager.audioPlayer;
 
-        if (ctx.getMember().getVoiceState() == null) {
-            channel.sendMessage("You need to be in a voice channel for this command to work").queue();
+        if (!ctx.getMember().getVoiceState().inVoiceChannel()) {
+            channel.sendMessage("You are not in the voice channel").queue();
             return;
         }
 
-        if (playerManager.getMusicManager(ctx.getGuild()).audioPlayer.getPlayingTrack() == null) {
-            channel.sendMessage("Nothing in the queue to clear").queue();
+        if (player.getPlayingTrack() == null) {
+            channel.sendMessage("The player isn't playing anything").queue();
             return;
         }
 
         final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
-        final int size = voiceState.getChannel().getMembers().size();
+        final List<Member> members = voiceState.getChannel().getMembers();
+        final int size = members.size();
 
-        if (voiceState.getChannel().getMembers().size() == 2) {
-            channel.sendMessage("Stopping the player and clearing the queue").queue();
-            musicManager.scheduler.getQueue().clear();
-            musicManager.audioPlayer.stopTrack();
-            musicManager.audioPlayer.setPaused(false);
+        if (size < 3) {
+            channel.sendMessage("⏸️ Track Paused").queue();
+            player.setPaused(!player.isPaused());
             return;
         }
-
         channel.sendMessage("React to the message to skip\n" +
-                "Need " + (size - 2) + " reactions ( only ⏹️)").queue(
+                "Need " + (size - 2) + " reactions ( only  ⏸️️ )").queue(
                 message -> {
-                    message.addReaction("⏹️").queue();
+                    message.addReaction("⏸️").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
                             e -> e.getReaction().retrieveUsers().stream().count() > size - 2 &&
                                     e.getChannel().equals(channel) &&
                                     e.getMessageIdLong() == message.getIdLong(),
                             e -> {
-                                channel.sendMessage("Stopping the player and clearing the queue").queue();
-                                musicManager.scheduler.getQueue().clear();
-                                musicManager.audioPlayer.stopTrack();
-                                musicManager.audioPlayer.setPaused(false);
+                                channel.sendMessage("⏸️ Track Paused").queue();
+                                player.setPaused(!player.isPaused());
                             },
-                            70, TimeUnit.SECONDS, () -> channel.sendMessage("Time up !! can't stop").queue());
+                            70, TimeUnit.SECONDS, () -> channel.sendMessage("Time up !! can't pause").queue());
                 }
         );
     }
 
     @Override
     public String getName() {
-        return "stop";
+        return "pause";
     }
 
     @Override
     public String getHelp() {
-        return "Stops the music player";
+        return "Pauses the player if it's playing\n" +
+                "Resumes the player if it's paused";
     }
 
     @Override

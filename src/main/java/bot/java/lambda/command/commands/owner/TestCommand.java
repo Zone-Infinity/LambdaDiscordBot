@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.Owner;
+package bot.java.lambda.command.commands.owner;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -8,9 +8,10 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 public class TestCommand implements ICommand {
     EventWaiter waiter;
 
-    public TestCommand(EventWaiter waiter){
+    public TestCommand(EventWaiter waiter) {
         this.waiter = waiter;
     }
+
     @Override
     public void handle(CommandContext ctx) {
 

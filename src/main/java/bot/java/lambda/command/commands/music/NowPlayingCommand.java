@@ -3,9 +3,9 @@ package bot.java.lambda.command.commands.music;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.command.Utils;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.utils.Utils;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -30,14 +30,14 @@ public class NowPlayingCommand implements ICommand {
 
         final long position = player.getPlayingTrack().getPosition();
         final long length = info.length;
-        int Position = (int) (position/(length/8.0));
+        int Position = (int) (position / (length / 8.0));
 
 
         StringBuilder bar = new StringBuilder();
 
         bar.append("▶️ ");
-        for(int i=0;i<8;i++){
-            if(i==Position){
+        for (int i = 0; i < 8; i++) {
+            if (i == Position) {
                 bar.append("\uD83D\uDD18");
                 continue;
             }

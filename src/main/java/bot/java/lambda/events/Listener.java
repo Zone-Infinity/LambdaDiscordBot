@@ -1,11 +1,12 @@
-package bot.java.lambda.listeners;
+package bot.java.lambda.events;
 
-import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandManager;
-import bot.java.lambda.listeners.audits.AuditUtils;
+import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
+import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.config.Config;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import me.duncte123.botcommons.BotCommons;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -18,11 +19,15 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -45,9 +50,9 @@ public class Listener extends ListenerAdapter {
         LOGGER.info("{} is ready", event.getJDA().getSelfUser().getAsTag());
         event.getJDA().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
 
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
-        Runnable task = () -> {
+        Runnable status = () -> {
             event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinityλ7763 for help"));
             try {
                 Thread.sleep(5000);
@@ -56,8 +61,29 @@ public class Listener extends ListenerAdapter {
             }
             event.getJDA().getPresence().setActivity(Activity.watching(">help | Contact Zone_Infinityλ7763 for help"));
         };
+        Runnable checkWhetherInactive = () -> event.getJDA().getGuilds().forEach(guild -> {
+            AudioManager audioManager = guild.getAudioManager();
+            final PlayerManager playerManager = PlayerManager.getInstance();
+            final GuildMusicManager musicManager = playerManager.getMusicManager(guild);
+            AudioPlayer player = musicManager.audioPlayer;
+            if (audioManager.getConnectedChannel() != null) {
+                if (audioManager.getConnectedChannel().getMembers().size() == 1 || player.getPlayingTrack() == null) {
+                    waiter.waitForEvent(
+                            GuildVoiceJoinEvent.class,
+                            e -> e.getChannelJoined() == audioManager.getConnectedChannel(),
+                            e -> {
+                            },
+                            10, TimeUnit.SECONDS, () -> {
+                                if (!(audioManager.getConnectedChannel().getMembers().size() > 1) || player.getPlayingTrack() == null)
+                                    audioManager.closeAudioConnection();
+                            }
+                    );
+                }
+            }
+        });
 
-        executor.scheduleWithFixedDelay(task, 0, 5, TimeUnit.SECONDS);
+        executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 5, TimeUnit.SECONDS);
+        executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
 
         final Guild lambdaGuild = event.getJDA().getGuildById(755433534495391805L);
         if (!(lambdaGuild == null)) {
@@ -115,30 +141,11 @@ public class Listener extends ListenerAdapter {
         User user = event.getAuthor();
         final Guild eventGuild = event.getGuild();
 
-        final Member self = eventGuild.getSelfMember();
-        final GuildVoiceState voiceState = self.getVoiceState();
-
-        if (voiceState != null) {
-            if (voiceState.inVoiceChannel()) {
-                if (voiceState.getChannel() != null) {
-                    if (voiceState.getChannel().getMembers().size() - 1 == 0) {
-                        waiter.waitForEvent(
-                                GuildVoiceJoinEvent.class,
-                                e -> e.getChannelJoined().equals(voiceState.getChannel()),
-                                e -> {
-                                },
-                                30, TimeUnit.SECONDS, () -> eventGuild.getAudioManager().closeAudioConnection()
-                        );
-                    }
-                }
-            }
-        }
-
         if (user.isBot() || event.isWebhookMessage()) {
             return;
         }
 
-        String prefix = this.getPrefix();
+        String prefix = Config.get("prefix");
         String raw = event.getMessage().getContentRaw();
 
         if (raw.equalsIgnoreCase(prefix + "guilds")) {
@@ -161,10 +168,10 @@ public class Listener extends ListenerAdapter {
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
 
-            if(!eventGuild.getId().equals("755433534495391805"))
+            if (!eventGuild.getId().equals("755433534495391805"))
                 return;
 
-            if(saidHello.contains(user))
+            if (saidHello.contains(user))
                 return;
 
             saidHello.add(user);
@@ -220,18 +227,9 @@ public class Listener extends ListenerAdapter {
             try {
                 manager.handle(event, prefix);
             } catch (Exception e) {
-                final EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .addField("Exception", e.getClass().getName(), false)
-                        .addField("Message", e.getMessage(), false)
-                        .addField("Stack Trace", e.getStackTrace().length > 1000 ? "Big enough" : Arrays.toString(e.getStackTrace()), false);
-                Objects.requireNonNull(event.getJDA().getTextChannelById(AuditUtils.errorChannelId)).sendMessage(embedBuilder.build()).queue();
                 e.fillInStackTrace();
             }
         }
-    }
-
-    private String getPrefix() {
-        return Config.get("prefix");
     }
 }
 

@@ -3,7 +3,7 @@ package bot.java.lambda.command.commands.images;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.command.Utils;
+import bot.java.lambda.utils.Utils;
 import net.dv8tion.jda.api.entities.TextChannel;
 import okhttp3.*;
 
@@ -17,7 +17,7 @@ public class DarkenCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final List<String> args = ctx.getArgs();
 
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             channel.sendMessage("Please provide a URL").queue();
             return;
         }
@@ -46,13 +46,13 @@ public class DarkenCommand implements ICommand {
                 .build();
 
         Call call = client.newCall(request);
-        try ( Response res = call.execute()) {
+        try (Response res = call.execute()) {
             if (res.code() == 429) {
                 channel.sendMessage("I've been  rate-limited.\nPlease try again later.").queue();
                 return;
             }
 
-            if (res.code() == 422){
+            if (res.code() == 422) {
                 channel.sendMessage("Image URL provided does not exists").queue();
                 return;
             }

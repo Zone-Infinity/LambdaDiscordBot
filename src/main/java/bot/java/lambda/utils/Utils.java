@@ -1,5 +1,6 @@
-package bot.java.lambda.command;
+package bot.java.lambda.utils;
 
+import bot.java.lambda.command.CommandContext;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

@@ -3,12 +3,14 @@ package bot.java.lambda.command.commands.music;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.command.Utils;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.utils.Utils;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.List;
 
@@ -27,13 +29,16 @@ public class PlayCommand implements ICommand {
         final Member self = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = self.getVoiceState();
 
-        if (!selfVoiceState.inVoiceChannel()) {
-            channel.sendMessage("I need to be in a voice channel for this to work").queue();
-            return;
-        }
-
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
+        final AudioManager audioManager = ctx.getGuild().getAudioManager();
+        final VoiceChannel memberChannel = memberVoiceState.getChannel();
+
+        if (!selfVoiceState.inVoiceChannel()) {
+            audioManager.openAudioConnection(memberChannel);
+            channel.sendMessageFormat("Connecting to <:Music:755716546827124787>`%s`", memberChannel.getName()).queue();
+            return;
+        }
 
         if (!memberVoiceState.inVoiceChannel()) {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();

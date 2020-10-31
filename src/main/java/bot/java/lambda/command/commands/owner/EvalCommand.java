@@ -1,38 +1,22 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
+package bot.java.lambda.command.commands.owner;
 
-package bot.java.lambda.command.commands.Owner;
-
-import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-//import groovy.lang.GroovyShell;
+import bot.java.lambda.config.Config;
+import groovy.lang.GroovyShell;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
 public class EvalCommand implements ICommand {
-    //private final GroovyShell engine;
-    //private final String imports;
+    private final GroovyShell engine;
+    private final String imports;
 
-    public EvalCommand(){
-        //this.engine = new GroovyShell();
-        /*this.imports = "import java.io.*\n" +
+    public EvalCommand() {
+        this.engine = new GroovyShell();
+        this.imports = "import java.io.*\n" +
                 "import java.lang.*\n" +
                 "import java.util.*\n" +
                 "import java.util.concurrent.*\n" +
@@ -41,21 +25,22 @@ public class EvalCommand implements ICommand {
                 "import net.dv8tion.jda.core.entities.impl.*\n" +
                 "import net.dv8tion.jda.core.managers.*\n" +
                 "import net.dv8tion.jda.core.managers.impl.*\n" +
-                "import net.dv8tion.jda.core.utils.*\n";*/
+                "import net.dv8tion.jda.core.utils.*\n";
     }
 
     @Override
     public void handle(CommandContext ctx) {
+        final TextChannel channel = ctx.getChannel();
 
-        if (ctx.getAuthor().getIdLong()!=Long.parseLong(Config.get("owner_id"))) {
+        if (ctx.getAuthor().getIdLong() != Long.parseLong(Config.get("owner_id"))) {
+            channel.sendMessage("Not for you").queue();
             return;
         }
 
         final List<String> args = ctx.getArgs();
-        final TextChannel channel = ctx.getChannel();
         final Message message = ctx.getMessage();
 
-        /*if(args.isEmpty()){
+        if(args.isEmpty()){
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
@@ -75,8 +60,8 @@ public class EvalCommand implements ICommand {
             channel.sendMessage(out==null?"Executed without Error" : out.toString()).queue();
 
         }catch (Exception e){
-            channel.sendMessage(e.getMessage()).queue();
-        }*/
+            channel.sendMessage("```"+e.getMessage()+"```").queue();
+        }
     }
 
     @Override

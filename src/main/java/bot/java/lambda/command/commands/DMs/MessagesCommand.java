@@ -14,19 +14,19 @@ public class MessagesCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        if(!channel.getId().equals("766902384584032287"))
+        if (!channel.getId().equals("766902384584032287"))
             return;
 
         final String id = ctx.getArgs().get(0);
 
-        if(ctx.getArgs().isEmpty()){
+        if (ctx.getArgs().isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
 
         final User user = ctx.getJDA().getUserById(id);
 
-        if(user==null){
+        if (user == null) {
             channel.sendMessage("User doesn't exists").queue();
             return;
         }
@@ -37,19 +37,19 @@ public class MessagesCommand implements ICommand {
                 privateChannel -> {
                     final List<Message> history = privateChannel.getHistory().getRetrievedHistory();
 
-                    for(Message m : history){
+                    for (Message m : history) {
                         messages.append(m.getContentRaw()).append("\n");
                     }
                 }
         );
 
         channel.sendMessage(EmbedUtils.getDefaultEmbed()
-                                .setDescription(messages)
-                                .setTitle(user.getName()+"#"+user.getDiscriminator())
-                                .setThumbnail(user.getEffectiveAvatarUrl())
-                                .setDescription(messages)
-                                .setFooter(user.getId())
-                                .build()).queue();
+                .setDescription(messages)
+                .setTitle(user.getName() + "#" + user.getDiscriminator())
+                .setThumbnail(user.getEffectiveAvatarUrl())
+                .setDescription(messages)
+                .setFooter(user.getId())
+                .build()).queue();
 
     }
 

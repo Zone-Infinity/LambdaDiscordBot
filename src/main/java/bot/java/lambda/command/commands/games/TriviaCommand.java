@@ -3,7 +3,7 @@ package bot.java.lambda.command.commands.games;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.command.Utils;
+import bot.java.lambda.utils.Utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.messaging.EmbedUtils;

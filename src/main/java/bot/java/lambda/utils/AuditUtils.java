@@ -1,4 +1,4 @@
-package bot.java.lambda.listeners.audits;
+package bot.java.lambda.utils;
 
 public class AuditUtils {
     public static String lambdaGuildId = "755433534495391805";

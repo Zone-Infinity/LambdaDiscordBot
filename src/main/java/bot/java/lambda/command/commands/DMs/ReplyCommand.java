@@ -13,12 +13,12 @@ public class ReplyCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        if(!channel.getId().equals("766902384584032287"))
+        if (!channel.getId().equals("766902384584032287"))
             return;
 
         final List<String> args = ctx.getArgs();
 
-        if(args.isEmpty()) {
+        if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
@@ -28,17 +28,18 @@ public class ReplyCommand implements ICommand {
 
         final User user = ctx.getJDA().getUserById(id);
 
-        if(user==null){
+        if (user == null) {
             channel.sendMessage("User doesn't exists").queue();
             return;
         }
 
         user.openPrivateChannel().queue(
                 privateChannel -> privateChannel.sendMessage(EmbedUtils.getDefaultEmbed()
-                                    .setAuthor(ctx.getAuthor().getName()+"#"+ctx.getAuthor().getDiscriminator(),ctx.getAuthor().getEffectiveAvatarUrl(),ctx.getAuthor().getEffectiveAvatarUrl())
-                                    .setDescription(message)
-                                    .build()).queue()
+                        .setAuthor(ctx.getAuthor().getName() + "#" + ctx.getAuthor().getDiscriminator(), ctx.getAuthor().getEffectiveAvatarUrl(), ctx.getAuthor().getEffectiveAvatarUrl())
+                        .setDescription(message)
+                        .build()).queue()
         );
+        ctx.getMessage().addReaction(":TickYes:755716208191602738").queue();
 
     }
 

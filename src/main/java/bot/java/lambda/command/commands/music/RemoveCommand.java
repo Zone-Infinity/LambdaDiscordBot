@@ -1,28 +1,30 @@
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.utils.Utils;
 
-public class UptimeCommand implements ICommand {
+import java.util.List;
+
+public class RemoveCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
-        ctx.getChannel().sendMessage("My Uptime is `" + Utils.getUptime() + "`").queue();
+        final List<String> args = ctx.getArgs();
+        
     }
 
     @Override
     public String getName() {
-        return "uptime";
+        return "remove";
     }
 
     @Override
     public String getHelp() {
-        return "Shows the current uptime of the bot";
+        return "Removes a track";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.MUSIC;
     }
 }

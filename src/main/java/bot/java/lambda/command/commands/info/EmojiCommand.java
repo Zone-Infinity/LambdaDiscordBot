@@ -135,7 +135,7 @@ public class EmojiCommand implements ICommand {
                     }
                     message.delete().queue();
                     ctx.getMessage().addReaction(":TickYes:755716208191602738").queue();
-                },30, TimeUnit.SECONDS,() -> message.clearReactions().queue()
+                }, 30, TimeUnit.SECONDS, () -> message.clearReactions().queue()
         );
     }
 

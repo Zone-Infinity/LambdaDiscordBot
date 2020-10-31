@@ -16,7 +16,7 @@ public class DrakeCommand implements ICommand {
         final String join = String.join(" ", ctx.getArgs());
         final String[] split = join.split("\\|");
 
-        if(ctx.getArgs().size() < 2){
+        if (ctx.getArgs().size() < 2) {
             channel.sendMessage("Please provide the 2 arguments").queue();
             return;
         }
@@ -41,7 +41,7 @@ public class DrakeCommand implements ICommand {
                 .build();
 
         Call call = client.newCall(request);
-        try ( Response res = call.execute()) {
+        try (Response res = call.execute()) {
             if (res.code() == 429) {
                 channel.sendMessage("I've been  rate-limited.\nPlease try again later.").queue();
                 return;

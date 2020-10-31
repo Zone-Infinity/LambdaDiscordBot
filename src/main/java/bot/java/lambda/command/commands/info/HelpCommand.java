@@ -16,20 +16,18 @@
 
 package bot.java.lambda.command.commands.info;
 
-import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.config.Config;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 public class HelpCommand implements ICommand {
 
@@ -129,11 +127,12 @@ public class HelpCommand implements ICommand {
             ComBuild.deleteCharAt(ComBuild.length() - 1);
             ImagesBuild.deleteCharAt(ImagesBuild.length() - 1);
 
+            String prefix = Config.get("prefix");
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
                     .setTitle("**λ** Help")
-                    .setDescription("**Bot prefix** : ``" + Config.get("prefix") + "``\n " +
+                    .setDescription("**Bot prefix** : ``" + prefix + "``\n " +
                             "```A Fun Bot which has many commands       \n" +
                             "It provides you with some Common commands\n" +
                             "Some Fun and most important MUSIC !! \uD83D\uDE04 \n" +
@@ -150,8 +149,13 @@ public class HelpCommand implements ICommand {
                     .addField("\uD83C\uDF89 Fun", FunBuild.toString(), true)
                     .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(), true)
                     .addBlankField(true)
-                    .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory()== HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
-            channel.sendMessage(embed.build()).queue();
+                    .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() == HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
+
+            ctx.getAuthor().openPrivateChannel().queue(
+                    privateChannel -> privateChannel.sendMessage(embed.build()).queue()
+            );
+
+            channel.sendMessage("Check Your DM").queue();
             return;
         }
 
@@ -172,8 +176,8 @@ public class HelpCommand implements ICommand {
             return;
         }
 
-        if(command.getName().equals("embed")) {
-            channel.sendMessage("Command```css\n"+command.getHelp()+"```").queue();
+        if (command.getName().equals("embed")) {
+            channel.sendMessage("Command```css\n" + command.getHelp() + "```").queue();
             return;
         }
 

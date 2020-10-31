@@ -16,7 +16,7 @@ public class DiscordMonsterCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         WebUtils.ins.getJSONObject("https://apis.duncte123.me/animal/discord-monster").async(
                 json -> {
-                    if(!json.get("success").asBoolean()){
+                    if (!json.get("success").asBoolean()) {
                         channel.sendMessage("Something went wrong").queue();
                         return;
                     }
@@ -44,6 +44,6 @@ public class DiscordMonsterCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("monster","discordMonsters","monsters");
+        return List.of("monster", "discordMonsters", "monsters");
     }
 }

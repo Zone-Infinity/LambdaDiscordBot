@@ -1,10 +1,10 @@
 package bot.java.lambda.command.commands.common;
 
-import bot.java.lambda.Config;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.command.Utils;
+import bot.java.lambda.config.Config;
+import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
