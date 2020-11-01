@@ -23,7 +23,7 @@ public class AvatarCommand implements ICommand {
                 .setTimestamp(Instant.now());
 
         if (args.isEmpty()) {
-            channel.sendMessage(embed.setImage(ctx.getAuthor().getEffectiveAvatarUrl()).build()).queue();
+            channel.sendMessage(embed.setImage(ctx.getAuthor().getAvatarUrl()==null?ctx.getAuthor().getEffectiveAvatarUrl():ctx.getAuthor().getAvatarUrl()).build()).queue();
             return;
         }
 

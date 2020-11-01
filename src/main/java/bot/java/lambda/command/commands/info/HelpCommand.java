@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
@@ -149,7 +133,7 @@ public class HelpCommand implements ICommand {
                     .addField("\uD83C\uDF89 Fun", FunBuild.toString(), true)
                     .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(), true)
                     .addBlankField(true)
-                    .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() == HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
+                    .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
 
             ctx.getAuthor().openPrivateChannel().queue(
                     privateChannel -> privateChannel.sendMessage(embed.build()).queue()
