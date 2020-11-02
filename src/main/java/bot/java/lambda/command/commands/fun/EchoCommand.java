@@ -15,7 +15,7 @@ public class EchoCommand implements ICommand {
         final List<String> args = ctx.getArgs();
         final TextChannel channel = ctx.getChannel();
         List<String> messages = List.of("fuck", "bitch", "porn", "ass", "boob");
-        List<String> replies = List.of("Nah", "We know", "I know", "No U", "ok");
+        List<String> replies = List.of("Nah", "I know", "No U", "ok");
 
         if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();

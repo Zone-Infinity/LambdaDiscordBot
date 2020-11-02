@@ -10,9 +10,9 @@ public class LeaveCommand implements ICommand {
     @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
-        if (ctx.getAuthor().getIdLong() != Long.parseLong(Config.get("owner_id"))) {
+        if (!ctx.getAuthor().getId().equals(Config.get("owner_id")))
             return;
-        }
+
         TextChannel globalAuditsChannel = ctx.getJDA().getTextChannelById(753995632556900544L);
         if (!ctx.getArgs().isEmpty()) {
             ctx.getJDA().getGuildById(ctx.getArgs().get(0)).leave().queue(

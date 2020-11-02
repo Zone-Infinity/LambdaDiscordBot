@@ -5,7 +5,9 @@ import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class RandomCommand implements ICommand {
     @Override
@@ -22,9 +24,9 @@ public class RandomCommand implements ICommand {
         int a = Integer.parseInt(args.get(0));
         final int b = Integer.parseInt(args.get(1));
 
-        final int num = a < b ? random.ints(a, b).findFirst().getAsInt() : random.ints(b, a).findFirst().getAsInt();
+        final OptionalInt num = a < b ? random.ints(a, b).findFirst() : random.ints(b, a).findFirst();
 
-        ctx.getChannel().sendMessage("" + num).queue();
+        ctx.getChannel().sendMessage("" + (num.isPresent()?num.getAsInt():"Something went wrong")).queue();
     }
 
     @Override

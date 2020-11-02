@@ -9,6 +9,9 @@ import java.util.List;
 public class LMGTFYCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
+        if(ctx.getArgs().isEmpty()){
+            return;
+        }
         String link = String.join("+", ctx.getArgs());
         ctx.getChannel().sendMessage("http://lmgtfy.com/?q=" + link).queue();
     }
@@ -21,7 +24,7 @@ public class LMGTFYCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Googles things for u\n" +
-                "Aliases : {google, lmgtfu}";
+                "Aliases : {google}";
     }
 
     @Override
@@ -31,6 +34,6 @@ public class LMGTFYCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("google", "lmgtfu");
+        return List.of("google");
     }
 }

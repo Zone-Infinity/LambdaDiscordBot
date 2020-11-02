@@ -1,17 +1,10 @@
-package bot.java.lambda.command.commands.owner;
+package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 
-public class TestCommand implements ICommand {
-    EventWaiter waiter;
-
-    public TestCommand(EventWaiter waiter) {
-        this.waiter = waiter;
-    }
-
+public class CreditsCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
 
@@ -19,16 +12,16 @@ public class TestCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "test";
+        return null;
     }
 
     @Override
     public String getHelp() {
-        return "Testing Commands";
+        return null;
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.OWNER;
+        return null;
     }
 }

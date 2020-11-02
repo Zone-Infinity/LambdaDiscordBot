@@ -15,8 +15,7 @@ public class GenPassCommand implements ICommand {
         final List<String> args = ctx.getArgs();
 
         if (args.isEmpty()) {
-            channel.sendMessage("Missing Arguments \n" +
-                    "do `<prefix> help genPass`").queue();
+            channel.sendMessage("Missing Arguments").queue();
             return;
         }
 
@@ -26,6 +25,7 @@ public class GenPassCommand implements ICommand {
             if (len >= 51) {
                 ctx.getMessage().addReaction("❌").queue();
                 channel.sendMessage("You don't need password exceeding 50 <:Wot:755715077029625916>").queue();
+                return;
             }
 
             StringBuilder password = new StringBuilder();

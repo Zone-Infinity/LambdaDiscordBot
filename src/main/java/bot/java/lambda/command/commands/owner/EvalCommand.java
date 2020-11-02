@@ -32,10 +32,8 @@ public class EvalCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
 
-        if (ctx.getAuthor().getIdLong() != Long.parseLong(Config.get("owner_id"))) {
-            channel.sendMessage("Not for you").queue();
+        if (ctx.getAuthor().getIdLong() != Long.parseLong(Config.get("owner_id")))
             return;
-        }
 
         final List<String> args = ctx.getArgs();
         final Message message = ctx.getMessage();

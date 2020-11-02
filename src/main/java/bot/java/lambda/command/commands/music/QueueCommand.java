@@ -42,7 +42,7 @@ public class QueueCommand implements ICommand {
         int count = 1;
         for (AudioTrack track : tracks) {
 
-            if (count == trackCount) break;
+            if (count == trackCount+1) break;
 
             AudioTrackInfo info = track.getInfo();
 

@@ -21,32 +21,29 @@ public class PlayCommand implements ICommand {
     public void handle(CommandContext ctx) throws FriendlyException {
         final TextChannel channel = ctx.getChannel();
 
-        if (ctx.getArgs().isEmpty()) {
-            channel.sendMessage("Correct usage is : <prefix> play <youtube link>").queue();
-            return;
-        }
-
         final Member self = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = self.getVoiceState();
 
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
-        final AudioManager audioManager = ctx.getGuild().getAudioManager();
-        final VoiceChannel memberChannel = memberVoiceState.getChannel();
-
-        if (!selfVoiceState.inVoiceChannel()) {
-            audioManager.openAudioConnection(memberChannel);
-            channel.sendMessageFormat("Connecting to <:Music:755716546827124787>`%s`", memberChannel.getName()).queue();
-            return;
-        }
 
         if (!memberVoiceState.inVoiceChannel()) {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
             return;
         }
 
+        if (!selfVoiceState.inVoiceChannel()) {
+            channel.sendMessage("I need to be in a voice channel for this command to work... Do `>join`").queue();
+            return;
+        }
+
         if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
             channel.sendMessage("You need to be in the same voice channel as me for this to work").queue();
+            return;
+        }
+
+        if (ctx.getArgs().isEmpty()) {
+            channel.sendMessage("Missing Arguments").queue();
             return;
         }
 

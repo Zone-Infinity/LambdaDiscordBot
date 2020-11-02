@@ -33,7 +33,7 @@ public class ProgrammingJokeCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "programmingJoke";
+        return "programmingjoke";
     }
 
     @Override

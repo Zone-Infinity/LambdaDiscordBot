@@ -1,7 +1,6 @@
 package bot.java.lambda.command;
 
-import bot.java.lambda.command.commands.DMs.MessagesCommand;
-import bot.java.lambda.command.commands.DMs.ReplyCommand;
+import bot.java.lambda.command.commands.owner.DMs.ReplyCommand;
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;
 import bot.java.lambda.command.commands.games.*;
@@ -10,7 +9,6 @@ import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.owner.EvalCommand;
 import bot.java.lambda.command.commands.owner.LeaveCommand;
-import bot.java.lambda.command.commands.owner.TestCommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -27,10 +25,8 @@ public class CommandManager {
 
         // Owner Commands
         addCommand(new EvalCommand());
-        addCommand(new TestCommand(waiter));
         addCommand(new LeaveCommand());
         addCommand(new ReplyCommand());
-        addCommand(new MessagesCommand());
 
         // Info Commands
         addCommand(new HelpCommand(this));
@@ -44,7 +40,6 @@ public class CommandManager {
         // Common Commands
         addCommand(new PingCommand());
         addCommand(new InviteCommand());
-        //addCommand(new InstagramCommand());
         addCommand(new GenPassCommand());
         addCommand(new RandomCommand());
         addCommand(new SayCommand());
@@ -66,7 +61,6 @@ public class CommandManager {
         // Fun Commands
         addCommand(new MemeCommand());
         addCommand(new JokeCommand());
-        addCommand(new GifCommand());
         addCommand(new EmojifyCommand());
         addCommand(new EchoCommand());
         addCommand(new BoredCommand());
@@ -108,7 +102,6 @@ public class CommandManager {
         addCommand(new UserCountCommand());
         addCommand(new NowPlayingCommand());
         addCommand(new PlaylistCommand());
-        addCommand(new ShuffleCommand());
     }
 
     private void addCommand(ICommand cmd) {

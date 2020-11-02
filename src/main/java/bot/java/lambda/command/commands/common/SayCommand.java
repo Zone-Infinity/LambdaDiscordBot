@@ -101,8 +101,8 @@ public class SayCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Says something for you\n" +
-                "Usage : >say <sentence>\n" +
-                "        >say <@user> <sentence>";
+                "Usage : >say <msg>\n" +
+                "        >say <@user> <msg>";
     }
 
     @Override
