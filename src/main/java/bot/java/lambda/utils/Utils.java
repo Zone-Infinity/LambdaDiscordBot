@@ -123,4 +123,17 @@ public class Utils {
         }
     }
 
+    public static String getStatusAsEmote(String status){
+        String online = "<a:Online:772748895700647946>",
+                offline = "<a:Offline:772748768307183617>",
+                idle = "<a:Idle:772748809377415189>",
+                dnd = "<a:Dnd:772748860057583626>";
+        return switch (status.toLowerCase()){
+            case "on" -> online;
+            case "idle" -> idle;
+            case "dnd" -> dnd;
+            default -> offline;
+        };
+    }
+
 }

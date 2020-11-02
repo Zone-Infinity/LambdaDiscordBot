@@ -45,6 +45,9 @@ public class Bot {
         )
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .setChunkingFilter(ChunkingFilter.ALL)
+                .enableCache(EnumSet.of(
+                        CacheFlag.EMOTE
+                ))
                 .disableCache(EnumSet.of(
                         CacheFlag.CLIENT_STATUS,
                         CacheFlag.ACTIVITY

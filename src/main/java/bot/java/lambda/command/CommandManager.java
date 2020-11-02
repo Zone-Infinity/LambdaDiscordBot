@@ -1,5 +1,6 @@
 package bot.java.lambda.command;
 
+import bot.java.lambda.command.commands.owner.DMs.BlockCommand;
 import bot.java.lambda.command.commands.owner.DMs.ReplyCommand;
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;
@@ -27,6 +28,7 @@ public class CommandManager {
         addCommand(new EvalCommand());
         addCommand(new LeaveCommand());
         addCommand(new ReplyCommand());
+        addCommand(new BlockCommand());
 
         // Info Commands
         addCommand(new HelpCommand(this));
@@ -36,6 +38,7 @@ public class CommandManager {
         addCommand(new ServerRolesCommand());
         addCommand(new AvatarCommand());
         addCommand(new IDCommand());
+        addCommand(new UserInfoCommand());
 
         // Common Commands
         addCommand(new PingCommand());
@@ -50,6 +53,7 @@ public class CommandManager {
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
         addCommand(new ColorCommand());
+        addCommand(new RanMoteCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
