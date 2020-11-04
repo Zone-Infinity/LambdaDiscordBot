@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.utils.Utils;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import okhttp3.*;
 
@@ -23,7 +24,17 @@ public class PixelateCommand implements ICommand {
         }
 
         if (Utils.isNotUrl(args.get(0))) {
-            channel.sendMessage("Provide the correct image url").queue();
+            final Message message = ctx.getMessage();
+            if (message.getMentionedMembers().isEmpty()) {
+                channel.sendMessage("Provide the correct image url").queue();
+                return;
+            }
+            final String effectiveAvatarUrl = message.getMentionedMembers().get(0).getUser().getEffectiveAvatarUrl();
+            try {
+                pixelateImage(channel, effectiveAvatarUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return;
         }
 

@@ -31,13 +31,15 @@ public class HelpCommand implements ICommand {
                 InfoCmd = new ArrayList<>(),
                 MusicCmd = new ArrayList<>(),
                 GameCmd = new ArrayList<>(),
-                ImagesCmd = new ArrayList<>();
+                ImagesCmd = new ArrayList<>(),
+                UtilsCmd = new ArrayList<>();
         StringBuilder FunBuild = new StringBuilder(),
                 ComBuild = new StringBuilder(),
                 InfoBuild = new StringBuilder(),
                 MusicBuild = new StringBuilder(),
                 GameBuild = new StringBuilder(),
-                ImagesBuild = new StringBuilder();
+                ImagesBuild = new StringBuilder(),
+                UtilsBuild = new StringBuilder();
 
         if (args.isEmpty()) {
             for (ICommand command : commands) {
@@ -47,6 +49,7 @@ public class HelpCommand implements ICommand {
                 else if (command.getHelpCategory().equals(HelpCategory.MUSIC)) MusicCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.GAME)) GameCmd.add(command.getName());
                 else if (command.getHelpCategory().equals(HelpCategory.IMAGES)) ImagesCmd.add(command.getName());
+                else if (command.getHelpCategory().equals(HelpCategory.UTIL)) UtilsCmd.add(command.getName());
             }
 
             Collections.sort(FunCmd);
@@ -104,12 +107,21 @@ public class HelpCommand implements ICommand {
                 ImagesBuild.append("`").append(cmd).append("`|");
                 count++;
             }
+            count = 0;
+            for (String cmd : UtilsCmd) {
+                if (count % 4 == 0 && count != 0) {
+                    UtilsBuild.append("\n");
+                }
+                UtilsBuild.append("`").append(cmd).append("`|");
+                count++;
+            }
             FunBuild.deleteCharAt(FunBuild.length() - 1);
             GameBuild.deleteCharAt(GameBuild.length() - 1);
             InfoBuild.deleteCharAt(InfoBuild.length() - 1);
             MusicBuild.deleteCharAt(MusicBuild.length() - 1);
             ComBuild.deleteCharAt(ComBuild.length() - 1);
             ImagesBuild.deleteCharAt(ImagesBuild.length() - 1);
+            UtilsBuild.deleteCharAt(UtilsBuild.length() - 1);
 
             String prefix = Config.get("prefix");
 
@@ -133,6 +145,7 @@ public class HelpCommand implements ICommand {
                     .addField("\uD83C\uDF89 Fun", FunBuild.toString(), true)
                     .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(), true)
                     .addBlankField(true)
+                    .addField("\uD83D\uDEE0️ Utils", UtilsBuild.toString(), true)
                     .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
 
             ctx.getAuthor().openPrivateChannel().queue(

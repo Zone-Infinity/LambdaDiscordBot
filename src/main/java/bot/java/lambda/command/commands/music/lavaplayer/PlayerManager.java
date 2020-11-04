@@ -122,13 +122,9 @@ public class PlayerManager {
             public void playlistLoaded(AudioPlaylist playlist) {
                 final List<AudioTrack> tracks = playlist.getTracks();
 
-                for (final AudioTrack track : tracks) {
-                    musicManager.scheduler.queue(track);
-                }
-
                 channel.sendMessage("Adding to queue: `")
                         .append(String.valueOf(tracks.size()))
-                        .append("` tracks from playlist")
+                        .append("` tracks from playlist `")
                         .append(playlist.getName())
                         .append('`')
                         .queue();

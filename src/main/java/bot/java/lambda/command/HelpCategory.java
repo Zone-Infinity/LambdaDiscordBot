@@ -11,6 +11,7 @@ public enum HelpCategory {
     INFO("Info", "Info Commands for info of the bot , server and members"),
     MUSIC("Music", "Music Commands when you are in a Voice Channel"),
     GAME("Game", "Commands to play Small fun games"),
+    UTIL("Utilities", "Commands to generate String and Images"),
     VAR_FOR_USE("", ""),
     UNKNOWN("UNKNOWN", "UNKNOWN"),
     OWNER("Owner", "Only Owners can use these commands and normal members can't see these commands");

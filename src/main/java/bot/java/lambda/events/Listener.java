@@ -218,17 +218,11 @@ public class Listener extends ListenerAdapter {
                 event.getJDA().shutdown();
                 BotCommons.shutdown(event.getJDA());
                 System.exit(0);
-            } else {
-                event.getChannel().sendMessage("You cant do this").queue();
             }
         }
 
         if (raw.startsWith(prefix)) {
-            try {
-                manager.handle(event, prefix);
-            } catch (Exception e) {
-                e.fillInStackTrace();
-            }
+            manager.handle(event, prefix);
         }
     }
 }

@@ -10,6 +10,7 @@ import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.owner.EvalCommand;
 import bot.java.lambda.command.commands.owner.LeaveCommand;
+import bot.java.lambda.command.commands.utils.DefaultAvatarCommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -39,6 +40,7 @@ public class CommandManager {
         addCommand(new AvatarCommand());
         addCommand(new IDCommand());
         addCommand(new UserInfoCommand());
+        addCommand(new BotInfoCommand(this));
 
         // Common Commands
         addCommand(new PingCommand());
@@ -106,6 +108,10 @@ public class CommandManager {
         addCommand(new UserCountCommand());
         addCommand(new NowPlayingCommand());
         addCommand(new PlaylistCommand());
+
+        // Utility Commands
+        addCommand(new DefaultAvatarCommand());
+
     }
 
     private void addCommand(ICommand cmd) {

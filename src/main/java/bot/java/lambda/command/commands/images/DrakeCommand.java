@@ -36,7 +36,7 @@ public class DrakeCommand implements ICommand {
                 .build();
 
         Request request = new Request.Builder()
-                .url("https://apis.duncte123.me/memes/drakememe")
+                .url("https://apis.duncte123.me/memes/drakememe/")
                 .post(req)
                 .build();
 

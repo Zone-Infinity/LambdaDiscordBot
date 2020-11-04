@@ -75,4 +75,9 @@ public class AvatarCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.INFO;
     }
+
+    @Override
+    public List<String> getAliases() {
+        return List.of("av");
+    }
 }
