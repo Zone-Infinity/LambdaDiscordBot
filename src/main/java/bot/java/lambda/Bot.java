@@ -4,7 +4,6 @@ import bot.java.lambda.config.Config;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.PrivateMessageListener;
 import bot.java.lambda.events.audits.JDAEventListener;
-import bot.java.lambda.events.audits.UserEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.JDABuilder;
@@ -14,7 +13,6 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
 import java.util.EnumSet;
 
 public class Bot {
@@ -27,8 +25,7 @@ public class Bot {
                 waiter,
                 new Listener(waiter),
                 new PrivateMessageListener(),
-                new JDAEventListener(),
-                new UserEventListener()
+                new JDAEventListener()
         };
 
         JDABuilder jdaBuilder = JDABuilder.createDefault(
