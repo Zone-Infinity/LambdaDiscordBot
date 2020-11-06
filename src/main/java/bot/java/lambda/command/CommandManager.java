@@ -11,6 +11,7 @@ import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.owner.EvalCommand;
 import bot.java.lambda.command.commands.owner.LeaveCommand;
 import bot.java.lambda.command.commands.utils.DefaultAvatarCommand;
+import bot.java.lambda.config.Config;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -148,7 +149,12 @@ public class CommandManager {
         String invoke = split[0].toLowerCase();
         ICommand cmd = this.getCommand(invoke);
 
+        List<HelpCategory> ownerCategories = List.of(HelpCategory.OWNER, HelpCategory.UNKNOWN, HelpCategory.VAR_FOR_USE);
+
         if (cmd != null) {
+            if(ownerCategories.contains(cmd.getHelpCategory()) && event.getAuthor().getId().equals(Config.get("owner_id")))
+                return;
+
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);

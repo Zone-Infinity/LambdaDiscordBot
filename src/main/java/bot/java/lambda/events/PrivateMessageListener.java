@@ -21,8 +21,10 @@ public class PrivateMessageListener extends ListenerAdapter {
         if (event.getAuthor().isBot())
             return;
 
-        if (blockedUsers.contains(event.getAuthor()))
+        if (blockedUsers.contains(event.getAuthor())) {
             event.getMessage().addReaction(":TickNo:755716160472875079").queue();
+            return;
+        }
 
         final String name = event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator();
         final String message = event.getMessage().getContentRaw();

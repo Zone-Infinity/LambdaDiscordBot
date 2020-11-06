@@ -23,6 +23,7 @@ public class BlockCommand implements ICommand {
             return;
         }
 
+        ctx.getMessage().addReaction(":TickYes:755716208191602738").queue();
         PrivateMessageListener.blockedUsers.add(user);
 
     }
