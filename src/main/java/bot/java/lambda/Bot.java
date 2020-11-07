@@ -1,6 +1,7 @@
 package bot.java.lambda;
 
 import bot.java.lambda.config.Config;
+import bot.java.lambda.database.SQLiteDataSource;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.PrivateMessageListener;
 import bot.java.lambda.events.audits.JDAEventListener;
@@ -13,12 +14,14 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+import java.sql.SQLException;
 import java.util.EnumSet;
 
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
-    private void ready() throws LoginException {
+    private void ready() throws LoginException, SQLException {
+        SQLiteDataSource.getConnection();
         WebUtils.setUserAgent("Zone Infinity#7763");
 
         Object[] listeners = {
@@ -53,7 +56,7 @@ public class Bot {
         jdaBuilder.build();
     }
 
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) throws LoginException, SQLException {
         new Bot().ready();
     }
 }

@@ -57,6 +57,7 @@ public class CommandManager {
         addCommand(new UptimeCommand());
         addCommand(new ColorCommand());
         addCommand(new RanMoteCommand());
+        addCommand(new SetPrefixCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
@@ -149,12 +150,7 @@ public class CommandManager {
         String invoke = split[0].toLowerCase();
         ICommand cmd = this.getCommand(invoke);
 
-        List<HelpCategory> ownerCategories = List.of(HelpCategory.OWNER, HelpCategory.UNKNOWN, HelpCategory.VAR_FOR_USE);
-
         if (cmd != null) {
-            if(ownerCategories.contains(cmd.getHelpCategory()) && event.getAuthor().getId().equals(Config.get("owner_id")))
-                return;
-
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);

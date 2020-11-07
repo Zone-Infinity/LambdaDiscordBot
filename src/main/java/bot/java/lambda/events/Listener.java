@@ -4,6 +4,8 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
+import bot.java.lambda.config.Prefix;
+import bot.java.lambda.database.SQLiteDataSource;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import me.duncte123.botcommons.BotCommons;
@@ -24,6 +26,9 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -139,13 +144,15 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         User user = event.getAuthor();
+        final TextChannel channel = event.getChannel();
         final Guild eventGuild = event.getGuild();
 
         if (user.isBot() || event.isWebhookMessage()) {
             return;
         }
 
-        String prefix = Config.get("prefix");
+        final long guildId = event.getGuild().getIdLong();
+        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, this::getPrefix);
         String raw = event.getMessage().getContentRaw();
 
         if (raw.equalsIgnoreCase(prefix + "guilds")) {
@@ -225,5 +232,36 @@ public class Listener extends ListenerAdapter {
             manager.handle(event, prefix);
         }
     }
+
+    private String getPrefix(long guildId) {
+        try (final PreparedStatement preparedStatement = SQLiteDataSource
+                .getConnection()
+                // language=SQLite
+                .prepareStatement("SELECT prefix FROM guild_settings WHERE guild_id = ?")) {
+
+            preparedStatement.setString(1, String.valueOf(guildId));
+
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("prefix");
+                }
+            }
+
+            try (final PreparedStatement insertStatement = SQLiteDataSource
+                    .getConnection()
+                    // language=SQLite
+                    .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")) {
+
+                insertStatement.setString(1, String.valueOf(guildId));
+
+                insertStatement.execute();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Config.get("prefix");
+    }
+
 }
 
