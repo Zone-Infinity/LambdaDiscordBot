@@ -11,6 +11,10 @@ public interface ICommand {
 
     HelpCategory getHelpCategory();
 
+    default int getCoolDown() {
+        return 5;
+    }
+
     default List<String> getAliases() {
         return List.of();
     }

@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.images;
+package bot.java.lambda.command.commands.utils;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -65,6 +65,6 @@ public class DrakeCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.IMAGES;
+        return HelpCategory.UTIL;
     }
 }

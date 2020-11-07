@@ -1,28 +1,31 @@
 package bot.java.lambda.command;
 
-import bot.java.lambda.command.commands.owner.DMs.BlockCommand;
-import bot.java.lambda.command.commands.owner.DMs.ReplyCommand;
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;
 import bot.java.lambda.command.commands.games.*;
 import bot.java.lambda.command.commands.images.*;
 import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
+import bot.java.lambda.command.commands.owner.DMs.BlockCommand;
+import bot.java.lambda.command.commands.owner.DMs.ReplyCommand;
 import bot.java.lambda.command.commands.owner.EvalCommand;
 import bot.java.lambda.command.commands.owner.LeaveCommand;
-import bot.java.lambda.command.commands.utils.DefaultAvatarCommand;
-import bot.java.lambda.config.Config;
+import bot.java.lambda.command.commands.utils.*;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
+    private final Map<ICommand, List<User>> coolDown = new HashMap<>();
 
     public CommandManager(EventWaiter waiter) {
 
@@ -98,7 +101,6 @@ public class CommandManager {
         addCommand(new DarkenCommand());
         addCommand(new DrakeCommand());
         addCommand(new Drake2Command());
-        addCommand(new DiscordMonsterCommand());
 
         // Music Commands
         addCommand(new JoinCommand());
@@ -143,6 +145,8 @@ public class CommandManager {
     }
 
     public void handle(GuildMessageReceivedEvent event, String prefix) {
+        final TextChannel channel = event.getChannel();
+        final User user = event.getAuthor();
         String[] split = event.getMessage().getContentRaw()
                 .replaceFirst("(?i)" + Pattern.quote(prefix), "")
                 .split("\\s+");
@@ -151,11 +155,24 @@ public class CommandManager {
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
+
+            final List<User> users = coolDown.computeIfAbsent(cmd, it -> new ArrayList<>());
+            if (users.contains(user)) {
+                channel.sendMessage("You have to wait " + cmd.getCoolDown() + " seconds before using this command").queue();
+                return;
+            }
+
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);
 
             cmd.handle(ctx);
+
+            coolDown.get(cmd).add(user);
+            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+            Runnable removeUser = () -> coolDown.get(cmd).remove(user);
+            executor.schedule(removeUser, cmd.getCoolDown(), TimeUnit.SECONDS);
+
         }
     }
 }

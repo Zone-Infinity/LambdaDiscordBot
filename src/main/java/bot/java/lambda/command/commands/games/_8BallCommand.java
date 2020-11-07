@@ -51,4 +51,10 @@ public class _8BallCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.GAME;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
+    }
+
 }

@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.images;
+package bot.java.lambda.command.commands.utils;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class DarkenCommand implements ICommand {
+public class InvertCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -31,7 +31,7 @@ public class DarkenCommand implements ICommand {
             }
             final String effectiveAvatarUrl = message.getMentionedMembers().get(0).getUser().getEffectiveAvatarUrl();
             try {
-                darkenImage(channel, effectiveAvatarUrl);
+                invertImage(channel, effectiveAvatarUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -39,20 +39,20 @@ public class DarkenCommand implements ICommand {
         }
 
         try {
-            darkenImage(channel, args.get(0));
+            invertImage(channel, args.get(0));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void darkenImage(TextChannel channel, String url) throws IOException {
+    public static void invertImage(TextChannel channel, String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody req = new FormBody.Builder()
                 .add("image", url)
                 .build();
 
         Request request = new Request.Builder()
-                .url("https://apis.duncte123.me/filters/darken")
+                .url("https://apis.duncte123.me/filters/invert")
                 .post(req)
                 .build();
 
@@ -69,23 +69,23 @@ public class DarkenCommand implements ICommand {
             }
 
             assert res.body() != null;
-            channel.sendMessage("Here's you Darkened image")
+            channel.sendMessage("Here's you inverted image")
                     .addFile(Objects.requireNonNull(res.body()).bytes(), "Aleph.png").queue();
         }
     }
 
     @Override
     public String getName() {
-        return "darken";
+        return "invert";
     }
 
     @Override
     public String getHelp() {
-        return "Darkens the supplied Image";
+        return "Inverts the supplied image";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.IMAGES;
+        return HelpCategory.UTIL;
     }
 }

@@ -42,4 +42,9 @@ public class BlockCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.OWNER;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 0;
+    }
 }

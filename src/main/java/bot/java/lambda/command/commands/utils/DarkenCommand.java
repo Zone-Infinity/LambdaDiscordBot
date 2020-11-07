@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.images;
+package bot.java.lambda.command.commands.utils;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class PixelateCommand implements ICommand {
+public class DarkenCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -31,7 +31,7 @@ public class PixelateCommand implements ICommand {
             }
             final String effectiveAvatarUrl = message.getMentionedMembers().get(0).getUser().getEffectiveAvatarUrl();
             try {
-                pixelateImage(channel, effectiveAvatarUrl);
+                darkenImage(channel, effectiveAvatarUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -39,20 +39,20 @@ public class PixelateCommand implements ICommand {
         }
 
         try {
-            pixelateImage(channel, args.get(0));
+            darkenImage(channel, args.get(0));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void pixelateImage(TextChannel channel, String url) throws IOException {
+    public static void darkenImage(TextChannel channel, String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody req = new FormBody.Builder()
                 .add("image", url)
                 .build();
 
         Request request = new Request.Builder()
-                .url("https://apis.duncte123.me/filters/pixelate")
+                .url("https://apis.duncte123.me/filters/darken")
                 .post(req)
                 .build();
 
@@ -69,23 +69,23 @@ public class PixelateCommand implements ICommand {
             }
 
             assert res.body() != null;
-            channel.sendMessage("Here's you Pixelated image")
+            channel.sendMessage("Here's you Darkened image")
                     .addFile(Objects.requireNonNull(res.body()).bytes(), "Aleph.png").queue();
         }
     }
 
     @Override
     public String getName() {
-        return "pixelate";
+        return "darken";
     }
 
     @Override
     public String getHelp() {
-        return "Pixelates the given Image";
+        return "Darkens the supplied Image";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.IMAGES;
+        return HelpCategory.UTIL;
     }
 }
