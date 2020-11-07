@@ -5,6 +5,7 @@ import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Guild;
 
 import java.time.format.DateTimeFormatter;
@@ -23,10 +24,12 @@ public class ServerInfoCommand implements ICommand {
         );
 
         String numberInfo = String.format(
-                "> **Total Roles** : %s\n> **Total Emotes** : %s\n> **Total Members** : %s\n> **Categories** : %s\n> **Text Channels** : %s\n> **Voice Channels** : %s",
+                "> **Total Roles** : %s\n> **Total Emotes** : %s\n> **Total Members** : %s\n> **Online Members** : %s\n> **Offline Members** : %s\n> **Categories** : %s\n> **Text Channels** : %s\n> **Voice Channels** : %s",
                 guild.getRoleCache().size(),
                 guild.getEmotes().size(),
-                guild.getMemberCount(),
+                guild.getMemberCache().size(),
+                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.ONLINE).count(),
+                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.OFFLINE).count(),
                 guild.getCategories().size(),
                 guild.getTextChannels().size(),
                 guild.getVoiceChannels().size()
