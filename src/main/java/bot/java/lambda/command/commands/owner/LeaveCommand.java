@@ -13,7 +13,7 @@ public class LeaveCommand implements ICommand {
         if (!ctx.getAuthor().getId().equals(Config.get("owner_id")))
             return;
 
-        TextChannel globalAuditsChannel = ctx.getJDA().getTextChannelById(753995632556900544L);
+        TextChannel globalAuditsChannel = ctx.getJDA().getTextChannelById(758724135790051368L);
         if (!ctx.getArgs().isEmpty()) {
             ctx.getJDA().getGuildById(ctx.getArgs().get(0)).leave().queue(
                     (success) -> {

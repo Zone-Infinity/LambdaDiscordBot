@@ -4,8 +4,6 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
-import bot.java.lambda.config.Prefix;
-import bot.java.lambda.database.SQLiteDataSource;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -25,9 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,13 +52,19 @@ public class Listener extends ListenerAdapter {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
         Runnable status = () -> {
-            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone_Infinityλ7763 for help"));
+            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getUsers() + " users | Contact Zone Infinityλ7763 for help"));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            event.getJDA().getPresence().setActivity(Activity.watching(">help | Contact Zone_Infinityλ7763 for help"));
+            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone Infinityλ7763 for help"));
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            event.getJDA().getPresence().setActivity(Activity.watching(">help | Contact Zone Infinityλ7763 for help"));
         };
         Runnable checkWhetherInactive = () -> event.getJDA().getGuilds().forEach(guild -> {
             AudioManager audioManager = guild.getAudioManager();
@@ -149,8 +150,7 @@ public class Listener extends ListenerAdapter {
             return;
         }
 
-        final long guildId = event.getGuild().getIdLong();
-        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, Listener::getPrefix);
+        final String prefix = getPrefix();
         String raw = event.getMessage().getContentRaw();
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
@@ -190,35 +190,8 @@ public class Listener extends ListenerAdapter {
         }
     }
 
-    public static String getPrefix(long guildId) {
-        try (final PreparedStatement preparedStatement = SQLiteDataSource
-                .getConnection()
-                // language=SQLite
-                .prepareStatement("SELECT prefix FROM guild_settings WHERE guild_id = ?")) {
-
-            preparedStatement.setString(1, String.valueOf(guildId));
-
-            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getString("prefix");
-                }
-            }
-
-            try (final PreparedStatement insertStatement = SQLiteDataSource
-                    .getConnection()
-                    // language=SQLite
-                    .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")) {
-
-                insertStatement.setString(1, String.valueOf(guildId));
-
-                insertStatement.execute();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+    public static String getPrefix() {
         return Config.get("prefix");
     }
-
 }
 

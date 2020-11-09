@@ -4,7 +4,6 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.config.Config;
 import bot.java.lambda.events.Listener;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -124,7 +123,7 @@ public class HelpCommand implements ICommand {
             ImagesBuild.deleteCharAt(ImagesBuild.length() - 1);
             UtilsBuild.deleteCharAt(UtilsBuild.length() - 1);
 
-            String prefix = Listener.getPrefix(ctx.getGuild().getIdLong());
+            String prefix = Listener.getPrefix();
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
@@ -171,11 +170,6 @@ public class HelpCommand implements ICommand {
 
             channel.sendMessageFormat("Command Category```%s\n" +
                     "%s ```", categoryName, category.getDescription()).queue();
-            return;
-        }
-
-        if (command.getName().equals("embed")) {
-            channel.sendMessage("Command```css\n" + command.getHelp() + "```").queue();
             return;
         }
 

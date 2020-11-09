@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.utils;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.TextChannel;
 import okhttp3.*;
 
@@ -60,7 +61,7 @@ public class Drake2Command implements ICommand {
     @Override
     public String getHelp() {
         return "Generates a drake meme but with Danny Fenton instead of drake\n" +
-                "Usage : >drake2 <top_text> | <bottom_text>";
+                "Usage : " + Config.get("prefix") + "drake2 <top_text> | <bottom_text>";
     }
 
     @Override

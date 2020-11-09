@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.common;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import javax.imageio.ImageIO;
@@ -75,7 +76,7 @@ public class ColorCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Sends the Color Image\n" +
-                "Usage : >color < <r> <g> <b> / rgb / #hex >";
+                "Usage : " + Config.get("prefix") + "color < <r> <g> <b> / rgb / #hex >";
     }
 
     @Override

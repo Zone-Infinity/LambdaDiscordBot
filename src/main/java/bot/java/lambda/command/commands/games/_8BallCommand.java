@@ -10,6 +10,11 @@ import java.util.Random;
 public class _8BallCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
+        if (ctx.getArgs().isEmpty()) {
+            ctx.getChannel().sendMessage("Missing Arguments").queue();
+            return;
+        }
+
         List<String> responses = List.of(
                 "It is certain",
                 "It is decidedly so",

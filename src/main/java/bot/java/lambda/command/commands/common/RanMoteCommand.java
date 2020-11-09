@@ -12,7 +12,7 @@ public class RanMoteCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final List<Emote> emotes = ctx.getJDA().getEmotes();
-        ctx.getChannel().sendMessage(""+emotes.get(new Random().nextInt(emotes.size())).getAsMention()).queue();
+        ctx.getChannel().sendMessage("" + emotes.get(new Random().nextInt(emotes.size())).getAsMention()).queue();
     }
 
     @Override

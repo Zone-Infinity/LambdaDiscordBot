@@ -23,6 +23,7 @@ public class EmojifyCommand implements ICommand {
         int len = join.length();
         if (len > 200) {
             channel.sendMessage("Text Exceeds 200 Characters").queue();
+            return;
         }
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < len; i++) {

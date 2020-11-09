@@ -9,7 +9,8 @@ import java.util.List;
 public class LMGTFYCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
-        if(ctx.getArgs().isEmpty()){
+        if (ctx.getArgs().isEmpty()) {
+            ctx.getChannel().sendMessage("Missing Arguments").queue();
             return;
         }
         String link = String.join("+", ctx.getArgs());
@@ -24,7 +25,7 @@ public class LMGTFYCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Googles things for u\n" +
-                "Aliases : {google}";
+                "Aliases : " + getAliases();
     }
 
     @Override

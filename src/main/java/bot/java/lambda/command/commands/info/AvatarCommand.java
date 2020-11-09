@@ -23,14 +23,14 @@ public class AvatarCommand implements ICommand {
                 .setTimestamp(Instant.now());
 
         if (args.isEmpty()) {
-            channel.sendMessage(embed.setImage(ctx.getAuthor().getAvatarUrl()==null?ctx.getAuthor().getEffectiveAvatarUrl():ctx.getAuthor().getAvatarUrl()).build()).queue();
+            channel.sendMessage(embed.setImage(ctx.getAuthor().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
             return;
         }
 
         final List<Member> mentionedMembers = ctx.getMessage().getMentionedMembers();
         if (!mentionedMembers.isEmpty()) {
             final Member member = mentionedMembers.get(0);
-            channel.sendMessage(embed.setImage(member.getUser().getEffectiveAvatarUrl()).build()).queue();
+            channel.sendMessage(embed.setImage(member.getUser().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
             return;
         }
 
@@ -46,7 +46,7 @@ public class AvatarCommand implements ICommand {
             return;
         }
 
-        channel.sendMessage(embed.setImage(memberById.getUser().getEffectiveAvatarUrl()).build()).queue();
+        channel.sendMessage(embed.setImage(memberById.getUser().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
 
     }
 
@@ -78,6 +78,6 @@ public class AvatarCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("av");
+        return List.of("av", "pfp", "avt", "profilepic");
     }
 }

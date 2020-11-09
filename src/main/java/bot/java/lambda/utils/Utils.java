@@ -9,6 +9,8 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,17 +125,22 @@ public class Utils {
         }
     }
 
-    public static String getStatusAsEmote(String status){
+    public static String getStatusAsEmote(String status) {
         String online = "<a:Online:772748895700647946>",
                 offline = "<a:Offline:772748768307183617>",
                 idle = "<a:Idle:772748809377415189>",
                 dnd = "<a:Dnd:772748860057583626>";
-        return switch (status.toLowerCase()){
+        return switch (status.toLowerCase()) {
             case "on" -> online;
             case "idle" -> idle;
             case "dnd" -> dnd;
             default -> offline;
         };
+    }
+
+    public static String formatDateTime(String s) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return dateFormat.format(s);
     }
 
 }

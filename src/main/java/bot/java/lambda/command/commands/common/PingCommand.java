@@ -11,13 +11,13 @@ public class PingCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         JDA jda = ctx.getJDA();
-        
+
         jda.getRestPing().queue(
                 (ping) -> {
                     final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                             .setTitle("PING")
                             .addField("\uD83E\uDDE1 Rest ping", ping + "ms", true)
-                            .addField("<:PingPong:755716114834522135> WS ping", (jda.getGatewayPing()==69?70:jda.getGatewayPing()) + "ms", true);
+                            .addField("<:PingPong:755716114834522135> WS ping", (jda.getGatewayPing() == 69 ? 70 : jda.getGatewayPing()) + "ms", true);
                     ctx.getChannel().sendMessage(embed.build()).queue();
                 }
         );

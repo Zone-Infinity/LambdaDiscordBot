@@ -3,9 +3,11 @@ package bot.java.lambda.command.commands.common;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.config.Config;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -25,6 +27,11 @@ public class SayCommand implements ICommand {
 
         if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
+            return;
+        }
+
+        if (!ctx.getSelfMember().hasPermission(Permission.MANAGE_WEBHOOKS)) {
+            channel.sendMessage("I don't have MANAGE WEBHOOK Permission").queue();
             return;
         }
 
@@ -101,8 +108,8 @@ public class SayCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Says something for you\n" +
-                "Usage : >say <msg>\n" +
-                "        >say <@user> <msg>";
+                "Usage : " + Config.get("prefix") + "say <msg>\n" +
+                "        " + Config.get("prefix") + "say <@user> <msg>";
     }
 
     @Override

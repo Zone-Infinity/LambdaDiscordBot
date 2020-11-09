@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.common;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
@@ -65,9 +66,9 @@ public class GenPassCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Generate Random password for you\n" +
-                "Usage : >genPass <length>\n" +
-                "        >genPass <length> dm \n" +
-                "Aliases : {generatePass, password, genPass}";
+                "Usage : " + Config.get("prefix") + "genPass <length>\n" +
+                "        " + Config.get("prefix") + "genPass <length> dm \n" +
+                "Aliases : " + getAliases();
     }
 
     @Override

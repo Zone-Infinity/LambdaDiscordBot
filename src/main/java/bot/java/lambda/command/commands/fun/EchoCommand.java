@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.fun;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class EchoCommand implements ICommand {
         }
 
         channel.sendTyping().queue();
-        channel.sendMessage(join).queueAfter(join.length() * 50, TimeUnit.MILLISECONDS);
+        channel.sendMessage(join).queueAfter(join.length() * 10, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -52,7 +53,8 @@ public class EchoCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Echos your message";
+        return "Echos your message\n" +
+                "Usage : " + Config.get("prefix") + "echo <message>";
     }
 
     @Override

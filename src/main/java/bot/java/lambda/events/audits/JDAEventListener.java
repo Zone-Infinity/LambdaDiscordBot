@@ -1,17 +1,18 @@
 package bot.java.lambda.events.audits;
 
 import bot.java.lambda.utils.AuditUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
+import bot.java.lambda.utils.Utils;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.*;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class JDAEventListener extends ListenerAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JDAEventListener.class);
     private static TextChannel botStatusChannel;
 
     @Override
@@ -19,13 +20,13 @@ public class JDAEventListener extends ListenerAdapter {
         botStatusChannel = event.getJDA().getTextChannelById(AuditUtils.botStatusChannelID);
         if (botStatusChannel == null) return;
         botStatusChannel.sendMessage("`Started`").queue();
-        System.out.println("Started");
+        LOGGER.info("Started");
     }
 
     @Override
     public void onDisconnect(@NotNull DisconnectEvent event) {
         final OffsetDateTime timeDisconnected = event.getTimeDisconnected();
-        System.out.println(timeDisconnected.toString() + " Disconnected");
+        LOGGER.info(Utils.formatDateTime(timeDisconnected.toString()) + " : Disconnected");
     }
 
     @Override
@@ -33,12 +34,12 @@ public class JDAEventListener extends ListenerAdapter {
         botStatusChannel = event.getJDA().getTextChannelById(AuditUtils.botStatusChannelID);
         if (botStatusChannel == null) return;
         botStatusChannel.sendMessage("`Reconnected`").queue();
-        System.out.println("Reconnected");
+        LOGGER.info("Reconnected");
     }
 
     @Override
     public void onShutdown(@NotNull ShutdownEvent event) {
-        System.out.println("Shut Downed");
+        LOGGER.info("Shutdown successful");
     }
 
     @Override
@@ -47,18 +48,6 @@ public class JDAEventListener extends ListenerAdapter {
         if (botStatusChannel == null) return;
         botStatusChannel.sendMessageFormat("- Status changed from `%s` to `%s`"
                 , event.getOldStatus().name(), event.getNewStatus().name()).queue();
-        System.out.printf("Status changed from %s to %s%n", event.getOldStatus().name(), event.getNewStatus().name());
+        LOGGER.info("Status changed from {} to {}", event.getOldStatus().name(), event.getNewStatus().name());
     }
-
-    @Override
-    public void onException(@NotNull ExceptionEvent event) {
-        final Throwable cause = event.getCause();
-        final EmbedBuilder embedBuilder = new EmbedBuilder()
-                .addField("Exception", cause.getClass().getName(), false)
-                .addField("Message", cause.getMessage(), false)
-                .addField("Stack Trace", cause.getStackTrace().length > 1000 ? "Big enough" : Arrays.toString(cause.getStackTrace()), false);
-        cause.fillInStackTrace();
-        Objects.requireNonNull(event.getJDA().getTextChannelById(AuditUtils.errorChannelId)).sendMessage(embedBuilder.build()).queue();
-    }
-
 }

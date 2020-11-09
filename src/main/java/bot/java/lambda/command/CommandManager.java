@@ -9,6 +9,7 @@ import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.owner.CloseCommand;
 import bot.java.lambda.command.commands.owner.DMs.BlockCommand;
 import bot.java.lambda.command.commands.owner.DMs.ReplyCommand;
+import bot.java.lambda.command.commands.owner.DMs.UnblockCommand;
 import bot.java.lambda.command.commands.owner.EvalCommand;
 import bot.java.lambda.command.commands.owner.GuildsCommand;
 import bot.java.lambda.command.commands.owner.LeaveCommand;
@@ -39,6 +40,7 @@ public class CommandManager {
         addCommand(new BlockCommand());
         addCommand(new GuildsCommand());
         addCommand(new CloseCommand());
+        addCommand(new UnblockCommand());
 
         // Info Commands
         addCommand(new HelpCommand(this));
@@ -65,7 +67,6 @@ public class CommandManager {
         addCommand(new UptimeCommand());
         addCommand(new ColorCommand());
         addCommand(new RanMoteCommand());
-        addCommand(new SetPrefixCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
@@ -80,7 +81,6 @@ public class CommandManager {
         addCommand(new EmojifyCommand());
         addCommand(new EchoCommand());
         addCommand(new BoredCommand());
-        addCommand(new ProgrammingJokeCommand());
         addCommand(new AdviceCommand());
         addCommand(new FlipCommand());
         addCommand(new PixelCommand());

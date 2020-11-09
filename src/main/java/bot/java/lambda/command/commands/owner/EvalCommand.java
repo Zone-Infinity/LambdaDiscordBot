@@ -4,7 +4,6 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.config.Config;
-import bot.java.lambda.utils.Utils;
 import groovy.lang.GroovyShell;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -38,12 +37,12 @@ public class EvalCommand implements ICommand {
 
         final List<String> args = ctx.getArgs();
         final Message message = ctx.getMessage();
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
 
-        try{
+        try {
             engine.setProperty("args", args);
             engine.setProperty("event", ctx.getEvent());
             engine.setProperty("message", message);
@@ -52,14 +51,13 @@ public class EvalCommand implements ICommand {
             engine.setProperty("guild", ctx.getGuild());
             engine.setProperty("member", ctx.getMember());
 
-
-            String script = imports + message.getContentRaw().split("\\s+",2)[1];
+            String script = imports + message.getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
 
-            channel.sendMessage(out==null?"Executed without Error" : out.toString()).queue();
+            channel.sendMessage(out == null ? "Executed without Error" : out.toString()).queue();
 
-        }catch (Exception e){
-            channel.sendMessage("```"+e.getMessage()+"```").queue();
+        } catch (Exception e) {
+            channel.sendMessage("```" + e.getMessage() + "```").queue();
         }
     }
 
