@@ -49,7 +49,7 @@ public class SetPrefixCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.INFO;
+        return HelpCategory.COM;
     }
 
     private void updatePrefix(long guildId, String newPrefix) {

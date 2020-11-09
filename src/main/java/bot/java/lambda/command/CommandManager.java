@@ -6,11 +6,14 @@ import bot.java.lambda.command.commands.games.*;
 import bot.java.lambda.command.commands.images.*;
 import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
+import bot.java.lambda.command.commands.owner.CloseCommand;
 import bot.java.lambda.command.commands.owner.DMs.BlockCommand;
 import bot.java.lambda.command.commands.owner.DMs.ReplyCommand;
 import bot.java.lambda.command.commands.owner.EvalCommand;
+import bot.java.lambda.command.commands.owner.GuildsCommand;
 import bot.java.lambda.command.commands.owner.LeaveCommand;
 import bot.java.lambda.command.commands.utils.*;
+import bot.java.lambda.config.Config;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -34,6 +37,8 @@ public class CommandManager {
         addCommand(new LeaveCommand());
         addCommand(new ReplyCommand());
         addCommand(new BlockCommand());
+        addCommand(new GuildsCommand());
+        addCommand(new CloseCommand());
 
         // Info Commands
         addCommand(new HelpCommand(this));
@@ -155,6 +160,9 @@ public class CommandManager {
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
+
+            if ((cmd.getHelpCategory().equals(HelpCategory.OWNER) || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN) || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE)) && !(user.getId().equals(Config.get("owner_id"))))
+                return;
 
             final List<User> users = coolDown.computeIfAbsent(cmd, it -> new ArrayList<>());
             if (users.contains(user)) {

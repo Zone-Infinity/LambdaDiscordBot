@@ -8,7 +8,6 @@ import bot.java.lambda.config.Prefix;
 import bot.java.lambda.database.SQLiteDataSource;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import me.duncte123.botcommons.BotCommons;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -144,7 +143,6 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         User user = event.getAuthor();
-        final TextChannel channel = event.getChannel();
         final Guild eventGuild = event.getGuild();
 
         if (user.isBot() || event.isWebhookMessage()) {
@@ -152,26 +150,8 @@ public class Listener extends ListenerAdapter {
         }
 
         final long guildId = event.getGuild().getIdLong();
-        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, this::getPrefix);
+        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, Listener::getPrefix);
         String raw = event.getMessage().getContentRaw();
-
-        if (raw.equalsIgnoreCase(prefix + "guilds")) {
-            if (event.getAuthor().getIdLong() == Long.parseLong(Config.get("owner_id"))) {
-                final List<Guild> guilds = event.getJDA().getGuilds();
-                StringBuilder guildList = new StringBuilder();
-                guildList.append("```");
-                for (Guild guild : guilds)
-                    guildList.append("-")
-                            .append(guild.getName())
-                            .append(" : ")
-                            .append(guild.getMemberCount())
-                            .append(" : ")
-                            .append(guild.getId())
-                            .append("\n");
-                guildList.append("```");
-                event.getChannel().sendMessage(guildList).queue();
-            }
-        }
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
 
@@ -205,35 +185,12 @@ public class Listener extends ListenerAdapter {
             event.getChannel().sendMessageFormat("Hi %s , my prefix is %s", user.getAsMention(), Config.get("prefix")).queue();
         }
 
-        if (raw.equalsIgnoreCase(prefix + "close")) {
-            if (event.getAuthor().getId().equals(Config.get("owner_id"))) {
-                event.getChannel().sendMessage("Shutting Down").queue();
-                event.getMessage().addReaction("✅").queue();
-                LOGGER.info("Shutting Down");
-
-                if (eventGuild.getId().equals("755433534495391805")) {
-                    final VoiceChannel create_vc = eventGuild.getVoiceChannelsByName("Create VC", true).get(0);
-                    create_vc.getManager().putPermissionOverride(Objects.requireNonNull(eventGuild.getRoleById(755433534495391805L)), Collections.emptyList(), Collections.singletonList(Permission.VOICE_CONNECT)).queue();
-                }
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.fillInStackTrace();
-                }
-
-                event.getJDA().shutdown();
-                BotCommons.shutdown(event.getJDA());
-                System.exit(0);
-            }
-        }
-
         if (raw.startsWith(prefix)) {
             manager.handle(event, prefix);
         }
     }
 
-    private String getPrefix(long guildId) {
+    public static String getPrefix(long guildId) {
         try (final PreparedStatement preparedStatement = SQLiteDataSource
                 .getConnection()
                 // language=SQLite

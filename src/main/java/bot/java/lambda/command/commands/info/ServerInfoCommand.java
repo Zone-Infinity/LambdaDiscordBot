@@ -28,7 +28,7 @@ public class ServerInfoCommand implements ICommand {
                 guild.getRoleCache().size(),
                 guild.getEmotes().size(),
                 guild.getMemberCache().size(),
-                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.ONLINE).count(),
+                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.ONLINE || m.getOnlineStatus() == OnlineStatus.DO_NOT_DISTURB || m.getOnlineStatus() == OnlineStatus.IDLE).count(),
                 guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.OFFLINE).count(),
                 guild.getCategories().size(),
                 guild.getTextChannels().size(),
