@@ -70,8 +70,7 @@ public class PlaylistCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Plays a playlist\n" +
-                "Usage: <prefix> play <youtube link>\n" +
-                "Aliases : {pl, plist}";
+                "Usage: " + prefix + " playlist <youtube link / name>";
     }
 
     @Override

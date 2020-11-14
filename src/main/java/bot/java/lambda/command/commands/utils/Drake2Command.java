@@ -61,7 +61,7 @@ public class Drake2Command implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Generates a drake meme but with Danny Fenton instead of drake\n" +
-                "Usage : " + Config.get("prefix") + "drake2 <top_text> | <bottom_text>";
+                "Usage : " + prefix + "drake2 <top_text> | <bottom_text>";
     }
 
     @Override

@@ -58,7 +58,7 @@ public class PasteCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Creates a paste on the menudocs paste\n" +
-                "Usage : "+prefix+"paste <language> <text>";
+                "Usage : " + prefix + "paste <language> <text>";
     }
 
     @Override

@@ -24,8 +24,7 @@ public class LMGTFYCommand implements ICommand {
 
     @Override
     public String getHelp(String prefix) {
-        return "Googles things for u\n" +
-                "Aliases : " + getAliases();
+        return "Googles things for u";
     }
 
     @Override

@@ -108,8 +108,8 @@ public class SayCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Says something for you\n" +
-                "Usage : " + Config.get("prefix") + "say <msg>\n" +
-                "        " + Config.get("prefix") + "say <@user> <msg>";
+                "Usage : " + prefix + "say <msg>\n" +
+                "        " + prefix + "say <@user> <msg>";
     }
 
     @Override

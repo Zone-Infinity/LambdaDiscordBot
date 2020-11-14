@@ -10,7 +10,7 @@ public class RemoveCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
-
+        // TODO: make this command
     }
 
     @Override

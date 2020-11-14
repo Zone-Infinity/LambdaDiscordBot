@@ -62,8 +62,7 @@ public class PlayCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Plays a song\n" +
-                "Usage: <prefix> play <youtube link>\n" +
-                "Aliases : " + this.getAliases();
+                "Usage: <prefix> play <youtube link / name>";
     }
 
     @Override

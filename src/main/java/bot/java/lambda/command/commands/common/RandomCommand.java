@@ -3,7 +3,6 @@ package bot.java.lambda.command.commands.common;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.config.Config;
 
 import java.util.List;
 import java.util.OptionalInt;
@@ -48,7 +47,7 @@ public class RandomCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Gives you random number between your bounds\n" +
-                "Usage : " + Config.get("prefix") + "random <number> <number>";
+                "Usage : " + prefix + "random <number> <number>";
     }
 
     @Override

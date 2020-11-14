@@ -25,7 +25,7 @@ public class SetPrefixCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Member member = ctx.getMember();
 
-        if (member.hasPermission(Permission.MANAGE_SERVER)) {
+        if (!member.hasPermission(Permission.MANAGE_SERVER)) {
             channel.sendMessage("You don't have MANAGE SERVER Permission").queue();
             return;
         }

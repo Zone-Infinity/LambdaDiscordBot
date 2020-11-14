@@ -49,7 +49,7 @@ public class _8BallCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Ask the magic 8-ball a question and receive an answer\n" +
-                "Usage : >8ball <question>";
+                "Usage : " + prefix + "8ball <question>";
     }
 
     @Override

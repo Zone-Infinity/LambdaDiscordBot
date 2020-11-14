@@ -61,8 +61,7 @@ public class NowPlayingCommand implements ICommand {
 
     @Override
     public String getHelp(String prefix) {
-        return "Shows currently playing track\n" +
-                "Aliases : {np, nplaying, nowp}";
+        return "Shows currently playing track";
     }
 
     @Override

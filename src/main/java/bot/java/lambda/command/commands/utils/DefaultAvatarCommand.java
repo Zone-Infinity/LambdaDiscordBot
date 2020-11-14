@@ -121,7 +121,7 @@ public class DefaultAvatarCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Makes you a custom Default Avatar\n" +
-                "Usage : " + Config.get("prefix") + "defaultavatar [<r>,<g>,<b> / rgb / #hex] | [<r>,<g>,<b> / rgb / #hex]";
+                "Usage : " + prefix + "defaultavatar [<r>,<g>,<b> / rgb / #hex] | [<r>,<g>,<b> / rgb / #hex]";
     }
 
     @Override

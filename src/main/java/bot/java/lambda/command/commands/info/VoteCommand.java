@@ -8,7 +8,7 @@ public class VoteCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         // BOTRIX = https://botrix.cc/bots/752052866809593906/
-
+        // TODO: make this command
     }
 
     @Override

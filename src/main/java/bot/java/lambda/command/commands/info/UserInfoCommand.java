@@ -3,7 +3,6 @@ package bot.java.lambda.command.commands.info;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.config.Config;
 import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -111,7 +110,7 @@ public class UserInfoCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Displays information about a user\n" +
-                "Usage : " + Config.get("prefix") + "userinfo < username / @user / user_id >";
+                "Usage : " + prefix + "userinfo < username / @user / user_id >";
     }
 
     @Override

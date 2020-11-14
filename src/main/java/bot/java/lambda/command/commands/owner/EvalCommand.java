@@ -81,5 +81,4 @@ public class EvalCommand implements ICommand {
         return 0;
     }
 
-
 }

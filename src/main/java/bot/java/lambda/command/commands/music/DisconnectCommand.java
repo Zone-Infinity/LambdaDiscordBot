@@ -3,6 +3,8 @@ package bot.java.lambda.command.commands.music;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
+import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -46,6 +48,10 @@ public class DisconnectCommand implements ICommand {
         }
 
         channel.sendMessageFormat("Disconnected `\uD83D\uDD0A %s`", selfVoiceState.getChannel().getName()).queue();
+        GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
+        musicManager.scheduler.getQueue().clear();
+        musicManager.audioPlayer.stopTrack();
+        musicManager.audioPlayer.setPaused(false);
         audioManager.closeAudioConnection();
 
     }
@@ -57,8 +63,7 @@ public class DisconnectCommand implements ICommand {
 
     @Override
     public String getHelp(String prefix) {
-        return "Makes the bot disconnect from it's voice channel\n" +
-                "Aliases : {dis, d}";
+        return "Makes the bot disconnect from it's voice channel";
     }
 
     @Override

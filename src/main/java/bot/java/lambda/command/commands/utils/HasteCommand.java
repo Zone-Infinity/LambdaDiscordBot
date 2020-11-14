@@ -59,7 +59,7 @@ public class HasteCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Posts some text to hastebin\n" +
-                "Usage: "+prefix+"haste <text>";
+                "Usage: " + prefix + "haste <text>";
     }
 
     @Override

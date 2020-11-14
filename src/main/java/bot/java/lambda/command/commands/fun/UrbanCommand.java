@@ -43,7 +43,7 @@ public class UrbanCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Will give you funny meanings of the word u gave\n" +
-                "Usage : >urban <words>";
+                "Usage : " + prefix + "urban <words>";
     }
 
     @Override

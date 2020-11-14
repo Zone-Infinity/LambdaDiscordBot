@@ -94,7 +94,7 @@ public class CountCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Starts a count session\n" +
-                "try it out `>count`\n" +
+                "try it out `" + prefix + "count`\n" +
                 "You have to only count\n" +
                 "If the number is not the next number you lose\n" +
                 "and if u don't reply in 15 seconds you lose";

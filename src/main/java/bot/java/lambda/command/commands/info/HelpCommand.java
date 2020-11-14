@@ -176,7 +176,7 @@ public class HelpCommand implements ICommand {
         }
 
         channel.sendMessage("Command```prolog\n" + command.getHelp(Listener.getPrefix(ctx.getGuild().getId())).toUpperCase() + "\n" +
-                "Aliases : " + command.getAliases() + "```").queue();
+                "ALIASES : " + command.getAliases() + "```").queue();
 
     }
 
@@ -188,8 +188,7 @@ public class HelpCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Shows the list with commands in the bot\n" +
-                "Usage : <prefix> help <command>\n" +
-                "Aliases : {commands, cmd}";
+                "Usage : " + prefix + "help <command>";
     }
 
     @Override
@@ -199,7 +198,7 @@ public class HelpCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("commands", "cmd");
+        return List.of("commands", "cmd", "elp");
     }
 }
 

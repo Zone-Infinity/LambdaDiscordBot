@@ -35,7 +35,7 @@ public class EmoteUseCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "I use a server emoji that you provided\n" +
-                "Usage : >emoji <name>\n" +
+                "Usage : " + prefix + "emoji <name>\n" +
                 "If u don't know the emoji names , do >emojis";
     }
 

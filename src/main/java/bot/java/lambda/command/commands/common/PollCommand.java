@@ -72,7 +72,7 @@ public class PollCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Does a Poll\n" +
-                "Usage : " + Config.get("prefix") + "poll <question> ; <option1> ; <option2> ; ....\n" +
+                "Usage : " + prefix + "poll <question> ; <option1> ; <option2> ; ....\n" +
                 "Condition : There must be at least 2 options , Maximum number of Options are 9";
     }
 
