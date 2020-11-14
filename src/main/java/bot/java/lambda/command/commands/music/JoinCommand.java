@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.music;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -33,6 +34,11 @@ public class JoinCommand implements ICommand {
 
         final AudioManager audioManager = ctx.getGuild().getAudioManager();
         final VoiceChannel memberChannel = memberVoiceState.getChannel();
+
+        if (!ctx.getSelfMember().hasPermission(memberChannel, Permission.VOICE_CONNECT)) {
+            channel.sendMessage("I don't have Permission to Connect to your Voice Channel").queue();
+            return;
+        }
 
         audioManager.openAudioConnection(memberChannel);
         channel.sendMessageFormat("Connecting to <:Music:755716546827124787>`%s`", memberChannel.getName()).queue();
