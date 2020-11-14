@@ -14,7 +14,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class PlayerManager {
     private static PlayerManager INSTANCE;
@@ -40,7 +39,7 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, boolean playList) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         try {
@@ -62,11 +61,20 @@ public class PlayerManager {
                 @Override
                 public void playlistLoaded(AudioPlaylist playlist) {
                     final List<AudioTrack> tracks = playlist.getTracks();
+
+                    if (playList) {
+                        channel.sendMessage("Adding to queue: `")
+                                .append(String.valueOf(tracks.size()))
+                                .append("` tracks from playlist `")
+                                .append(playlist.getName())
+                                .append('`')
+                                .queue();
+
+                        playlist.getTracks().forEach(musicManager.scheduler::queue);
+                        return;
+                    }
                     final AudioTrack track = tracks.get(0);
-                /*for(final AudioTrack track : tracks){
-                    musicManager.scheduler.queue(track);
-                    duration = track.getDuration();
-                }*/
+
                     musicManager.scheduler.queue(track);
 
                     channel.sendMessage("Adding to queue: `")
@@ -77,9 +85,6 @@ public class PlayerManager {
                             .append(Utils.getTimestamp(track.getDuration()))
                             .append("`")
                             .queue();
-
-                    final Consumer<AudioTrack> queue = musicManager.scheduler::queue;
-
                 }
 
                 @Override
@@ -96,53 +101,6 @@ public class PlayerManager {
         } catch (Exception e) {
             channel.sendMessage("Failed to Load the track").queue();
         }
-    }
-
-    public void loadListAndPlay(TextChannel channel, String trackUrl) {
-        final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
-
-        this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
-            @Override
-            public void trackLoaded(AudioTrack track) {
-                musicManager.scheduler.queue(track);
-
-                channel.sendMessage("Adding to queue: `")
-                        .append(track.getInfo().title)
-                        .append("` by `")
-                        .append(track.getInfo().author)
-                        .append('`')
-                        .append(" for ")
-                        .append("`")
-                        .append(Utils.getTimestamp(track.getDuration()))
-                        .append("`")
-                        .queue();
-            }
-
-            @Override
-            public void playlistLoaded(AudioPlaylist playlist) {
-                final List<AudioTrack> tracks = playlist.getTracks();
-
-                channel.sendMessage("Adding to queue: `")
-                        .append(String.valueOf(tracks.size()))
-                        .append("` tracks from playlist `")
-                        .append(playlist.getName())
-                        .append('`')
-                        .queue();
-
-                playlist.getTracks().forEach(musicManager.scheduler::queue);
-
-            }
-
-            @Override
-            public void noMatches() {
-                channel.sendMessage("No Match Found").queue();
-            }
-
-            @Override
-            public void loadFailed(FriendlyException exception) {
-                channel.sendMessage("Failed to Load the track").queue();
-            }
-        });
     }
 
     public static PlayerManager getInstance() {

@@ -29,7 +29,7 @@ public class PingCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows the current ping from the bot to the discord servers";
     }
 

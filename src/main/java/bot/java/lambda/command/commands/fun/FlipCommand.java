@@ -26,7 +26,7 @@ public class FlipCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Flips a coin for you";
     }
 

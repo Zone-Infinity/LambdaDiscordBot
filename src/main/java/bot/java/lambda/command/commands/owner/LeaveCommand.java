@@ -47,7 +47,7 @@ public class LeaveCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Leaves the server";
     }
 

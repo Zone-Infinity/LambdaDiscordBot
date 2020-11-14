@@ -74,7 +74,7 @@ public class ColorCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Sends the Color Image\n" +
                 "Usage : " + Config.get("prefix") + "color < <r> <g> <b> / rgb / #hex >";
     }

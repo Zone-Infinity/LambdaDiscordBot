@@ -61,7 +61,7 @@ public class RPSCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Play `Rock-Paper-Scissors` with the bot\n" +
                 "Usage : >rps <r/p/s>\n" +
                 "`Rock -> rock, r`\n" +

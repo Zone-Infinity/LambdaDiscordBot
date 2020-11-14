@@ -80,7 +80,7 @@ public class BlackAndWhiteCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Black and Whites your image";
     }
 

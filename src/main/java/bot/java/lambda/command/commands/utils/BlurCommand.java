@@ -80,7 +80,7 @@ public class BlurCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Blurs the supplied Image";
     }
 

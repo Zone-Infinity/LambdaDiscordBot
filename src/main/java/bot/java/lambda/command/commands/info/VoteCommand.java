@@ -17,7 +17,7 @@ public class VoteCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives u the vote links for the bot";
     }
 

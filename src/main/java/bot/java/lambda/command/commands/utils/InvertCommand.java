@@ -80,7 +80,7 @@ public class InvertCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Inverts the supplied image";
     }
 

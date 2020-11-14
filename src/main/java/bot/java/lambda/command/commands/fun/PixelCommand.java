@@ -48,7 +48,7 @@ public class PixelCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives you a random pixel image (200 x 200)";
     }
 

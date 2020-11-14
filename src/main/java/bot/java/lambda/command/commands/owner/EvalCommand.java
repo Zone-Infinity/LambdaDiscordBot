@@ -67,7 +67,7 @@ public class EvalCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Takes groovy code and evaluate it";
     }
 

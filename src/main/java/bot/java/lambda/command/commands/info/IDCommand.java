@@ -63,7 +63,7 @@ public class IDCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives you the id of <user/channel/emoji/guild/role>";
     }
 

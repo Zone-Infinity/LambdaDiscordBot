@@ -23,7 +23,7 @@ public class LMGTFYCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Googles things for u\n" +
                 "Aliases : " + getAliases();
     }

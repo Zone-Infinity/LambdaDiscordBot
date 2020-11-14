@@ -50,7 +50,7 @@ public class PlaylistCommand implements ICommand {
             link = "ytsearch:" + link;
         }
 
-        PlayerManager.getInstance().loadListAndPlay(channel, link);
+        PlayerManager.getInstance().loadAndPlay(channel, link, true);
     }
 
     private boolean isUrl(String url) {
@@ -68,7 +68,7 @@ public class PlaylistCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Plays a playlist\n" +
                 "Usage: <prefix> play <youtube link>\n" +
                 "Aliases : {pl, plist}";

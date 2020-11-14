@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
+import bot.java.lambda.utils.DatabaseUtils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -20,9 +21,14 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +58,7 @@ public class Listener extends ListenerAdapter {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
         Runnable status = () -> {
-            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getUsers() + " users | Contact Zone Infinityλ7763 for help"));
+            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getUsers().size() + " users | Contact Zone Infinityλ7763 for help"));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
@@ -129,6 +135,11 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         globalAuditsChannel.sendMessage("```Added to " + event.getGuild() + "```").queue();
+        final TextChannel systemChannel = event.getGuild().getSystemChannel();
+        if (systemChannel == null) {
+            return;
+        }
+        systemChannel.sendMessage("Thank you for adding me \uD83D\uDE03").queue();
     }
 
     @Override
@@ -150,7 +161,7 @@ public class Listener extends ListenerAdapter {
             return;
         }
 
-        final String prefix = getPrefix();
+        final String prefix = getPrefix(eventGuild.getId());
         String raw = event.getMessage().getContentRaw();
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
@@ -190,8 +201,21 @@ public class Listener extends ListenerAdapter {
         }
     }
 
-    public static String getPrefix() {
+    public static String getPrefix(String guildID) {
+        final String prefixes = DatabaseUtils.PrefixDotJson;
+
+        try (FileReader reader = new FileReader(prefixes)) {
+            JSONParser jsonParser = new JSONParser();
+            Object jsonFile = jsonParser.parse(reader);
+            JSONObject prefixList = (JSONObject) jsonFile;
+
+            final String prefix = (String) prefixList.get(guildID);
+            if (prefix != null)
+                return prefix;
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
         return Config.get("prefix");
     }
 }
-

@@ -1,15 +1,12 @@
 package bot.java.lambda.events.audits;
 
 import bot.java.lambda.utils.AuditUtils;
-import bot.java.lambda.utils.Utils;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.*;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.OffsetDateTime;
 
 public class JDAEventListener extends ListenerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JDAEventListener.class);
@@ -25,8 +22,7 @@ public class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onDisconnect(@NotNull DisconnectEvent event) {
-        final OffsetDateTime timeDisconnected = event.getTimeDisconnected();
-        LOGGER.info(Utils.formatDateTime(timeDisconnected.toString()) + " : Disconnected");
+        LOGGER.info("Disconnected");
     }
 
     @Override

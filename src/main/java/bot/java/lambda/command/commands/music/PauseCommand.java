@@ -73,7 +73,7 @@ public class PauseCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Pauses the player if it's playing\n" +
                 "Resumes the player if it's paused";
     }

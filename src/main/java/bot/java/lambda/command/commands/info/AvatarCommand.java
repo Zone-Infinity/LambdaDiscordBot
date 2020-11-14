@@ -67,7 +67,7 @@ public class AvatarCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Sends the avatar of you or the user <mention/id>";
     }
 

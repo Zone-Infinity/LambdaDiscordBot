@@ -17,7 +17,7 @@ public class UptimeCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows the current uptime of the bot";
     }
 

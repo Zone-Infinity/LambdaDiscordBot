@@ -92,7 +92,7 @@ public class CountCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Starts a count session\n" +
                 "try it out `>count`\n" +
                 "You have to only count\n" +

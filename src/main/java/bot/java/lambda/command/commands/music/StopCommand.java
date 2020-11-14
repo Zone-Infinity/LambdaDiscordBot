@@ -72,7 +72,7 @@ public class StopCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Stops the music player";
     }
 

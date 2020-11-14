@@ -21,7 +21,7 @@ public class RanMoteCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Sends a random emote";
     }
 

@@ -52,6 +52,7 @@ public class CommandManager {
         addCommand(new IDCommand());
         addCommand(new UserInfoCommand());
         addCommand(new BotInfoCommand(this));
+        addCommand(new SetPrefixCommand());
 
         // Common Commands
         addCommand(new PingCommand());
@@ -99,13 +100,6 @@ public class CommandManager {
         addCommand(new BirdCommand());
         addCommand(new WolfCommand());
         addCommand(new PandaCommand());
-        addCommand(new InvertCommand());
-        addCommand(new BlackAndWhiteCommand());
-        addCommand(new BlurCommand());
-        addCommand(new PixelateCommand());
-        addCommand(new DarkenCommand());
-        addCommand(new DrakeCommand());
-        addCommand(new Drake2Command());
 
         // Music Commands
         addCommand(new JoinCommand());
@@ -117,9 +111,20 @@ public class CommandManager {
         addCommand(new UserCountCommand());
         addCommand(new NowPlayingCommand());
         addCommand(new PlaylistCommand());
+        addCommand(new LoopCommand());
 
         // Utility Commands
         addCommand(new DefaultAvatarCommand());
+        addCommand(new InvertCommand());
+        addCommand(new BlackAndWhiteCommand());
+        addCommand(new BlurCommand());
+        addCommand(new PixelateCommand());
+        addCommand(new DarkenCommand());
+        addCommand(new DrakeCommand());
+        addCommand(new Drake2Command());
+        addCommand(new PasteCommand());
+        addCommand(new HasteCommand());
+        addCommand(new ShortenUrlCommand());
 
     }
 
@@ -165,7 +170,7 @@ public class CommandManager {
                 return;
 
             final List<User> users = coolDown.computeIfAbsent(cmd, it -> new ArrayList<>());
-            if (users.contains(user)) {
+            if (users.contains(user) && !user.getId().equals(Config.get("owner_id"))) {
                 channel.sendMessage("You have to wait " + cmd.getCoolDown() + " seconds before using this command").queue();
                 return;
             }

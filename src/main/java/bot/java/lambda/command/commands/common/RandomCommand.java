@@ -46,7 +46,7 @@ public class RandomCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives you random number between your bounds\n" +
                 "Usage : " + Config.get("prefix") + "random <number> <number>";
     }

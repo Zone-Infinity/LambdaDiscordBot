@@ -19,7 +19,7 @@ public class DistractorCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Distracts Users";
     }
 

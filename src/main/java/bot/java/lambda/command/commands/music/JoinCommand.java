@@ -45,7 +45,7 @@ public class JoinCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Makes the bot join your voice channel\n" +
                 "Aliases : {j, come}";
     }

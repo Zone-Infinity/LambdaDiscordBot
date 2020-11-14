@@ -24,7 +24,7 @@ public class RollCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Rolls a dice for you";
     }
 

@@ -30,7 +30,7 @@ public class ServerRolesCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows the roles of the server";
     }
 

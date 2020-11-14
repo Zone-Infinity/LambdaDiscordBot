@@ -36,7 +36,6 @@ public class CloseCommand implements ICommand {
                 e.fillInStackTrace();
             }
 
-            ctx.getJDA().shutdown();
             BotCommons.shutdown(ctx.getJDA());
             System.exit(0);
         }
@@ -48,7 +47,7 @@ public class CloseCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shutdowns the bot";
     }
 

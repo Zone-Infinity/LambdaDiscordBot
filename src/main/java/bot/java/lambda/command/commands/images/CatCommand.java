@@ -46,7 +46,7 @@ public class CatCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives random image of cats UwU";
     }
 

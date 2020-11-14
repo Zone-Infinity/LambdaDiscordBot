@@ -19,7 +19,7 @@ public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
     private void ready() throws LoginException {
-        WebUtils.setUserAgent("Zone Infinity#7763");
+        WebUtils.setUserAgent("Zone-Infinity#7763");
 
         Object[] listeners = {
                 waiter,
@@ -43,10 +43,10 @@ public class Bot {
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(EnumSet.of(
+                        CacheFlag.CLIENT_STATUS,
                         CacheFlag.EMOTE
                 ))
                 .disableCache(EnumSet.of(
-                        CacheFlag.CLIENT_STATUS,
                         CacheFlag.ACTIVITY
                 ))
                 .addEventListeners(listeners);

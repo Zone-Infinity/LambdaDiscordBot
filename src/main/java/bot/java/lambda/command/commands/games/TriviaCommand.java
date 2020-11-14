@@ -107,7 +107,7 @@ public class TriviaCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Sends a trivia question (answer it in 30 seconds)";
     }
 

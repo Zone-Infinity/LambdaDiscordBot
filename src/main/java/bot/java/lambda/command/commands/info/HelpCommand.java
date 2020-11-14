@@ -58,6 +58,7 @@ public class HelpCommand implements ICommand {
             Collections.sort(MusicCmd);
             Collections.sort(GameCmd);
             Collections.sort(ImagesCmd);
+            Collections.sort(UtilsCmd);
 
             int count = 0;
             for (String cmd : FunCmd) {
@@ -123,12 +124,13 @@ public class HelpCommand implements ICommand {
             ImagesBuild.deleteCharAt(ImagesBuild.length() - 1);
             UtilsBuild.deleteCharAt(UtilsBuild.length() - 1);
 
-            String prefix = Listener.getPrefix();
+            String prefix = Listener.getPrefix(ctx.getGuild().getId());
 
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
                     .setTitle("**λ** Help")
-                    .setDescription("**Bot prefix** : ``" + prefix + "``\n " +
+                    .setDescription("**Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**\n" +
+                            "**Bot prefix** : ``" + prefix + "``\n " +
                             "```A Fun Bot which has many commands       \n" +
                             "It provides you with some Common commands\n" +
                             "Some Fun and most important MUSIC !! \uD83D\uDE04 \n" +
@@ -173,7 +175,8 @@ public class HelpCommand implements ICommand {
             return;
         }
 
-        channel.sendMessage("Command```prolog\n" + command.getHelp().toUpperCase() + "```").queue();
+        channel.sendMessage("Command```prolog\n" + command.getHelp(Listener.getPrefix(ctx.getGuild().getId())).toUpperCase() + "\n" +
+                "Aliases : " + command.getAliases() + "```").queue();
 
     }
 
@@ -183,7 +186,7 @@ public class HelpCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows the list with commands in the bot\n" +
                 "Usage : <prefix> help <command>\n" +
                 "Aliases : {commands, cmd}";

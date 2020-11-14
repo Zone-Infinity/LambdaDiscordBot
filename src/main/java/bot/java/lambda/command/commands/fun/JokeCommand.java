@@ -39,7 +39,7 @@ public class JokeCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Show random joke";
     }
 

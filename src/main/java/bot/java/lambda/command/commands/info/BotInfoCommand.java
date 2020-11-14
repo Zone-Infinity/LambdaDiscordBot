@@ -29,11 +29,11 @@ public class BotInfoCommand implements ICommand {
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setTitle("🤖 Bot Info", jda.getInviteUrl(Permission.MANAGE_WEBHOOKS, Permission.MESSAGE_MANAGE, Permission.VOICE_SPEAK))
                 .setAuthor("Zone Infinity λ7763", "https://images-ext-2.discordapp.net/external/A_7uQjeR6Y8ryVWMfwJT32Kkd_3oFYvVNoHBxTjI02A/https/cdn.discordapp.com/avatars/722854351600615465/883407867f1bf7dc0b7a7bf489b37c57.png", selfUser.getEffectiveAvatarUrl())
-                .setDescription("[Support Server](https://discord.com/invite/XCNehWVrH7)")
+                .setDescription("**Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**")
                 .addField("General 👓", "```css\n" +
                         "Owner : [Zone Infinityλ7763]\n" +
                         "Library : [JDA]\n" +
-                        "Prefix : [" + Listener.getPrefix() + "]\n" +
+                        "Prefix : [" + Listener.getPrefix(ctx.getGuild().getId()) + "]\n" +
                         "Command Number : [" + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()) + "]\n```", false)
                 .addField("Client 😎", "```css\n" +
                         "Client ID : [" + selfUser.getId() + "]\n" +
@@ -45,7 +45,7 @@ public class BotInfoCommand implements ICommand {
                 .addField("Credits 🌍", "```css\n" +
                         "Host Provider : [4NG3L\uD83C\uDF41#2769]\n" +
                         "Helpers : [ duncte123(MenuDocs)  \n" +
-                        "Loading BG#7962(AlphaBet)  \n" +
+                        "Loading BG(AlphaBet)  \n" +
                         "R1zeN(MenuDocs)  \n" +
                         "Dioxin(AlphaBet) ]\n" +
                         "  and many more :D\n" +
@@ -61,7 +61,7 @@ public class BotInfoCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Sends the bot info";
     }
 

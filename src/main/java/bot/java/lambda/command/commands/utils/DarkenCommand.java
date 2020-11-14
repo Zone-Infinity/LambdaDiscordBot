@@ -80,7 +80,7 @@ public class DarkenCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Darkens the supplied Image";
     }
 

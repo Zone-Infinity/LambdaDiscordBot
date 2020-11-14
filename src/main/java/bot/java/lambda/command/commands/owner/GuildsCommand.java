@@ -34,7 +34,7 @@ public class GuildsCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Send the guild it is in";
     }
 

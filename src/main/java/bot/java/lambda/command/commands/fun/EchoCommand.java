@@ -52,7 +52,7 @@ public class EchoCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Echos your message\n" +
                 "Usage : " + Config.get("prefix") + "echo <message>";
     }

@@ -40,7 +40,7 @@ public class UserInfoCommand implements ICommand {
             final MessageEmbed embed = EmbedUtils.getDefaultEmbed()
                     .setAuthor(String.format("%#s", user), user.getEffectiveAvatarUrl(), user.getEffectiveAvatarUrl())
                     .setTitle(Utils.getStatusAsEmote(utilStatus) + " " + member.getEffectiveName())
-                    .setThumbnail(user.getEffectiveAvatarUrl().replace("gif", "png"))
+                    .setThumbnail(user.getEffectiveAvatarUrl())
                     .setColor(member.getColor())
                     .addField("User Id + Mention", String.format("%s {%s}", user.getId(), member.getAsMention()), true)
                     .addField("Account Created", user.getTimeCreated().format(DateTimeFormatter.RFC_1123_DATE_TIME), true)
@@ -88,7 +88,8 @@ public class UserInfoCommand implements ICommand {
         final MessageEmbed embed = EmbedUtils.getDefaultEmbed()
                 .setAuthor(String.format("%#s", user), user.getEffectiveAvatarUrl(), user.getEffectiveAvatarUrl())
                 .setTitle(Utils.getStatusAsEmote(utilStatus) + " " + member.getEffectiveName())
-                .setThumbnail(user.getEffectiveAvatarUrl().replace("gif", "png"))
+                //.setThumbnail(user.getEffectiveAvatarUrl().replace("gif", "png"))
+                .setThumbnail(user.getEffectiveAvatarUrl())
                 .setColor(member.getColor())
                 .addField("User Id + Mention", String.format("%s {%s}", user.getId(), member.getAsMention()), true)
                 .addField("Account Created", user.getTimeCreated().format(DateTimeFormatter.RFC_1123_DATE_TIME), true)
@@ -108,7 +109,7 @@ public class UserInfoCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Displays information about a user\n" +
                 "Usage : " + Config.get("prefix") + "userinfo < username / @user / user_id >";
     }
@@ -116,5 +117,15 @@ public class UserInfoCommand implements ICommand {
     @Override
     public HelpCategory getHelpCategory() {
         return HelpCategory.INFO;
+    }
+
+    @Override
+    public int getCoolDown() {
+        return 20;
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return List.of("whois", "user", "info", "profile");
     }
 }

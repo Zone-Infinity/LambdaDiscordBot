@@ -49,7 +49,7 @@ public class ReplyCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return ">reply <user_id> <message>";
     }
 

@@ -31,7 +31,7 @@ public class UserCountCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives you the number of users there in your voice channel\n" +
                 "Aliases : {u}";
     }

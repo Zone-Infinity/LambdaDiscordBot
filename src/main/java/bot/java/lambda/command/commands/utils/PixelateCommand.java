@@ -80,7 +80,7 @@ public class PixelateCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Pixelates the given Image";
     }
 

@@ -22,7 +22,7 @@ public class BoredCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Sends random things to do when you are bored";
     }
 

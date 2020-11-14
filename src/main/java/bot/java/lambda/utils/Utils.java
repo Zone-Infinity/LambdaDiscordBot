@@ -137,10 +137,4 @@ public class Utils {
             default -> offline;
         };
     }
-
-    public static String formatDateTime(String s) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return dateFormat.format(s);
-    }
-
 }

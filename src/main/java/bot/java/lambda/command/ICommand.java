@@ -7,7 +7,7 @@ public interface ICommand {
 
     String getName();
 
-    String getHelp();
+    String getHelp(String prefix);
 
     HelpCategory getHelpCategory();
 

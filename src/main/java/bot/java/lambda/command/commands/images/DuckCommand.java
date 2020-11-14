@@ -53,7 +53,7 @@ public class DuckCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives random image of duck";
     }
 

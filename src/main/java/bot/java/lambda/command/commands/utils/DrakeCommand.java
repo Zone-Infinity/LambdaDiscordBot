@@ -59,7 +59,7 @@ public class DrakeCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Generates a drake meme\n" +
                 "Usage : "+ Config.get("prefix") +"drake <top_text> | <bottom_text>";
     }

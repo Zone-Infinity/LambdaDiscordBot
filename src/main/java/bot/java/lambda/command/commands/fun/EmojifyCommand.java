@@ -42,7 +42,7 @@ public class EmojifyCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Emojifies your text\n" +
                 "Usage : >emojify <text>";
     }

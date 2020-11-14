@@ -145,7 +145,7 @@ public class EmojiCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows you the list of Emojis of the Bot\n" +
                 "Aliases : {emotes, allEmoji}";
     }

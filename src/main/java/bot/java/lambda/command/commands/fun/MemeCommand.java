@@ -38,7 +38,7 @@ public class MemeCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows a random meme";
     }
 

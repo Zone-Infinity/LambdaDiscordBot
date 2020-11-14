@@ -33,7 +33,7 @@ public class UnblockCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Unblocks Someone";
     }
 
