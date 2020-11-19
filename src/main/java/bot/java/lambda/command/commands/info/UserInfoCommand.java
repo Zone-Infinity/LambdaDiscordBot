@@ -31,7 +31,8 @@ public class UserInfoCommand implements ICommand {
 
             final String status = member.getOnlineStatus().name().toLowerCase();
             String utilStatus = "";
-            if (status.startsWith("on")) utilStatus = "on";
+            if(!member.getActivities().isEmpty() && member.getActivities().stream().anyMatch(it -> it.getType() == Activity.ActivityType.STREAMING)) utilStatus = "s";
+            else if (status.startsWith("on")) utilStatus = "on";
             else if (status.startsWith("off")) utilStatus = "off";
             else if (status.startsWith("i")) utilStatus = "idle";
             else if (status.startsWith("d")) utilStatus = "dnd";
@@ -79,7 +80,8 @@ public class UserInfoCommand implements ICommand {
 
         final String status = member.getOnlineStatus().name().toLowerCase();
         String utilStatus = "";
-        if (status.startsWith("on")) utilStatus = "on";
+        if(!member.getActivities().isEmpty() && member.getActivities().stream().anyMatch(it -> it.getType() == Activity.ActivityType.STREAMING)) utilStatus = "s";
+        else if (status.startsWith("on")) utilStatus = "on";
         else if (status.startsWith("off")) utilStatus = "off";
         else if (status.startsWith("i")) utilStatus = "idle";
         else if (status.startsWith("d")) utilStatus = "dnd";

@@ -39,7 +39,7 @@ public class BotInfoCommand implements ICommand {
                         "Client ID : [" + selfUser.getId() + "]\n" +
                         "Servers : [" + jda.getGuilds().size() + "]\n" +
                         "Users : [" + jda.getUsers().size() + "]\n" +
-                        "Average Users per Server : [" + (jda.getUsers().size() / jda.getGuilds().size()) + "]" +
+                        "Average Users per Server : [" + (jda.getUsers().size() / jda.getGuilds().size()) + "]\n" +
                         "WS Ping : [" + jda.getGatewayPing() + "ms]\n" +
                         "Uptime : [" + Utils.getUptime().split(";")[0] + "]\n```", false)
                 .addField("Credits 🌍", "```css\n" +

@@ -129,8 +129,10 @@ public class Utils {
         String online = "<a:Online:772748895700647946>",
                 offline = "<a:Offline:772748768307183617>",
                 idle = "<a:Idle:772748809377415189>",
-                dnd = "<a:Dnd:772748860057583626>";
+                dnd = "<a:Dnd:772748860057583626>",
+                streaming = "<a:Streaming:778822668035948585>";
         return switch (status.toLowerCase()) {
+            case "s" -> streaming;
             case "on" -> online;
             case "idle" -> idle;
             case "dnd" -> dnd;

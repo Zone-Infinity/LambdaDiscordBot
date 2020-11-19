@@ -53,6 +53,7 @@ public class CommandManager {
         addCommand(new UserInfoCommand());
         addCommand(new BotInfoCommand(this));
         addCommand(new SetPrefixCommand());
+        addCommand(new VoteCommand());
 
         // Common Commands
         addCommand(new PingCommand());
@@ -85,6 +86,7 @@ public class CommandManager {
         addCommand(new AdviceCommand());
         addCommand(new FlipCommand());
         addCommand(new PixelCommand());
+        addCommand(new ChatCommand());
 
         // Image Commands
         addCommand(new CoffeeCommand());
@@ -112,6 +114,8 @@ public class CommandManager {
         addCommand(new NowPlayingCommand());
         addCommand(new PlaylistCommand());
         addCommand(new LoopCommand());
+        addCommand(new ShuffleCommand());
+        addCommand(new VolumeCommand());
 
         // Utility Commands
         addCommand(new DefaultAvatarCommand());

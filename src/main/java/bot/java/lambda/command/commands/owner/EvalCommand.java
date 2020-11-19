@@ -43,6 +43,7 @@ public class EvalCommand implements ICommand {
         }
 
         try {
+            engine.setProperty("ctx", ctx);
             engine.setProperty("args", args);
             engine.setProperty("event", ctx.getEvent());
             engine.setProperty("message", message);

@@ -30,7 +30,7 @@ public class SayCommand implements ICommand {
             return;
         }
 
-        if (!ctx.getSelfMember().hasPermission(Permission.MANAGE_WEBHOOKS)) {
+        if (!ctx.getSelfMember().hasPermission(Permission.MANAGE_WEBHOOKS) && !ctx.getSelfMember().hasPermission(channel, Permission.MANAGE_WEBHOOKS)) {
             channel.sendMessage("I don't have MANAGE WEBHOOK Permission").queue();
             return;
         }
