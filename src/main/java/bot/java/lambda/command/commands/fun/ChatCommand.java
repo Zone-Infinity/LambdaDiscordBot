@@ -22,7 +22,7 @@ public class ChatCommand implements ICommand {
         String url = "https://api.snowflakedev.xyz/chatbot?message=" + String.join("%20", args);
 
         WebUtils.ins.getJSONObject(url).async(
-                (json) -> channel.sendMessage(json.get("message").asText()).queue()
+                (json) -> ctx.getMessage().reply(json.get("message").asText()).queue()
         );
 
     }
