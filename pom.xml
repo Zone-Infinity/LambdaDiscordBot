@@ -13,8 +13,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.15</maven.compiler.source>
-        <maven.compiler.target>1.15</maven.compiler.target>
+        <maven.compiler.source>1.14</maven.compiler.source>
+        <maven.compiler.target>1.14</maven.compiler.target>
     </properties>
 
     <repositories>
@@ -128,8 +128,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
                     <configuration>
-                        <source>15</source>
-                        <target>15</target>
+                        <source>14</source>
+                        <target>14</target>
                     </configuration>
                 </plugin>
 
@@ -214,8 +214,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>15</source>
-                    <target>15</target>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
         </plugins>
