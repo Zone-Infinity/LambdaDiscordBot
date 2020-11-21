@@ -61,7 +61,7 @@ public class ColorCommand implements ICommand {
             ImageIO.write(image, "png", outputStream);
         } catch (IOException e) {
             channel.sendMessage("Something went wrong").queue();
-            e.fillInStackTrace();
+            e.printStackTrace();
             return;
         }
 
