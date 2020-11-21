@@ -1,0 +1,1 @@
+worker: java LambdaDiscordBot/src/main/java/bot/java/lambda/Bot.java
