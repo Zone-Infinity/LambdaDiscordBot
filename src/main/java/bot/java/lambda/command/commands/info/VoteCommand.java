@@ -9,9 +9,6 @@ import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class VoteCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
@@ -26,40 +23,49 @@ public class VoteCommand implements ICommand {
                 .setDescription("1. [Vote on RovelBotList](" + ROVEL + ")\n" +
                         "2. [Vote on BOTRIX](" + BOTRIX + ")\n" +
                         "3. [Vote on InfinityBotList](" + INFINITY + ")\n" +
-                        "")
-                .addField("Votes on Rovel Bot List", getVotes("rbl"), false)
-                .addField("Votes on BOTRIX", getVotes("botrix"), false)
-                .addField("Votes on Infinity Bot List", getVotes("infinity"), false);
-        channel.sendMessage(embed.build()).queue();
-
+                        "");
+        sendVotes(channel, embed);
     }
 
-    private String getVotes(String botList) {
-        final Map<String, String> votes = new HashMap<>();
-
+    private void sendVotes(TextChannel channel, EmbedBuilder voteEmbed) {
         final WebUtils ins = WebUtils.ins;
 
-        // ROVEL BOT LIST
-        final JsonNode rblGeneral = ins.getJSONObject("https://bots.rovelstars.ga/api/v1/bots/752052866809593906/stats").execute().get("general");
-        final int RblTotalVotes = rblGeneral.get("totalVotes").asInt();
-        final int RblVoteCount = rblGeneral.get("voteCount").asInt();
-        votes.put("rbl", String.format(
-                "Total Votes : %s\nVote Count : %s", RblTotalVotes, RblVoteCount
-        ));
+        String BOTRIX = "https://botrix.cc/api/v1/bot/752052866809593906";
+        String ROVEL = "https://bots.rovelstars.ga/api/v1/bots/752052866809593906/stats";
+        String INFINITY = "https://infinitybotlist.com/api/bots/752052866809593906/info";
 
+        ins.getJSONObject(ROVEL).async(
+                rbl -> ins.getJSONObject(BOTRIX).async(
+                        botrix -> ins.getJSONObject(INFINITY).async(
+                                infinity -> {
+                                    final JsonNode rblGeneral = rbl.get("general");
+                                    final int RblTotalVotes = rblGeneral.get("totalVotes").asInt();
+                                    final int RblVoteCount = rblGeneral.get("voteCount").asInt();
 
-        // BOTRIX BOT LIST
-        final String botrixTotalVotes = ins.getJSONObject("https://botrix.cc/api/v1/bot/752052866809593906").execute().get("bot").get("votes").asText();
-        votes.put("botrix", String.format(
-                "Total Votes : %s", botrixTotalVotes
-        ));
+                                    final String botrixTotalVotes = botrix.get("bot").get("votes").asText();
 
-        // INFINITY BOT LIST
-        final String infinityTotalVotes = ins.getJSONObject("https://infinitybotlist.com/api/bots/752052866809593906/info").execute().get("votes").asText();
-        votes.put("infinity", String.format(
-                "Total Votes : %s", infinityTotalVotes
-        ));
-        return votes.get(botList.toLowerCase());
+                                    final String infinityTotalVotes = infinity.get("votes").asText();
+
+                                    voteEmbed
+                                            .addField("Votes on Rovel Bot List",
+                                                    String.format(
+                                                            "Total Votes : %s\nVote Count : %s", RblTotalVotes, RblVoteCount
+                                                    ), false
+                                            )
+                                            .addField("Votes on BOTRIX",
+                                                    String.format(
+                                                            "Total Votes : %s", botrixTotalVotes
+                                                    ), false)
+                                            .addField("Votes on Infinity Bot List",
+                                                    String.format(
+                                                            "Total Votes : %s", infinityTotalVotes
+                                                    ), false);
+
+                                    channel.sendMessage(voteEmbed.build()).queue();
+                                }
+                        )
+                )
+        );
     }
 
     @Override
