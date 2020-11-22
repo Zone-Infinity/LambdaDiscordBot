@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -35,7 +36,7 @@ public class VoteCommand implements ICommand {
     }
 
     private String getVotes(String botList) {
-        Map<String, String> votes = new HashMap<>();
+        final Map<String, String> votes = new HashMap<>();
 
         final WebUtils ins = WebUtils.ins;
 

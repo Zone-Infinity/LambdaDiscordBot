@@ -63,14 +63,7 @@ public class ChatCommand implements ICommand {
 
     private String getReply(String msg) {
         String url = "https://api.snowflakedev.xyz/chatbot?message=" + msg.replaceAll(" ", "%20");
-
-        final String[] message = new String[1];
-
-        WebUtils.ins.getJSONObject(url).async(
-                (json) -> message[0] = json.get("message").asText()
-        );
-
-        return message[0];
+        return WebUtils.ins.getJSONObject(url).execute().get("message").asText();
     }
 
     @Override
