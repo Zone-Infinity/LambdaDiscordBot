@@ -35,7 +35,7 @@ public class VoteCommand implements ICommand {
     }
 
     private String getVotes(String botList) {
-        final Map<String, String> votes = new HashMap<>();
+        Map<String, String> votes = new HashMap<>();
 
         final WebUtils ins = WebUtils.ins;
 
