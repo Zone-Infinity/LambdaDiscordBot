@@ -85,8 +85,7 @@ public class VoteCommand implements ICommand {
         );
 
 
-        final String vote = votes.get(botList.toLowerCase());
-        return vote == null ? "" : vote;
+        return votes.get(botList.toLowerCase());
     }
 
     @Override
