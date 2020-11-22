@@ -9,11 +9,13 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ChatCommand implements ICommand {
 
+    List<User> areChatting = new ArrayList<>();
     EventWaiter waiter;
 
     public ChatCommand(EventWaiter waiter) {
@@ -24,15 +26,21 @@ public class ChatCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
         final List<String> args = ctx.getArgs();
+        final User author = ctx.getAuthor();
 
         if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
 
+        if(areChatting.contains(author))
+            return;
+
+        areChatting.add(author);
+
         final String msg = String.join(" ", args);
         ctx.getMessage().reply(getReply(msg)).queue();
-        waitForMessage(channel, ctx.getAuthor());
+        waitForMessage(channel, author);
 
     }
 

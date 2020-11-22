@@ -4,7 +4,6 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -41,51 +40,25 @@ public class VoteCommand implements ICommand {
         final WebUtils ins = WebUtils.ins;
 
         // ROVEL BOT LIST
-        ins.getJSONObject("https://bots.rovelstars.ga/api/v1/bots/752052866809593906/stats").async(
-                (json) -> {
-                    final JsonNode general = json.get("general");
-                    final int totalVotes = general.get("totalVotes").asInt();
-                    final int voteCount = general.get("voteCount").asInt();
+        final JsonNode rblGeneral = ins.getJSONObject("https://bots.rovelstars.ga/api/v1/bots/752052866809593906/stats").execute().get("general");
+        final int RblTotalVotes = rblGeneral.get("totalVotes").asInt();
+        final int RblVoteCount = rblGeneral.get("voteCount").asInt();
+        votes.put("rbl", String.format(
+                "Total Votes : %s\nVote Count : %s", RblTotalVotes, RblVoteCount
+        ));
 
-                    String voteString = String.format(
-                            "Total Votes : %s\nVote Count : %s", totalVotes, voteCount
-                    );
-
-                    votes.put("rbl", voteString);
-
-                }
-        );
 
         // BOTRIX BOT LIST
-        ins.getJSONObject("https://botrix.cc/api/v1/bot/752052866809593906").async(
-                (json) -> {
-                    final JsonNode general = json.get("bot");
-                    final int totalVotes = general.get("votes").asInt();
-
-                    String voteString = String.format(
-                            "Total Votes : %s", totalVotes
-                    );
-
-                    votes.put("botrix", voteString);
-
-                }
-        );
+        final String botrixTotalVotes = ins.getJSONObject("https://botrix.cc/api/v1/bot/752052866809593906").execute().get("bot").get("votes").asText();
+        votes.put("botrix", String.format(
+                "Total Votes : %s", botrixTotalVotes
+        ));
 
         // INFINITY BOT LIST
-        ins.getJSONObject("https://infinitybotlist.com/api/bots/752052866809593906/info").async(
-                (json) -> {
-                    final JsonNode totalVotes = json.get("votes");
-
-                    String voteString = String.format(
-                            "Total Votes : %s", totalVotes
-                    );
-
-                    votes.put("infinity", voteString);
-
-                }
-        );
-
-
+        final String infinityTotalVotes = ins.getJSONObject("https://infinitybotlist.com/api/bots/752052866809593906/info").execute().get("votes").asText();
+        votes.put("infinity", String.format(
+                "Total Votes : %s", infinityTotalVotes
+        ));
         return votes.get(botList.toLowerCase());
     }
 
