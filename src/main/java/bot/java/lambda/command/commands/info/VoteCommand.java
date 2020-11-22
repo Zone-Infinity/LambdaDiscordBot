@@ -44,7 +44,7 @@ public class VoteCommand implements ICommand {
 
                                     final String botrixTotalVotes = botrix.get("bot").get("votes").asText();
 
-                                    String infinityTotalVotes = "";
+                                    String infinityTotalVotes = "not available";
 
                                     if (!infinity.get("error").asBoolean())
                                         infinityTotalVotes = infinity.get("votes").asText();
