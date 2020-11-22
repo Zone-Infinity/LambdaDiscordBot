@@ -44,7 +44,10 @@ public class VoteCommand implements ICommand {
 
                                     final String botrixTotalVotes = botrix.get("bot").get("votes").asText();
 
-                                    final String infinityTotalVotes = infinity.get("votes").asText();
+                                    String infinityTotalVotes = "";
+
+                                    if (!infinity.get("error").asBoolean())
+                                        infinityTotalVotes = infinity.get("votes").asText();
 
                                     voteEmbed
                                             .addField("Votes on Rovel Bot List",
@@ -81,5 +84,10 @@ public class VoteCommand implements ICommand {
     @Override
     public HelpCategory getHelpCategory() {
         return HelpCategory.INFO;
+    }
+
+    @Override
+    public int getCoolDown() {
+        return 60;
     }
 }
