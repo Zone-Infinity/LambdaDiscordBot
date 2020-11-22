@@ -28,13 +28,13 @@ public class ChatCommand implements ICommand {
         final List<String> args = ctx.getArgs();
         final User author = ctx.getAuthor();
 
+        if(areChatting.contains(author))
+            return;
+
         if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
-
-        if(areChatting.contains(author))
-            return;
 
         areChatting.add(author);
 
