@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class ChatCommand implements ICommand {
 
     List<User> areChatting = new ArrayList<>();
+    final WebUtils ins = WebUtils.ins;
     EventWaiter waiter;
 
     public ChatCommand(EventWaiter waiter) {
@@ -28,7 +29,7 @@ public class ChatCommand implements ICommand {
         final List<String> args = ctx.getArgs();
         final User author = ctx.getAuthor();
 
-        if(areChatting.contains(author))
+        if (areChatting.contains(author))
             return;
 
         if (args.isEmpty()) {
@@ -39,8 +40,13 @@ public class ChatCommand implements ICommand {
         areChatting.add(author);
 
         final String msg = String.join(" ", args);
-        ctx.getMessage().reply(getReply(msg)).queue();
-        waitForMessage(channel, author);
+        String url = "https://api.snowflakedev.xyz/chatbot?message=" + msg.replaceAll(" ", "%20");
+        ins.getJSONObject(url).async(
+                json -> {
+                    ctx.getMessage().reply(json.get("message").asText()).queue();
+                    waitForMessage(channel, author);
+                }
+        );
 
     }
 
@@ -62,16 +68,17 @@ public class ChatCommand implements ICommand {
                         return;
                     }
 
-                    e.getMessage().reply(getReply(message)).queue();
-                    waitForMessage(channel, user);
+                    String url = "https://api.snowflakedev.xyz/chatbot?message=" + message.replaceAll(" ", "%20");
+
+                    ins.getJSONObject(url).async(
+                            json -> {
+                                e.getMessage().reply(json.get("message").asText()).queue();
+                                waitForMessage(channel, user);
+                            }
+                    );
 
                 }, 30, TimeUnit.SECONDS, () -> channel.sendMessage("Bye! \uD83D\uDC4B\uD83C\uDFFB").queue()
         );
-    }
-
-    private String getReply(String msg) {
-        String url = "https://api.snowflakedev.xyz/chatbot?message=" + msg.replaceAll(" ", "%20");
-        return WebUtils.ins.getJSONObject(url).execute().get("message").asText();
     }
 
     @Override
