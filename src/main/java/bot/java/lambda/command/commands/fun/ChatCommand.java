@@ -63,6 +63,11 @@ public class ChatCommand implements ICommand {
                         message = message.replaceFirst(">chat", "");
                     }
 
+                    if (message.isEmpty()) {
+                        waitForMessage(channel, user);
+                        return;
+                    }
+
                     if (message.startsWith("bye")) {
                         e.getMessage().reply("Bye! \uD83D\uDC4B\uD83C\uDFFB").queue();
                         areChatting.remove(user);

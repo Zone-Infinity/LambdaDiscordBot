@@ -35,8 +35,10 @@ public class VoteCommand implements ICommand {
         String INFINITY = "https://infinitybotlist.com/api/bots/752052866809593906/info";
 
         ins.getJSONObject(ROVEL).async(
-                rbl -> ins.getJSONObject(BOTRIX).async(
-                        botrix -> ins.getJSONObject(INFINITY).async(
+                rbl ->
+                        ins.getJSONObject(BOTRIX).async(
+                        botrix ->
+                                ins.getJSONObject(INFINITY).async(
                                 infinity -> {
                                     final JsonNode rblGeneral = rbl.get("general");
                                     final int RblTotalVotes = rblGeneral.get("totalVotes").asInt();
