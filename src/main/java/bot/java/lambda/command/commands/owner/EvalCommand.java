@@ -5,6 +5,8 @@ import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.config.Config;
 import groovy.lang.GroovyShell;
+import me.duncte123.botcommons.messaging.EmbedUtils;
+import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -51,6 +53,9 @@ public class EvalCommand implements ICommand {
             engine.setProperty("jda", ctx.getJDA());
             engine.setProperty("guild", ctx.getGuild());
             engine.setProperty("member", ctx.getMember());
+            engine.setProperty("author", ctx.getAuthor());
+            engine.setProperty("ins", WebUtils.ins);
+            engine.setProperty("defaultEmbed", EmbedUtils.getDefaultEmbed());
 
             String script = imports + message.getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);

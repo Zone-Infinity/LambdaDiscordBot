@@ -68,7 +68,7 @@ public class ChatCommand implements ICommand {
                         return;
                     }
 
-                    if (message.startsWith("bye")) {
+                    if (message.contains("bye")) {
                         e.getMessage().reply("Bye! \uD83D\uDC4B\uD83C\uDFFB").queue();
                         areChatting.remove(user);
                         return;
@@ -84,7 +84,7 @@ public class ChatCommand implements ICommand {
                     );
 
                 }, 30, TimeUnit.SECONDS, () -> {
-                    channel.sendMessage("Bye! \uD83D\uDC4B\uD83C\uDFFB").queue();
+                    channel.sendMessage("Looks like I am alone , Bye! \uD83D\uDC4B\uD83C\uDFFB").queue();
                     areChatting.remove(user);
                 }
         );
