@@ -162,7 +162,8 @@ public class Listener extends ListenerAdapter {
         }
 
         final String prefix = getPrefix(eventGuild.getId());
-        String raw = event.getMessage().getContentRaw();
+        final Message message = event.getMessage();
+        String raw = message.getContentRaw();
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
 
@@ -179,20 +180,20 @@ public class Listener extends ListenerAdapter {
             waiter.waitForEvent(MessageReceivedEvent.class,
                     e -> e.getAuthor().equals(user)
                             && e.getChannel().equals(event.getChannel())
-                            && !e.getMessage().equals(event.getMessage()),
+                            && !e.getMessage().equals(message),
                     e -> {
-                        final String message = e.getMessage().getContentRaw();
+                        final String userName = e.getMessage().getContentRaw();
                         String name = e.getGuild().getSelfMember().getNickname() == null ? e.getJDA().getSelfUser().getName() : e.getGuild().getSelfMember().getNickname();
-                        if (message.contains(name) || message.contains("Lambda")) {
+                        if (userName.contains(name) || userName.contains("Lambda")) {
                             e.getChannel().sendMessage("<:Wot:755715077029625916> Eh , it's my name. Bruh!!").queue();
                             return;
                         }
-                        event.getChannel().sendMessage("Hello, `" + message + "`! I'm `" + name + "`!").queue();
+                        event.getChannel().sendMessage("Hello, `" + userName + "`! I'm `" + name + "`!").queue();
                     },
                     1, TimeUnit.MINUTES, () -> event.getChannel().sendMessage("Sorry, you took too long.").queue());
         }
 
-        if (raw.equals("<@!752052866809593906>")) {
+        if (message.getMentionedMembers().contains(event.getGuild().getSelfMember())) {
             event.getChannel().sendMessageFormat("Hi %s , my prefix is %s", user.getAsMention(), Config.get("prefix")).queue();
         }
 

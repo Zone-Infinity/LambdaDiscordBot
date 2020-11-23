@@ -56,18 +56,18 @@ public class EvalCommand implements ICommand {
         }
 
         try {
-            engine.setProperty("ctx", ctx);
-            engine.setProperty("args", args);
-            engine.setProperty("event", ctx.getEvent());
-            engine.setProperty("message", message);
-            engine.setProperty("channel", channel);
-            engine.setProperty("jda", ctx.getJDA());
-            engine.setProperty("guild", ctx.getGuild());
-            engine.setProperty("member", ctx.getMember());
-            engine.setProperty("author", ctx.getAuthor());
-            engine.setProperty("ins", WebUtils.ins);
-            engine.setProperty("defaultEmbed", EmbedUtils.getDefaultEmbed());
-            engine.setProperty("waiter", waiter);
+            engine.setVariable("ctx", ctx);
+            engine.setVariable("args", args);
+            engine.setVariable("event", ctx.getEvent());
+            engine.setVariable("message", message);
+            engine.setVariable("channel", channel);
+            engine.setVariable("jda", ctx.getJDA());
+            engine.setVariable("guild", ctx.getGuild());
+            engine.setVariable("member", ctx.getMember());
+            engine.setVariable("author", ctx.getAuthor());
+            engine.setVariable("ins", WebUtils.ins);
+            engine.setVariable("defaultEmbed", EmbedUtils.getDefaultEmbed());
+            engine.setVariable("waiter", waiter);
 
             String script = imports + message.getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
