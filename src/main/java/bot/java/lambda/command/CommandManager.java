@@ -34,7 +34,7 @@ public class CommandManager {
     public CommandManager(EventWaiter waiter) {
 
         // Owner Commands
-        addCommand(new EvalCommand());
+        addCommand(new EvalCommand(waiter));
         addCommand(new LeaveCommand());
         addCommand(new ReplyCommand());
         addCommand(new BlockCommand());

@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.config.Config;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import groovy.lang.GroovyShell;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
@@ -15,8 +16,10 @@ import java.util.List;
 public class EvalCommand implements ICommand {
     private final GroovyShell engine;
     private final String imports;
+    private final EventWaiter waiter;
 
-    public EvalCommand() {
+    public EvalCommand(EventWaiter waiter) {
+        this.waiter = waiter;
         this.engine = new GroovyShell();
         this.imports = "import java.io.*\n" +
                 "import java.lang.*\n" +
@@ -27,7 +30,15 @@ public class EvalCommand implements ICommand {
                 "import net.dv8tion.jda.core.entities.impl.*\n" +
                 "import net.dv8tion.jda.core.managers.*\n" +
                 "import net.dv8tion.jda.core.managers.impl.*\n" +
-                "import net.dv8tion.jda.core.utils.*\n";
+                "import net.dv8tion.jda.core.utils.*\n" +
+                "import net.dv8tion.jda.api.*\n" +
+                "import net.dv8tion.jda.api.entities.*\n" +
+                "import net.dv8tion.jda.api.managers.*\n" +
+                "import net.dv8tion.jda.api.managers.impl.*\n" +
+                "import net.dv8tion.jda.api.utils.*\n" +
+                "import com.jagrosh.jdautilities.commons.utils.*\n" +
+                "import com.jagrosh.jdautilities.commons.waiter.*\n" +
+                "";
     }
 
     @Override
@@ -56,6 +67,7 @@ public class EvalCommand implements ICommand {
             engine.setProperty("author", ctx.getAuthor());
             engine.setProperty("ins", WebUtils.ins);
             engine.setProperty("defaultEmbed", EmbedUtils.getDefaultEmbed());
+            engine.setProperty("waiter", waiter);
 
             String script = imports + message.getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
