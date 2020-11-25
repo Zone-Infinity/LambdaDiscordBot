@@ -129,7 +129,7 @@ public class HelpCommand implements ICommand {
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
                     .setTitle("**λ** Help")
-                    .setDescription("**Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**\n" +
+                    .setDescription("**[Invite Me](https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot)** | **Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**\n" +
                             "**Bot prefix** : ``" + prefix + "``\n " +
                             "```A Fun Bot which has many commands       \n" +
                             "It provides you with some Common commands\n" +

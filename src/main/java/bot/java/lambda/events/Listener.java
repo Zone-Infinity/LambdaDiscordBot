@@ -193,7 +193,7 @@ public class Listener extends ListenerAdapter {
                     1, TimeUnit.MINUTES, () -> event.getChannel().sendMessage("Sorry, you took too long.").queue());
         }
 
-        if (message.getMentionedMembers().contains(event.getGuild().getSelfMember())) {
+        if (raw.startsWith("<@!752052866809593906>")) {
             event.getChannel().sendMessageFormat("Hi %s , my prefix is %s", user.getAsMention(), Config.get("prefix")).queue();
         }
 

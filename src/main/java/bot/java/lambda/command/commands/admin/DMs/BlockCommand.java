@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.owner.DMs;
+package bot.java.lambda.command.commands.admin.DMs;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;

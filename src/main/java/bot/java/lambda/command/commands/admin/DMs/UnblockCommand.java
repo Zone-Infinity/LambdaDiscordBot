@@ -1,30 +1,20 @@
-package bot.java.lambda.command.commands.owner.DMs;
+package bot.java.lambda.command.commands.admin.DMs;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import bot.java.lambda.events.PrivateMessageListener;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import java.util.List;
-
-public class ReplyCommand implements ICommand {
+public class UnblockCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
         if (!channel.getId().equals("766902384584032287"))
             return;
 
-        final List<String> args = ctx.getArgs();
-
-        if (args.isEmpty()) {
-            channel.sendMessage("Missing Arguments").queue();
-            return;
-        }
-
-        final String id = args.get(0);
-        final String message = String.join(" ", args.subList(1, args.size()));
+        final String id = ctx.getArgs().get(0);
 
         final User user = ctx.getJDA().getUserById(id);
 
@@ -33,24 +23,18 @@ public class ReplyCommand implements ICommand {
             return;
         }
 
-        user.openPrivateChannel().queue(
-                privateChannel -> privateChannel.sendMessage(EmbedUtils.getDefaultEmbed()
-                        .setAuthor(ctx.getAuthor().getName() + "#" + ctx.getAuthor().getDiscriminator(), ctx.getAuthor().getEffectiveAvatarUrl(), ctx.getAuthor().getEffectiveAvatarUrl())
-                        .setDescription(message)
-                        .build()).queue()
-        );
         ctx.getMessage().addReaction(":TickYes:755716208191602738").queue();
-
+        PrivateMessageListener.blockedUsers.remove(user);
     }
 
     @Override
     public String getName() {
-        return "reply";
+        return "unblock";
     }
 
     @Override
     public String getHelp(String prefix) {
-        return ">reply <user_id> <message>";
+        return "Unblocks Someone";
     }
 
     @Override
@@ -62,5 +46,4 @@ public class ReplyCommand implements ICommand {
     public int getCoolDown() {
         return 0;
     }
-
 }

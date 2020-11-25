@@ -32,7 +32,6 @@ public class NowPlayingCommand implements ICommand {
         final long length = info.length;
         int Position = (int) (position / (length / 8.0));
 
-
         StringBuilder bar = new StringBuilder();
 
         bar.append("▶️ ");
