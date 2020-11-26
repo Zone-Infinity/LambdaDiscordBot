@@ -15,6 +15,7 @@ public class VoteCommand implements ICommand {
         String BOTRIX = "https://botrix.cc/vote/752052866809593906";
         String ROVEL = "https://bots.rovelstars.ga/bots/752052866809593906/vote";
         String INFINITY = "https://infinitybotlist.com/bots/752052866809593906/vote";
+        String DISCORD = "https://discordbotlist.com/bots/lambda-l/upvote";
 
         final TextChannel channel = ctx.getChannel();
 
@@ -23,6 +24,7 @@ public class VoteCommand implements ICommand {
                 .setDescription("1. [Vote on RovelBotList](" + ROVEL + ")\n" +
                         "2. [Vote on BOTRIX](" + BOTRIX + ")\n" +
                         "3. [Vote on InfinityBotList](" + INFINITY + ")\n" +
+                        "4. [Vote on DiscordBotList](" + DISCORD + ")" +
                         "");
         sendVotes(channel, embed);
     }
@@ -37,39 +39,39 @@ public class VoteCommand implements ICommand {
         ins.getJSONObject(ROVEL).async(
                 rbl ->
                         ins.getJSONObject(BOTRIX).async(
-                        botrix ->
-                                ins.getJSONObject(INFINITY).async(
-                                infinity -> {
-                                    final JsonNode rblGeneral = rbl.get("general");
-                                    final int RblTotalVotes = rblGeneral.get("totalVotes").asInt();
-                                    final int RblVoteCount = rblGeneral.get("voteCount").asInt();
+                                botrix ->
+                                        ins.getJSONObject(INFINITY).async(
+                                                infinity -> {
+                                                    final JsonNode rblGeneral = rbl.get("general");
+                                                    final int RblTotalVotes = rblGeneral.get("totalVotes").asInt();
+                                                    final int RblVoteCount = rblGeneral.get("voteCount").asInt();
 
-                                    final String botrixTotalVotes = botrix.get("bot").get("votes").asText();
+                                                    final String botrixTotalVotes = botrix.get("bot").get("votes").asText();
 
-                                    String infinityTotalVotes = "not available";
+                                                    String infinityTotalVotes = "not available";
 
-                                    if (!infinity.get("error").asBoolean())
-                                        infinityTotalVotes = infinity.get("votes").asText();
+                                                    if (!infinity.get("error").asBoolean())
+                                                        infinityTotalVotes = infinity.get("votes").asText();
 
-                                    voteEmbed
-                                            .addField("Votes on Rovel Bot List",
-                                                    String.format(
-                                                            "Total Votes : %s\nVote Count : %s", RblTotalVotes, RblVoteCount
-                                                    ), false
-                                            )
-                                            .addField("Votes on BOTRIX",
-                                                    String.format(
-                                                            "Total Votes : %s", botrixTotalVotes
-                                                    ), false)
-                                            .addField("Votes on Infinity Bot List",
-                                                    String.format(
-                                                            "Total Votes : %s", infinityTotalVotes
-                                                    ), false);
+                                                    voteEmbed
+                                                            .addField("Votes on Rovel Bot List",
+                                                                    String.format(
+                                                                            "Total Votes : %s\nVote Count : %s", RblTotalVotes, RblVoteCount
+                                                                    ), false
+                                                            )
+                                                            .addField("Votes on BOTRIX",
+                                                                    String.format(
+                                                                            "Total Votes : %s", botrixTotalVotes
+                                                                    ), false)
+                                                            .addField("Votes on Infinity Bot List",
+                                                                    String.format(
+                                                                            "Total Votes : %s", infinityTotalVotes
+                                                                    ), false);
 
-                                    channel.sendMessage(voteEmbed.build()).queue();
-                                }
+                                                    channel.sendMessage(voteEmbed.build()).queue();
+                                                }
+                                        )
                         )
-                )
         );
     }
 

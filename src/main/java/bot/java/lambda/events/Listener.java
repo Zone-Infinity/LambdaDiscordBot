@@ -193,10 +193,6 @@ public class Listener extends ListenerAdapter {
                     1, TimeUnit.MINUTES, () -> event.getChannel().sendMessage("Sorry, you took too long.").queue());
         }
 
-        if (raw.startsWith("<@!752052866809593906>")) {
-            event.getChannel().sendMessageFormat("Hi %s , my prefix is %s", user.getAsMention(), Config.get("prefix")).queue();
-        }
-
         if (raw.startsWith(prefix)) {
             manager.handle(event, prefix);
         }
