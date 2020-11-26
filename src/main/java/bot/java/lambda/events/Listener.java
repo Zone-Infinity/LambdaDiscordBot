@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
@@ -72,6 +73,7 @@ public class Listener extends ListenerAdapter {
             }
             event.getJDA().getPresence().setActivity(Activity.watching(">help | Contact Zone Infinityλ7763 for help"));
         };
+
         Runnable checkWhetherInactive = () -> event.getJDA().getGuilds().forEach(guild -> {
             AudioManager audioManager = guild.getAudioManager();
             final PlayerManager playerManager = PlayerManager.getInstance();
