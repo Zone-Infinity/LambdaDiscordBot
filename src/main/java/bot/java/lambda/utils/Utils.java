@@ -9,8 +9,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,20 +95,24 @@ public class Utils {
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         long uptime = runtimeMXBean.getUptime();
         long uptimeInSeconds = uptime / 1000;
-        long numberOfHours = uptimeInSeconds / (60 * 60);
+        long numberOfDays = uptimeInSeconds / (60 * 60 * 24);
+        long numberOfHours = uptimeInSeconds % (60 * 60);
         long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfHours * 60);
         long numberOfSeconds = uptimeInSeconds % 60;
 
-        return String.format("%s hours, %s minutes, %s seconds",
-                numberOfHours, numberOfMinutes, numberOfSeconds);
+        return String.format("%s days , %s hours, %s minutes, %s seconds",
+                numberOfDays, numberOfHours, numberOfMinutes, numberOfSeconds);
     }
 
     public static String getTimestamp(long milliseconds) {
         int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+        int days = (int) (milliseconds / (1000 * 60 * 60) / 24);
 
-        if (hours > 0)
+        if (days > 0)
+            return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
+        else if (hours > 0)
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         else
             return String.format("%02d:%02d", minutes, seconds);

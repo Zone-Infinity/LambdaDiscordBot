@@ -50,7 +50,7 @@ public class SayCommand implements ICommand {
         final String s = args.get(0);
         boolean equals = false;
         if (!mentionedMembers.isEmpty()) {
-            equals = mentionedMembers.get(0).getAsMention().equals(s.substring(s.indexOf("<"), s.indexOf(">") + 1));
+            equals = ("<@!"+mentionedMembers.get(0).getId()+">").equals(s.substring(s.indexOf("<"), s.indexOf(">") + 1));
         }
 
         final boolean finalEquals = equals;
