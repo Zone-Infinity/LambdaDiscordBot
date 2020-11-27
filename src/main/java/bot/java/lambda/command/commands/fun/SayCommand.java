@@ -1,13 +1,13 @@
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.fun;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.config.Config;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -35,12 +35,20 @@ public class SayCommand implements ICommand {
             return;
         }
 
-        final String join = String.join(" ", args);
+        final List<Member> mentionedMembers = message.getMentionedMembers();
 
-        if (join.contains("@everyone") || join.contains("@here") || join.contains("<@&")) {
-            channel.sendMessage("Please don't tell me to ping some roles or everyone").queue();
-            return;
-        }
+        final String regularContent = String.join(" ", args)
+                .replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
+                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
+                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
+
+        final String mentionedContent = String.join(" ", args.subList(1, args.size()))
+                .replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
+                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
+                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
+
+        final String s = args.get(0);
+        final boolean equals = mentionedMembers.get(0).getAsMention().equals(s.substring(s.indexOf("<"), s.indexOf(">") + 1));
 
         message.delete().queue();
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
@@ -59,17 +67,17 @@ public class SayCommand implements ICommand {
                                                 return thread;
                                             });
                                     WebhookClient client = clientBuilder.build();
-                                    if (message.getMentionedMembers().size() > 0) {
-                                        final User user = message.getMentionedMembers().get(0).getUser();
+                                    if (mentionedMembers.size() > 0 && equals) {
+                                        final User user = mentionedMembers.get(0).getUser();
                                         messageBuilder.setUsername(user.getName())
                                                 .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                                                .setContent(String.join(" ", args.subList(1, args.size())));
+                                                .setContent(mentionedContent);
                                         client.send(messageBuilder.build());
                                         return;
                                     }
                                     messageBuilder.setUsername(author.getName())
                                             .setAvatarUrl(author.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                                            .setContent(String.join(" ", args.subList(0, args.size())));
+                                            .setContent(regularContent);
                                     client.send(messageBuilder.build());
                                     channel.deleteWebhookById(web.getId()).queueAfter(5, TimeUnit.SECONDS);
                                 }
@@ -84,17 +92,17 @@ public class SayCommand implements ICommand {
                                 return thread;
                             });
                     WebhookClient client = clientBuilder.build();
-                    if (message.getMentionedMembers().size() > 0) {
-                        final User user = message.getMentionedMembers().get(0).getUser();
+                    if (mentionedMembers.size() > 0 && equals) {
+                        final User user = mentionedMembers.get(0).getUser();
                         messageBuilder.setUsername(user.getName())
                                 .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                                .setContent(String.join(" ", args.subList(1, args.size())));
+                                .setContent(mentionedContent);
                         client.send(messageBuilder.build());
                         return;
                     }
                     messageBuilder.setUsername(author.getName())
                             .setAvatarUrl(author.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                            .setContent(String.join(" ", args.subList(0, args.size())));
+                            .setContent(regularContent);
                     client.send(messageBuilder.build());
                 }
         );
@@ -114,6 +122,6 @@ public class SayCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.FUN;
     }
 }

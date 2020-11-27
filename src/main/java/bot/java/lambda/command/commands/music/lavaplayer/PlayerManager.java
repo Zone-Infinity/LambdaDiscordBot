@@ -99,6 +99,7 @@ public class PlayerManager {
                 }
             });
         } catch (Exception e) {
+            e.printStackTrace();
             channel.sendMessage("Failed to Load the track").queue();
         }
     }

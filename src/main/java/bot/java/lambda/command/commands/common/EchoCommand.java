@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.fun;
+package bot.java.lambda.command.commands.common;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
@@ -23,12 +23,10 @@ public class EchoCommand implements ICommand {
             return;
         }
 
-        final String join = String.join(" ", args);
-
-        if (join.contains("@everyone") || join.contains("@here") || join.contains("<@&")) {
-            channel.sendMessage("Please don't tell me to ping some roles or everyone").queue();
-            return;
-        }
+        final String join = String.join(" ", args)
+                .replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
+                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
+                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
 
         for (String a : args) {
             if (messages.contains(a.toLowerCase())) {
@@ -37,7 +35,7 @@ public class EchoCommand implements ICommand {
             }
         }
 
-        if (join.toLowerCase().contains("stupid") && join.toLowerCase().contains("i")) {
+        if ((join.toLowerCase().contains("stupid") || join.toLowerCase().contains("dumb")) && join.toLowerCase().contains("i")) {
             channel.sendMessage("Yeah we know").queue();
             return;
         }
@@ -59,6 +57,6 @@ public class EchoCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.FUN;
+        return HelpCategory.COM;
     }
 }
