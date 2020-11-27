@@ -52,9 +52,8 @@ public class SayCommand implements ICommand {
         final String s = args.get(0);
         boolean equals = false;
 
-        System.out.println(String.join(" ", args));
         Matcher matcher = Pattern.compile("<@![0-9]{18}>").matcher(String.join(" ", args));
-
+        matcher.replaceFirst("");
         if (!mentionedMembers.isEmpty()) {
             equals = ("<@!" + mentionedMembers.get(0).getId() + ">").equals(s.substring(matcher.start(), matcher.end()));
         }
