@@ -6,6 +6,7 @@ import bot.java.lambda.command.ICommand;
 import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.Guild;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class GuildsCommand implements ICommand {
@@ -13,6 +14,7 @@ public class GuildsCommand implements ICommand {
     public void handle(CommandContext ctx) {
         if (ctx.getAuthor().getIdLong() == Long.parseLong(Config.get("owner_id"))) {
             final List<Guild> guilds = ctx.getJDA().getGuilds();
+            guilds.sort(Comparator.comparingInt(Guild::getMemberCount));
             StringBuilder guildList = new StringBuilder();
             guildList.append("```");
             for (Guild guild : guilds)
@@ -26,6 +28,16 @@ public class GuildsCommand implements ICommand {
             guildList.append("```");
             ctx.getChannel().sendMessage(guildList).queue();
         }
+    }
+
+    private String getGuildTable(List<Guild> guildList) {
+        StringBuilder table = new StringBuilder();
+
+        final int namesSize = guildList.stream().mapToInt(it -> it.getName().length()).max().orElse(0);
+        final int pointSize = guildList.stream().mapToInt(it -> String.valueOf(it.getMemberCount()).length()).max().orElse(0);
+
+        return table.toString();
+
     }
 
     @Override

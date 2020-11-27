@@ -6,7 +6,6 @@ import bot.java.lambda.command.ICommand;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,11 +15,10 @@ import net.dv8tion.jda.api.requests.restaction.WebhookAction;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SayCommand implements ICommand {
 
+    @SuppressWarnings("ignored")
     @Override
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
@@ -50,19 +48,6 @@ public class SayCommand implements ICommand {
                 .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
                 .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
 
-        final String s = args.get(0);
-        boolean equals = false;
-
-        try {
-            Matcher matcher = Pattern.compile("<@![0-9]{18}>").matcher(args.get(0));
-            matcher.replaceFirst("");
-            if (!mentionedMembers.isEmpty()) {
-                equals = ("<@!" + mentionedMembers.get(0).getId() + ">").equals(s.substring(matcher.start(), matcher.end()));
-            }
-        } catch (IllegalStateException ignored) {}
-
-        final boolean finalEquals = equals;
-
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
         channel.retrieveWebhooks().queue(
                 webhooks -> {
@@ -79,7 +64,7 @@ public class SayCommand implements ICommand {
                                                 return thread;
                                             });
                                     WebhookClient client = clientBuilder.build();
-                                    if (mentionedMembers.size() > 0 && finalEquals) {
+                                    if (mentionedMembers.size() > 0) {
                                         final User user = mentionedMembers.get(0).getUser();
                                         messageBuilder.setUsername(user.getName())
                                                 .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
@@ -104,7 +89,7 @@ public class SayCommand implements ICommand {
                                 return thread;
                             });
                     WebhookClient client = clientBuilder.build();
-                    if (mentionedMembers.size() > 0 && finalEquals) {
+                    if (mentionedMembers.size() > 0) {
                         final User user = mentionedMembers.get(0).getUser();
                         messageBuilder.setUsername(user.getName())
                                 .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")

@@ -22,7 +22,7 @@ public class QueueCommand implements ICommand {
         TextChannel channel = ctx.getChannel();
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
-        BlockingQueue<AudioTrack> queue = musicManager.scheduler.getQueue();
+        BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
 
         EmbedBuilder builder = EmbedUtils.getDefaultEmbed();
 

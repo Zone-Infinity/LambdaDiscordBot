@@ -41,7 +41,7 @@ public class StopCommand implements ICommand {
 
         if (voiceState.getChannel().getMembers().size() == 2) {
             channel.sendMessage("Stopping the player and clearing the queue").queue();
-            musicManager.scheduler.getQueue().clear();
+            musicManager.scheduler.queue.clear();
             musicManager.audioPlayer.stopTrack();
             musicManager.audioPlayer.setPaused(false);
             return;
@@ -57,7 +57,7 @@ public class StopCommand implements ICommand {
                                     e.getMessageIdLong() == message.getIdLong(),
                             e -> {
                                 channel.sendMessage("Stopping the player and clearing the queue").queue();
-                                musicManager.scheduler.getQueue().clear();
+                                musicManager.scheduler.queue.clear();
                                 musicManager.audioPlayer.stopTrack();
                                 musicManager.audioPlayer.setPaused(false);
                             },

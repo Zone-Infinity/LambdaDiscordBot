@@ -13,7 +13,7 @@ public class ShuffleCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final TrackScheduler scheduler = PlayerManager.getInstance().getMusicManager(ctx.getGuild()).scheduler;
 
-        if (scheduler.getQueue().isEmpty()) {
+        if (scheduler.queue.isEmpty()) {
             channel.sendMessage("There are no songs to shuffle").queue();
             return;
         }

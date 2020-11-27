@@ -49,9 +49,10 @@ public class DisconnectCommand implements ICommand {
 
         channel.sendMessageFormat("Disconnected `\uD83D\uDD0A %s`", selfVoiceState.getChannel().getName()).queue();
         GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
-        musicManager.scheduler.getQueue().clear();
+        musicManager.scheduler.queue.clear();
         musicManager.audioPlayer.stopTrack();
         musicManager.audioPlayer.setPaused(false);
+        musicManager.scheduler.loopEnabled = false;
         audioManager.closeAudioConnection();
 
     }
