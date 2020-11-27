@@ -55,7 +55,6 @@ public class SayCommand implements ICommand {
 
         final boolean finalEquals = equals;
 
-        message.delete().queue();
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
         channel.retrieveWebhooks().queue(
                 webhooks -> {
