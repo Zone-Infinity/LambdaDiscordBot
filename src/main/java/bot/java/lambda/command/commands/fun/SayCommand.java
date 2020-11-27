@@ -48,7 +48,12 @@ public class SayCommand implements ICommand {
                 .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
 
         final String s = args.get(0);
-        final boolean equals = mentionedMembers.get(0).getAsMention().equals(s.substring(s.indexOf("<"), s.indexOf(">") + 1));
+        boolean equals = false;
+        if (!mentionedMembers.isEmpty()) {
+            equals = mentionedMembers.get(0).getAsMention().equals(s.substring(s.indexOf("<"), s.indexOf(">") + 1));
+        }
+
+        final boolean finalEquals = equals;
 
         message.delete().queue();
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
@@ -67,7 +72,7 @@ public class SayCommand implements ICommand {
                                                 return thread;
                                             });
                                     WebhookClient client = clientBuilder.build();
-                                    if (mentionedMembers.size() > 0 && equals) {
+                                    if (mentionedMembers.size() > 0 && finalEquals) {
                                         final User user = mentionedMembers.get(0).getUser();
                                         messageBuilder.setUsername(user.getName())
                                                 .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
@@ -92,7 +97,7 @@ public class SayCommand implements ICommand {
                                 return thread;
                             });
                     WebhookClient client = clientBuilder.build();
-                    if (mentionedMembers.size() > 0 && equals) {
+                    if (mentionedMembers.size() > 0 && finalEquals) {
                         final User user = mentionedMembers.get(0).getUser();
                         messageBuilder.setUsername(user.getName())
                                 .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
