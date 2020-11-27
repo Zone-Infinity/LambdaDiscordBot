@@ -56,9 +56,6 @@ public class UserInfoCommand implements ICommand {
 
         String joined = String.join("", args);
 
-        if(args.get(0).equalsIgnoreCase("Noob"))
-            joined = "676414187131371520";
-
         List<User> foundUsers = FinderUtil.findUsers(joined, ctx.getJDA());
 
         if (foundUsers.isEmpty()) {
