@@ -36,6 +36,11 @@ public class GuildsCommand implements ICommand {
         final int namesSize = guildList.stream().mapToInt(it -> it.getName().length()).max().orElse(0);
         final int pointSize = guildList.stream().mapToInt(it -> String.valueOf(it.getMemberCount()).length()).max().orElse(0);
 
+        String rowFormat = "║%-" + (Math.max(5, String.valueOf(guildList.size()).length()) + 1) + "s║%-" + (Math.max(namesSize, 5) + 1) + "s║%" + (Math.max(pointSize, 7) + 1) + "s║%n";
+        final String divider = String.format(rowFormat, "", "", "").replaceAll(" ", "═");
+
+
+
         return table.toString();
 
     }

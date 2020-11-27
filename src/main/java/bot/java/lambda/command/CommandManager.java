@@ -68,7 +68,6 @@ public class CommandManager {
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
         addCommand(new ColorCommand());
-        addCommand(new RanMoteCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
