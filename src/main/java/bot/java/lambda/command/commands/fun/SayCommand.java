@@ -15,6 +15,8 @@ import net.dv8tion.jda.api.requests.restaction.WebhookAction;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SayCommand implements ICommand {
 
@@ -49,8 +51,11 @@ public class SayCommand implements ICommand {
 
         final String s = args.get(0);
         boolean equals = false;
+
+        Matcher matcher = Pattern.compile("<@![0-9]{18}>").matcher(String.join(" ", args));
+
         if (!mentionedMembers.isEmpty()) {
-            equals = ("<@!"+mentionedMembers.get(0).getId()+">").equals(s.substring(s.indexOf("<"), s.indexOf(">") + 1));
+            equals = ("<@!" + mentionedMembers.get(0).getId() + ">").equals(s.substring(matcher.start(), matcher.end()));
         }
 
         final boolean finalEquals = equals;
