@@ -94,6 +94,7 @@ public class Utils {
     public static String getUptime() {
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         long uptime = runtimeMXBean.getUptime();
+
         long uptimeInSeconds = uptime / 1000;
         long numberOfDays = uptimeInSeconds / (60 * 60 * 24);
         long numberOfHours = (uptimeInSeconds / (60 * 60)) - (numberOfDays * 24);
