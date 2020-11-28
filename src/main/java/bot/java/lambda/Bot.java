@@ -44,9 +44,7 @@ public class Bot {
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(EnumSet.of(
                         CacheFlag.CLIENT_STATUS,
-                        CacheFlag.EMOTE
-                ))
-                .disableCache(EnumSet.of(
+                        CacheFlag.EMOTE,
                         CacheFlag.ACTIVITY
                 ))
                 .addEventListeners(listeners);
