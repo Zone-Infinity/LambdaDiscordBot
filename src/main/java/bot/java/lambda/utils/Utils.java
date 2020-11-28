@@ -96,7 +96,7 @@ public class Utils {
         long uptime = runtimeMXBean.getUptime();
         long uptimeInSeconds = uptime / 1000;
         long numberOfDays = uptimeInSeconds / (60 * 60 * 24);
-        long numberOfHours = uptimeInSeconds % (60 * 60);
+        long numberOfHours = (uptimeInSeconds / (60 * 60)) - (numberOfDays * 24);
         long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfHours * 60);
         long numberOfSeconds = uptimeInSeconds % 60;
 
