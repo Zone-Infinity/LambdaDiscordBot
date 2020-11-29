@@ -104,8 +104,16 @@ public class Utils {
         return String.format("%s days , %s hours, %s minutes, %s seconds",
                 numberOfDays, numberOfHours, numberOfMinutes, numberOfSeconds);
         */
+        final String timestamp = getTimestamp(uptime);
+        final String[] split = timestamp.split(":");
+        final int length = split.length;
 
-        return getTimestamp(uptime);
+        return switch (length) {
+            case 2 -> String.format("%s minutes, %s seconds", split[0], split[1]);
+            case 3 -> String.format("%s hours, %s minutes, %s seconds", split[0], split[1], split[2]);
+            case 4 -> String.format("%s days, %s hours, %s minutes, %s seconds", split[0], split[1], split[2], split[3]);
+            default -> timestamp;
+        };
     }
 
     public static String getTimestamp(long milliseconds) {
