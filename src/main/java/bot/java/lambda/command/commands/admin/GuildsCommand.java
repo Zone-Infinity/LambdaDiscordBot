@@ -16,7 +16,7 @@ public class GuildsCommand implements ICommand {
     public void handle(CommandContext ctx) {
         if (ctx.getAuthor().getIdLong() == Long.parseLong(Config.get("owner_id"))) {
             final TextChannel channel = ctx.getChannel();
-            final List<Guild> guilds = ctx.getJDA().getGuilds();
+            List<Guild> guilds = ctx.getJDA().getGuilds();
             final List<List<Guild>> guildsList = new ArrayList<>();
             try {
                 final int page = Integer.parseInt(ctx.getArgs().get(0));
