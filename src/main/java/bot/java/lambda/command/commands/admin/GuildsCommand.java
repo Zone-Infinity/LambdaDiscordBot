@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,9 +24,20 @@ public class GuildsCommand implements ICommand {
                 final int page = Integer.parseInt(ctx.getArgs().get(0));
 
                 guilds.sort(Comparator.comparingInt(Guild::getMemberCount));
+                Collections.reverse(guilds);
 
                 final int size = guilds.size();
                 final int guildsLists = size / 10;
+
+                List<Guild> guildsRemoved = new ArrayList<>();
+
+                for (Guild guild : guilds) {
+                    final int length = guild.getName().length();
+                    if (length > 23) {
+                        guilds.remove(guild);
+                        guildsRemoved.add(guild);
+                    }
+                }
 
                 for (int i = 1; i <= guildsLists; i++) {
                     int j = i * 10;
@@ -36,11 +48,20 @@ public class GuildsCommand implements ICommand {
                 final int guildsInTen = guildsLists * 10;
                 guildsList.add(guilds.subList(guildsInTen, guildsInTen + remainingGuilds));
 
+                if (page - 1 > guildsList.size()) {
+                    channel.sendMessage(new EmbedBuilder()
+                            .setDescription("```" + getGuildTable(guildsRemoved.subList(0, Math.min(guildsRemoved.size(), 10))) + "```")
+                            .build()).queue();
+                    return;
+                }
+
                 channel.sendMessage(new EmbedBuilder()
                         .setDescription("```" + getGuildTable(guildsList.get(page - 1)) + "```")
                         .build()).queue();
             } catch (NumberFormatException e) {
                 channel.sendMessage("Provide a number").queue();
+            } catch (IndexOutOfBoundsException e) {
+                channel.sendMessage("No guilds on the page").queue();
             }
         }
     }
