@@ -29,16 +29,6 @@ public class GuildsCommand implements ICommand {
                 final int size = guilds.size();
                 final int guildsLists = size / 10;
 
-                List<Guild> guildsRemoved = new ArrayList<>();
-
-                for (Guild guild : guilds) {
-                    final int length = guild.getName().length();
-                    if (length > 23) {
-                        guilds.remove(guild);
-                        guildsRemoved.add(guild);
-                    }
-                }
-
                 for (int i = 1; i <= guildsLists; i++) {
                     int j = i * 10;
                     guildsList.add(guilds.subList(j - 10, j - 1));
@@ -47,13 +37,6 @@ public class GuildsCommand implements ICommand {
                 final int remainingGuilds = size % 10;
                 final int guildsInTen = guildsLists * 10;
                 guildsList.add(guilds.subList(guildsInTen, guildsInTen + remainingGuilds));
-
-                if (page - 1 > guildsList.size()) {
-                    channel.sendMessage(new EmbedBuilder()
-                            .setDescription("```" + getGuildTable(guildsRemoved.subList(0, Math.min(guildsRemoved.size(), 10))) + "```")
-                            .build()).queue();
-                    return;
-                }
 
                 channel.sendMessage(new EmbedBuilder()
                         .setDescription("```" + getGuildTable(guildsList.get(page - 1)) + "```")
@@ -81,7 +64,7 @@ public class GuildsCommand implements ICommand {
 
         for (int i = 0; i < guildList.size(); i++) {
             final Guild guild = guildList.get(i);
-            table.append(String.format(rowFormat, (i + 1) + ".", guild.getName(), guild.getMemberCount(), guild.getId()));
+            table.append(String.format(rowFormat, (i + 1) + ".", guild.getName().substring(0, Math.min(22, guild.getName().length())), guild.getMemberCount(), guild.getId()));
         }
 
         table.append(String.format(rowFormat, "", "", "", "").replaceFirst("║", "╚").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╝").replaceAll(" ", "═"));
