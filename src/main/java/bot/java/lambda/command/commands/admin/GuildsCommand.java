@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.config.Config;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -35,7 +36,9 @@ public class GuildsCommand implements ICommand {
                 final int guildsInTen = guildsLists * 10;
                 guildsList.add(guilds.subList(guildsInTen, guildsInTen + remainingGuilds));
 
-                channel.sendMessage(getGuildTable(guildsList.get(page - 1))).queue();
+                channel.sendMessage(new EmbedBuilder()
+                        .setDescription("```" + getGuildTable(guildsList.get(page - 1)) + "```")
+                        .build()).queue();
             } catch (NumberFormatException e) {
                 channel.sendMessage("Provide a number").queue();
             }
