@@ -26,7 +26,7 @@ public class GuildsCommand implements ICommand {
                 final int size = guilds.size();
                 final int guildsLists = size / 10;
 
-                for (int i = 0; i < guildsLists; i++) {
+                for (int i = 1; i <= guildsLists; i++) {
                     int j = i * 10;
                     guildsList.add(guilds.subList(j - 10, j - 1));
                 }
