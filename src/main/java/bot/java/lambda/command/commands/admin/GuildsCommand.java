@@ -52,7 +52,7 @@ public class GuildsCommand implements ICommand {
     private String getGuildTable(List<Guild> guildList) {
         StringBuilder table = new StringBuilder();
 
-        final int guildSize = guildList.stream().mapToInt(it -> it.getName().length()).max().orElse(0);
+        final int guildSize = guildList.stream().mapToInt(it -> Math.min(it.getName().length(), 22)).max().orElse(0);
         final int memberSize = guildList.stream().mapToInt(it -> String.valueOf(it.getMemberCount()).length()).max().orElse(0);
 
         String rowFormat = "║%-" + (Math.max(5, String.valueOf(guildList.size()).length()) + 1) + "s║%-" + (Math.max(guildSize, 5) + 1) + "s║%-" + (Math.max(memberSize, 7) + 1) + "s║%-20s║%n";
@@ -64,7 +64,8 @@ public class GuildsCommand implements ICommand {
 
         for (int i = 0; i < guildList.size(); i++) {
             final Guild guild = guildList.get(i);
-            table.append(String.format(rowFormat, (i + 1) + ".", guild.getName().substring(0, Math.min(22, guild.getName().length())), guild.getMemberCount(), guild.getId()));
+            final String name = guild.getName();
+            table.append(String.format(rowFormat, (i + 1) + ".", name.substring(0, Math.min(22, name.length())), guild.getMemberCount(), guild.getId()));
         }
 
         table.append(String.format(rowFormat, "", "", "", "").replaceFirst("║", "╚").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╝").replaceAll(" ", "═"));
