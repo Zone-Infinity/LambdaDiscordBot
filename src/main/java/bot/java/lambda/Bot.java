@@ -15,6 +15,8 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
 
+// U+202B
+
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
@@ -45,7 +47,8 @@ public class Bot {
                 .enableCache(EnumSet.of(
                         CacheFlag.CLIENT_STATUS,
                         CacheFlag.EMOTE,
-                        CacheFlag.ACTIVITY
+                        CacheFlag.ACTIVITY,
+                        CacheFlag.ROLE_TAGS
                 ))
                 .addEventListeners(listeners);
         jdaBuilder.build();

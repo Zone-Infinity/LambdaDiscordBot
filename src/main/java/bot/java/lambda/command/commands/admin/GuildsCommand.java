@@ -5,7 +5,9 @@ import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -13,36 +15,54 @@ public class GuildsCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         if (ctx.getAuthor().getIdLong() == Long.parseLong(Config.get("owner_id"))) {
+            final TextChannel channel = ctx.getChannel();
             final List<Guild> guilds = ctx.getJDA().getGuilds();
-            guilds.sort(Comparator.comparingInt(Guild::getMemberCount));
-            StringBuilder guildList = new StringBuilder();
-            guildList.append("```");
-            for (Guild guild : guilds)
-                guildList.append("-")
-                        .append(guild.getName())
-                        .append(" : ")
-                        .append(guild.getMemberCount())
-                        .append(" : ")
-                        .append(guild.getId())
-                        .append("\n");
-            guildList.append("```");
-            ctx.getChannel().sendMessage(guildList).queue();
+            final List<List<Guild>> guildsList = new ArrayList<>();
+            try {
+                final int page = Integer.parseInt(ctx.getArgs().get(0));
+
+                guilds.sort(Comparator.comparingInt(Guild::getMemberCount));
+
+                final int size = guilds.size();
+                final int guildsLists = size / 10;
+
+                for (int i = 0; i < guildsLists; i++) {
+                    int j = i * 10;
+                    guildsList.add(guilds.subList(j - 10, j - 1));
+                }
+
+                final int remainingGuilds = size % 10;
+                final int guildsInTen = guildsLists * 10;
+                guildsList.add(guilds.subList(guildsInTen, guildsInTen + remainingGuilds));
+
+                channel.sendMessage(getGuildTable(guildsList.get(page - 1))).queue();
+            } catch (NumberFormatException e) {
+                channel.sendMessage("Provide a number").queue();
+            }
         }
     }
 
     private String getGuildTable(List<Guild> guildList) {
         StringBuilder table = new StringBuilder();
 
-        final int namesSize = guildList.stream().mapToInt(it -> it.getName().length()).max().orElse(0);
-        final int pointSize = guildList.stream().mapToInt(it -> String.valueOf(it.getMemberCount()).length()).max().orElse(0);
+        final int guildSize = guildList.stream().mapToInt(it -> it.getName().length()).max().orElse(0);
+        final int memberSize = guildList.stream().mapToInt(it -> String.valueOf(it.getMemberCount()).length()).max().orElse(0);
 
-        String rowFormat = "║%-" + (Math.max(5, String.valueOf(guildList.size()).length()) + 1) + "s║%-" + (Math.max(namesSize, 5) + 1) + "s║%" + (Math.max(pointSize, 7) + 1) + "s║%n";
-        final String divider = String.format(rowFormat, "", "", "").replaceAll(" ", "═");
+        String rowFormat = "║%-" + (Math.max(5, String.valueOf(guildList.size()).length()) + 1) + "s║%-" + (Math.max(guildSize, 5) + 1) + "s║%-" + (Math.max(memberSize, 7) + 1) + "s║%-20s║%n";
+        final String divider = String.format(rowFormat, "", "", "", "").replaceAll(" ", "═");
 
+        table.append(String.format(rowFormat, "", "", "", "").replaceFirst("║", "╔").replaceFirst("║", "╦").replaceFirst("║", "╦").replaceFirst("║", "╦").replaceFirst("║", "╗").replaceAll(" ", "═"));
+        table.append(String.format(rowFormat, "Rank ", "Name", "Members ", "ID"));
+        table.append(divider);
 
+        for (int i = 0; i < guildList.size(); i++) {
+            final Guild guild = guildList.get(i);
+            table.append(String.format(rowFormat, (i + 1) + ".", guild.getName(), guild.getMemberCount(), guild.getId()));
+        }
+
+        table.append(String.format(rowFormat, "", "", "", "").replaceFirst("║", "╚").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╝").replaceAll(" ", "═"));
 
         return table.toString();
-
     }
 
     @Override
