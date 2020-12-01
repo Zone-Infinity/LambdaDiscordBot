@@ -20,7 +20,8 @@ public class InviteCommand implements ICommand {
                 .setDescription("<:go:734650199472865310> **Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**\n" +
                         "Here you go , invite me to as many servers as possible\n" +
                         "And help me becoming a verified bot <:Verified:755715351798480897>")
-                .setThumbnail(ctx.getAuthor().getAvatarUrl());
+                .setThumbnail(ctx.getAuthor().getAvatarUrl())
+                .setImage("https://discord.com/api/guilds/755433534495391805/widget.png?style=banner3");
         channel.sendMessage(embed.build()).queue();
     }
 

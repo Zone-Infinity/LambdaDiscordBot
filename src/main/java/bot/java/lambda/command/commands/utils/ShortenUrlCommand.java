@@ -27,8 +27,11 @@ public class ShortenUrlCommand implements ICommand {
             URL shortUrl = new URL(apiUrl + url);
             Scanner scanner = new Scanner(shortUrl.openStream());
             final String shortenedUrl = scanner.nextLine();
-            channel.sendMessage("Here's your shortened url : " + (shortenedUrl)).queue();
+            channel.sendMessage("Here's your shortened url : " + (shortenedUrl)).queue(
+                    msg -> msg.getEmbeds().clear()
+            );
         } catch (IOException e) {
+            channel.sendMessage("Something went wrong").queue();
             e.printStackTrace();
         }
     }

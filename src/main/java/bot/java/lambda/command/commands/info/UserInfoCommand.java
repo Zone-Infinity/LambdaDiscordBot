@@ -29,9 +29,13 @@ public class UserInfoCommand implements ICommand {
                 return;
             }
 
+            final int roleCount = member.getRoles().size();
+            final String highestRole = member.getRoles().get(0).getAsMention();
+
             final String status = member.getOnlineStatus().name().toLowerCase();
             String utilStatus = "";
-            if(!member.getActivities().isEmpty() && member.getActivities().stream().anyMatch(it -> it.getType() == Activity.ActivityType.STREAMING)) utilStatus = "s";
+            if (!member.getActivities().isEmpty() && member.getActivities().stream().anyMatch(it -> it.getType() == Activity.ActivityType.STREAMING))
+                utilStatus = "s";
             else if (status.startsWith("on")) utilStatus = "on";
             else if (status.startsWith("off")) utilStatus = "off";
             else if (status.startsWith("i")) utilStatus = "idle";
@@ -47,6 +51,9 @@ public class UserInfoCommand implements ICommand {
                     .addBlankField(true)
                     .addField("Guild Joined", member.getTimeJoined().format(DateTimeFormatter.RFC_1123_DATE_TIME), true)
                     .addField("Bot Account", user.isBot() ? "<:TickYes:755716208191602738> " : "<:TickNo:755716160472875079>", true)
+                    .addBlankField(true)
+                    .addField("Role Count", roleCount + "", true)
+                    .addField("Highest Role", highestRole, true)
                     .addBlankField(true)
                     .build();
 
@@ -79,9 +86,13 @@ public class UserInfoCommand implements ICommand {
             return;
         }
 
+        final int roleCount = member.getRoles().size();
+        final String highestRole = member.getRoles().get(0).getAsMention();
+
         final String status = member.getOnlineStatus().name().toLowerCase();
         String utilStatus = "";
-        if(!member.getActivities().isEmpty() && member.getActivities().stream().anyMatch(it -> it.getType() == Activity.ActivityType.STREAMING)) utilStatus = "s";
+        if (!member.getActivities().isEmpty() && member.getActivities().stream().anyMatch(it -> it.getType() == Activity.ActivityType.STREAMING))
+            utilStatus = "s";
         else if (status.startsWith("on")) utilStatus = "on";
         else if (status.startsWith("off")) utilStatus = "off";
         else if (status.startsWith("i")) utilStatus = "idle";
@@ -98,6 +109,9 @@ public class UserInfoCommand implements ICommand {
                 .addBlankField(true)
                 .addField("Guild Joined", member.getTimeJoined().format(DateTimeFormatter.RFC_1123_DATE_TIME), true)
                 .addField("Bot Account", user.isBot() ? "<:TickYes:755716208191602738> " : "<:TickNo:755716160472875079>", true)
+                .addBlankField(true)
+                .addField("Role Count", roleCount + "", true)
+                .addField("Highest Role", highestRole, true)
                 .addBlankField(true)
                 .build();
 
