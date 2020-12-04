@@ -18,7 +18,6 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
@@ -28,12 +27,11 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -164,8 +162,29 @@ public class Listener extends ListenerAdapter {
         }
 
         final String prefix = getPrefix(eventGuild.getId());
+        final TextChannel channel = event.getChannel();
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
+
+        final String path = Listener.class.getResource("/files/profanity.txt").getPath();
+
+        List<String> profanityWords = new ArrayList<>();
+
+        try {
+            Scanner scanner = new Scanner(new File(path));
+            while (scanner.hasNextLine()) {
+                profanityWords.add(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Did not found profanity.txt");
+        }
+
+        for (String s : profanityWords) {
+            if (raw.contains(s)) {
+                channel.sendMessage("I don't reply to profanity").queue();
+                return;
+            }
+        }
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
 
@@ -177,11 +196,11 @@ public class Listener extends ListenerAdapter {
 
             saidHello.add(user);
 
-            event.getChannel().sendMessage("Hello. What is your name?").queue();
+            channel.sendMessage("Hello. What is your name?").queue();
 
             waiter.waitForEvent(MessageReceivedEvent.class,
                     e -> e.getAuthor().equals(user)
-                            && e.getChannel().equals(event.getChannel())
+                            && e.getChannel().equals(channel)
                             && !e.getMessage().equals(message),
                     e -> {
                         final String userName = e.getMessage().getContentRaw();
@@ -190,9 +209,9 @@ public class Listener extends ListenerAdapter {
                             e.getChannel().sendMessage("<:Wot:755715077029625916> Eh , it's my name. Bruh!!").queue();
                             return;
                         }
-                        event.getChannel().sendMessage("Hello, `" + userName + "`! I'm `" + name + "`!").queue();
+                        channel.sendMessage("Hello, `" + userName + "`! I'm `" + name + "`!").queue();
                     },
-                    1, TimeUnit.MINUTES, () -> event.getChannel().sendMessage("Sorry, you took too long.").queue());
+                    1, TimeUnit.MINUTES, () -> channel.sendMessage("Sorry, you took too long.").queue());
         }
 
         if (raw.startsWith(prefix)) {

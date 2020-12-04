@@ -23,7 +23,6 @@ public class EmojiCommand implements ICommand {
         this.waiter = waiter;
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         listOfAllEmote.clear();
@@ -46,7 +45,6 @@ public class EmojiCommand implements ICommand {
                 try {
                     listOfAllEmote.get(page).append(emote.getAsMention())
                             .append(" - ").append("`").append(emote.getName()).append("`")
-                            .append(" : ").append("`").append(emote.getGuild().getName()).append("`")
                             .append("\n");
                 } catch (IndexOutOfBoundsException e) {
                     e.fillInStackTrace();
