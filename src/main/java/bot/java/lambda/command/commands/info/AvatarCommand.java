@@ -7,6 +7,7 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 
 import java.io.File;
 import java.net.URI;
@@ -26,7 +27,14 @@ public class AvatarCommand implements ICommand {
                 .setTimestamp(Instant.now());
 
         if (args.isEmpty()) {
-            channel.sendMessage(embed.setImage(ctx.getAuthor().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
+            final User author = ctx.getAuthor();
+
+            try {
+                channel.sendMessage("<" + author.getEffectiveAvatarUrl() + "?size=2048>")
+                        .addFile(new File(new URI(author.getEffectiveAvatarUrl())), "avatar.png").queue();
+            } catch (URISyntaxException e) {
+                channel.sendMessage("Something got wrong").queue();
+            }
             return;
         }
 
@@ -35,7 +43,7 @@ public class AvatarCommand implements ICommand {
             final Member member = mentionedMembers.get(0);
             try {
                 channel.sendMessage("<" + member.getUser().getEffectiveAvatarUrl() + "?size=2048>")
-                        .addFile(new File(new URI(member.getUser().getEffectiveAvatarUrl()))).queue();
+                        .addFile(new File(new URI(member.getUser().getEffectiveAvatarUrl())), "avatar.png").queue();
             } catch (URISyntaxException e) {
                 channel.sendMessage("Something got wrong").queue();
             }
@@ -57,7 +65,7 @@ public class AvatarCommand implements ICommand {
 
         try {
             channel.sendMessage("<" + memberById.getUser().getEffectiveAvatarUrl() + "?size=2048>")
-                    .addFile(new File(new URI(memberById.getUser().getEffectiveAvatarUrl()))).queue();
+                    .addFile(new File(new URI(memberById.getUser().getEffectiveAvatarUrl())), "avatar.png").queue();
         } catch (URISyntaxException e) {
             channel.sendMessage("Something got wrong").queue();
         }
