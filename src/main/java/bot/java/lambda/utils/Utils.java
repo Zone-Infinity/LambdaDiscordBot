@@ -1,6 +1,7 @@
 package bot.java.lambda.utils;
 
 import bot.java.lambda.command.CommandContext;
+import bot.java.lambda.config.Profanity;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -9,10 +10,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Utils {
     private static final Map<String, String> emojis = new HashMap<>();
@@ -152,5 +150,15 @@ public class Utils {
             case "dnd" -> dnd;
             default -> offline;
         };
+    }
+
+    public static boolean hasProfanity(String text) {
+        final String[] words = Profanity.profanityWords.split("\n");
+        for (String w : words) {
+            if (text.contains(w)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

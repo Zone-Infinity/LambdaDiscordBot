@@ -5,6 +5,7 @@ import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.utils.DatabaseUtils;
+import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -167,19 +168,6 @@ public class Listener extends ListenerAdapter {
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
-        /*final URL resource = Listener.class.getResource("/files/profanity.txt");
-
-        List<String> profanityWords = new ArrayList<>();
-
-        try {
-            Scanner scanner = new Scanner(new File(resource.toURI()));
-            while (scanner.hasNextLine()) {
-                profanityWords.add(scanner.nextLine());
-            }
-        } catch (FileNotFoundException | URISyntaxException e) {
-            System.out.println("Did not found profanity.txt");
-        }*/
-
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
 
             if (!eventGuild.getId().equals("755433534495391805"))
@@ -209,13 +197,10 @@ public class Listener extends ListenerAdapter {
         }
 
         if (raw.startsWith(prefix)) {
-            /*for (String s : profanityWords) {
-                if (raw.contains(s)) {
-                    channel.sendMessage("I don't reply to profanity").queue();
-                    return;
-                }
-            }*/
-
+            if (Utils.hasProfanity(raw)) {
+                channel.sendMessage("I don't reply to profanity").queue();
+                return;
+            }
             manager.handle(event, prefix);
         }
     }
