@@ -27,13 +27,12 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -168,7 +167,7 @@ public class Listener extends ListenerAdapter {
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
-        final URL resource = Listener.class.getResource("/files/profanity.txt");
+        /*final URL resource = Listener.class.getResource("/files/profanity.txt");
 
         List<String> profanityWords = new ArrayList<>();
 
@@ -179,7 +178,7 @@ public class Listener extends ListenerAdapter {
             }
         } catch (FileNotFoundException | URISyntaxException e) {
             System.out.println("Did not found profanity.txt");
-        }
+        }*/
 
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
 
@@ -210,12 +209,12 @@ public class Listener extends ListenerAdapter {
         }
 
         if (raw.startsWith(prefix)) {
-            for (String s : profanityWords) {
+            /*for (String s : profanityWords) {
                 if (raw.contains(s)) {
                     channel.sendMessage("I don't reply to profanity").queue();
                     return;
                 }
-            }
+            }*/
 
             manager.handle(event, prefix);
         }
