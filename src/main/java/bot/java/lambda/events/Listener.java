@@ -179,13 +179,6 @@ public class Listener extends ListenerAdapter {
             System.out.println("Did not found profanity.txt");
         }
 
-        for (String s : profanityWords) {
-            if (raw.contains(s)) {
-                channel.sendMessage("I don't reply to profanity").queue();
-                return;
-            }
-        }
-
         if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
 
             if (!eventGuild.getId().equals("755433534495391805"))
@@ -215,6 +208,13 @@ public class Listener extends ListenerAdapter {
         }
 
         if (raw.startsWith(prefix)) {
+            for (String s : profanityWords) {
+                if (raw.contains(s)) {
+                    channel.sendMessage("I don't reply to profanity").queue();
+                    return;
+                }
+            }
+
             manager.handle(event, prefix);
         }
     }
