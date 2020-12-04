@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -166,16 +168,16 @@ public class Listener extends ListenerAdapter {
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
-        final String path = Listener.class.getResource("/files/profanity.txt").getPath();
+        final URL resource = Listener.class.getResource("/files/profanity.txt");
 
         List<String> profanityWords = new ArrayList<>();
 
         try {
-            Scanner scanner = new Scanner(new File(path));
+            Scanner scanner = new Scanner(new File(resource.toURI()));
             while (scanner.hasNextLine()) {
                 profanityWords.add(scanner.nextLine());
             }
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | URISyntaxException e) {
             System.out.println("Did not found profanity.txt");
         }
 

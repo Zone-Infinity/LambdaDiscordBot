@@ -7,11 +7,7 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
 
@@ -27,26 +23,14 @@ public class AvatarCommand implements ICommand {
                 .setTimestamp(Instant.now());
 
         if (args.isEmpty()) {
-            final User author = ctx.getAuthor();
-
-            try {
-                channel.sendMessage("<" + author.getEffectiveAvatarUrl() + "?size=2048>")
-                        .addFile(new File(new URI(author.getEffectiveAvatarUrl())), "avatar.png").queue();
-            } catch (URISyntaxException e) {
-                channel.sendMessage("Something got wrong").queue();
-            }
+            channel.sendMessage(embed.setImage(ctx.getAuthor().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
             return;
         }
 
         final List<Member> mentionedMembers = ctx.getMessage().getMentionedMembers();
         if (!mentionedMembers.isEmpty()) {
             final Member member = mentionedMembers.get(0);
-            try {
-                channel.sendMessage("<" + member.getUser().getEffectiveAvatarUrl() + "?size=2048>")
-                        .addFile(new File(new URI(member.getUser().getEffectiveAvatarUrl())), "avatar.png").queue();
-            } catch (URISyntaxException e) {
-                channel.sendMessage("Something got wrong").queue();
-            }
+            channel.sendMessage(embed.setImage(member.getUser().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
             return;
         }
 
@@ -62,13 +46,7 @@ public class AvatarCommand implements ICommand {
             return;
         }
 
-
-        try {
-            channel.sendMessage("<" + memberById.getUser().getEffectiveAvatarUrl() + "?size=2048>")
-                    .addFile(new File(new URI(memberById.getUser().getEffectiveAvatarUrl())), "avatar.png").queue();
-        } catch (URISyntaxException e) {
-            channel.sendMessage("Something got wrong").queue();
-        }
+        channel.sendMessage(embed.setImage(memberById.getUser().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
 
     }
 
