@@ -159,9 +159,9 @@ public class Listener extends ListenerAdapter {
         User user = event.getAuthor();
         final Guild eventGuild = event.getGuild();
 
-        if (user.isBot() || event.isWebhookMessage()) {
+        if (user.isBot() || event.isWebhookMessage())
             return;
-        }
+
 
         final String prefix = getPrefix(eventGuild.getId());
         final TextChannel channel = event.getChannel();

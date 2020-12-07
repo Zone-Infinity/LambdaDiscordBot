@@ -101,7 +101,6 @@ public class EmojiCommand implements ICommand {
                     if (!e.getUser().equals(ctx.getAuthor())) {
                         return;
                     }
-                    e.getReaction().removeReaction(e.getUser()).queue();
 
                     if (!asReactionCode.equals("🛑")) {
                         if (asReactionCode.equals("➡")) {
@@ -129,6 +128,7 @@ public class EmojiCommand implements ICommand {
                                     .build()).queue();
                         }
                         emojiPageWaiter(message, ctx);
+                        //e.getReaction().removeReaction(e.getUser()).queue();
                         return;
                     }
                     message.delete().queue();
@@ -154,6 +154,6 @@ public class EmojiCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("emotes", "allEmoji");
+        return List.of("emotes", "allemoji");
     }
 }
