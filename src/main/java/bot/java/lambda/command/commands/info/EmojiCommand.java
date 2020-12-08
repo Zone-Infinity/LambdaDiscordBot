@@ -41,9 +41,6 @@ public class EmojiCommand implements ICommand {
         for (Guild guild : guilds) {
             final List<Emote> emotes = guild.getEmotes();
             for (Emote emote : emotes) {
-                if (count % 10 == 1 && count != 1) {
-                    page++;
-                }
                 try {
                     if (emote.isAnimated() && !Objects.equals(emote.getGuild(), server)) {
                         continue;
@@ -54,6 +51,9 @@ public class EmojiCommand implements ICommand {
                 } catch (IndexOutOfBoundsException e) {
                     e.fillInStackTrace();
                     listOfAllEmote.add(new StringBuilder());
+                }
+                if (count % 10 == 1 && count != 1) {
+                    page++;
                 }
                 count++;
             }
