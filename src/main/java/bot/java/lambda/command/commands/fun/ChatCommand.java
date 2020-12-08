@@ -78,7 +78,7 @@ public class ChatCommand implements ICommand {
 
                     ins.getJSONObject(url).async(
                             json -> {
-                                e.getMessage().reply(json.get("message").asText()).queue();
+                                e.getMessage().reply(json.get("message").asText()).mentionRepliedUser(false).queue();
                                 waitForMessage(channel, user);
                             }
                     );

@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEve
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class EmojiCommand implements ICommand {
@@ -27,6 +28,7 @@ public class EmojiCommand implements ICommand {
     public void handle(CommandContext ctx) {
         listOfAllEmote.clear();
         pageNumber = 1;
+        final Guild server = ctx.getGuild();
         final List<String> args = ctx.getArgs();
         List<Guild> guilds = new ArrayList<>();
         for (Guild guild : ctx.getJDA().getGuilds()) {
@@ -43,6 +45,9 @@ public class EmojiCommand implements ICommand {
                     page++;
                 }
                 try {
+                    if (emote.isAnimated() && !Objects.equals(emote.getGuild(), server)) {
+                        continue;
+                    }
                     listOfAllEmote.get(page).append(emote.getAsMention())
                             .append(" - ").append("`").append(emote.getName()).append("`")
                             .append("\n");
