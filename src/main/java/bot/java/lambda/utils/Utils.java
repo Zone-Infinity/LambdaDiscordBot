@@ -8,9 +8,13 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Utils {
     private static final Map<String, String> emojis = new HashMap<>();
@@ -130,9 +134,9 @@ public class Utils {
 
     public static boolean isNotUrl(String url) {
         try {
-            new URI(url);
+            new URL(url).toURI();
             return false;
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | MalformedURLException e) {
             return true;
         }
     }

@@ -48,8 +48,10 @@ public class PlayCommand implements ICommand {
         String link = String.join(" ", ctx.getArgs());
 
         if (Utils.isNotUrl(link)) {
-            link = "ytsearch: " + link;
+            link = "ytsearch:" + link + " .";
         }
+
+        System.out.println(link);
 
         PlayerManager.getInstance().loadAndPlay(channel, link, false);
     }

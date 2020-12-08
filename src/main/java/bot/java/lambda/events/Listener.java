@@ -86,7 +86,7 @@ public class Listener extends ListenerAdapter {
                             e -> e.getChannelJoined() == audioManager.getConnectedChannel(),
                             e -> {
                             },
-                            30, TimeUnit.SECONDS, () -> {
+                            60, TimeUnit.SECONDS, () -> {
                                 if (!(audioManager.getConnectedChannel().getMembers().size() > 1) || player.getPlayingTrack() == null)
                                     audioManager.closeAudioConnection();
                             }
@@ -95,7 +95,7 @@ public class Listener extends ListenerAdapter {
             }
         });
 
-        executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 10, TimeUnit.SECONDS);
+        executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
         executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
 
         final Guild lambdaGuild = event.getJDA().getGuildById(755433534495391805L);
