@@ -62,6 +62,7 @@ public class EmojiCommand implements ICommand {
         if (args.isEmpty()) {
             ctx.getChannel().sendMessage(EmbedUtils.getDefaultEmbed()
                     .setTitle("Emojis you can use : Page 1 out of " + listOfAllEmote.size())
+                    .setThumbnail(null)
                     .setDescription(listOfAllEmote.get(0))
                     .build()).queue(
                     message -> {
@@ -77,6 +78,7 @@ public class EmojiCommand implements ICommand {
         try {
             ctx.getChannel().sendMessage(EmbedUtils.getDefaultEmbed()
                     .setTitle("Emojis you can use : Page " + (Integer.parseInt(args.get(0))) + " out of " + listOfAllEmote.size())
+                    .setThumbnail(null)
                     .setDescription(listOfAllEmote.get((Integer.parseInt(args.get(0))) - 1))
                     .build()).queue(
                     message -> {
@@ -117,6 +119,7 @@ public class EmojiCommand implements ICommand {
                             }
                             message.editMessage(EmbedUtils.getDefaultEmbed()
                                     .setTitle("Emojis you can use : Page " + (pageNumber + " out of " + listOfAllEmote.size()))
+                                    .setThumbnail(null)
                                     .setDescription(listOfAllEmote.get(pageNumber - 1))
                                     .build()).queue();
                         }
@@ -129,6 +132,7 @@ public class EmojiCommand implements ICommand {
                             }
                             message.editMessage(EmbedUtils.getDefaultEmbed()
                                     .setTitle("Emojis you can use : Page " + (pageNumber + " out of " + listOfAllEmote.size()))
+                                    .setThumbnail(null)
                                     .setDescription(listOfAllEmote.get(pageNumber - 1))
                                     .build()).queue();
                         }
