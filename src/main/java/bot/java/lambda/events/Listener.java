@@ -8,15 +8,14 @@ import bot.java.lambda.utils.DatabaseUtils;
 import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -31,7 +30,6 @@ import org.slf4j.LoggerFactory;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -53,28 +51,31 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        LOGGER.info("{} is ready", event.getJDA().getSelfUser().getAsTag());
-        event.getJDA().getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
+        final JDA jda = event.getJDA();
+        LOGGER.info("{} is ready", jda.getSelfUser().getAsTag());
+        jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
+        final String asTag = Objects.requireNonNull(jda.getUserById(Config.get("owner_id"))).getAsTag();
+
         Runnable status = () -> {
-            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getUsers().size() + " users | Contact Zone Infinityλ7763 for help"));
+            jda.getPresence().setActivity(Activity.watching(jda.getUsers().size() + " users | Contact " + asTag.replace("#", "λ") + " for help"));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            event.getJDA().getPresence().setActivity(Activity.watching(event.getJDA().getGuilds().size() + " guilds | Contact Zone Infinityλ7763 for help"));
+            jda.getPresence().setActivity(Activity.watching(jda.getGuilds().size() + " guilds | Contact " + asTag.replace("#", "λ") + " for help"));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            event.getJDA().getPresence().setActivity(Activity.watching(">help | Contact Zone Infinityλ7763 for help"));
+            jda.getPresence().setActivity(Activity.watching(">help | Contact Zone Infinityλ7763 for help"));
         };
 
-        Runnable checkWhetherInactive = () -> event.getJDA().getGuilds().forEach(guild -> {
+        Runnable checkWhetherInactive = () -> jda.getGuilds().forEach(guild -> {
             AudioManager audioManager = guild.getAudioManager();
             final PlayerManager playerManager = PlayerManager.getInstance();
             final GuildMusicManager musicManager = playerManager.getMusicManager(guild);
@@ -98,16 +99,11 @@ public class Listener extends ListenerAdapter {
         executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
         executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
 
-        final Guild lambdaGuild = event.getJDA().getGuildById(755433534495391805L);
-        if (!(lambdaGuild == null)) {
-            final VoiceChannel create_vc = lambdaGuild.getVoiceChannelsByName("Create VC", true).get(0);
-            create_vc.getManager().putPermissionOverride(Objects.requireNonNull(lambdaGuild.getRolesByName("@everyone", true).get(0)), Collections.singletonList(Permission.VOICE_CONNECT), Collections.emptyList()).queue();
-        }
-
-        globalAuditsChannel = event.getJDA().getTextChannelById(758724135790051368L);
+        globalAuditsChannel = jda.getTextChannelById(758724135790051368L);
 
     }
 
+    /*
     @Override
     public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
         if (event.getGuild().getId().equals("755433534495391805")) {
@@ -133,6 +129,7 @@ public class Listener extends ListenerAdapter {
                 e -> e.getChannelLeft().delete().queue()
         );
     }
+    */
 
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
