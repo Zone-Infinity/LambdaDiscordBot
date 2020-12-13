@@ -179,9 +179,21 @@ public class Utils {
         Pattern pattern = Pattern.compile("<:LambdaPing:780988909433389066>Role");
         Matcher matcher = pattern.matcher(replacedContent);
         int count = 0;
+
+        if(mentionedRoles.isEmpty()){
+            return replacedContent;
+        }
+
+        String earlierContent = replacedContent;
+
         while (matcher.find()) {
-            replacedContent = replacedContent.replaceFirst(replacedContent.substring(matcher.start(), matcher.end()), "<:LambdaPing:780988909433389066>" + mentionedRoles.get(count).getName());
-            count++;
+            try {
+                earlierContent = replacedContent;
+                replacedContent = replacedContent.replaceFirst(replacedContent.substring(matcher.start(), matcher.end()), "<:LambdaPing:780988909433389066>" + mentionedRoles.get(count).getName());
+                count++;
+            }catch (IndexOutOfBoundsException ignored){
+                replacedContent = earlierContent;
+            }
         }
 
         return replacedContent;
