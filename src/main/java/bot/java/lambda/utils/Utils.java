@@ -4,6 +4,8 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.config.Profanity;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
     private static final Map<String, String> emojis = new HashMap<>();
@@ -164,5 +168,22 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static String replaceAllMention(Message message){
+        final String contentRaw = message.getContentRaw();
+        String replacedContent = contentRaw.replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
+                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
+                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
+        final List<Role> mentionedRoles = message.getMentionedRoles();
+        Pattern pattern = Pattern.compile("<:LambdaPing:780988909433389066>Role");
+        Matcher matcher = pattern.matcher(replacedContent);
+        int count = 0;
+        while (matcher.find()) {
+            replacedContent = replacedContent.replaceFirst(replacedContent.substring(matcher.start(), matcher.end()), mentionedRoles.get(count).getName());
+            count++;
+        }
+
+        return replacedContent;
     }
 }

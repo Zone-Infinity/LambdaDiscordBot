@@ -3,14 +3,12 @@ package bot.java.lambda.command.commands.fun;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.utils.Utils;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.WebhookAction;
 
 import java.util.List;
@@ -38,15 +36,11 @@ public class SayCommand implements ICommand {
 
         final List<Member> mentionedMembers = message.getMentionedMembers();
 
-        final String regularContent = String.join(" ", args)
-                .replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
-                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
-                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
+        String string = Utils.replaceAllMention(message);
 
-        final String mentionedContent = String.join(" ", args.subList(1, args.size()))
-                .replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
-                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
-                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
+        final String regularContent = string;
+
+        final String mentionedContent = string.replaceFirst("<@![0-9]{18}>", "");
 
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
         channel.retrieveWebhooks().queue(
