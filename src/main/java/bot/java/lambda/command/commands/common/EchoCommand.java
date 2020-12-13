@@ -3,7 +3,7 @@ package bot.java.lambda.command.commands.common;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.config.Config;
+import bot.java.lambda.utils.Utils;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
@@ -23,10 +23,7 @@ public class EchoCommand implements ICommand {
             return;
         }
 
-        final String join = String.join(" ", args)
-                .replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
-                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
-                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
+        String join = Utils.replaceAllMention(ctx.getMessage()).replaceFirst(">echo", "");
 
         for (String a : args) {
             if (messages.contains(a.toLowerCase())) {
