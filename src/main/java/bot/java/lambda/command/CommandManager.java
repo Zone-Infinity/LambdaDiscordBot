@@ -85,7 +85,7 @@ public class CommandManager {
         addCommand(new AdviceCommand());
         addCommand(new FlipCommand());
         addCommand(new PixelCommand());
-        addCommand(new ChatCommand(waiter));
+        //addCommand(new ChatCommand(waiter));
 
         // Image Commands
         addCommand(new CoffeeCommand());
