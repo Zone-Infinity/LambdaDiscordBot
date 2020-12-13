@@ -38,9 +38,9 @@ public class SayCommand implements ICommand {
 
         String string = Utils.replaceAllMention(message);
 
-        final String regularContent = string;
+        final String regularContent = string.replaceFirst(">say", "");
 
-        final String mentionedContent = string.replaceFirst("<@![0-9]{18}>", "");
+        final String mentionedContent = string.replaceFirst(">say", "").replaceFirst("<@![0-9]{18}>", "");
 
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
         channel.retrieveWebhooks().queue(

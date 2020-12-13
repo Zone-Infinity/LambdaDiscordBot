@@ -170,7 +170,7 @@ public class Utils {
         return false;
     }
 
-    public static String replaceAllMention(Message message){
+    public static String replaceAllMention(Message message) {
         final String contentRaw = message.getContentRaw();
         String replacedContent = contentRaw.replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
                 .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
@@ -180,7 +180,7 @@ public class Utils {
         Matcher matcher = pattern.matcher(replacedContent);
         int count = 0;
         while (matcher.find()) {
-            replacedContent = replacedContent.replaceFirst(replacedContent.substring(matcher.start(), matcher.end()), mentionedRoles.get(count).getName());
+            replacedContent = replacedContent.replaceFirst(replacedContent.substring(matcher.start(), matcher.end()), "<:LambdaPing:780988909433389066>" + mentionedRoles.get(count).getName());
             count++;
         }
 
