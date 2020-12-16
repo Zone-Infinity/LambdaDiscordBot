@@ -72,7 +72,7 @@ public class Listener extends ListenerAdapter {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            jda.getPresence().setActivity(Activity.watching(">help | Contact Zone Infinityλ7763 for help"));
+            jda.getPresence().setActivity(Activity.watching(">help | Contact " + asTag.replace("#", "λ") + " for help"));
         };
 
         Runnable checkWhetherInactive = () -> jda.getGuilds().forEach(guild -> {

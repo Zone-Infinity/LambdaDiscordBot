@@ -1,11 +1,13 @@
 package bot.java.lambda;
 
+import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.PrivateMessageListener;
 import bot.java.lambda.events.audits.JDAEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
@@ -20,7 +22,7 @@ import java.util.EnumSet;
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
-    private void ready() throws LoginException {
+    private void ready() throws LoginException, InterruptedException {
         WebUtils.setUserAgent("Zone-Infinity#7763");
 
         Object[] listeners = {
@@ -51,10 +53,13 @@ public class Bot {
                         CacheFlag.ROLE_TAGS
                 ))
                 .addEventListeners(listeners);
-        jdaBuilder.build();
+        final JDA jda = jdaBuilder.build();
+        jda.awaitReady();
+        TopGG.startPostingServerCount(jda, 30);
     }
 
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) throws LoginException, InterruptedException {
         new Bot().ready();
+
     }
 }
