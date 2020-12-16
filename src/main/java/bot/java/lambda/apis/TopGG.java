@@ -24,9 +24,7 @@ public class TopGG {
             final int guildCount = jda.getGuilds().size();
             postServerCount(jda, guildCount);
         };
-
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-
         executor.scheduleWithFixedDelay(postServerCount, 2, delay, TimeUnit.MINUTES);
     }
 

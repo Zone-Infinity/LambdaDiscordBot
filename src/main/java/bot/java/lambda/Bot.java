@@ -54,7 +54,9 @@ public class Bot {
                 ))
                 .addEventListeners(listeners);
         final JDA jda = jdaBuilder.build();
+
         jda.awaitReady();
+
         TopGG.startPostingServerCount(jda, 30);
     }
 
