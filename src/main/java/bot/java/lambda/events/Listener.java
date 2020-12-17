@@ -103,34 +103,6 @@ public class Listener extends ListenerAdapter {
 
     }
 
-    /*
-    @Override
-    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
-        if (event.getGuild().getId().equals("755433534495391805")) {
-            if (event.getChannelJoined().getName().equals("Create VC")) {
-                String s = "Lobby #" + (Objects.requireNonNull(event.getGuild().getCategoryById("758701038399389727")).getVoiceChannels().size() - 2);
-
-                event.getGuild().createVoiceChannel(s, event.getChannelJoined().getParent()).queue(
-                        channel -> {
-                            event.getGuild().moveVoiceMember(event.getMember(), channel).queue();
-                            channel.getManager().setUserLimit(10).queue();
-                            waitForVoiceLeave(channel);
-                        }
-                );
-            }
-        }
-    }
-
-    public void waitForVoiceLeave(VoiceChannel channel) {
-        waiter.waitForEvent(
-                GuildVoiceLeaveEvent.class,
-                e -> e.getChannelLeft().getMembers().isEmpty() &&
-                        e.getChannelLeft().equals(channel),
-                e -> e.getChannelLeft().delete().queue()
-        );
-    }
-    */
-
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         globalAuditsChannel.sendMessage("```Added to " + event.getGuild() + "```").queue();
@@ -164,34 +136,6 @@ public class Listener extends ListenerAdapter {
         final TextChannel channel = event.getChannel();
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
-
-        if (raw.equalsIgnoreCase("hello") || raw.equalsIgnoreCase("hi") || raw.equalsIgnoreCase("hey") || raw.equalsIgnoreCase("helo")) {
-
-            if (!eventGuild.getId().equals("755433534495391805"))
-                return;
-
-            if (saidHello.contains(user))
-                return;
-
-            saidHello.add(user);
-
-            channel.sendMessage("Hello. What is your name?").queue();
-
-            waiter.waitForEvent(MessageReceivedEvent.class,
-                    e -> e.getAuthor().equals(user)
-                            && e.getChannel().equals(channel)
-                            && !e.getMessage().equals(message),
-                    e -> {
-                        final String userName = e.getMessage().getContentRaw();
-                        String name = e.getGuild().getSelfMember().getNickname() == null ? e.getJDA().getSelfUser().getName() : e.getGuild().getSelfMember().getNickname();
-                        if (userName.contains(name) || userName.contains("Lambda")) {
-                            e.getChannel().sendMessage("<:Wot:755715077029625916> Eh , it's my name. Bruh!!").queue();
-                            return;
-                        }
-                        channel.sendMessage("Hello, `" + userName + "`! I'm `" + name + "`!").queue();
-                    },
-                    1, TimeUnit.MINUTES, () -> channel.sendMessage("Sorry, you took too long.").queue());
-        }
 
         if (raw.startsWith(prefix)) {
             if (Utils.hasProfanity(raw)) {
