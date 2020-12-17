@@ -1,11 +1,5 @@
 package bot.java.lambda.command;
 
-import bot.java.lambda.command.commands.common.*;
-import bot.java.lambda.command.commands.fun.*;
-import bot.java.lambda.command.commands.games.*;
-import bot.java.lambda.command.commands.images.*;
-import bot.java.lambda.command.commands.info.*;
-import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.admin.CloseCommand;
 import bot.java.lambda.command.commands.admin.DMs.BlockCommand;
 import bot.java.lambda.command.commands.admin.DMs.ReplyCommand;
@@ -13,8 +7,15 @@ import bot.java.lambda.command.commands.admin.DMs.UnblockCommand;
 import bot.java.lambda.command.commands.admin.EvalCommand;
 import bot.java.lambda.command.commands.admin.GuildsCommand;
 import bot.java.lambda.command.commands.admin.LeaveCommand;
+import bot.java.lambda.command.commands.common.*;
+import bot.java.lambda.command.commands.fun.*;
+import bot.java.lambda.command.commands.games.*;
+import bot.java.lambda.command.commands.images.*;
+import bot.java.lambda.command.commands.info.*;
+import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.utils.*;
 import bot.java.lambda.config.Config;
+import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -168,7 +169,6 @@ public class CommandManager {
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
-
             if ((cmd.getHelpCategory().equals(HelpCategory.OWNER) || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN) || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE)) && !(user.getId().equals(Config.get("owner_id"))))
                 return;
 
@@ -181,6 +181,11 @@ public class CommandManager {
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);
+
+            if (Utils.hasProfanity(String.join(" ", args))) {
+                channel.sendMessage("I don't reply to profanity").queue();
+                return;
+            }
 
             cmd.handle(ctx);
 

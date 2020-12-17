@@ -138,10 +138,6 @@ public class Listener extends ListenerAdapter {
         String raw = message.getContentRaw();
 
         if (raw.startsWith(prefix)) {
-            if (Utils.hasProfanity(raw)) {
-                channel.sendMessage("I don't reply to profanity").queue();
-                return;
-            }
             manager.handle(event, prefix);
         }
     }
