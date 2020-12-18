@@ -29,8 +29,12 @@ public class UserInfoCommand implements ICommand {
                 return;
             }
 
-            final int roleCount = member.getRoles().size();
-            final String highestRole = member.getRoles().get(0).getAsMention();
+            final List<Role> roles = member.getRoles();
+            final int roleCount = roles.size();
+            String highestRole = "No Role";
+            if (!roles.isEmpty()) {
+                highestRole = roles.get(0).getAsMention();
+            }
 
             final String status = member.getOnlineStatus().name().toLowerCase();
             String utilStatus = "";
@@ -86,8 +90,12 @@ public class UserInfoCommand implements ICommand {
             return;
         }
 
-        final int roleCount = member.getRoles().size();
-        final String highestRole = member.getRoles().get(0).getAsMention();
+        final List<Role> roles = member.getRoles();
+        final int roleCount = roles.size();
+        String highestRole = "No Role";
+        if (!roles.isEmpty()) {
+            highestRole = roles.get(0).getAsMention();
+        }
 
         final String status = member.getOnlineStatus().name().toLowerCase();
         String utilStatus = "";
