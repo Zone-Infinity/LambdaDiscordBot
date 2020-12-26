@@ -163,6 +163,7 @@ public class Profanity {
                     "futanari\n" +
                     "gangbang\n" +
                     "gang bang\n" +
+                    "gay\n" +
                     "gay sex\n" +
                     "genitals\n" +
                     "giant cock\n" +
