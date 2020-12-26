@@ -1,1 +1,1 @@
-worker: java src/main/bot/java/lambda/Bot.java & javac target/classes/bot/java/lambda/Bot
+worker: java -jar target/LambdaDiscordBot-1.0-SNAPSHOT-jar-with-dependencies.jar
