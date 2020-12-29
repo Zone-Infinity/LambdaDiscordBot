@@ -182,7 +182,7 @@ public class CommandManager {
 
             CommandContext ctx = new CommandContext(event, args);
 
-            if (Utils.hasProfanity(String.join(" ", args))) {
+            if (Utils.hasProfanity(String.join(" ", args)) && !user.getId().equals(Config.get("owner_id"))) {
                 channel.sendMessage("I don't reply to profanity").queue();
                 return;
             }
