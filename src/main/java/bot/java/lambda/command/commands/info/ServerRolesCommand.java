@@ -12,7 +12,7 @@ public class ServerRolesCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final Guild guild = ctx.getGuild();
         StringBuilder roles = new StringBuilder();
-        for(Role role : guild.getRoles()){
+        for (Role role : guild.getRoles()) {
             roles.append(role.getAsMention()).append(" | ");
         }
 
@@ -30,7 +30,7 @@ public class ServerRolesCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows the roles of the server";
     }
 

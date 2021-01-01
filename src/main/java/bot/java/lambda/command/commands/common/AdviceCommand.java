@@ -12,11 +12,11 @@ public class AdviceCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
         WebUtils.ins.getJSONObject("https://api.adviceslip.com/advice").async(
-            (json) -> {
-                final JsonNode slip = json.get("slip");
-                final String advice = slip.get("advice").asText();
-                channel.sendMessageFormat(advice).queue();
-            }
+                (json) -> {
+                    final JsonNode slip = json.get("slip");
+                    final String advice = slip.get("advice").asText();
+                    channel.sendMessageFormat(advice).queue();
+                }
         );
     }
 
@@ -26,12 +26,12 @@ public class AdviceCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives a advice to you";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.FUN;
     }
 }

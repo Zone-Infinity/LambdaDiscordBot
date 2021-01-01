@@ -1,24 +1,9 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command.commands.common;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
@@ -30,9 +15,8 @@ public class GenPassCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final List<String> args = ctx.getArgs();
 
-        if(args.isEmpty()){
-            channel.sendMessage("Missing Arguments \n" +
-                    "do `<prefix> help genPass`").queue();
+        if (args.isEmpty()) {
+            channel.sendMessage("Missing Arguments").queue();
             return;
         }
 
@@ -42,6 +26,7 @@ public class GenPassCommand implements ICommand {
             if (len >= 51) {
                 ctx.getMessage().addReaction("❌").queue();
                 channel.sendMessage("You don't need password exceeding 50 <:Wot:755715077029625916>").queue();
+                return;
             }
 
             StringBuilder password = new StringBuilder();
@@ -58,16 +43,15 @@ public class GenPassCommand implements ICommand {
                     ctx.getMessage().addReaction("✅").queue();
                     ctx.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here's your Pass - \n```" + password.toString() + "```").queue());
                     channel.sendMessage("Sent you a DM").queue();
-                }
-                else {
+                } else {
                     ctx.getMessage().addReaction("✅").queue();
                     channel.sendMessage("Here's your Pass - \n``` " + password.toString() + " ```").queue();
                 }
-            }catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 ctx.getMessage().addReaction("✅").queue();
                 channel.sendMessage("Here's your Pass - \n``` " + password.toString() + " ```").queue();
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             e.fillInStackTrace();
             ctx.getMessage().addReaction("❌").queue();
             channel.sendMessage("Enter a number to specify the length !! ").queue();
@@ -80,11 +64,10 @@ public class GenPassCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Generate Random password for you\n" +
-                "Usage : >genPass <length>\n" +
-                "        >genPass <length> dm \n" +
-                "Aliases : {generatePass, password, genPass}";
+                "Usage : " + prefix + "genPass <length>\n" +
+                "        " + prefix + "genPass <length> dm ";
     }
 
     @Override
@@ -94,7 +77,7 @@ public class GenPassCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("generatePass","password","genPass");
+        return List.of("generatePass", "password", "genPass");
     }
 
 }

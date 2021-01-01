@@ -1,22 +1,6 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command.commands.music.lavaplayer;
 
-import bot.java.lambda.command.Utils;
+import bot.java.lambda.utils.Utils;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -30,7 +14,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class PlayerManager {
     private static PlayerManager INSTANCE;
@@ -56,7 +39,7 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, boolean playList) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         try {
@@ -78,11 +61,20 @@ public class PlayerManager {
                 @Override
                 public void playlistLoaded(AudioPlaylist playlist) {
                     final List<AudioTrack> tracks = playlist.getTracks();
+
+                    if (playList) {
+                        channel.sendMessage("Adding to queue: `")
+                                .append(String.valueOf(tracks.size()))
+                                .append("` tracks from playlist `")
+                                .append(playlist.getName())
+                                .append('`')
+                                .queue();
+
+                        playlist.getTracks().forEach(musicManager.scheduler::queue);
+                        return;
+                    }
                     final AudioTrack track = tracks.get(0);
-                /*for(final AudioTrack track : tracks){
-                    musicManager.scheduler.queue(track);
-                    duration = track.getDuration();
-                }*/
+
                     musicManager.scheduler.queue(track);
 
                     channel.sendMessage("Adding to queue: `")
@@ -93,9 +85,6 @@ public class PlayerManager {
                             .append(Utils.getTimestamp(track.getDuration()))
                             .append("`")
                             .queue();
-
-                    final Consumer<AudioTrack> queue = musicManager.scheduler::queue;
-
                 }
 
                 @Override
@@ -109,60 +98,10 @@ public class PlayerManager {
                     channel.sendMessage("Failed to Load the track").queue();
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
             channel.sendMessage("Failed to Load the track").queue();
         }
-    }
-
-    public void loadListAndPlay(TextChannel channel, String trackUrl) {
-        final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
-
-        this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
-            @Override
-            public void trackLoaded(AudioTrack track) {
-                musicManager.scheduler.queue(track);
-
-                channel.sendMessage("Adding to queue: `")
-                        .append(track.getInfo().title)
-                        .append("` by `")
-                        .append(track.getInfo().author)
-                        .append('`')
-                        .append(" for ")
-                        .append("`")
-                        .append(Utils.getTimestamp(track.getDuration()))
-                        .append("`")
-                        .queue();
-            }
-
-            @Override
-            public void playlistLoaded(AudioPlaylist playlist) {
-                final List<AudioTrack> tracks = playlist.getTracks();
-
-                for(final AudioTrack track : tracks){
-                    musicManager.scheduler.queue(track);
-                }
-
-                channel.sendMessage("Adding to queue: `")
-                        .append(String.valueOf(tracks.size()))
-                        .append("` tracks from playlist")
-                        .append(playlist.getName())
-                        .append('`')
-                        .queue();
-
-                playlist.getTracks().forEach(musicManager.scheduler::queue);
-
-            }
-
-            @Override
-            public void noMatches() {
-                channel.sendMessage("No Match Found").queue();
-            }
-
-            @Override
-            public void loadFailed(FriendlyException exception) {
-                channel.sendMessage("Failed to Load the track").queue();
-            }
-        });
     }
 
     public static PlayerManager getInstance() {

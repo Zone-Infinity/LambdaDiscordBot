@@ -9,7 +9,9 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +19,7 @@ public class CountCommand implements ICommand {
 
     private final EventWaiter waiter;
 
-    private final Map<Guild, Boolean> countGoingOn = new HashMap<>();
+    private final List<Guild> countGoingOnGuild = new ArrayList<>();
     private final Map<Guild, Integer> num = new HashMap<>();
 
     public CountCommand(EventWaiter waiter) {
@@ -29,13 +31,13 @@ public class CountCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Guild guild = ctx.getGuild();
 
-        if (countGoingOn.getOrDefault(guild, false)) {
+        if (countGoingOnGuild.contains(guild)) {
             channel.sendMessage("Count is going on, \n" +
                     "can't start a new count in this guild").queue();
             return;
         }
 
-        countGoingOn.putIfAbsent(guild, true);
+        countGoingOnGuild.add(guild);
         num.putIfAbsent(guild, 1);
 
         channel.sendMessage("Start counting from `1`").queue();
@@ -59,7 +61,7 @@ public class CountCommand implements ICommand {
                         }
                     }
 
-                    if(sb.toString().isEmpty()){
+                    if (sb.toString().isEmpty()) {
                         waitForEvent(channel, guild);
                         return;
                     }
@@ -72,13 +74,13 @@ public class CountCommand implements ICommand {
                         waitForEvent(channel, guild);
                     } else {
                         message.addReaction(":TickNo:755716160472875079").queue();
-                        channel.sendMessage(e.getAuthor().getAsMention() + " ruined the counting on number " + (num.get(guild)-1)).queue();
-                        countGoingOn.replace(guild, false);
+                        channel.sendMessage(e.getAuthor().getAsMention() + " ruined the counting on number " + (num.get(guild) - 1)).queue();
+                        countGoingOnGuild.remove(guild);
                         num.replace(guild, 1);
                     }
                 }, 15, TimeUnit.SECONDS, () -> {
                     channel.sendMessage("You took too long to count further").queue();
-                    countGoingOn.replace(guild, false);
+                    countGoingOnGuild.remove(guild);
                     num.replace(guild, 1);
                 }
         );
@@ -90,16 +92,22 @@ public class CountCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Starts a count session\n" +
-                "try it out `>count`\n" +
+                "try it out `" + prefix + "count`\n" +
                 "You have to only count\n" +
-                "If the number is not the next number u lose\n" +
-                "and if u don't reply in 15 seconds u lose";
+                "If the number is not the next number you lose\n" +
+                "and if u don't reply in 15 seconds you lose";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
         return HelpCategory.GAME;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
+    }
+
 }

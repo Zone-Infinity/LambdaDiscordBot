@@ -31,7 +31,7 @@ public class DuckCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/duck").async(
                 (json) -> {
-                    if(!json.get("success").asBoolean()){
+                    if (!json.get("success").asBoolean()) {
                         channel.sendMessage("Something went wrong, try again later").queue();
                         System.out.println(json);
                         return;
@@ -53,7 +53,7 @@ public class DuckCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives random image of duck";
     }
 

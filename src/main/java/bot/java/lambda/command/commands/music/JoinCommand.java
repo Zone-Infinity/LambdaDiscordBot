@@ -1,25 +1,9 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command.commands.music;
-
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -35,7 +19,7 @@ public class JoinCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final Member self = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = self.getVoiceState();
-        if(selfVoiceState.inVoiceChannel()){
+        if (selfVoiceState.inVoiceChannel()) {
             channel.sendMessage("I'm already in a voice channel").queue();
             return;
         }
@@ -43,7 +27,7 @@ public class JoinCommand implements ICommand {
         final Member member = ctx.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
-        if(!memberVoiceState.inVoiceChannel()){
+        if (!memberVoiceState.inVoiceChannel()) {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
             return;
         }
@@ -51,8 +35,13 @@ public class JoinCommand implements ICommand {
         final AudioManager audioManager = ctx.getGuild().getAudioManager();
         final VoiceChannel memberChannel = memberVoiceState.getChannel();
 
+        if (!ctx.getSelfMember().hasPermission(memberChannel, Permission.VOICE_CONNECT)) {
+            channel.sendMessage("I don't have Permission to Connect to your Voice Channel").queue();
+            return;
+        }
+
         audioManager.openAudioConnection(memberChannel);
-        channel.sendMessageFormat("Connecting to <:Music:755026465065795634>`%s`", memberChannel.getName()).queue();
+        channel.sendMessageFormat("Connecting to <:Music:755716546827124787>`%s`", memberChannel.getName()).queue();
 
     }
 
@@ -62,9 +51,8 @@ public class JoinCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
-        return "Makes the bot join your voice channel\n" +
-                "Aliases : {j, come}";
+    public String getHelp(String prefix) {
+        return "Makes the bot join your voice channel";
     }
 
     @Override
@@ -74,7 +62,7 @@ public class JoinCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("j","come");
+        return List.of("j", "come");
     }
 }
 

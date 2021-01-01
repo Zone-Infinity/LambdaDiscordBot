@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
@@ -30,7 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 public class StopCommand implements ICommand {
     EventWaiter waiter;
-    public StopCommand(EventWaiter waiter){
+
+    public StopCommand(EventWaiter waiter) {
         this.waiter = waiter;
     }
 
@@ -41,12 +26,12 @@ public class StopCommand implements ICommand {
         GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
         final TextChannel channel = ctx.getChannel();
 
-        if(ctx.getMember().getVoiceState()==null){
+        if (ctx.getMember().getVoiceState() == null) {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
             return;
         }
 
-        if(playerManager.getMusicManager(ctx.getGuild()).audioPlayer.getPlayingTrack()==null){
+        if (playerManager.getMusicManager(ctx.getGuild()).audioPlayer.getPlayingTrack() == null) {
             channel.sendMessage("Nothing in the queue to clear").queue();
             return;
         }
@@ -54,25 +39,25 @@ public class StopCommand implements ICommand {
         final GuildVoiceState voiceState = ctx.getSelfMember().getVoiceState();
         final int size = voiceState.getChannel().getMembers().size();
 
-        if(voiceState.getChannel().getMembers().size()==2){
+        if (voiceState.getChannel().getMembers().size() == 2) {
             channel.sendMessage("Stopping the player and clearing the queue").queue();
-            musicManager.scheduler.getQueue().clear();
+            musicManager.scheduler.queue.clear();
             musicManager.audioPlayer.stopTrack();
             musicManager.audioPlayer.setPaused(false);
             return;
         }
 
         channel.sendMessage("React to the message to skip\n" +
-                "Need "+(size-2)+" reactions ( only ⏹️)").queue(
+                "Need " + (size - 2) + " reactions ( only ⏹️)").queue(
                 message -> {
                     message.addReaction("⏹️").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
-                            e -> e.getReaction().retrieveUsers().stream().count() > size-2 &&
+                            e -> e.getReaction().retrieveUsers().stream().count() > size - 2 &&
                                     e.getChannel().equals(channel) &&
                                     e.getMessageIdLong() == message.getIdLong(),
                             e -> {
                                 channel.sendMessage("Stopping the player and clearing the queue").queue();
-                                musicManager.scheduler.getQueue().clear();
+                                musicManager.scheduler.queue.clear();
                                 musicManager.audioPlayer.stopTrack();
                                 musicManager.audioPlayer.setPaused(false);
                             },
@@ -87,7 +72,7 @@ public class StopCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Stops the music player";
     }
 

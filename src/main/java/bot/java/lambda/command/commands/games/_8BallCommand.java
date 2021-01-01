@@ -10,6 +10,11 @@ import java.util.Random;
 public class _8BallCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
+        if (ctx.getArgs().isEmpty()) {
+            ctx.getChannel().sendMessage("Missing Arguments").queue();
+            return;
+        }
+
         List<String> responses = List.of(
                 "It is certain",
                 "It is decidedly so",
@@ -33,7 +38,7 @@ public class _8BallCommand implements ICommand {
                 "Very doubtful"
         );
         ctx.getChannel().sendMessageFormat("Question : %s\n" +
-                "Answer : %s",String.join(" ",ctx.getArgs()),responses.get(new Random().nextInt(responses.size()))).queue();
+                "Answer : %s", String.join(" ", ctx.getArgs()), responses.get(new Random().nextInt(responses.size()))).queue();
     }
 
     @Override
@@ -42,13 +47,19 @@ public class _8BallCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Ask the magic 8-ball a question and receive an answer\n" +
-                "Usage : >8ball <question>";
+                "Usage : " + prefix + "8ball <question>";
     }
 
     @Override
     public HelpCategory getHelpCategory() {
         return HelpCategory.GAME;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
+    }
+
 }

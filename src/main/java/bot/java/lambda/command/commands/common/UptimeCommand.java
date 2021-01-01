@@ -3,12 +3,12 @@ package bot.java.lambda.command.commands.common;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.command.Utils;
+import bot.java.lambda.utils.Utils;
 
 public class UptimeCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
-        ctx.getChannel().sendMessage("My Uptime is `"+Utils.getUptime()+"`").queue();
+        ctx.getChannel().sendMessage("My Uptime is `" + Utils.getUptime() + "`").queue();
     }
 
     @Override
@@ -17,7 +17,7 @@ public class UptimeCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows the current uptime of the bot";
     }
 

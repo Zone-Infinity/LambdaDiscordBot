@@ -1,76 +1,92 @@
 package bot.java.lambda.command;
 
-import bot.java.lambda.command.commands.Owner.EvalCommand;
-import bot.java.lambda.command.commands.Owner.LeaveCommand;
-import bot.java.lambda.command.commands.Owner.TestCommand;
-import bot.java.lambda.command.commands.games.CountCommand;
-import bot.java.lambda.command.commands.games.RPSCommand;
-import bot.java.lambda.command.commands.games.RollCommand;
-import bot.java.lambda.command.commands.games._8BallCommand;
-import bot.java.lambda.command.commands.images.*;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
+import bot.java.lambda.command.commands.admin.CloseCommand;
+import bot.java.lambda.command.commands.admin.DMs.BlockCommand;
+import bot.java.lambda.command.commands.admin.DMs.ReplyCommand;
+import bot.java.lambda.command.commands.admin.DMs.UnblockCommand;
+import bot.java.lambda.command.commands.admin.EvalCommand;
+import bot.java.lambda.command.commands.admin.GuildsCommand;
+import bot.java.lambda.command.commands.admin.LeaveCommand;
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;
+import bot.java.lambda.command.commands.games.*;
+import bot.java.lambda.command.commands.images.*;
 import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
+import bot.java.lambda.command.commands.utils.*;
+import bot.java.lambda.config.Config;
+import bot.java.lambda.utils.Utils;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
+    private final Map<ICommand, List<User>> coolDown = new HashMap<>();
 
-    public CommandManager(EventWaiter waiter){
+    public CommandManager(EventWaiter waiter) {
 
         // Owner Commands
-        addCommand(new EvalCommand());
+        addCommand(new EvalCommand(waiter));
         addCommand(new LeaveCommand());
-        addCommand(new TestCommand(waiter));
-
-        // Secret Commands
-
+        addCommand(new ReplyCommand());
+        addCommand(new BlockCommand());
+        addCommand(new GuildsCommand());
+        addCommand(new CloseCommand());
+        addCommand(new UnblockCommand());
 
         // Info Commands
         addCommand(new HelpCommand(this));
-        addCommand(new GuildCountCommand());
         addCommand(new EmoteUseCommand());
-        addCommand(new GuildUserCountCommand());
         addCommand(new ServerInfoCommand());
         addCommand(new ServerEmojisCommand());
         addCommand(new ServerRolesCommand());
+        addCommand(new AvatarCommand());
+        addCommand(new IDCommand());
+        addCommand(new UserInfoCommand());
+        addCommand(new BotInfoCommand(this));
+        addCommand(new SetPrefixCommand());
+        //addCommand(new VoteCommand());
 
         // Common Commands
         addCommand(new PingCommand());
         addCommand(new InviteCommand());
-        addCommand(new InstagramCommand());
         addCommand(new GenPassCommand());
         addCommand(new RandomCommand());
         addCommand(new SayCommand());
-        addCommand(new EmojiCommand());
+        addCommand(new EmojiCommand(waiter));
         addCommand(new DistractorCommand());
         addCommand(new LMGTFYCommand());
         addCommand(new UrbanCommand());
         addCommand(new PollCommand());
         addCommand(new UptimeCommand());
-        addCommand(new AdviceCommand());
+        addCommand(new ColorCommand());
 
         //Game Commands
         addCommand(new _8BallCommand());
         addCommand(new RollCommand());
         addCommand(new RPSCommand());
         addCommand(new CountCommand(waiter));
+        addCommand(new TriviaCommand(waiter));
 
         // Fun Commands
         addCommand(new MemeCommand());
         addCommand(new JokeCommand());
-        addCommand(new GifCommand());
         addCommand(new EmojifyCommand());
         addCommand(new EchoCommand());
+        addCommand(new BoredCommand());
+        addCommand(new AdviceCommand());
+        addCommand(new FlipCommand());
+        addCommand(new PixelCommand());
+        //addCommand(new ChatCommand(waiter));
 
         // Image Commands
         addCommand(new CoffeeCommand());
@@ -97,38 +113,54 @@ public class CommandManager {
         addCommand(new UserCountCommand());
         addCommand(new NowPlayingCommand());
         addCommand(new PlaylistCommand());
+        addCommand(new LoopCommand());
         addCommand(new ShuffleCommand());
+        addCommand(new VolumeCommand());
+
+        // Utility Commands
+        addCommand(new DefaultAvatarCommand());
+        addCommand(new InvertCommand());
+        addCommand(new BlackAndWhiteCommand());
+        addCommand(new BlurCommand());
+        addCommand(new PixelateCommand());
+        addCommand(new DarkenCommand());
+        addCommand(new DrakeCommand());
+        addCommand(new Drake2Command());
+        addCommand(new PasteCommand());
+        addCommand(new HasteCommand());
+        addCommand(new ShortenUrlCommand());
+
     }
 
-    private void addCommand(ICommand cmd){
+    private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
 
-        if(nameFound){
+        if (nameFound) {
             throw new IllegalArgumentException("A command with this name is already present");
         }
 
         commands.add(cmd);
     }
 
-    public List<ICommand> getCommands(){
+    public List<ICommand> getCommands() {
         return commands;
     }
 
     @Nullable
-    public ICommand getCommand(String search){
+    public ICommand getCommand(String search) {
         String searchLower = search.toLowerCase();
 
         for (ICommand cmd : this.commands) {
-            if(cmd.getName().equals(searchLower)||cmd.getAliases().contains(searchLower)){
+            if (cmd.getName().equals(searchLower) || cmd.getAliases().contains(searchLower)) {
                 return cmd;
             }
         }
-
         return null;
-
     }
 
-    public void handle(GuildMessageReceivedEvent event, String prefix){
+    public void handle(GuildMessageReceivedEvent event, String prefix) {
+        final TextChannel channel = event.getChannel();
+        final User user = event.getAuthor();
         String[] split = event.getMessage().getContentRaw()
                 .replaceFirst("(?i)" + Pattern.quote(prefix), "")
                 .split("\\s+");
@@ -136,12 +168,32 @@ public class CommandManager {
         String invoke = split[0].toLowerCase();
         ICommand cmd = this.getCommand(invoke);
 
-        if(cmd != null){
+        if (cmd != null) {
+            if ((cmd.getHelpCategory().equals(HelpCategory.OWNER) || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN) || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE)) && !(user.getId().equals(Config.get("owner_id"))))
+                return;
+
+            final List<User> users = coolDown.computeIfAbsent(cmd, it -> new ArrayList<>());
+            if (users.contains(user) && !user.getId().equals(Config.get("owner_id"))) {
+                channel.sendMessage("You have to wait " + cmd.getCoolDown() + " seconds before using this command").queue();
+                return;
+            }
+
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);
 
+            if (Utils.hasProfanity(String.join(" ", args)) && !user.getId().equals(Config.get("owner_id"))) {
+                channel.sendMessage("I don't reply to profanity").queue();
+                return;
+            }
+
             cmd.handle(ctx);
+
+            coolDown.get(cmd).add(user);
+            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+            Runnable removeUser = () -> coolDown.get(cmd).remove(user);
+            executor.schedule(removeUser, cmd.getCoolDown(), TimeUnit.SECONDS);
+
         }
     }
 }

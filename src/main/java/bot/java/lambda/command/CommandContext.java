@@ -1,28 +1,12 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command;
 
+import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.commands.ICommandContext;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.awt.*;
 import java.time.Instant;
 import java.util.List;
 import java.util.Random;
@@ -34,14 +18,12 @@ public class CommandContext implements ICommandContext {
     public CommandContext(GuildMessageReceivedEvent event, List<String> args) {
         this.event = event;
         this.args = args;
-        Random random = new Random();
-        int r = random.nextInt(255),g = random.nextInt(255),b = random.nextInt(255);
         EmbedUtils.setEmbedBuilder(
-                ()-> new EmbedBuilder()
+                () -> new EmbedBuilder()
                         .setThumbnail(event.getAuthor().getAvatarUrl())
-                        .setAuthor(Utils.getAuthorRequested(event),event.getAuthor().getAvatarUrl(),event.getAuthor().getAvatarUrl())
-                        .setColor(new Color(r, g, b))
-                        .setFooter("Lambda Equations in java are amazing","https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
+                        .setAuthor(Utils.getAuthorRequested(event), null, event.getAuthor().getAvatarUrl())
+                        .setColor(new Random().nextInt(256 * 256 * 256))
+                        .setFooter("Lambda Equations in java are amazing", "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
                         .setTimestamp(Instant.now())
         );
     }
@@ -56,7 +38,7 @@ public class CommandContext implements ICommandContext {
         return this.event;
     }
 
-    public List<String> getArgs(){
+    public List<String> getArgs() {
         return this.args;
     }
 

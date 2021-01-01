@@ -7,11 +7,15 @@ public interface ICommand {
 
     String getName();
 
-    String getHelp();
+    String getHelp(String prefix);
 
     HelpCategory getHelpCategory();
 
-    default List<String> getAliases(){
+    default int getCoolDown() {
+        return 5;
+    }
+
+    default List<String> getAliases() {
         return List.of();
     }
 }

@@ -10,7 +10,7 @@ public class DistractorCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         ctx.getMessage().delete().queue();
-        ctx.getChannel().sendMessage(Objects.requireNonNull(ctx.getJDA().getGuildById(755433534495391805L)).getEmotesByName("Distractor",true).get(0).getAsMention()+"").queue();
+        ctx.getChannel().sendMessage(Objects.requireNonNull(ctx.getJDA().getGuildById(755433534495391805L)).getEmotesByName("Distractor", true).get(0).getAsMention() + "").queue();
     }
 
     @Override
@@ -19,7 +19,7 @@ public class DistractorCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Distracts Users";
     }
 

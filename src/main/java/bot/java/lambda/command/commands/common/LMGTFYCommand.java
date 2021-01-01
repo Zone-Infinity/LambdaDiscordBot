@@ -9,8 +9,12 @@ import java.util.List;
 public class LMGTFYCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
+        if (ctx.getArgs().isEmpty()) {
+            ctx.getChannel().sendMessage("Missing Arguments").queue();
+            return;
+        }
         String link = String.join("+", ctx.getArgs());
-        ctx.getChannel().sendMessage("http://lmgtfy.com/?q="+link).queue();
+        ctx.getChannel().sendMessage("http://lmgtfy.com/?q=" + link).queue();
     }
 
     @Override
@@ -19,9 +23,8 @@ public class LMGTFYCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
-        return "Googles things for u\n" +
-                "Aliases : {google, lmgtfu}";
+    public String getHelp(String prefix) {
+        return "Googles things for u";
     }
 
     @Override
@@ -31,6 +34,6 @@ public class LMGTFYCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("google","lmgtfu");
+        return List.of("google");
     }
 }

@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
@@ -34,7 +18,7 @@ public class PlaylistCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
 
-        if(ctx.getArgs().isEmpty()){
+        if (ctx.getArgs().isEmpty()) {
             channel.sendMessage("Correct usage is : <prefix> play <youtube link>").queue();
             return;
         }
@@ -60,20 +44,20 @@ public class PlaylistCommand implements ICommand {
             return;
         }
 
-        String link = String.join(" ",ctx.getArgs());
+        String link = String.join(" ", ctx.getArgs());
 
-        if(!isUrl(link)){
+        if (!isUrl(link)) {
             link = "ytsearch:" + link;
         }
 
-        PlayerManager.getInstance().loadListAndPlay(channel, link);
+        PlayerManager.getInstance().loadAndPlay(channel, link, true);
     }
 
     private boolean isUrl(String url) {
-        try{
+        try {
             new URI(url);
             return true;
-        }catch (URISyntaxException e){
+        } catch (URISyntaxException e) {
             return false;
         }
     }
@@ -84,10 +68,9 @@ public class PlaylistCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Plays a playlist\n" +
-                "Usage: <prefix> play <youtube link>\n" +
-                "Aliases : {pl, plist}";
+                "Usage: " + prefix + " playlist <youtube link / name>";
     }
 
     @Override
@@ -97,6 +80,6 @@ public class PlaylistCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("pl","plist");
+        return List.of("pl", "plist");
     }
 }

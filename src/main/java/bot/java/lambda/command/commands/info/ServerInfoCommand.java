@@ -5,6 +5,7 @@ import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Guild;
 
 import java.time.format.DateTimeFormatter;
@@ -23,20 +24,22 @@ public class ServerInfoCommand implements ICommand {
         );
 
         String numberInfo = String.format(
-            "> **Total Roles** : %s\n> **Total Emotes** : %s\n> **Total Members** : %s\n> **Categories** : %s\n> **Text Channels** : %s\n> **Voice Channels** : %s",
-            guild.getRoleCache().size(),
-            guild.getEmotes().size(),
-            guild.getMemberCount(),
-            guild.getCategories().size(),
-            guild.getTextChannels().size(),
-            guild.getVoiceChannels().size()
+                "> **Total Roles** : %s\n> **Total Emotes** : %s\n> **Total Members** : %s\n> **Online Members** : %s\n> **Offline Members** : %s\n> **Categories** : %s\n> **Text Channels** : %s\n> **Voice Channels** : %s",
+                guild.getRoleCache().size(),
+                guild.getEmotes().size(),
+                guild.getMemberCache().size(),
+                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.ONLINE || m.getOnlineStatus() == OnlineStatus.DO_NOT_DISTURB || m.getOnlineStatus() == OnlineStatus.IDLE).count(),
+                guild.getMemberCache().stream().filter((m) -> m.getOnlineStatus() == OnlineStatus.OFFLINE).count(),
+                guild.getCategories().size(),
+                guild.getTextChannels().size(),
+                guild.getVoiceChannels().size()
         );
 
         EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                .setTitle("Server info for "+guild.getName())
+                .setTitle("Server info for " + guild.getName())
                 .setThumbnail(guild.getIconUrl())
-                .addField("General Info",generalInfo,false)
-                .addField("Counts Info",numberInfo,false);
+                .addField("General Info", generalInfo, false)
+                .addField("Counts Info", numberInfo, false);
 
         ctx.getChannel().sendMessage(embed.build()).queue();
     }
@@ -47,7 +50,7 @@ public class ServerInfoCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Shows information about the server";
     }
 
@@ -56,11 +59,11 @@ public class ServerInfoCommand implements ICommand {
         return HelpCategory.INFO;
     }
 
-    private String convertVerificationLevel(Guild.VerificationLevel lvl){
+    private String convertVerificationLevel(Guild.VerificationLevel lvl) {
         String[] names = lvl.name().toLowerCase().split("_");
         StringBuilder out = new StringBuilder();
 
-        for(String name : names){
+        for (String name : names) {
             out.append(Character.toUpperCase(name.charAt(0))).append(name.substring(1)).append(" ");
         }
 

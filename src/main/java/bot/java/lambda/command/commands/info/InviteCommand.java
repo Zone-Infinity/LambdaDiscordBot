@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Zone-Infinity
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
@@ -29,13 +13,15 @@ public class InviteCommand implements ICommand {
         TextChannel channel = ctx.getChannel();
 
         final String asTag = ctx.getAuthor().getAsTag();
-        final String author = "Requested by "+asTag.substring(0,asTag.length()-5)+"λ"+ asTag.substring(asTag.length()-4);
+        final String author = "Requested by " + asTag.substring(0, asTag.length() - 5) + "λ" + asTag.substring(asTag.length() - 4);
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setAuthor(author)
-                .setTitle("<:LambdaLock:755716500643512370> Click here to invite me","https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
-                .setDescription("\uD83D\uDE0A Here you go , invite me to as many servers as possible\n" +
+                .setTitle("<:LambdaLock:755716500643512370> Click here to invite me", "https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
+                .setDescription("<:go:734650199472865310> **Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**\n" +
+                        "Here you go , invite me to as many servers as possible\n" +
                         "And help me becoming a verified bot <:Verified:755715351798480897>")
-                .setThumbnail(ctx.getAuthor().getAvatarUrl());
+                .setThumbnail(ctx.getAuthor().getAvatarUrl())
+                .setImage("https://discord.com/api/guilds/755433534495391805/widget.png?style=banner3");
         channel.sendMessage(embed.build()).queue();
     }
 
@@ -45,7 +31,7 @@ public class InviteCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "Gives u a invite link of the bot";
     }
 

@@ -3,8 +3,7 @@ package bot.java.lambda.command.commands.info;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.command.Utils;
-import me.duncte123.botcommons.messaging.EmbedUtils;
+import bot.java.lambda.utils.Utils;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -15,13 +14,13 @@ public class EmoteUseCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
         final TextChannel channel = ctx.getChannel();
-        if(args.isEmpty()){
+        if (args.isEmpty()) {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
 
         final Emote emote = Utils.searchEmote(ctx, args.get(0));
-        if(emote==null){
+        if (emote == null) {
             channel.sendMessage("No Emote Found").queue();
             return;
         }
@@ -34,9 +33,9 @@ public class EmoteUseCommand implements ICommand {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelp(String prefix) {
         return "I use a server emoji that you provided\n" +
-                "Usage : >emoji <name>\n" +
+                "Usage : " + prefix + "emoji <name>\n" +
                 "If u don't know the emoji names , do >emojis";
     }
 
