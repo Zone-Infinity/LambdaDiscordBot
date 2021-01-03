@@ -2,7 +2,7 @@
     <img src="https://cdn.discordapp.com/avatars/752052866809593906/dfb1b8e77716930909f756f2a757f4c4.png" align="right"/>
 </div>
 
-![lastcommit] ![workflowStatus] [![DiscordBots][dbl]][dblLink] [![Support Server][chat]][server] 
+[![DiscordBots][dbl]][dblLink] [![Support Server][chat]][server] [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![lastcommit] ![workflowStatus]  
 # Lambda Discord Bot
 A **Fun** Bot which has many commands<br/>
 It provides you with some Common commands<br/>
@@ -27,6 +27,8 @@ The code of this bot was made public for people who want to see how the bot work
 [![infinity]][infinityLink]
 <br>
 
+## License
+[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 [server]: https://discord.com/invite/XCNehWVrH7
 [chat]: https://discord.com/api/guilds/755433534495391805/embed.png?style=shield
