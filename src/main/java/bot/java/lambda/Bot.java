@@ -62,6 +62,5 @@ public class Bot {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         new Bot().ready();
-
     }
 }
