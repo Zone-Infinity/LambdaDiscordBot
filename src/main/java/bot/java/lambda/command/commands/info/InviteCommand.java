@@ -17,7 +17,7 @@ public class InviteCommand implements ICommand {
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setAuthor(author)
                 .setTitle("<:LambdaLock:755716500643512370> Click here to invite me", "https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
-                .setDescription("<:go:734650199472865310> **Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**\n" +
+                .setDescription("**Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**\n" +
                         "Here you go , invite me to as many servers as possible\n" +
                         "And help me becoming a verified bot <:Verified:755715351798480897>")
                 .setThumbnail(ctx.getAuthor().getAvatarUrl())
