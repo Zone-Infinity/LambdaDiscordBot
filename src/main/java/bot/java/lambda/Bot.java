@@ -17,8 +17,6 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
 
-// U+202B
-
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
