@@ -1,5 +1,5 @@
 <center>
-  <img src="https://cdn.discordapp.com/avatars/752052866809593906/dfb1b8e77716930909f756f2a757f4c4.png" align="right"><br>
+  <img src="https://cdn.discordapp.com/avatars/752052866809593906/dfb1b8e77716930909f756f2a757f4c4.png" align="right"><br><br>
   <a href="https://discord.com/invite/XCNehWVrH7"><img src="https://invidget.switchblade.xyz/XCNehWVrH7"></a>
 </center>
 
