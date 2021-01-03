@@ -49,8 +49,7 @@ public class Bot {
                 .enableCache(EnumSet.of(
                         CacheFlag.CLIENT_STATUS,
                         CacheFlag.EMOTE,
-                        CacheFlag.ACTIVITY,
-                        CacheFlag.ROLE_TAGS
+                        CacheFlag.ACTIVITY
                 ))
                 .addEventListeners(listeners);
         final JDA jda = jdaBuilder.build();
@@ -62,6 +61,5 @@ public class Bot {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
         new Bot().ready();
-
     }
 }

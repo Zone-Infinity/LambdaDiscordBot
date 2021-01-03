@@ -22,6 +22,7 @@ public class CloseCommand implements ICommand {
         if (ctx.getAuthor().getId().equals(Config.get("owner_id"))) {
             ctx.getChannel().sendMessage("Shutting Down").queue();
             ctx.getMessage().addReaction("✅").queue();
+            ctx.getMessage().removeReaction("✅", ctx.getSelfUser()).queue();
             final Guild eventGuild = ctx.getGuild();
             LOGGER.info("Shutting Down");
 
