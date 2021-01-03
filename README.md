@@ -9,12 +9,16 @@ It provides you with some Common commands<br/>
 Some Fun and most important **MUSIC** !! 😄
 
 ## Support
-If you need any support please join my [support guild][server] <br/>
+If you need any support please join my [support guild.][server] <br/>
 [![Support Server][banner]][server]
 
 
 ## Invite my bot
-Invite My bot [here][invitelink] 
+Invite My bot from [here.][invitelink] 
+
+## Self Hosting
+Self-hosting of this bot is not supported nor will there be any support provided to the people that try. 
+The code of this bot was made public for people who want to see how the bot works or want to contribute to it.
 
 ## Bot Lists 
 <a href="https://top.gg/bot/752052866809593906"><img src="https://top.gg/api/widget/752052866809593906.svg" alt="Lambda λ" /></a> 
