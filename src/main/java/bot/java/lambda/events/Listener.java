@@ -143,7 +143,7 @@ public class Listener extends ListenerAdapter {
     }
 
     public static String getPrefix(String guildID) {
-        final String prefixes = DatabaseUtils.PrefixDotJson;
+        /*final String prefixes = DatabaseUtils.PrefixDotJson;
 
         try (FileReader reader = new FileReader(prefixes)) {
             JSONParser jsonParser = new JSONParser();
@@ -156,7 +156,7 @@ public class Listener extends ListenerAdapter {
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
-        }
+        }*/
         return Config.get("prefix");
     }
 }

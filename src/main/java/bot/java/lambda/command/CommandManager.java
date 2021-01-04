@@ -53,8 +53,8 @@ public class CommandManager {
         addCommand(new IDCommand());
         addCommand(new UserInfoCommand());
         addCommand(new BotInfoCommand(this));
-        addCommand(new SetPrefixCommand());
-        //addCommand(new VoteCommand());
+        // addCommand(new SetPrefixCommand());
+        // addCommand(new VoteCommand());
 
         // Common Commands
         addCommand(new PingCommand());
