@@ -29,7 +29,6 @@ public class BotInfoCommand implements ICommand {
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setTitle("🤖 Bot Info", jda.getInviteUrl(Permission.MANAGE_WEBHOOKS, Permission.MESSAGE_MANAGE, Permission.VOICE_SPEAK))
                 .setAuthor("Zone Infinity λ7763", "https://images-ext-2.discordapp.net/external/A_7uQjeR6Y8ryVWMfwJT32Kkd_3oFYvVNoHBxTjI02A/https/cdn.discordapp.com/avatars/722854351600615465/883407867f1bf7dc0b7a7bf489b37c57.png", selfUser.getEffectiveAvatarUrl())
-                .setDescription("**Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**")
                 .addField("General 👓", "```css\n" +
                         "Owner : [Zone Infinityλ7763]\n" +
                         "Library : [JDA]\n" +
@@ -50,7 +49,8 @@ public class BotInfoCommand implements ICommand {
                         "Dioxin(AlphaBet) ]\n" +
                         "  and many more :D\n" +
                         "{Support : 'You can also be a helper by joining the support server which is a fun and music server too'}" +
-                        "\n```", false);
+                        "\n```", false)
+                .addField("Links 🔗", "**[Github](https://github.com/Zone-Infinity/LambdaDiscordBot) • [TopGG](https://top.gg/bot/752052866809593906) • [Support Server](https://discord.com/invite/XCNehWVrH7)**", false);
 
         channel.sendMessage(embed.build()).queue();
     }
