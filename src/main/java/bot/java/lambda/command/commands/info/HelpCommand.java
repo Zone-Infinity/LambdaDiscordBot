@@ -150,14 +150,7 @@ public class HelpCommand implements ICommand {
                     .addField("\uD83D\uDEE0️ Utils", UtilsBuild.toString(), true)
                     .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
 
-            ctx.getAuthor().openPrivateChannel().queue(
-                    privateChannel -> privateChannel.sendMessage(embed.build()).queue(),
-                    ignored -> channel.sendMessage("Cannot send a DM to you").queue(
-                            msg -> channel.sendMessage(embed.build()).queue()
-                    )
-            );
-
-            channel.sendMessage("Check Your DM").queue();
+            channel.sendMessage(embed.build()).queue();
             return;
         }
 
