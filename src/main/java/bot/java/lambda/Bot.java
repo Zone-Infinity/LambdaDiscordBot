@@ -3,7 +3,6 @@ package bot.java.lambda;
 import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.events.Listener;
-import bot.java.lambda.events.PrivateMessageListener;
 import bot.java.lambda.events.audits.JDAEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
@@ -26,7 +25,6 @@ public class Bot {
         Object[] listeners = {
                 waiter,
                 new Listener(waiter),
-                new PrivateMessageListener(),
                 new JDAEventListener()
         };
 
