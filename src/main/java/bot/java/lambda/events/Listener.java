@@ -4,8 +4,6 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
-import bot.java.lambda.utils.DatabaseUtils;
-import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.JDA;
@@ -16,21 +14,13 @@ import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,7 +32,6 @@ public class Listener extends ListenerAdapter {
     private TextChannel globalAuditsChannel;
     private final CommandManager manager;
     private final EventWaiter waiter;
-    private final List<User> saidHello = new ArrayList<>();
 
     public Listener(EventWaiter waiter) {
         this.waiter = waiter;
@@ -142,6 +131,7 @@ public class Listener extends ListenerAdapter {
         }
     }
 
+    @SuppressWarnings("unused")
     public static String getPrefix(String guildID) {
         /*final String prefixes = DatabaseUtils.PrefixDotJson;
 
