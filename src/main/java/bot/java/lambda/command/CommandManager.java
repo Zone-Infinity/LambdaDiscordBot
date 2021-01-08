@@ -1,9 +1,6 @@
 package bot.java.lambda.command;
 
 import bot.java.lambda.command.commands.admin.CloseCommand;
-import bot.java.lambda.command.commands.admin.DMs.BlockCommand;
-import bot.java.lambda.command.commands.admin.DMs.ReplyCommand;
-import bot.java.lambda.command.commands.admin.DMs.UnblockCommand;
 import bot.java.lambda.command.commands.admin.EvalCommand;
 import bot.java.lambda.command.commands.admin.GuildsCommand;
 import bot.java.lambda.command.commands.admin.LeaveCommand;
@@ -37,11 +34,8 @@ public class CommandManager {
         // Owner Commands
         addCommand(new EvalCommand(waiter));
         addCommand(new LeaveCommand());
-        addCommand(new ReplyCommand());
-        addCommand(new BlockCommand());
         addCommand(new GuildsCommand());
         addCommand(new CloseCommand());
-        addCommand(new UnblockCommand());
 
         // Info Commands
         addCommand(new HelpCommand(this));
