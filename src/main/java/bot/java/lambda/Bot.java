@@ -52,7 +52,7 @@ public class Bot {
 
         jda.awaitReady();
 
-        TopGG.startPostingServerCount(jda, 30);
+        //TopGG.startPostingServerCount(jda, 30);
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {

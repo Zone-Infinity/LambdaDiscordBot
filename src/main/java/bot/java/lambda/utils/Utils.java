@@ -1,6 +1,7 @@
 package bot.java.lambda.utils;
 
 import bot.java.lambda.command.CommandContext;
+import bot.java.lambda.config.Profanity;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -154,6 +155,16 @@ public class Utils {
             case "dnd" -> dnd;
             default -> offline;
         };
+    }
+
+    public static boolean hasProfanity(String text) {
+        final String[] words = Profanity.profanityWords.split("\n");
+        for (String w : words) {
+            if (text.contains(w)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String replaceAllMention(Message message) {
