@@ -1,7 +1,6 @@
 package bot.java.lambda.utils;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.config.Profanity;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -13,10 +12,7 @@ import java.lang.management.RuntimeMXBean;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -158,16 +154,6 @@ public class Utils {
             case "dnd" -> dnd;
             default -> offline;
         };
-    }
-
-    public static boolean hasProfanity(String text) {
-        final String[] words = Profanity.profanityWords.split("\n");
-        for (String w : words) {
-            if (text.contains(w)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static String replaceAllMention(Message message) {

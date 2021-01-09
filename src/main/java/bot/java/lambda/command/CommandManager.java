@@ -12,7 +12,6 @@ import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.utils.*;
 import bot.java.lambda.config.Config;
-import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -173,13 +172,7 @@ public class CommandManager {
             }
 
             List<String> args = Arrays.asList(split).subList(1, split.length);
-
             CommandContext ctx = new CommandContext(event, args);
-
-            if (Utils.hasProfanity(String.join(" ", args)) && !user.getId().equals(Config.get("owner_id"))) {
-                channel.sendMessage("I don't reply to profanity").queue();
-                return;
-            }
 
             cmd.handle(ctx);
 

@@ -122,7 +122,6 @@ public class Listener extends ListenerAdapter {
 
 
         final String prefix = getPrefix(eventGuild.getId());
-        final TextChannel channel = event.getChannel();
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
@@ -133,20 +132,6 @@ public class Listener extends ListenerAdapter {
 
     @SuppressWarnings("unused")
     public static String getPrefix(String guildID) {
-        /*final String prefixes = DatabaseUtils.PrefixDotJson;
-
-        try (FileReader reader = new FileReader(prefixes)) {
-            JSONParser jsonParser = new JSONParser();
-            Object jsonFile = jsonParser.parse(reader);
-            JSONObject prefixList = (JSONObject) jsonFile;
-
-            final String prefix = (String) prefixList.get(guildID);
-            if (prefix != null)
-                return prefix;
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }*/
         return Config.get("prefix");
     }
 }
