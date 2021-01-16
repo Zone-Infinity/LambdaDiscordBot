@@ -17,7 +17,7 @@ public class Drake2Command implements ICommand {
         final String join = String.join(" ", ctx.getArgs());
         final String[] split = join.split("\\|");
 
-        if (ctx.getArgs().size() < 2) {
+        if (split.length < 2) {
             channel.sendMessage("Please provide the 2 arguments").queue();
             return;
         }

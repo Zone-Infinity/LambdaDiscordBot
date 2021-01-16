@@ -1,6 +1,7 @@
 package bot.java.lambda.command.commands.admin;
 
 import bot.java.lambda.command.CommandContext;
+import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.config.Config;
@@ -17,10 +18,12 @@ public class EvalCommand implements ICommand {
     private final GroovyShell engine;
     private final String imports;
     private final EventWaiter waiter;
+    private final CommandManager manager;
 
-    public EvalCommand(EventWaiter waiter) {
+    public EvalCommand(EventWaiter waiter, CommandManager manager) {
         this.waiter = waiter;
         this.engine = new GroovyShell();
+        this.manager = manager;
         this.imports = "import java.io.*\n" +
                 "import java.lang.*\n" +
                 "import java.util.*\n" +

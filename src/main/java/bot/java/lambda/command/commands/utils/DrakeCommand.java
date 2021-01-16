@@ -3,7 +3,6 @@ package bot.java.lambda.command.commands.utils;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
-import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.entities.TextChannel;
 import okhttp3.*;
 
@@ -17,7 +16,7 @@ public class DrakeCommand implements ICommand {
         final String join = String.join(" ", ctx.getArgs());
         final String[] split = join.split("\\|");
 
-        if (ctx.getArgs().size() < 2) {
+        if (split.length < 2) {
             channel.sendMessage("Please provide the 2 arguments").queue();
             return;
         }
@@ -61,7 +60,7 @@ public class DrakeCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return "Generates a drake meme\n" +
-                "Usage : "+ prefix +"drake <top_text> | <bottom_text>";
+                "Usage : " + prefix + "drake <top_text> | <bottom_text>";
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class TopGG {
     private static final Logger LOGGER = LoggerFactory.getLogger(TopGG.class);
 
-    private static void postServerCount(JDA jda, int serverCount) {
+    public static void postServerCount(JDA jda, int serverCount) {
         DiscordBotListAPI api = new DiscordBotListAPI.Builder()
                 .token(Config.get("TopGG_Token"))
                 .botId(jda.getSelfUser().getId())
@@ -31,5 +31,4 @@ public class TopGG {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleWithFixedDelay(postServerCount, 2, delay, TimeUnit.MINUTES);
     }
-
 }

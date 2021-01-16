@@ -48,21 +48,7 @@ public class Listener extends ListenerAdapter {
 
         final String asTag = Objects.requireNonNull(jda.getUserById(Config.get("owner_id"))).getAsTag();
 
-        Runnable status = () -> {
-            jda.getPresence().setActivity(Activity.watching(jda.getUsers().size() + " users | Contact " + asTag.replace("#", "λ") + " for help"));
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            jda.getPresence().setActivity(Activity.watching(jda.getGuilds().size() + " guilds | Contact " + asTag.replace("#", "λ") + " for help"));
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            jda.getPresence().setActivity(Activity.watching(">help | Contact " + asTag.replace("#", "λ") + " for help"));
-        };
+        Runnable status = () -> jda.getPresence().setActivity(Activity.watching(jda.getGuilds().size() + " guilds | Contact " + asTag.replace("#", "λ") + " for help"));
 
         Runnable checkWhetherInactive = () -> jda.getGuilds().forEach(guild -> {
             AudioManager audioManager = guild.getAudioManager();
