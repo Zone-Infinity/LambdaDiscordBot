@@ -5,6 +5,7 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.HelpCategory;
 import bot.java.lambda.command.ICommand;
 import bot.java.lambda.events.Listener;
+import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -135,7 +136,7 @@ public class HelpCommand implements ICommand {
                             "It provides you with some Common commands\n" +
                             "Some Fun and most important MUSIC !! \uD83D\uDE04 \n" +
                             "If you have any confusion about the bot, \n" +
-                            "   Contact Zone_Infinity#7763           \n" +
+                            "   Contact " + Utils.getZoneInfinityAsTag(ctx.getJDA()) + "           \n" +
                             "      for help, bugs and suggestions    ```\n" +
                             "**Take a look on these commands** <:LambdaWhite:755717368386289721>")
                     .addField("<:LambdaBlack:755717304989384714>  Commons", ComBuild.toString(), true)

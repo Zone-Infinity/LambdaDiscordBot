@@ -1,7 +1,7 @@
 package bot.java.lambda;
 
-import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.config.Config;
+import bot.java.lambda.config.Profanity;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.audits.JDAEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -50,6 +50,7 @@ public class Bot {
                 .addEventListeners(listeners);
         final JDA jda = jdaBuilder.build();
 
+        Profanity.loadProfanityList();
         jda.awaitReady();
 
         //TopGG.startPostingServerCount(jda, 30);

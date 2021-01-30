@@ -15,7 +15,7 @@ public class EchoCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final List<String> args = ctx.getArgs();
         final TextChannel channel = ctx.getChannel();
-        List<String> messages = List.of("fuck", "bitch", "porn", "ass", "boob");
+
         List<String> replies = List.of("Nah", "I know", "No U", "ok");
 
         if (args.isEmpty()) {
@@ -25,11 +25,10 @@ public class EchoCommand implements ICommand {
 
         String join = Utils.replaceAllMention(ctx.getMessage()).replaceFirst(">echo", "");
 
-        for (String a : args) {
-            if (messages.contains(a.toLowerCase())) {
-                channel.sendMessage(replies.get(new Random().nextInt(replies.size()))).queue();
-                return;
-            }
+
+        if (Utils.hasProfanity(ctx.getMessage().getContentRaw())) {
+            channel.sendMessage(replies.get(new Random().nextInt(replies.size()))).queue();
+            return;
         }
 
         if ((join.toLowerCase().contains("stupid") || join.toLowerCase().contains("dumb")) && join.toLowerCase().contains("i")) {

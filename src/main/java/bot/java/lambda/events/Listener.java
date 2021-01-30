@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
+import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.JDA;
@@ -21,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -46,9 +46,7 @@ public class Listener extends ListenerAdapter {
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
-        final String asTag = Objects.requireNonNull(jda.getUserById(Config.get("owner_id"))).getAsTag();
-
-        Runnable status = () -> jda.getPresence().setActivity(Activity.watching(jda.getGuilds().size() + " guilds | Contact " + asTag.replace("#", "λ") + " for help"));
+        Runnable status = () -> jda.getPresence().setActivity(Activity.watching(jda.getGuilds().size() + " guilds | Contact " + Utils.getZoneInfinityAsTag(jda) + " for help"));
 
         Runnable checkWhetherInactive = () -> jda.getGuilds().forEach(guild -> {
             AudioManager audioManager = guild.getAudioManager();

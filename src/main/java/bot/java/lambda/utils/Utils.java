@@ -1,11 +1,8 @@
 package bot.java.lambda.utils;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.config.Profanity;
-import net.dv8tion.jda.api.entities.Emote;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
@@ -13,11 +10,15 @@ import java.lang.management.RuntimeMXBean;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
+    public static final List<String> profanityWords = new ArrayList<>();
     private static final Map<String, String> emojis = new HashMap<>();
 
     public static String getEmojiFor(String character) {
@@ -55,7 +56,7 @@ public class Utils {
         emojis.put("5", "5️⃣");
         emojis.put("6", "6️⃣");
         emojis.put("7", "7️⃣");
-        emojis.put("8", "🎱");
+        emojis.put("8", "8️⃣");
         emojis.put("9", "9️⃣");
         emojis.put("?", "\u2754");
         emojis.put("!", "\u2755");
@@ -158,8 +159,7 @@ public class Utils {
     }
 
     public static boolean hasProfanity(String text) {
-        final String[] words = Profanity.profanityWords.split("\n");
-        for (String w : words) {
+        for (String w : Utils.profanityWords) {
             if (text.contains(w)) {
                 return true;
             }
@@ -177,7 +177,7 @@ public class Utils {
         Matcher matcher = pattern.matcher(replacedContent);
         int count = 0;
 
-        if(mentionedRoles.isEmpty()){
+        if (mentionedRoles.isEmpty()) {
             return replacedContent;
         }
 
@@ -188,11 +188,21 @@ public class Utils {
                 earlierContent = replacedContent;
                 replacedContent = replacedContent.replaceFirst(replacedContent.substring(matcher.start(), matcher.end()), "<:LambdaPing:780988909433389066>" + mentionedRoles.get(count).getName());
                 count++;
-            }catch (IndexOutOfBoundsException ignored){
+            } catch (IndexOutOfBoundsException ignored) {
                 replacedContent = earlierContent;
             }
         }
 
         return replacedContent;
     }
+
+    public static User getZoneInfinity(JDA jda) {
+        return jda.getUserById("722854351600615465");
+    }
+
+    public static String getZoneInfinityAsTag(JDA jda) {
+        final User zoneInfinity = getZoneInfinity(jda);
+        return zoneInfinity.getName() + "λ" + zoneInfinity.getDiscriminator();
+    }
+
 }
