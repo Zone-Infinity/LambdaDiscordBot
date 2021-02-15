@@ -8,7 +8,10 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.restaction.WebhookAction;
 
 import java.util.List;
@@ -108,7 +111,9 @@ public class SayCommand implements ICommand {
     public String getHelp(String prefix) {
         return "Says something for you\n" +
                 "Usage : " + prefix + "say <msg>\n" +
-                "        " + prefix + "say <@user> <msg>";
+                "        " + prefix + "say <@user> <msg>\n" +
+                "Using Emojis : put emoji name between <> or ::\n" +
+                "Example : <Lambda> or :Lambda:";
     }
 
     @Override

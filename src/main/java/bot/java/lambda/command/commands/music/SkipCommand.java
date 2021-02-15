@@ -8,6 +8,7 @@ import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.command.commands.music.lavaplayer.TrackScheduler;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -28,7 +29,8 @@ public class SkipCommand implements ICommand {
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
         final PlayerManager playerManager = PlayerManager.getInstance();
-        final GuildMusicManager musicManager = playerManager.getMusicManager(ctx.getGuild());
+        final Guild guild = ctx.getGuild();
+        final GuildMusicManager musicManager = playerManager.getMusicManager(guild);
         TrackScheduler scheduler = musicManager.scheduler;
         AudioPlayer player = musicManager.audioPlayer;
 
@@ -47,7 +49,7 @@ public class SkipCommand implements ICommand {
         final int size = members.size();
 
         if (size < 3) {
-            channel.sendMessage("<:NextTract:755716597842182164> Track Skipped").queue();
+            channel.sendMessage("<:NextTrack:755716597842182164> Track Skipped").queue();
             try {
                 scheduler.nextTrack();
             } catch (IllegalStateException e) {
@@ -56,9 +58,9 @@ public class SkipCommand implements ICommand {
             return;
         }
         channel.sendMessage("React to the message to skip\n" +
-                "Need " + (size - 2) + " reactions ( only <:NextTract:755716597842182164> )").queue(
+                "Need " + (size - 2) + " reactions ( only <:NextTrack:755716597842182164> )").queue(
                 message -> {
-                    message.addReaction(":NextTract:755716597842182164").queue();
+                    message.addReaction(":NextTrack:755716597842182164").queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
                             e -> e.getReaction().retrieveUsers().stream().count() > size - 2 &&
                                     e.getChannel().equals(channel) &&
@@ -71,7 +73,7 @@ public class SkipCommand implements ICommand {
                                     ex.fillInStackTrace();
                                 }
                             },
-                            70, TimeUnit.SECONDS, () -> channel.sendMessage("Time up !! can't skip").queue());
+                            70, TimeUnit.SECONDS, () -> {});
                 }
         );
     }
@@ -94,6 +96,6 @@ public class SkipCommand implements ICommand {
 
     @Override
     public List<String> getAliases() {
-        return List.of("s", "skipsong");
+        return List.of("s", "skipsong", "next");
     }
 }
