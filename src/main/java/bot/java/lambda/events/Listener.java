@@ -4,7 +4,6 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
-import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.JDA;
@@ -43,10 +42,13 @@ public class Listener extends ListenerAdapter {
         final JDA jda = event.getJDA();
         LOGGER.info("{} is ready", jda.getSelfUser().getAsTag());
         jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
+        jda.getPresence().setActivity(Activity.streaming("Vote Me Pls !!!", "https://top.gg/bot/752052866809593906/vote"));
 
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-        Runnable status = () -> jda.getPresence().setActivity(Activity.watching(jda.getGuilds().size() + " guilds | Contact " + Utils.getZoneInfinityAsTag(jda) + " for help"));
+        Runnable status = () -> {
+
+        };
 
         Runnable checkWhetherInactive = () -> jda.getGuilds().forEach(guild -> {
             AudioManager audioManager = guild.getAudioManager();
@@ -70,7 +72,7 @@ public class Listener extends ListenerAdapter {
         });
 
         executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
-        executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
+        // executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
 
         globalAuditsChannel = jda.getTextChannelById(758724135790051368L);
 
@@ -98,6 +100,8 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+        // if(!event.getGuild().getId().equals(AuditUtils.lambdaGuildId)) return;
+
         User user = event.getAuthor();
         final Guild eventGuild = event.getGuild();
 
@@ -108,7 +112,12 @@ public class Listener extends ListenerAdapter {
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
-        if (raw.startsWith(prefix)) {
+        if (raw.equals("<@!752052866809593906>")) {
+            event.getChannel().sendMessage("My Prefix is " + prefix + ".\n" +
+                    "To get started send " + prefix + "help.").queue();
+        }
+
+        if (raw.startsWith(prefix) || raw.startsWith("<@!752052866809593906>")) {
             manager.handle(event, prefix);
         }
     }

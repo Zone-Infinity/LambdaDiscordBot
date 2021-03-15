@@ -30,22 +30,19 @@ public class Bot {
 
         JDABuilder jdaBuilder = JDABuilder.createDefault(
                 Config.get("token"),
-                GatewayIntent.GUILD_MEMBERS,
+                // GatewayIntent.GUILD_MEMBERS,
                 GatewayIntent.GUILD_MESSAGES,
-                GatewayIntent.GUILD_PRESENCES,
+                // GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES,
                 GatewayIntent.GUILD_EMOJIS,
-                GatewayIntent.GUILD_MESSAGE_REACTIONS,
-                GatewayIntent.DIRECT_MESSAGES,
-                GatewayIntent.DIRECT_MESSAGE_TYPING,
-                GatewayIntent.DIRECT_MESSAGE_REACTIONS
+                GatewayIntent.GUILD_MESSAGE_REACTIONS
         )
-                .setMemberCachePolicy(MemberCachePolicy.ALL)
-                .setChunkingFilter(ChunkingFilter.ALL)
+                // .setMemberCachePolicy(MemberCachePolicy.ALL)
+                // .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(EnumSet.of(
-                        CacheFlag.CLIENT_STATUS,
-                        CacheFlag.EMOTE,
-                        CacheFlag.ACTIVITY
+                        // CacheFlag.CLIENT_STATUS,
+                        CacheFlag.EMOTE
+                        // CacheFlag.ACTIVITY
                 ))
                 .addEventListeners(listeners);
         final JDA jda = jdaBuilder.build();

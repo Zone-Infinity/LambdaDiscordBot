@@ -23,7 +23,7 @@ public class CommandContext implements ICommandContext {
                         .setThumbnail(event.getAuthor().getAvatarUrl())
                         .setAuthor(Utils.getAuthorRequested(event), null, event.getAuthor().getAvatarUrl())
                         .setColor(new Random().nextInt(256 * 256 * 256))
-                        .setFooter("Lambda Equations in java are amazing", "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
+                        .setFooter("Lambda Equations in Java are amazing", "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png")
                         .setTimestamp(Instant.now())
         );
     }

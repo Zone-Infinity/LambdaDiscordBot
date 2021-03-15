@@ -149,7 +149,7 @@ public class CommandManager {
     public void handle(GuildMessageReceivedEvent event, String prefix) {
         final User user = event.getAuthor();
         String[] split = event.getMessage().getContentRaw()
-                .replaceFirst("(?i)" + Pattern.quote(prefix), "")
+                .replaceFirst("(?i)" + Pattern.quote(prefix) + "|" + event.getGuild().getSelfMember().getAsMention(), "")
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();

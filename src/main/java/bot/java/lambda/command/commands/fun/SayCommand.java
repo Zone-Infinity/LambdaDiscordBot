@@ -41,9 +41,9 @@ public class SayCommand implements ICommand {
 
         String string = Utils.replaceAllMention(message);
 
-        final String regularContent = string.replaceFirst(">say", "");
+        final String regularContent = Utils.replaceAllEmojiString(string.replaceFirst(">say", ""), ctx);
 
-        final String mentionedContent = string.replaceFirst(">say", "").replaceFirst("<@![0-9]{18}>", "");
+        final String mentionedContent = Utils.replaceAllEmojiString(string.replaceFirst(">say", "").replaceFirst("<@![0-9]{18}>", ""), ctx);
 
         WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
         channel.retrieveWebhooks().queue(
@@ -112,8 +112,8 @@ public class SayCommand implements ICommand {
         return "Says something for you\n" +
                 "Usage : " + prefix + "say <msg>\n" +
                 "        " + prefix + "say <@user> <msg>\n" +
-                "Using Emojis : put emoji name between <> or ::\n" +
-                "Example : <Lambda> or :Lambda:";
+                "Using Emojis : put emoji name between ::\n" +
+                "Example : :Lambda:";
     }
 
     @Override

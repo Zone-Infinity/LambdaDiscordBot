@@ -205,4 +205,31 @@ public class Utils {
         return zoneInfinity.getName() + "λ" + zoneInfinity.getDiscriminator();
     }
 
+    public static String replaceAllEmojiString(String message, CommandContext ctx) {
+        List<String> nameOfEmotes = new ArrayList<>();
+        for (String m : message.split(" ")) {
+            if (m.startsWith(":") && m.endsWith(":") && m.length() > 2)
+                nameOfEmotes.add(m.substring(1, m.length() - 1));
+        }
+
+        String replacedString = message.replaceAll(":\\w+:", "<∭Emote>");
+        StringBuilder result = new StringBuilder();
+        int count = 0;
+        for (String s : replacedString.split(" ")) {
+            if (s.equals("<∭Emote>")) {
+                final Emote emote = searchEmote(ctx, nameOfEmotes.get(count));
+                if (emote == null) {
+                    result.append(":").append(nameOfEmotes.get(count)).append(":").append(" ");
+                    continue;
+                }
+                result.append(emote.getAsMention()).append(" ");
+                count++;
+                continue;
+            }
+            result.append(s).append(" ");
+        }
+
+        return result.toString();
+    }
+
 }

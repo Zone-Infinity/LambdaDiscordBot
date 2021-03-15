@@ -41,6 +41,7 @@ public class EvalCommand implements ICommand {
                 "import net.dv8tion.jda.api.utils.*\n" +
                 "import com.jagrosh.jdautilities.commons.utils.*\n" +
                 "import com.jagrosh.jdautilities.commons.waiter.*\n" +
+                "import bot.java.lambda.utils.*\n" +
                 "";
     }
 
