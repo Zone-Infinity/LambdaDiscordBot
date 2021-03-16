@@ -212,11 +212,13 @@ public class Utils {
                 nameOfEmotes.add(m.substring(1, m.length() - 1));
         }
 
-        String replacedString = message.replaceAll(":\\w+:", "<∭Emote>");
+        String replacedString = message.replaceAll("<(a?):(\\w+):(\\d+)>", "{{$1;$2;$3}}")
+                .replaceAll(":\\w+:", "<∭Emote>:::::")
+                .replaceAll("\\{\\{(a?);(\\w+);(\\d+)}}", "<$1:$2:$3>");
         StringBuilder result = new StringBuilder();
         int count = 0;
         for (String s : replacedString.split(" ")) {
-            if (s.equals("<∭Emote>")) {
+            if (s.equals("<∭Emote>:::::")) {
                 final Emote emote = searchEmote(ctx, nameOfEmotes.get(count));
                 if (emote == null) {
                     result.append(":").append(nameOfEmotes.get(count)).append(":").append(" ");

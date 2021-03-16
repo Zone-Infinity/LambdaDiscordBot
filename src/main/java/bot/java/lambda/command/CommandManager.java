@@ -115,7 +115,6 @@ public class CommandManager {
         addCommand(new DrakeCommand());
         addCommand(new Drake2Command());
         addCommand(new PasteCommand());
-        addCommand(new HasteCommand());
         addCommand(new ShortenUrlCommand());
 
     }
@@ -124,7 +123,13 @@ public class CommandManager {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
 
         if (nameFound) {
-            throw new IllegalArgumentException("A command with this name is already present");
+            throw new IllegalArgumentException("A command with this name is already present : " + cmd.getName());
+        }
+
+        boolean aliasFound = this.commands.stream().anyMatch((it) -> it.getAliases().stream().anyMatch((alias) -> cmd.getAliases().contains(alias)));
+
+        if (aliasFound) {
+            throw new IllegalArgumentException("A command with a alias is already present : " + cmd.getName() + " : " + cmd.getAliases());
         }
 
         commands.add(cmd);
@@ -149,7 +154,7 @@ public class CommandManager {
     public void handle(GuildMessageReceivedEvent event, String prefix) {
         final User user = event.getAuthor();
         String[] split = event.getMessage().getContentRaw()
-                .replaceFirst("(?i)" + Pattern.quote(prefix) + "|" + event.getGuild().getSelfMember().getAsMention(), "")
+                .replaceFirst("(?i)" + Pattern.quote(prefix) + "|" + event.getGuild().getSelfMember().getAsMention() + "( +)?", "")
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();

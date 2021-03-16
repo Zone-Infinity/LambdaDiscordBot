@@ -54,7 +54,6 @@ public class DisconnectCommand implements ICommand {
         musicManager.audioPlayer.setPaused(false);
         musicManager.scheduler.loopEnabled = false;
         audioManager.closeAudioConnection();
-
     }
 
     @Override
