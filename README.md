@@ -1,5 +1,5 @@
 <div>
-    <img src="https://cdn.discordapp.com/avatars/752052866809593906/dfb1b8e77716930909f756f2a757f4c4.png" align="right"/>
+    <img src="https://images-ext-1.discordapp.net/external/knTQpddk8nbTGs-Q_6DMpuuhprgiN_3t4WSv_koPkdk/https/cdn.discordapp.com/avatars/752052866809593906/5df22ca80c3136b59a962ae0d4d36b33.png" align="right"/>
 </div>
 
 [![DiscordBots][dbl]][dblLink] [![Support Server][chat]][server] [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![lastcommit] ![workflowStatus]  
@@ -41,5 +41,5 @@ The code of this bot was made public for people who want to see how the bot work
 [dblLink]:https://discordbots.org/bot/752052866809593906
 [workflowStatus]:https://img.shields.io/github/workflow/status/Zone-Infinity/LambdaDiscordBot/Java%20CI%20with%20Maven?event=push
 
-[infinity]: https://infinitybotlist.com/bots/752052866809593906/widget?size=small
-[infinityLink]: https://infinitybotlist.com/bots/752052866809593906
+[infinity]: https://infinitybots.xyz/bots/752052866809593906/widget?size=small
+[infinityLink]: https://infinitybots.xyz/bots/752052866809593906
