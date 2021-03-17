@@ -7,9 +7,13 @@ import bot.java.lambda.command.commands.games.*;
 import bot.java.lambda.command.commands.images.*;
 import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
+import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
+import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.command.commands.utils.*;
 import bot.java.lambda.config.Config;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -153,8 +157,10 @@ public class CommandManager {
 
     public void handle(GuildMessageReceivedEvent event, String prefix) {
         final User user = event.getAuthor();
+        final Guild guild = event.getGuild();
+        final TextChannel channel = event.getChannel();
         String[] split = event.getMessage().getContentRaw()
-                .replaceFirst("(?i)" + Pattern.quote(prefix) + "|" + event.getGuild().getSelfMember().getAsMention() + "( +)?", "")
+                .replaceFirst("(?i)" + Pattern.quote(prefix) + "|" + guild.getSelfMember().getAsMention() + "( +)?", "")
                 .split("\\s+");
 
         String invoke = split[0].toLowerCase();
@@ -177,6 +183,11 @@ public class CommandManager {
                 channel.sendMessage("I don't reply to profanity").queue();
                 return;
             }*/
+
+            if (cmd.getHelpCategory().equals(HelpCategory.MUSIC)) {
+                final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(guild);
+                musicManager.setLastChannelId(channel.getIdLong());
+            }
 
             cmd.handle(ctx);
 

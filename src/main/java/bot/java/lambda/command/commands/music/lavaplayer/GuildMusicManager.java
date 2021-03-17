@@ -5,9 +5,8 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 
 public class GuildMusicManager {
     public final AudioPlayer audioPlayer;
-
     public final TrackScheduler scheduler;
-
+    private long lastChannelId = -1;
     private final AudioPlayerSendHandler sendHandler;
 
     public GuildMusicManager(AudioPlayerManager manager) {
@@ -19,5 +18,13 @@ public class GuildMusicManager {
 
     public AudioPlayerSendHandler getSendHandler() {
         return sendHandler;
+    }
+
+    public long getLastChannelId() {
+        return lastChannelId;
+    }
+
+    public void setLastChannelId(long lastChannelId) {
+        this.lastChannelId = lastChannelId;
     }
 }

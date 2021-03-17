@@ -1,3 +1,4 @@
+![lambda](https://media.discordapp.net/attachments/796474694861455430/796802868689502288/lambda.png)
 <div>
     <img src="https://images-ext-1.discordapp.net/external/knTQpddk8nbTGs-Q_6DMpuuhprgiN_3t4WSv_koPkdk/https/cdn.discordapp.com/avatars/752052866809593906/5df22ca80c3136b59a962ae0d4d36b33.png" align="right"/>
 </div>
