@@ -112,12 +112,12 @@ public class Listener extends ListenerAdapter {
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
-        if (raw.equals("<@!752052866809593906>")) {
+        if (raw.equals(eventGuild.getSelfMember().getAsMention())) {
             event.getChannel().sendMessage("My Prefix is " + prefix + ".\n" +
                     "To get started send " + prefix + "help.").queue();
         }
 
-        if (raw.startsWith(prefix) || raw.startsWith("<@!752052866809593906>")) {
+        if (raw.startsWith(prefix) || raw.startsWith("<@!752052866809593906>") || raw.startsWith("<@752052866809593906>")) {
             manager.handle(event, prefix);
         }
     }
