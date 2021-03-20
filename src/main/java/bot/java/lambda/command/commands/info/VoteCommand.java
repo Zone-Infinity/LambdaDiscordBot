@@ -7,25 +7,33 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class VoteCommand implements ICommand {
+    final Map<String, String> voteLinks = new HashMap<>();
+
+    public VoteCommand() {
+        voteLinks.put("TopGG", "https://top.gg/bot/752052866809593906/vote");
+        voteLinks.put("Discord Bot List", "https://discordbotlist.com/bots/lambda-l/upvote");
+        voteLinks.put("Botrix", "https://botrix.cc/vote/752052866809593906");
+        voteLinks.put("Infinity Bot List", "https://infinitybots.xyz/bots/752052866809593906/vote");
+        // voteLinks.put("Rovel", "???");
+    }
+
     @Override
     public void handle(CommandContext ctx) {
-        String BOTRIX = "https://botrix.cc/vote/752052866809593906";
-        String ROVEL = "https://bots.rovelstars.ga/bots/752052866809593906/vote";
-        String INFINITY = "https://infinitybotlist.com/bots/752052866809593906/vote";
-        String DISCORD = "https://discordbotlist.com/bots/lambda-l/upvote";
-        String TOPGG = "https://top.gg/bot/752052866809593906/vote";
-
         final TextChannel channel = ctx.getChannel();
+
+        StringBuilder description = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : voteLinks.entrySet()) {
+            description.append(String.format("[Vote on %s](%s)", entry.getKey(), entry.getValue()));
+        }
 
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setTitle("Vote Lambda λ")
-                .setDescription("1. [Vote on TopGG](" + TOPGG + ")\n" +
-                        "2. [Vote on RovelBotList](" + ROVEL + ")\n" +
-                        "3. [Vote on BOTRIX](" + BOTRIX + ")\n" +
-                        "4. [Vote on InfinityBotList](" + INFINITY + ")\n" +
-                        "5. [Vote on DiscordBotList](" + DISCORD + ")" +
-                        "");
+                .setDescription(description);
         channel.sendMessage(embed.build()).queue();
     }
 
