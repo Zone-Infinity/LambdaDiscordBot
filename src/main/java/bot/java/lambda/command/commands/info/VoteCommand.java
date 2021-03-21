@@ -27,8 +27,10 @@ public class VoteCommand implements ICommand {
 
         StringBuilder description = new StringBuilder();
 
+        int count = 1;
         for (Map.Entry<String, String> entry : voteLinks.entrySet()) {
-            description.append(String.format("[Vote on %s](%s)", entry.getKey(), entry.getValue()));
+            description.append(String.format("%d. [Vote on %s](%s)\n", count, entry.getKey(), entry.getValue()));
+            count++;
         }
 
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
