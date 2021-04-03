@@ -26,7 +26,7 @@ public class JDAEventListener extends ListenerAdapter {
     }
 
     @Override
-    public void onReconnect(@NotNull ReconnectedEvent event) {
+    public void onReconnected(@NotNull ReconnectedEvent event) {
         botStatusChannel = event.getJDA().getTextChannelById(AuditUtils.botStatusChannelID);
         if (botStatusChannel == null) return;
         botStatusChannel.sendMessage("`Reconnected`").queue();

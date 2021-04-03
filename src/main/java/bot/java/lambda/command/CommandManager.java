@@ -38,12 +38,12 @@ public class CommandManager {
         // Info Commands
         addCommand(new HelpCommand(this));
         addCommand(new EmoteUseCommand());
-        addCommand(new ServerInfoCommand());
+        // addCommand(new ServerInfoCommand());
         addCommand(new ServerEmojisCommand());
         addCommand(new ServerRolesCommand());
         addCommand(new AvatarCommand());
         addCommand(new IDCommand());
-        addCommand(new UserInfoCommand());
+        // addCommand(new UserInfoCommand());
         addCommand(new BotInfoCommand(this));
         // addCommand(new SetPrefixCommand());
         addCommand(new VoteCommand());
