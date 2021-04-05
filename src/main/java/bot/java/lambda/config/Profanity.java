@@ -22,7 +22,6 @@ public class Profanity {
                     Utils.profanityWords.add(inputLine);
 
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

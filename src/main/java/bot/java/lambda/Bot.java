@@ -5,18 +5,23 @@ import bot.java.lambda.config.Profanity;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MusicEventListener;
 import bot.java.lambda.events.audits.JDAEventListener;
+import bot.java.lambda.utils.AuditUtils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
+import net.dv8tion.jda.api.GatewayEncoding;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
+import java.util.Random;
 
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
+    public static Random random;
 
     private void ready() throws LoginException, InterruptedException {
         WebUtils.setUserAgent("Zone-Infinity#7763");
@@ -41,12 +46,19 @@ public class Bot {
                 // .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(EnumSet.of(
                         // CacheFlag.CLIENT_STATUS,
+                        // CacheFlag.ACTIVITY,
+                        CacheFlag.VOICE_STATE,
                         CacheFlag.EMOTE
-                        // CacheFlag.ACTIVITY
                 ))
-                .addEventListeners(listeners);
+                .disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS)
+                .addEventListeners(listeners)
+                .setBulkDeleteSplittingEnabled(false)
+                .setMemberCachePolicy(MemberCachePolicy.DEFAULT)
+                .setChunkingFilter((guildId) -> guildId == Long.parseLong(AuditUtils.lambdaGuildId))
+                .setGatewayEncoding(GatewayEncoding.ETF);
         final JDA jda = jdaBuilder.build();
 
+        random = new Random();
         Profanity.loadProfanityList();
         jda.awaitReady();
 

@@ -1,5 +1,6 @@
 package bot.java.lambda.events;
 
+import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
@@ -42,12 +43,35 @@ public class Listener extends ListenerAdapter {
         final JDA jda = event.getJDA();
         LOGGER.info("{} is ready", jda.getSelfUser().getAsTag());
         jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
-        jda.getPresence().setActivity(Activity.streaming("Vote Me Pls !!!", "https://top.gg/bot/752052866809593906/vote"));
+        // jda.getPresence().setActivity(Activity.streaming("Vote Me Pls !!!", "https://top.gg/bot/752052866809593906/vote"));
 
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
+        int sleepTime = 2500;
         Runnable status = () -> {
-
+            // Loading... x% , Error!, Restarting
+            for (int i = 0; i <= 99; i += Bot.random.nextInt(9) + 1) {
+                jda.getPresence().setActivity(Activity.playing("Loading... " + i + "%"));
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            jda.getPresence().setActivity(Activity.playing("Error!"));
+            try {
+                Thread.sleep(sleepTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (int i = 1; i <= 3; i++) {
+                jda.getPresence().setActivity(Activity.playing("Restarting" + ".".repeat(i)));
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         };
 
         Runnable checkWhetherInactive = () -> jda.getGuilds().forEach(guild -> {
@@ -72,7 +96,7 @@ public class Listener extends ListenerAdapter {
         });
 
         executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
-        // executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
+        executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
 
         globalAuditsChannel = jda.getTextChannelById(758724135790051368L);
 
