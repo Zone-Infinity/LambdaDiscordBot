@@ -235,7 +235,7 @@ public class Utils {
         return result.toString();
     }
 
-    public static int wrongRandom(int a, int bound) {
-        return Bot.random.nextInt(bound) + (bound - a);
+    public static int random(int lowerbound, int upperbound) {
+        return Bot.random.nextInt(upperbound - lowerbound) + lowerbound;
     }
 }
