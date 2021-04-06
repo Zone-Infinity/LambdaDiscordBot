@@ -49,8 +49,16 @@ public interface ImageUtilCommand extends ICommand {
         if (Utils.isNotUrl(args.get(0))) {
             final Message message = ctx.getMessage();
             if (message.getMentionedMembers().isEmpty()) {
-                channel.sendMessage("Provide the correct image url").queue();
-                return;
+                if (message.getEmotes().isEmpty()) {
+                    channel.sendMessage("Provide the correct image url").queue();
+                    return;
+                }
+                final String imageUrl = message.getEmotes().get(0).getImageUrl();
+                try {
+                    sendImage(channel, imageUrl);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             final String effectiveAvatarUrl = message.getMentionedMembers().get(0).getUser().getEffectiveAvatarUrl();
             try {
