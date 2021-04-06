@@ -6,7 +6,6 @@ import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MusicEventListener;
 import bot.java.lambda.events.audits.JDAEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import me.duncte123.botcommons.text.TextColor;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.GatewayEncoding;
 import net.dv8tion.jda.api.JDA;
