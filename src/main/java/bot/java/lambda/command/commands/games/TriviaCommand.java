@@ -1,8 +1,8 @@
 package bot.java.lambda.command.commands.games;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.HelpCategory;
-import bot.java.lambda.command.ICommand;
+import bot.java.lambda.command.commandCategory.HelpCategory;
+import bot.java.lambda.command.commandType.ICommand;
 import bot.java.lambda.utils.Utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;

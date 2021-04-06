@@ -1,5 +1,7 @@
 package bot.java.lambda.command;
 
+import bot.java.lambda.command.commandCategory.HelpCategory;
+import bot.java.lambda.command.commandType.ICommand;
 import bot.java.lambda.command.commands.admin.*;
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;

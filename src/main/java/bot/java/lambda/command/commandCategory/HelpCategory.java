@@ -1,4 +1,4 @@
-package bot.java.lambda.command;
+package bot.java.lambda.command.commandCategory;
 
 import org.jetbrains.annotations.NotNull;
 

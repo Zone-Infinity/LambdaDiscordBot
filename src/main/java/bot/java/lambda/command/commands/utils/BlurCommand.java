@@ -1,6 +1,8 @@
 package bot.java.lambda.command.commands.utils;
 
-import bot.java.lambda.command.HelpCategory;
+import bot.java.lambda.command.commandCategory.HelpCategory;
+import bot.java.lambda.command.commandCategory.ImageUtil;
+import bot.java.lambda.command.commandType.ImageUtilCommand;
 
 public class BlurCommand implements ImageUtilCommand {
     @Override

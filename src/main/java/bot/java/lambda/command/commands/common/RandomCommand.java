@@ -1,8 +1,8 @@
 package bot.java.lambda.command.commands.common;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.HelpCategory;
-import bot.java.lambda.command.ICommand;
+import bot.java.lambda.command.commandCategory.HelpCategory;
+import bot.java.lambda.command.commandType.ICommand;
 
 import java.util.List;
 import java.util.OptionalInt;
