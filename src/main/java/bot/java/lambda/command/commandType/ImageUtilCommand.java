@@ -35,6 +35,7 @@ public interface ImageUtilCommand extends ICommand {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                return;
             }
             final String effectiveAvatarUrl = message.getMentionedMembers().get(0).getUser().getEffectiveAvatarUrl();
             try {
