@@ -236,6 +236,6 @@ public class Utils {
     }
 
     public static int random(int a, int bound) {
-        return Bot.random.nextInt(bound) + a;
+        return Bot.random.nextInt(bound) + (bound - a);
     }
 }
