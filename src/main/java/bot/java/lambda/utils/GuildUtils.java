@@ -3,25 +3,15 @@ package bot.java.lambda.utils;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GuildUtils {
-    public static List<TextChannel> getTextChannel(Guild guild, String[] contains) {
-        List<TextChannel> results = new ArrayList<>();
-        final List<TextChannel> textChannels = guild.getTextChannels();
-        for (TextChannel channel : textChannels) {
-            boolean b = false;
-            final String name = channel.getName();
-            for (String c : contains) {
-                if (name.contains(c)) b = true;
-                else {
-                    b = false;
-                    break;
-                }
-            }
-            if (b) results.add(channel);
-        }
-        return results;
+    public static List<TextChannel> getTextChannel(Guild guild, String[] filters) {
+        return guild.getTextChannels()
+            .stream()
+            .filter(channel -> Arrays.stream(filters).allMatch(filter -> channel.getName().contains(filter)))
+            .collect(Collectors.toList());
     }
 }

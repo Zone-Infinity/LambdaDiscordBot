@@ -1,13 +1,13 @@
 package bot.java.lambda.utils;
 
-import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandContext;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,14 +15,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
+    private static final Random RNG = new Random();
+    private static final long START_TIME = System.currentTimeMillis();
+
+    private static final Pattern EMOTE_NAME_PATTERN = Pattern.compile(":(\\S+):");
+
     public static final List<String> profanityWords = new ArrayList<>();
     private static final Map<String, String> emojis = new HashMap<>();
-
-    public static String getEmojiFor(String character) {
+    static {
         emojis.put("a", "\uD83C\uDDE6");
         emojis.put("b", "\uD83C\uDDE7");
         emojis.put("c", "\uD83C\uDDE8");
@@ -66,54 +71,30 @@ public class Utils {
         emojis.put("down", "\u2B07");
         emojis.put("left", "\u2B05");
         emojis.put("right", "\u27A1");
-        if (emojis.containsKey(character.toLowerCase())) {
-            return emojis.get(character.toLowerCase());
-        }
-        return ".";
+    }
+
+    public static String getEmojiFor(String character) {
+        return emojis.getOrDefault(character.toLowerCase(), ".");
     }
 
     public static String getAuthorRequested(GuildMessageReceivedEvent event) {
-        final String asTag = event.getAuthor().getAsTag();
-        return "Requested by " + asTag.substring(0, asTag.length() - 5) + "λ" + asTag.substring(asTag.length() - 4);
+        return "Requested by " + event.getAuthor().getName() + "λ" + event.getAuthor().getDiscriminator();
     }
 
     public static Emote searchEmote(CommandContext ctx, String name) {
-        List<Guild> guilds = new ArrayList<>();
-        for (Guild guild : ctx.getJDA().getGuilds()) {
-            if (guild.getEmotes().size() > 15) {
-                guilds.add(guild);
-            }
-        }
-
-        for (Guild guild : guilds) {
-            final List<Emote> emotes = guild.getEmotes();
-            for (Emote emote : emotes) {
-                if (emote.getName().equalsIgnoreCase(name.replaceAll("\\W", ""))) {
-                    return emote;
-                }
-            }
-        }
-        return null;
+        return ctx.getJDA()
+            .getGuilds()
+            .stream()
+            .flatMap(guild -> guild.getEmotes().stream())
+            .filter(emote -> emote.getName().equalsIgnoreCase(name))
+            .findFirst()
+            .orElse(null);
     }
 
     public static String getUptime() {
-        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-        long uptime = runtimeMXBean.getUptime();
-        /*
-        long uptimeInSeconds = uptime / 1000;
-        long numberOfDays = uptimeInSeconds / (60 * 60 * 24);
-        long numberOfHours = (uptimeInSeconds / (60 * 60)) - (numberOfDays * 24);
-        long numberOfMinutes = (uptimeInSeconds / 60) - (numberOfDays * 24 * 60);
-        long numberOfSeconds = uptimeInSeconds % 60;
-
-        return String.format("%s days , %s hours, %s minutes, %s seconds",
-                numberOfDays, numberOfHours, numberOfMinutes, numberOfSeconds);
-        */
-        final String timestamp = getTimestamp(uptime);
+        final String timestamp = getTimestamp(System.currentTimeMillis() - START_TIME);
         final String[] split = timestamp.split(":");
-        final int length = split.length;
-
-        return switch (length) {
+        return switch (split.length) {
             case 2 -> String.format("%s minutes, %s seconds", split[0], split[1]);
             case 3 -> String.format("%s hours, %s minutes, %s seconds", split[0], split[1], split[2]);
             case 4 -> String.format("%s days, %s hours, %s minutes, %s seconds", split[0], split[1], split[2], split[3]);
@@ -126,7 +107,6 @@ public class Utils {
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
         int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
         int days = (int) (milliseconds / (1000 * 60 * 60) / 24);
-
         if (days > 0)
             return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
         else if (hours > 0)
@@ -145,56 +125,27 @@ public class Utils {
     }
 
     public static String getStatusAsEmote(String status) {
-        String online = "<a:Online:772748895700647946>",
-                offline = "<a:Offline:772748768307183617>",
-                idle = "<a:Idle:772748809377415189>",
-                dnd = "<a:Dnd:772748860057583626>",
-                streaming = "<a:Streaming:778822668035948585>";
         return switch (status.toLowerCase()) {
-            case "s" -> streaming;
-            case "on" -> online;
-            case "idle" -> idle;
-            case "dnd" -> dnd;
-            default -> offline;
+            case "s"    -> "<a:Streaming:778822668035948585>";
+            case "on"   -> "<a:Online:772748895700647946>";
+            case "idle" -> "<a:Idle:772748809377415189>";
+            case "dnd"  -> "<a:Dnd:772748860057583626>";
+            default     -> "<a:Offline:772748768307183617>";
         };
     }
 
     public static boolean hasProfanity(String text) {
-        for (String w : Utils.profanityWords) {
-            if (text.contains(w)) {
-                return true;
-            }
-        }
-        return false;
+        return profanityWords.stream().anyMatch(profanity -> text.contains(profanity));
     }
 
     public static String replaceAllMention(Message message) {
-        final String contentRaw = message.getContentRaw();
-        String replacedContent = contentRaw.replaceAll("@everyone", "<:LambdaPing:780988909433389066>everyone")
-                .replaceAll("@here", "<:LambdaPing:780988909433389066>here")
-                .replaceAll("<@&[0-9]{18}>", "<:LambdaPing:780988909433389066>Role");
-        final List<Role> mentionedRoles = message.getMentionedRoles();
-        Pattern pattern = Pattern.compile("<:LambdaPing:780988909433389066>Role");
-        Matcher matcher = pattern.matcher(replacedContent);
-        int count = 0;
-
-        if (mentionedRoles.isEmpty()) {
-            return replacedContent;
+        String content = message.getContentDisplay()
+            .replace("@everyone", "<:LambdaPing:780988909433389066>everyone")
+            .replace("@here", "<:LambdaPing:780988909433389066>");
+        for (Role role : message.getMentionedRoles()) {
+            content = content.replace("@" + role.getName(), "<:LambdaPing:780988909433389066>" + role.getName());
         }
-
-        String earlierContent = replacedContent;
-
-        while (matcher.find()) {
-            try {
-                earlierContent = replacedContent;
-                replacedContent = replacedContent.replaceFirst(replacedContent.substring(matcher.start(), matcher.end()), "<:LambdaPing:780988909433389066>" + mentionedRoles.get(count).getName());
-                count++;
-            } catch (IndexOutOfBoundsException ignored) {
-                replacedContent = earlierContent;
-            }
-        }
-
-        return replacedContent;
+        return content;
     }
 
     public static User getZoneInfinity(JDA jda) {
@@ -207,35 +158,16 @@ public class Utils {
     }
 
     public static String replaceAllEmojiString(String message, CommandContext ctx) {
-        List<String> nameOfEmotes = new ArrayList<>();
-        for (String m : message.split(" ")) {
-            if (m.startsWith(":") && m.endsWith(":") && m.length() > 2)
-                nameOfEmotes.add(m.substring(1, m.length() - 1));
-        }
-
-        String replacedString = message.replaceAll("<(a?):(\\w+):(\\d+)>", "{{$1;$2;$3}}")
-                .replaceAll(":\\w+:", "<∭Emote>:::::")
-                .replaceAll("\\{\\{(a?);(\\w+);(\\d+)}}", "<$1:$2:$3>");
+        message = message.replaceAll("<(a?):(\\w+):(\\d+)>", "{{$1;$2;$3}}");
+        Matcher matcher = EMOTE_NAME_PATTERN.matcher(message);
         StringBuilder result = new StringBuilder();
-        int count = 0;
-        for (String s : replacedString.split(" ")) {
-            if (s.equals("<∭Emote>:::::")) {
-                final Emote emote = searchEmote(ctx, nameOfEmotes.get(count));
-                if (emote == null) {
-                    result.append(":").append(nameOfEmotes.get(count)).append(":").append(" ");
-                    continue;
-                }
-                result.append(emote.getAsMention()).append(" ");
-                count++;
-                continue;
-            }
-            result.append(s).append(" ");
+        while (matcher.find()) {
+            matcher.appendReplacement(result, searchEmote(ctx, matcher.group(1)).getAsMention());
         }
-
-        return result.toString();
+        return result.toString().replaceAll("\\{\\{(a?);(\\w+);(\\d+)\\}\\}", "<$1:$2:$3>");
     }
 
     public static int random(int lowerbound, int upperbound) {
-        return Bot.random.nextInt(upperbound - lowerbound) + lowerbound;
+        return RNG.nextInt(upperbound - lowerbound) + lowerbound;
     }
 }
