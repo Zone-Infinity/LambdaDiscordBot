@@ -17,11 +17,9 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
-import java.util.Random;
 
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
-    public static Random random;
 
     private Bot() throws LoginException, InterruptedException {
         WebUtils.setUserAgent("Zone-Infinity#7763");
@@ -57,7 +55,6 @@ public class Bot {
                 .setGatewayEncoding(GatewayEncoding.ETF);
         final JDA jda = jdaBuilder.build();
 
-        random = new Random();
         Profanity.loadProfanityList();
         jda.awaitReady();
 
