@@ -1,34 +1,13 @@
 package bot.java.lambda.command.commands.images;
 
-import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.commandCategory.HelpCategory;
-import bot.java.lambda.command.commandType.ICommand;
-import com.fasterxml.jackson.databind.JsonNode;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.TextChannel;
+import bot.java.lambda.command.commandCategory.Images;
+import bot.java.lambda.command.commandType.ImageCommand;
 
-public class AlpacaCommand implements ICommand {
+public class AlpacaCommand implements ImageCommand {
     @Override
-    public void handle(CommandContext ctx) {
-        final TextChannel channel = ctx.getChannel();
-        WebUtils.ins.getJSONObject("http://apis.duncte123.me/animal/alpaca").async(
-                (json) -> {
-                    if (!json.get("success").asBoolean()) {
-                        channel.sendMessage("Something went wrong, try again later").queue();
-                        System.out.println(json);
-                        return;
-                    }
-                    final JsonNode data = json.get("data");
-                    final String file = data.get("file").asText();
-
-                    final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                            .setImage(file);
-
-                    channel.sendMessage(embed.build()).queue();
-                }
-        );
+    public Images getImages() {
+        return Images.ALPACA;
     }
 
     @Override
