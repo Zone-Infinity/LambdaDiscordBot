@@ -5,7 +5,6 @@ import bot.java.lambda.config.Profanity;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MusicEventListener;
 import bot.java.lambda.events.audits.JDAEventListener;
-import bot.java.lambda.utils.AuditUtils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.GatewayEncoding;
@@ -54,7 +53,6 @@ public class Bot {
                 .addEventListeners(listeners)
                 .setBulkDeleteSplittingEnabled(false)
                 .setMemberCachePolicy(MemberCachePolicy.DEFAULT)
-                .setChunkingFilter((guildId) -> guildId == Long.parseLong(AuditUtils.lambdaGuildId))
                 .setGatewayEncoding(GatewayEncoding.ETF);
         final JDA jda = jdaBuilder.build();
 
