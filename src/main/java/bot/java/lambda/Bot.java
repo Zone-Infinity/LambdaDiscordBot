@@ -6,6 +6,7 @@ import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MusicEventListener;
 import bot.java.lambda.events.audits.JDAEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import me.duncte123.botcommons.text.TextColor;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.GatewayEncoding;
 import net.dv8tion.jda.api.JDA;
@@ -22,7 +23,7 @@ public class Bot {
     final EventWaiter waiter = new EventWaiter();
     public static Random random;
 
-    private void ready() throws LoginException, InterruptedException {
+    private Bot() throws LoginException, InterruptedException {
         WebUtils.setUserAgent("Zone-Infinity#7763");
 
         Object[] listeners = {
@@ -41,7 +42,7 @@ public class Bot {
                 GatewayIntent.GUILD_EMOJIS,
                 GatewayIntent.GUILD_MESSAGE_REACTIONS
         )
-                // .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setMemberCachePolicy(MemberCachePolicy.DEFAULT)
                 // .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(EnumSet.of(
                         // CacheFlag.CLIENT_STATUS,
@@ -64,6 +65,6 @@ public class Bot {
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        new Bot().ready();
+        new Bot();
     }
 }
