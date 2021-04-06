@@ -1,6 +1,7 @@
 package bot.java.lambda.utils;
 
 import bot.java.lambda.command.CommandContext;
+import bot.java.lambda.config.Config;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Message;
@@ -11,11 +12,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +24,7 @@ public class Utils {
 
     public static final List<String> profanityWords = new ArrayList<>();
     private static final Map<String, String> emojis = new HashMap<>();
+
     static {
         emojis.put("a", "\uD83C\uDDE6");
         emojis.put("b", "\uD83C\uDDE7");
@@ -83,12 +81,12 @@ public class Utils {
 
     public static Emote searchEmote(CommandContext ctx, String name) {
         return ctx.getJDA()
-            .getGuilds()
-            .stream()
-            .flatMap(guild -> guild.getEmotes().stream())
-            .filter(emote -> emote.getName().equalsIgnoreCase(name))
-            .findFirst()
-            .orElse(null);
+                .getGuilds()
+                .stream()
+                .flatMap(guild -> guild.getEmotes().stream())
+                .filter(emote -> emote.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
     }
 
     public static String getUptime() {
@@ -126,22 +124,22 @@ public class Utils {
 
     public static String getStatusAsEmote(String status) {
         return switch (status.toLowerCase()) {
-            case "s"    -> "<a:Streaming:778822668035948585>";
-            case "on"   -> "<a:Online:772748895700647946>";
+            case "s" -> "<a:Streaming:778822668035948585>";
+            case "on" -> "<a:Online:772748895700647946>";
             case "idle" -> "<a:Idle:772748809377415189>";
-            case "dnd"  -> "<a:Dnd:772748860057583626>";
-            default     -> "<a:Offline:772748768307183617>";
+            case "dnd" -> "<a:Dnd:772748860057583626>";
+            default -> "<a:Offline:772748768307183617>";
         };
     }
 
     public static boolean hasProfanity(String text) {
-        return profanityWords.stream().anyMatch(profanity -> text.contains(profanity));
+        return profanityWords.stream().anyMatch(text::contains);
     }
 
     public static String replaceAllMention(Message message) {
         String content = message.getContentDisplay()
-            .replace("@everyone", "<:LambdaPing:780988909433389066>everyone")
-            .replace("@here", "<:LambdaPing:780988909433389066>");
+                .replace("@everyone", "<:LambdaPing:780988909433389066>everyone")
+                .replace("@here", "<:LambdaPing:780988909433389066>");
         for (Role role : message.getMentionedRoles()) {
             content = content.replace("@" + role.getName(), "<:LambdaPing:780988909433389066>" + role.getName());
         }
@@ -149,7 +147,7 @@ public class Utils {
     }
 
     public static User getZoneInfinity(JDA jda) {
-        return jda.getUserById("722854351600615465");
+        return jda.getUserById(Config.get("owner_id"));
     }
 
     public static String getZoneInfinityAsTag(JDA jda) {
@@ -164,7 +162,7 @@ public class Utils {
         while (matcher.find()) {
             matcher.appendReplacement(result, searchEmote(ctx, matcher.group(1)).getAsMention());
         }
-        return result.toString().replaceAll("\\{\\{(a?);(\\w+);(\\d+)\\}\\}", "<$1:$2:$3>");
+        return result.toString().replaceAll("\\{\\{(a?);(\\w+);(\\d+)}}", "<$1:$2:$3>");
     }
 
     public static int random(int lowerbound, int upperbound) {
