@@ -1,10 +1,10 @@
 package bot.java.lambda.events;
 
-import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Config;
+import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.JDA;
@@ -47,27 +47,33 @@ public class Listener extends ListenerAdapter {
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
-        int sleepTime = 2500;
         Runnable status = () -> {
+            String[] AllStatus = {
+                    "Starting...",
+                    jda.getGuildCache().size() + " guilds",
+                    "Loading... 0%",
+                    "Loading... " + Utils.random(5, 9) + "%",
+                    "Loading... " + Utils.random(26, 30) + "%",
+                    "Loading... " + Utils.random(40, 44) + "%",
+                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
+                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
+                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
+                    "Loading... " + Utils.random(72, 76) + "%",
+                    "Loading... " + Utils.random(94, 98) + "%",
+                    "Loading... 99%",
+                    "Error!",
+                    "Restarting.",
+                    "Restarting..",
+                    "Restarting...",
+                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
+                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
+                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)"
+            };
             // Loading... x% , Error!, Restarting
-            for (int i = 0; i <= 99; i += Bot.random.nextInt(9) + 1) {
-                jda.getPresence().setActivity(Activity.playing("Loading... " + i + "%"));
+            for (String Status : AllStatus) {
+                jda.getPresence().setActivity(Activity.watching(Status));
                 try {
-                    Thread.sleep(sleepTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            jda.getPresence().setActivity(Activity.playing("Error!"));
-            try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            for (int i = 1; i <= 3; i++) {
-                jda.getPresence().setActivity(Activity.playing("Restarting" + ".".repeat(i)));
-                try {
-                    Thread.sleep(sleepTime);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

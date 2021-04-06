@@ -1,5 +1,6 @@
 package bot.java.lambda.utils;
 
+import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandContext;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
@@ -234,4 +235,7 @@ public class Utils {
         return result.toString();
     }
 
+    public static int random(int a, int bound) {
+        return Bot.random.nextInt(bound) + a;
+    }
 }
