@@ -161,8 +161,12 @@ public class Utils {
         message = message.replaceAll("<(a?):(\\w+):(\\d+)>", "{{$1;$2;$3}}");
         Matcher matcher = EMOTE_NAME_PATTERN.matcher(message);
         StringBuilder result = new StringBuilder();
-        while (matcher.find()) {
-            matcher.appendReplacement(result, searchEmote(ctx, matcher.group(1)).getAsMention());
+        if (matcher.find()) {
+            do {
+                matcher.appendReplacement(result, searchEmote(ctx, matcher.group(1)).getAsMention());
+            } while (matcher.find());
+        } else {
+            result.append(message);
         }
         return result.toString().replaceAll("\\{\\{(a?);(\\w+);(\\d+)\\}\\}", "<$1:$2:$3>");
     }
