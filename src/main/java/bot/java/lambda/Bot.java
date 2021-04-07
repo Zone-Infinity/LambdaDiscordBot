@@ -21,7 +21,7 @@ public class Bot {
     final EventWaiter waiter = new EventWaiter();
 
     private Bot() throws LoginException, InterruptedException {
-        WebUtils.setUserAgent("Zone-Infinity#7763");
+        WebUtils.setUserAgent("Mozilla/5.0 (compatible; Lambda/1.1; https://github.com/Zone-Infinity/LambdaDiscordBot");
 
         Object[] listeners = {
                 waiter,
