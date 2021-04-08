@@ -1,8 +1,8 @@
 package bot.java.lambda.command.commands.utils;
 
-import bot.java.lambda.command.commandCategory.HelpCategory;
-import bot.java.lambda.command.commandCategory.ImageUtil;
-import bot.java.lambda.command.commandType.ImageUtilCommand;
+import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.category.ImageUtil;
+import bot.java.lambda.command.type.ImageUtilCommand;
 
 public class PixelateCommand implements ImageUtilCommand {
     @Override

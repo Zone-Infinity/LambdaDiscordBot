@@ -1,8 +1,8 @@
 package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.commandCategory.HelpCategory;
-import bot.java.lambda.command.commandType.ICommand;
+import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;

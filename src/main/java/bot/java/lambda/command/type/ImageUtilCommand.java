@@ -1,7 +1,7 @@
-package bot.java.lambda.command.commandType;
+package bot.java.lambda.command.type;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.commandCategory.ImageUtil;
+import bot.java.lambda.command.category.ImageUtil;
 import bot.java.lambda.utils.Utils;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;

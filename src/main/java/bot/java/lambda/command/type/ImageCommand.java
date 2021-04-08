@@ -1,7 +1,7 @@
-package bot.java.lambda.command.commandType;
+package bot.java.lambda.command.type;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.commandCategory.Images;
+import bot.java.lambda.command.category.Images;
 import com.fasterxml.jackson.databind.JsonNode;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;

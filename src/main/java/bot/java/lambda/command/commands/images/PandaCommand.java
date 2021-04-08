@@ -1,8 +1,8 @@
 package bot.java.lambda.command.commands.images;
 
-import bot.java.lambda.command.commandCategory.HelpCategory;
-import bot.java.lambda.command.commandCategory.Images;
-import bot.java.lambda.command.commandType.ImageCommand;
+import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.category.Images;
+import bot.java.lambda.command.type.ImageCommand;
 
 public class PandaCommand implements ImageCommand {
     @Override

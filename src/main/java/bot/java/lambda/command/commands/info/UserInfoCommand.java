@@ -1,8 +1,8 @@
 package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.commandCategory.HelpCategory;
-import bot.java.lambda.command.commandType.ICommand;
+import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import me.duncte123.botcommons.messaging.EmbedUtils;

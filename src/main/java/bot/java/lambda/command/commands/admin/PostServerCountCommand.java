@@ -2,8 +2,8 @@ package bot.java.lambda.command.commands.admin;
 
 import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.commandCategory.HelpCategory;
-import bot.java.lambda.command.commandType.ICommand;
+import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.JDA;
 
 public class PostServerCountCommand implements ICommand {

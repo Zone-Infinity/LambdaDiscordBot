@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commandCategory;
+package bot.java.lambda.command.category;
 
 public enum ImageUtil {
     BLACK_AND_WHITE("b&w", "Black and White"),

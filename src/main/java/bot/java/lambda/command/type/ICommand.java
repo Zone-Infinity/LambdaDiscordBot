@@ -1,7 +1,7 @@
-package bot.java.lambda.command.commandType;
+package bot.java.lambda.command.type;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.commandCategory.HelpCategory;
+import bot.java.lambda.command.category.HelpCategory;
 
 import java.util.List;
 
