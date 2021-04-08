@@ -42,5 +42,5 @@ The code of this bot was made public for people who want to see how the bot work
 [dblLink]:https://discordbots.org/bot/752052866809593906
 [workflowStatus]:https://img.shields.io/github/workflow/status/Zone-Infinity/LambdaDiscordBot/Java%20CI%20with%20Maven?event=push
 
-[infinity]: https://infinitybots.xyz/bots/752052866809593906/widget?size=small
-[infinityLink]: https://infinitybots.xyz/bots/752052866809593906
+[infinity]: https://infinitybotlist.com/bots/752052866809593906/widget?size=small
+[infinityLink]: https://infinitybotlist.com/bots/752052866809593906
