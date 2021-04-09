@@ -7,7 +7,7 @@ import bot.java.lambda.command.type.ImageCommand;
 public class LizardCommand implements ImageCommand {
     @Override
     public Images getImages() {
-        return Images.FOX;
+        return Images.LIZARD;
     }
 
     @Override

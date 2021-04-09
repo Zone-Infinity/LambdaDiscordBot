@@ -147,7 +147,7 @@ public class Utils {
     }
 
     public static User getZoneInfinity(JDA jda) {
-        return jda.getUserById(Config.get("owner_id"));
+        return jda.retrieveUserById(Config.get("owner_id")).complete();
     }
 
     public static String getZoneInfinityAsTag(JDA jda) {

@@ -11,7 +11,7 @@ public class Api {
             final long guildCount = jda.getGuildCache().size();
 
             TopGG.postServerCount(guildCount);
-            InfinityBots.postServerCount(guildCount);
+            // InfinityBots.postServerCount(guildCount);
         };
 
         Bot.executor.scheduleWithFixedDelay(postServerCount, 1, delay, TimeUnit.MINUTES);
