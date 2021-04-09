@@ -1,5 +1,6 @@
 package bot.java.lambda;
 
+import bot.java.lambda.apis.Api;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.config.Profanity;
 import bot.java.lambda.events.Listener;
@@ -16,9 +17,12 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Bot {
     final EventWaiter waiter = new EventWaiter();
+    public static ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(3);
 
     private Bot() throws LoginException, InterruptedException {
         WebUtils.setUserAgent("Mozilla/5.0 (compatible; Lambda/1.1; https://github.com/Zone-Infinity/LambdaDiscordBot");
@@ -39,7 +43,7 @@ public class Bot {
                 GatewayIntent.GUILD_EMOJIS,
                 GatewayIntent.GUILD_MESSAGE_REACTIONS
         )
-                .setMemberCachePolicy(MemberCachePolicy.DEFAULT)
+                .setMemberCachePolicy(MemberCachePolicy.DEFAULT.or((member -> member.getGuild().getId().equals("755433534495391805"))))
                 // .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(EnumSet.of(
                         // CacheFlag.CLIENT_STATUS,
@@ -57,7 +61,7 @@ public class Bot {
         Profanity.loadProfanityList();
         jda.awaitReady();
 
-        //TopGG.startPostingServerCount(jda, 30);
+        Api.startPostingServerCount(jda, 60);
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {

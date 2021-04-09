@@ -18,6 +18,7 @@ public class VoteCommand implements ICommand {
         voteLinks.put("Discord Bot List", "https://discordbotlist.com/bots/lambda-l/upvote");
         voteLinks.put("Botrix", "https://botrix.cc/vote/752052866809593906");
         voteLinks.put("Infinity Bot List", "https://infinitybots.xyz/bots/752052866809593906/vote");
+        voteLinks.put("Discord Boats", "https://discord.boats/bot/752052866809593906/vote");
         // voteLinks.put("Rovel", "???");
     }
 

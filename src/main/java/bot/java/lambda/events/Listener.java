@@ -1,5 +1,6 @@
 package bot.java.lambda.events;
 
+import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
@@ -22,8 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Listener extends ListenerAdapter {
@@ -44,8 +43,6 @@ public class Listener extends ListenerAdapter {
         LOGGER.info("{} is ready", jda.getSelfUser().getAsTag());
         jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
         // jda.getPresence().setActivity(Activity.streaming("Vote Me Pls !!!", "https://top.gg/bot/752052866809593906/vote"));
-
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
         Runnable status = () -> {
             String[] AllStatus = {
@@ -101,8 +98,8 @@ public class Listener extends ListenerAdapter {
             }
         });
 
-        executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
-        executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
+        Bot.executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
+        Bot.executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
 
         globalAuditsChannel = jda.getTextChannelById(758724135790051368L);
 

@@ -1,8 +1,8 @@
 package bot.java.lambda.command;
 
 import bot.java.lambda.command.category.HelpCategory;
-import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.command.commands.admin.*;
+import bot.java.lambda.command.commands.admin.CloseCommand;
+import bot.java.lambda.command.commands.admin.EvalCommand;
 import bot.java.lambda.command.commands.common.*;
 import bot.java.lambda.command.commands.fun.*;
 import bot.java.lambda.command.commands.games.*;
@@ -12,6 +12,7 @@ import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.command.commands.utils.*;
+import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.Guild;
@@ -32,10 +33,9 @@ public class CommandManager {
 
         // Owner Commands
         addCommand(new EvalCommand(waiter, this));
-        addCommand(new LeaveCommand());
-        addCommand(new GuildsCommand());
+        // addCommand(new LeaveCommand());
+        // addCommand(new GuildsCommand());
         addCommand(new CloseCommand());
-        addCommand(new PostServerCountCommand());
 
         // Info Commands
         addCommand(new HelpCommand(this));
