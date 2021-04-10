@@ -4,7 +4,8 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.events.Listener;
+import bot.java.lambda.config.Prefix;
+import bot.java.lambda.utils.DatabaseUtils;
 import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -41,6 +42,7 @@ public class HelpCommand implements ICommand {
                 GameBuild = new StringBuilder(),
                 ImagesBuild = new StringBuilder(),
                 UtilsBuild = new StringBuilder();
+        String prefix = Prefix.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseUtils::getPrefix);
 
         if (args.isEmpty()) {
             for (ICommand command : commands) {
@@ -125,8 +127,6 @@ public class HelpCommand implements ICommand {
             ImagesBuild.deleteCharAt(ImagesBuild.length() - 1);
             UtilsBuild.deleteCharAt(UtilsBuild.length() - 1);
 
-            String prefix = Listener.getPrefix(ctx.getGuild().getId());
-
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
                     .setTitle("**λ** Help")
@@ -172,7 +172,7 @@ public class HelpCommand implements ICommand {
             return;
         }
 
-        channel.sendMessage("Command```prolog\n" + command.getHelp(Listener.getPrefix(ctx.getGuild().getId())).toUpperCase() + "\n" +
+        channel.sendMessage("Command```prolog\n" + command.getHelp(prefix).toUpperCase() + "\n" +
                 "ALIASES : " + command.getAliases() + "```").queue();
 
     }

@@ -3,24 +3,19 @@ package bot.java.lambda.command.commands.info;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.utils.DatabaseUtils;
+import bot.java.lambda.config.Prefix;
+import bot.java.lambda.database.SQLiteDataSource;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SetPrefixCommand implements ICommand {
-    @SuppressWarnings("unchecked")
     @Override
     public void handle(CommandContext ctx) {
-        final String prefixes = DatabaseUtils.PrefixDotJson;
         final List<String> args = ctx.getArgs();
         final TextChannel channel = ctx.getChannel();
         final Member member = ctx.getMember();
@@ -35,30 +30,25 @@ public class SetPrefixCommand implements ICommand {
             return;
         }
 
-        final String join = String.join("", args);
+        final String newPrefix = String.join("", args);
+        updatePrefix(ctx.getGuild().getIdLong(), newPrefix);
+        channel.sendMessage("New prefix set to `" + newPrefix + "`").queue();
 
-        try (FileWriter file = new FileWriter(prefixes)) {
-            try (FileReader reader = new FileReader(prefixes)) {
-                JSONParser jsonParser = new JSONParser();
+    }
 
-                try {
-                    Object jsonFile = jsonParser.parse(reader);
-                    JSONObject prefixList = (JSONObject) jsonFile;
+    private void updatePrefix(long guildId, String newPrefix) {
+        Prefix.PREFIXES.put(guildId, newPrefix);
 
-                    prefixList.put(ctx.getGuild().getId(), join);
-                    file.write(prefixList.toJSONString());
-                } catch (ParseException e) {
-                    JSONObject prefixList = new JSONObject();
+        try (final PreparedStatement preparedStatement = SQLiteDataSource
+                .getConnection()
+                // language=SQLITE-SQL
+                .prepareStatement("UPDATE guild_settings SET prefix = ? WHERE guild_id = ?")
+        ) {
+            preparedStatement.setString(1, newPrefix);
+            preparedStatement.setString(2, String.valueOf(guildId));
 
-                    prefixList.put(ctx.getGuild().getId(), join);
-                    file.write(prefixList.toJSONString());
-
-                    e.fillInStackTrace();
-                }
-                channel.sendMessage("Prefix set to `" + join + "`").queue();
-            }
-            file.flush();
-        } catch (IOException e) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

@@ -3,6 +3,7 @@ package bot.java.lambda;
 import bot.java.lambda.apis.Api;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.config.Profanity;
+import bot.java.lambda.database.SQLiteDataSource;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MusicEventListener;
 import bot.java.lambda.events.audits.JDAEventListener;
@@ -16,6 +17,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
+import java.sql.SQLException;
 import java.util.EnumSet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -24,7 +26,8 @@ public class Bot {
     final EventWaiter waiter = new EventWaiter();
     public static ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(3);
 
-    private Bot() throws LoginException, InterruptedException {
+    private Bot(String token) throws LoginException, InterruptedException, SQLException {
+        SQLiteDataSource.getConnection();
         WebUtils.setUserAgent("Mozilla/5.0 (compatible; Lambda/1.1; https://github.com/Zone-Infinity/LambdaDiscordBot");
 
         Object[] listeners = {
@@ -35,7 +38,7 @@ public class Bot {
         };
 
         JDABuilder jdaBuilder = JDABuilder.createDefault(
-                Config.get("token"),
+                token,
                 // GatewayIntent.GUILD_MEMBERS,
                 GatewayIntent.GUILD_MESSAGES,
                 // GatewayIntent.GUILD_PRESENCES,
@@ -61,10 +64,10 @@ public class Bot {
         Profanity.loadProfanityList();
         jda.awaitReady();
 
-        Api.startPostingServerCount(jda, 60);
+        if (!token.equals(Config.get("beta_token"))) Api.startPostingServerCount(jda, 60);
     }
 
-    public static void main(String[] args) throws LoginException, InterruptedException {
-        new Bot();
+    public static void main(String[] args) throws LoginException, InterruptedException, SQLException {
+        new Bot(Config.get("token"));
     }
 }

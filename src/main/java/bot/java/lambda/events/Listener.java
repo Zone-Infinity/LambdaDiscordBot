@@ -4,7 +4,8 @@ import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
-import bot.java.lambda.config.Config;
+import bot.java.lambda.config.Prefix;
+import bot.java.lambda.utils.DatabaseUtils;
 import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -135,7 +136,8 @@ public class Listener extends ListenerAdapter {
         if (user.isBot() || event.isWebhookMessage())
             return;
 
-        final String prefix = getPrefix(eventGuild.getId());
+        final long guildId = eventGuild.getIdLong();
+        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, this::getPrefix);
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
@@ -144,13 +146,12 @@ public class Listener extends ListenerAdapter {
                     "To get started send " + prefix + "help.").queue();
         }
 
-        if (raw.startsWith(prefix) || raw.startsWith("<@!752052866809593906>") || raw.startsWith("<@752052866809593906>")) {
+        if (raw.startsWith(prefix) || raw.startsWith(event.getGuild().getSelfMember().getAsMention())) {
             manager.handle(event, prefix);
         }
     }
 
-    @SuppressWarnings("unused")
-    public static String getPrefix(String guildID) {
-        return Config.get("prefix");
+    public String getPrefix(long guildID) {
+        return DatabaseUtils.getPrefix(guildID);
     }
 }
