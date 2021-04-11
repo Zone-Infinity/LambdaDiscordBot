@@ -30,6 +30,7 @@ public class BotInfoCommand implements ICommand {
         String prefix = Prefix.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseUtils::getPrefix);
 
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
+                .setDescription("Made with ♥ by " + Utils.getContributorsAsTag(jda))
                 .setTitle("🤖 Bot Info", jda.getInviteUrl(Permission.MANAGE_WEBHOOKS, Permission.MESSAGE_MANAGE, Permission.VOICE_SPEAK))
                 .setAuthor("Zone Infinity λ7763", "https://images-ext-2.discordapp.net/external/A_7uQjeR6Y8ryVWMfwJT32Kkd_3oFYvVNoHBxTjI02A/https/cdn.discordapp.com/avatars/722854351600615465/883407867f1bf7dc0b7a7bf489b37c57.png", selfUser.getEffectiveAvatarUrl())
                 .addField("General 👓", "```css\n" +

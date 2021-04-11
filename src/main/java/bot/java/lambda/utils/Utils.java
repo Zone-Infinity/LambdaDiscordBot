@@ -15,13 +15,14 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Utils {
     private static final Random RNG = new Random();
     private static final long START_TIME = System.currentTimeMillis();
 
     private static final Pattern EMOTE_NAME_PATTERN = Pattern.compile(":(\\S+):");
-
+    private static final List<String> ContributorIds = List.of("722854351600615465", "616969228972458008", "757050742379905056");
     public static final List<String> profanityWords = new ArrayList<>();
     private static final Map<String, String> emojis = new HashMap<>();
 
@@ -153,6 +154,13 @@ public class Utils {
     public static String getZoneInfinityAsTag(JDA jda) {
         final User zoneInfinity = getZoneInfinity(jda);
         return zoneInfinity.getName() + "λ" + zoneInfinity.getDiscriminator();
+    }
+
+    public static String getContributorsAsTag(JDA jda) {
+        return ContributorIds.stream().map(id -> {
+            final User user = jda.retrieveUserById(id).complete();
+            return user.getName() + "λ" + user.getDiscriminator();
+        }).collect(Collectors.joining(", ")).replaceFirst(",(?!.*,)", "and");
     }
 
     public static String replaceAllEmojiString(String message, CommandContext ctx) {
