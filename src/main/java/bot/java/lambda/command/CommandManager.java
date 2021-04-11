@@ -149,12 +149,7 @@ public class CommandManager {
     public ICommand getCommand(String search) {
         String searchLower = search.toLowerCase();
 
-        for (ICommand cmd : this.commands) {
-            if (cmd.getName().equals(searchLower) || cmd.getAliases().contains(searchLower)) {
-                return cmd;
-            }
-        }
-        return null;
+        return this.commands.stream().filter(cmd -> cmd.getName().equals(searchLower) || cmd.getAliases().contains(searchLower)).findFirst().orElse(null);
     }
 
     public void handle(GuildMessageReceivedEvent event, String prefix) {

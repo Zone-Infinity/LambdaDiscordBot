@@ -25,15 +25,16 @@ public class HelpCommand implements ICommand {
 
     private String getCategoryHelp(HelpCategory category) {
         String[] cmds = manager.getCommands()
-            .stream()
-            .filter(cmd -> cmd.getHelpCategory() == category)
-            .map(cmd -> '`' + cmd.getName() + '`')
-            .sorted()
-            .toArray(String[]::new);
+                .stream()
+                .filter(cmd -> cmd.getHelpCategory() == category)
+                .map(cmd -> '`' + cmd.getName() + '`')
+                .sorted()
+                .toArray(String[]::new);
         return IntStream.range(0, cmds.length)
-            .mapToObj(idx -> idx != 0 && idx % 4 == 0 ? "\n" + cmds[idx] : cmds[idx])
-            .collect(Collectors.joining("|"));
+                .mapToObj(idx -> idx != 0 && idx % 4 == 0 ? "\n" + cmds[idx] : cmds[idx])
+                .collect(Collectors.joining("|"));
     }
+
     @Override
     public void handle(CommandContext ctx) {
         List<String> args = ctx.getArgs();

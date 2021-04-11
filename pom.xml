@@ -34,6 +34,12 @@
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
+
+        <repository>
+            <id>jfrog-duncte123</id>
+            <name>jfrog-duncte123</name>
+            <url>https://duncte123.jfrog.io/artifactory/maven</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -84,7 +90,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>3.0.6</version>
+            <version>3.0.7</version>
             <type>pom</type>
         </dependency>
 
