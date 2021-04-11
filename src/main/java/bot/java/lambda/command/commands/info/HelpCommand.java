@@ -11,9 +11,9 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class HelpCommand implements ICommand {
 
@@ -23,110 +23,24 @@ public class HelpCommand implements ICommand {
         this.manager = manager;
     }
 
+    private String getCategoryHelp(HelpCategory category) {
+        String[] cmds = manager.getCommands()
+            .stream()
+            .filter(cmd -> cmd.getHelpCategory() == category)
+            .map(cmd -> '`' + cmd.getName() + '`')
+            .sorted()
+            .toArray(String[]::new);
+        return IntStream.range(0, cmds.length)
+            .mapToObj(idx -> idx != 0 && idx % 4 == 0 ? "\n" + cmds[idx] : cmds[idx])
+            .collect(Collectors.joining("|"));
+    }
     @Override
     public void handle(CommandContext ctx) {
         List<String> args = ctx.getArgs();
         TextChannel channel = ctx.getChannel();
-        final List<ICommand> commands = manager.getCommands();
-        List<String> FunCmd = new ArrayList<>(),
-                ComCmd = new ArrayList<>(),
-                InfoCmd = new ArrayList<>(),
-                MusicCmd = new ArrayList<>(),
-                GameCmd = new ArrayList<>(),
-                ImagesCmd = new ArrayList<>(),
-                UtilsCmd = new ArrayList<>();
-        StringBuilder FunBuild = new StringBuilder(),
-                ComBuild = new StringBuilder(),
-                InfoBuild = new StringBuilder(),
-                MusicBuild = new StringBuilder(),
-                GameBuild = new StringBuilder(),
-                ImagesBuild = new StringBuilder(),
-                UtilsBuild = new StringBuilder();
         String prefix = Prefix.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseUtils::getPrefix);
 
         if (args.isEmpty()) {
-            for (ICommand command : commands) {
-                if (command.getHelpCategory().equals(HelpCategory.FUN)) FunCmd.add(command.getName());
-                else if (command.getHelpCategory().equals(HelpCategory.COM)) ComCmd.add(command.getName());
-                else if (command.getHelpCategory().equals(HelpCategory.INFO)) InfoCmd.add(command.getName());
-                else if (command.getHelpCategory().equals(HelpCategory.MUSIC)) MusicCmd.add(command.getName());
-                else if (command.getHelpCategory().equals(HelpCategory.GAME)) GameCmd.add(command.getName());
-                else if (command.getHelpCategory().equals(HelpCategory.IMAGES)) ImagesCmd.add(command.getName());
-                else if (command.getHelpCategory().equals(HelpCategory.UTIL)) UtilsCmd.add(command.getName());
-            }
-
-            Collections.sort(FunCmd);
-            Collections.sort(ComCmd);
-            Collections.sort(InfoCmd);
-            Collections.sort(MusicCmd);
-            Collections.sort(GameCmd);
-            Collections.sort(ImagesCmd);
-            Collections.sort(UtilsCmd);
-
-            int count = 0;
-            for (String cmd : FunCmd) {
-                if (count % 4 == 0 && count != 0) {
-                    FunBuild.append("\n");
-                }
-                FunBuild.append("`").append(cmd).append("`|");
-                count++;
-            }
-            count = 0;
-            for (String cmd : ComCmd) {
-                if (count % 4 == 0 && count != 0) {
-                    ComBuild.append("\n");
-                }
-                ComBuild.append("`").append(cmd).append("`|");
-                count++;
-            }
-            count = 0;
-            for (String cmd : InfoCmd) {
-                if (count % 4 == 0 && count != 0) {
-                    InfoBuild.append("\n");
-                }
-                InfoBuild.append("`").append(cmd).append("`|");
-                count++;
-            }
-            count = 0;
-            for (String cmd : MusicCmd) {
-                if (count % 4 == 0 && count != 0) {
-                    MusicBuild.append("\n");
-                }
-                MusicBuild.append("`").append(cmd).append("`|");
-                count++;
-            }
-            count = 0;
-            for (String cmd : GameCmd) {
-                if (count % 4 == 0 && count != 0) {
-                    GameBuild.append("\n");
-                }
-                GameBuild.append("`").append(cmd).append("`|");
-                count++;
-            }
-            count = 0;
-            for (String cmd : ImagesCmd) {
-                if (count % 4 == 0 && count != 0) {
-                    ImagesBuild.append("\n");
-                }
-                ImagesBuild.append("`").append(cmd).append("`|");
-                count++;
-            }
-            count = 0;
-            for (String cmd : UtilsCmd) {
-                if (count % 4 == 0 && count != 0) {
-                    UtilsBuild.append("\n");
-                }
-                UtilsBuild.append("`").append(cmd).append("`|");
-                count++;
-            }
-            FunBuild.deleteCharAt(FunBuild.length() - 1);
-            GameBuild.deleteCharAt(GameBuild.length() - 1);
-            InfoBuild.deleteCharAt(InfoBuild.length() - 1);
-            MusicBuild.deleteCharAt(MusicBuild.length() - 1);
-            ComBuild.deleteCharAt(ComBuild.length() - 1);
-            ImagesBuild.deleteCharAt(ImagesBuild.length() - 1);
-            UtilsBuild.deleteCharAt(UtilsBuild.length() - 1);
-
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
                     .setTitle("**λ** Help")
@@ -139,16 +53,16 @@ public class HelpCommand implements ICommand {
                             "   Contact " + Utils.getZoneInfinityAsTag(ctx.getJDA()) + "           \n" +
                             "      for help, bugs and suggestions    ```\n" +
                             "**Take a look on these commands** <:LambdaWhite:755717368386289721>")
-                    .addField("<:LambdaBlack:755717304989384714>  Commons", ComBuild.toString(), true)
-                    .addField("<:VideoGame:755715386980171796> Games", GameBuild.toString(), true)
+                    .addField("<:LambdaBlack:755717304989384714>  Commons", getCategoryHelp(HelpCategory.COM), true)
+                    .addField("<:VideoGame:755715386980171796> Games", getCategoryHelp(HelpCategory.GAME), true)
                     .addBlankField(true)
-                    .addField("<:LambdaInfo:755717519410724884> Info", InfoBuild.toString(), true)
-                    .addField("<:Music:755716546827124787> Music", MusicBuild.toString(), true)
+                    .addField("<:LambdaInfo:755717519410724884> Info", getCategoryHelp(HelpCategory.INFO), true)
+                    .addField("<:Music:755716546827124787> Music", getCategoryHelp(HelpCategory.MUSIC), true)
                     .addBlankField(true)
-                    .addField("\uD83C\uDF89 Fun", FunBuild.toString(), true)
-                    .addField("<:Adorable:755717988677845033> Images", ImagesBuild.toString(), true)
+                    .addField("\uD83C\uDF89 Fun", getCategoryHelp(HelpCategory.FUN), true)
+                    .addField("<:Adorable:755717988677845033> Images", getCategoryHelp(HelpCategory.IMAGES), true)
                     .addBlankField(true)
-                    .addField("\uD83D\uDEE0️ Utils", UtilsBuild.toString(), true)
+                    .addField("\uD83D\uDEE0 Utils", getCategoryHelp(HelpCategory.UTIL), true)
                     .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
 
             channel.sendMessage(embed.build()).queue();
