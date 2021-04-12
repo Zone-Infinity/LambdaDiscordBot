@@ -5,7 +5,7 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Prefix;
-import bot.java.lambda.utils.DatabaseUtils;
+import bot.java.lambda.database.DatabaseManager;
 import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -39,7 +39,7 @@ public class HelpCommand implements ICommand {
     public void handle(CommandContext ctx) {
         List<String> args = ctx.getArgs();
         TextChannel channel = ctx.getChannel();
-        String prefix = Prefix.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseUtils::getPrefix);
+        String prefix = Prefix.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
 
         if (args.isEmpty()) {
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()

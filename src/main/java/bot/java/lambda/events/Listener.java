@@ -5,7 +5,7 @@ import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.Prefix;
-import bot.java.lambda.utils.DatabaseUtils;
+import bot.java.lambda.database.DatabaseManager;
 import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -47,25 +47,14 @@ public class Listener extends ListenerAdapter {
 
         Runnable status = () -> {
             String[] AllStatus = {
-                    "Starting...",
                     jda.getGuildCache().size() + " guilds",
                     "Loading... 0%",
                     "Loading... " + Utils.random(5, 9) + "%",
                     "Loading... " + Utils.random(26, 30) + "%",
                     "Loading... " + Utils.random(40, 44) + "%",
-                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
-                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
-                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
                     "Loading... " + Utils.random(72, 76) + "%",
                     "Loading... " + Utils.random(94, 98) + "%",
-                    "Loading... 99%",
-                    "Error!",
-                    "Restarting.",
-                    "Restarting..",
-                    "Restarting...",
-                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
-                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)",
-                    "AD: >vote Lambda λ now (https://top.gg/bot/752052866809593906/vote)"
+                    "Loading... 99%"
             };
             // Loading... x% , Error!, Restarting
             for (String Status : AllStatus) {
@@ -137,7 +126,7 @@ public class Listener extends ListenerAdapter {
             return;
 
         final long guildId = eventGuild.getIdLong();
-        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, this::getPrefix);
+        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getPrefix);
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 
@@ -149,9 +138,5 @@ public class Listener extends ListenerAdapter {
         if (raw.startsWith(prefix) || raw.startsWith(event.getGuild().getSelfMember().getAsMention())) {
             manager.handle(event, prefix);
         }
-    }
-
-    public String getPrefix(long guildID) {
-        return DatabaseUtils.getPrefix(guildID);
     }
 }

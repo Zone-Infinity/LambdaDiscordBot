@@ -12,9 +12,12 @@
     <url>http://www.example.com</url>
 
     <properties>
+        <main.class>bot.java.lambda.Bot</main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.14</maven.compiler.source>
         <maven.compiler.target>1.14</maven.compiler.target>
+        <kotlin.version>1.4.32</kotlin.version>
+        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
 
     <repositories>
@@ -208,7 +211,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>bot.java.lambda.Bot</mainClass>
+                            <mainClass>${main.class}</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -220,19 +223,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
                 <executions>
                     <execution>
                         <id>compile</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>testCompile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>testCompile</goal>
                         </goals>
                     </execution>
                 </executions>

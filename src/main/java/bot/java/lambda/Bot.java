@@ -3,7 +3,6 @@ package bot.java.lambda;
 import bot.java.lambda.apis.Api;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.config.Profanity;
-import bot.java.lambda.database.SQLiteDataSource;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MusicEventListener;
 import bot.java.lambda.events.audits.JDAEventListener;
@@ -26,8 +25,7 @@ public class Bot {
     final EventWaiter waiter = new EventWaiter();
     public static ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(3);
 
-    private Bot(String token) throws LoginException, InterruptedException, SQLException {
-        SQLiteDataSource.getConnection();
+    private Bot(String token) throws LoginException, InterruptedException {
         WebUtils.setUserAgent("Mozilla/5.0 (compatible; Lambda/1.1; https://github.com/Zone-Infinity/LambdaDiscordBot");
 
         Object[] listeners = {
@@ -67,7 +65,7 @@ public class Bot {
         if (!token.equals(Config.get("beta_token"))) Api.startPostingServerCount(jda, 60);
     }
 
-    public static void main(String[] args) throws LoginException, InterruptedException, SQLException {
+    public static void main(String[] args) throws LoginException, InterruptedException {
         new Bot(Config.get("token"));
     }
 }

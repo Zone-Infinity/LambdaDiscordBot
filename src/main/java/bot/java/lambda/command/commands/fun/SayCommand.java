@@ -5,14 +5,12 @@ import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.utils.Utils;
 import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.WebhookClientBuilder;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.requests.restaction.WebhookAction;
+import net.dv8tion.jda.api.entities.Webhook;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -37,69 +35,50 @@ public class SayCommand implements ICommand {
             return;
         }
 
-        final List<Member> mentionedMembers = message.getMentionedMembers();
+        final List<User> mentionedUsers = message.getMentionedUsers();
 
         String string = Utils.replaceAllMention(message);
 
         final String regularContent = Utils.replaceAllEmojiString(string.replaceFirst(">say", ""), ctx);
-
         final String mentionedContent = Utils.replaceAllEmojiString(string.replaceFirst(">say", "").replaceFirst("<@![0-9]{18}>", ""), ctx);
 
-        WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder();
         channel.retrieveWebhooks().queue(
                 webhooks -> {
-                    //https://discordapp.com/api/webhooks/id/token
+                    // https://discordapp.com/api/webhooks/id/token
                     if (webhooks.isEmpty()) {
-                        WebhookAction webhook = channel.createWebhook("Lambda");
-                        webhook.queue(
-                                web -> {
-                                    WebhookClientBuilder clientBuilder = new WebhookClientBuilder("https://discordapp.com/api/webhooks/" + web.getId() + "/" + web.getToken())
-                                            .setThreadFactory(job -> {
-                                                Thread thread = new Thread(job);
-                                                thread.setName("Lambda-Webhook-Thread");
-                                                thread.setDaemon(true);
-                                                return thread;
-                                            });
-                                    WebhookClient client = clientBuilder.build();
-                                    if (mentionedMembers.size() > 0) {
-                                        final User user = mentionedMembers.get(0).getUser();
-                                        messageBuilder.setUsername(user.getName())
-                                                .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                                                .setContent(mentionedContent);
-                                        client.send(messageBuilder.build());
+                        channel.createWebhook("Lambda").queue(
+                                webhook -> {
+                                    if (mentionedUsers.size() > 0) {
+                                        sendWebhookMessage(mentionedUsers.get(0), mentionedContent, webhook.getIdLong(), webhook.getToken());
                                         return;
                                     }
-                                    messageBuilder.setUsername(author.getName())
-                                            .setAvatarUrl(author.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                                            .setContent(regularContent);
-                                    client.send(messageBuilder.build());
-                                    channel.deleteWebhookById(web.getId()).queueAfter(5, TimeUnit.SECONDS);
+                                    sendWebhookMessage(author, regularContent, webhook.getIdLong(), webhook.getToken());
+                                    webhook.delete().queueAfter(5, TimeUnit.SECONDS);
                                 }
                         );
                         return;
                     }
-                    WebhookClientBuilder clientBuilder = new WebhookClientBuilder("https://discordapp.com/api/webhooks/" + webhooks.get(0).getId() + "/" + webhooks.get(0).getToken())
-                            .setThreadFactory(job -> {
-                                Thread thread = new Thread(job);
-                                thread.setName("Lambda-Webhook-Thread");
-                                thread.setDaemon(true);
-                                return thread;
-                            });
-                    WebhookClient client = clientBuilder.build();
-                    if (mentionedMembers.size() > 0) {
-                        final User user = mentionedMembers.get(0).getUser();
-                        messageBuilder.setUsername(user.getName())
-                                .setAvatarUrl(user.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                                .setContent(mentionedContent);
-                        client.send(messageBuilder.build());
+
+                    final Webhook webhook = webhooks.get(0);
+
+                    if (mentionedUsers.size() > 0) {
+                        sendWebhookMessage(mentionedUsers.get(0), mentionedContent, webhook.getIdLong(), webhook.getToken());
                         return;
                     }
-                    messageBuilder.setUsername(author.getName())
-                            .setAvatarUrl(author.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
-                            .setContent(regularContent);
-                    client.send(messageBuilder.build());
+                    sendWebhookMessage(author, regularContent, webhook.getIdLong(), webhook.getToken());
                 }
         );
+    }
+
+    private void sendWebhookMessage(User author, String content, long id, String token) {
+        final WebhookClient client = WebhookClient.withId(id, token);
+
+        WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder()
+                .setUsername(author.getName())
+                .setAvatarUrl(author.getEffectiveAvatarUrl().replaceFirst("gif", "png") + "?size=512")
+                .setContent(content);
+
+        client.send(messageBuilder.build());
     }
 
     @Override
