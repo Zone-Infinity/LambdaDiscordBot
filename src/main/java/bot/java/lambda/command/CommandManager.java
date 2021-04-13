@@ -164,7 +164,7 @@ public class CommandManager {
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
-            if ((cmd.getHelpCategory().equals(HelpCategory.OWNER) || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN) || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE)) && !(user.getId().equals(Config.get("owner_id"))))
+            if ((cmd.getHelpCategory().equals(HelpCategory.OWNER) || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN) || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE)) && !(Config.OWNER_IDS.contains(user.getId())))
                 return;
 
             /*final List<User> users = coolDown.computeIfAbsent(cmd, it -> new ArrayList<>());
