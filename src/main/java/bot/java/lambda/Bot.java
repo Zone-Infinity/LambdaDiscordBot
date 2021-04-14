@@ -4,6 +4,7 @@ import bot.java.lambda.apis.Api;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.config.Profanity;
 import bot.java.lambda.events.Listener;
+import bot.java.lambda.events.MemberEventListener;
 import bot.java.lambda.events.MusicEventListener;
 import bot.java.lambda.events.audits.JDAEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -16,7 +17,6 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
-import java.sql.SQLException;
 import java.util.EnumSet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -32,12 +32,13 @@ public class Bot {
                 waiter,
                 new Listener(waiter),
                 new JDAEventListener(),
-                new MusicEventListener()
+                new MusicEventListener(),
+                new MemberEventListener()
         };
 
         JDABuilder jdaBuilder = JDABuilder.createDefault(
                 token,
-                // GatewayIntent.GUILD_MEMBERS,
+                GatewayIntent.GUILD_MEMBERS,
                 GatewayIntent.GUILD_MESSAGES,
                 // GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES,

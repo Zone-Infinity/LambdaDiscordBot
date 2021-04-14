@@ -1,9 +1,9 @@
-package bot.java.lambda.command.commands.info;
+package bot.java.lambda.command.commands.settings;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.config.Prefix;
+import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -35,7 +35,7 @@ public class SetPrefixCommand implements ICommand {
     }
 
     private void updatePrefix(long guildId, String newPrefix) {
-        Prefix.PREFIXES.put(guildId, newPrefix);
+        GuildSettings.PREFIXES.put(guildId, newPrefix);
 
         DatabaseManager.INSTANCE.setPrefix(guildId, newPrefix);
     }
@@ -53,7 +53,7 @@ public class SetPrefixCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.INFO;
+        return HelpCategory.SETTINGS;
     }
 
     @Override

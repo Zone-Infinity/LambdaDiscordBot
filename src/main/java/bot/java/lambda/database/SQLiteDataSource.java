@@ -45,13 +45,17 @@ public class SQLiteDataSource implements DatabaseManager {
 
         try (final Statement statement = getConnection().createStatement()) {
             final String defaultPrefix = Config.get("prefix");
+            final String defaultWelcomeMessage = Config.get("welcome_message");
 
             // Make flip channel , music logs on
             // language=SQLITE-SQL
             statement.execute("CREATE TABLE IF NOT EXISTS guild_settings (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "guild_id VARCHAR(20) NOT NULL," +
-                    "prefix VARCHAR(255) NOT NULL DEFAULT '" + defaultPrefix + "'" +
+                    "prefix VARCHAR(255) NOT NULL DEFAULT '" + defaultPrefix + "'," +
+                    "welcome_channel_id VARCHAR(20) NOT NULL DEFAULT '-1'," +
+                    "welcome_message VARCHAR(1000) NOT NULL DEFAULT '" + defaultWelcomeMessage + "'," +
+                    "welcome_background VARCHAR(255) NOT NULL DEFAULT 'default'" +
                     ");");
 
             LOGGER.info("Table initialised");
@@ -62,21 +66,67 @@ public class SQLiteDataSource implements DatabaseManager {
 
     @Override
     public String getPrefix(long guildId) {
-        try (final PreparedStatement preparedStatement = getConnection()
-                // language=SQLITE-SQL
-                .prepareStatement("SELECT prefix FROM guild_settings WHERE guild_id = ?")
+        return getSetting(Setting.PREFIX, guildId);
+    }
+
+    @Override
+    public void setPrefix(long guildId, String newPrefix) {
+        setSetting(Setting.PREFIX, guildId, newPrefix);
+    }
+
+    @Override
+    public String getWelcomeChannelId(long guildId) {
+        return getSetting(Setting.WELCOME_CHANNEL_ID, guildId);
+    }
+
+    @Override
+    public void setWelcomeChannelId(long guildId, String newWelcomeChannelId) {
+        setSetting(Setting.WELCOME_CHANNEL_ID, guildId, newWelcomeChannelId);
+    }
+
+    @Override
+    public String getWelcomeMessage(long guildId) {
+        return getSetting(Setting.WELCOME_MESSAGE, guildId);
+    }
+
+    @Override
+    public void setWelcomeMessage(long guildId, String newWelcomeMessage) {
+        setSetting(Setting.WELCOME_MESSAGE, guildId, newWelcomeMessage);
+    }
+
+    @Override
+    public String getWelcomeBackground(long guildId) {
+        return getSetting(Setting.WELCOME_BACKGROUND, guildId);
+    }
+
+    @Override
+    public void setWelcomeBackground(long guildId, String newWelcomeBackground) {
+        setSetting(Setting.WELCOME_BACKGROUND, guildId, newWelcomeBackground);
+    }
+
+    @Override
+    public WelcomeSetting getWelcomeSettings(long guildId) {
+        try (Connection connection = getConnection();
+             final PreparedStatement preparedStatement = connection
+                     // language=SQLITE-SQL
+                     .prepareStatement("SELECT welcome_channel_id, welcome_message, welcome_background FROM guild_settings WHERE guild_id = ?")
         ) {
             preparedStatement.setString(1, String.valueOf(guildId));
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultSet.getString("prefix");
+                    String welcomeChannelId = resultSet.getString("welcome_channel_id");
+                    String welcomeMessage = resultSet.getString("welcome_message");
+                    String welcomeBackground = resultSet.getString("welcome_background");
+
+                    return new WelcomeSetting(welcomeChannelId, welcomeMessage, welcomeBackground);
                 }
             }
 
-            try (final PreparedStatement insertStatement = getConnection()
-                    // language=SQLITE-SQL
-                    .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
+            try (Connection conn = getConnection();
+                 final PreparedStatement insertStatement = conn
+                         // language=SQLITE-SQL
+                         .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
             ) {
                 insertStatement.setString(1, String.valueOf(guildId));
 
@@ -87,16 +137,49 @@ public class SQLiteDataSource implements DatabaseManager {
             e.printStackTrace();
         }
 
-        return Config.get("prefix");
+        return new WelcomeSetting("-1", Config.get("welcome_message"), "default");
     }
 
-    @Override
-    public void setPrefix(long guildId, String newPrefix) {
-        try (final PreparedStatement preparedStatement = getConnection()
-                // language=SQLITE-SQL
-                .prepareStatement("UPDATE guild_settings SET prefix = ? WHERE guild_id = ?")
+    public String getSetting(Setting setting, long guildId) {
+        final String settingName = setting.getName();
+
+        try (Connection connection = getConnection();
+             final PreparedStatement preparedStatement = connection
+                     // language=SQLITE-SQL
+                     .prepareStatement("SELECT " + settingName + " FROM guild_settings WHERE guild_id = ?")
         ) {
-            preparedStatement.setString(1, newPrefix);
+            preparedStatement.setString(1, String.valueOf(guildId));
+
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString(settingName);
+                }
+            }
+
+            try (Connection conn = getConnection();
+                 final PreparedStatement insertStatement = conn
+                         // language=SQLITE-SQL
+                         .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
+            ) {
+                insertStatement.setString(1, String.valueOf(guildId));
+
+                insertStatement.execute();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return setting.getDefaultValue();
+    }
+
+    public void setSetting(Setting setting, long guildId, String newValue) {
+        try (Connection connection = getConnection();
+             final PreparedStatement preparedStatement = connection
+                     // language=SQLITE-SQL
+                     .prepareStatement("UPDATE guild_settings SET " + setting.getName() + " = ? WHERE guild_id = ?")
+        ) {
+            preparedStatement.setString(1, newValue);
             preparedStatement.setString(2, String.valueOf(guildId));
 
             preparedStatement.executeUpdate();

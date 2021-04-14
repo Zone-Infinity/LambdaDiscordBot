@@ -4,9 +4,8 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.config.Prefix;
+import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
-import bot.java.lambda.utils.DatabaseUtils;
 import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -28,7 +27,7 @@ public class BotInfoCommand implements ICommand {
         final JDA jda = ctx.getJDA();
         final User selfUser = ctx.getSelfUser();
 
-        String prefix = Prefix.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
+        String prefix = GuildSettings.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
 
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setDescription("Made with ♥ by " + Utils.getContributorsAsTag(jda))

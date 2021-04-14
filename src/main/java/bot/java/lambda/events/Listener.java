@@ -4,7 +4,7 @@ import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
-import bot.java.lambda.config.Prefix;
+import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
 import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -126,7 +126,7 @@ public class Listener extends ListenerAdapter {
             return;
 
         final long guildId = eventGuild.getIdLong();
-        final String prefix = Prefix.PREFIXES.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getPrefix);
+        final String prefix = GuildSettings.PREFIXES.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getPrefix);
         final Message message = event.getMessage();
         String raw = message.getContentRaw();
 

@@ -3,7 +3,6 @@ package bot.java.lambda.command.category;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public enum HelpCategory {
     COM("Common", "Common Commands for the server members"),
@@ -13,6 +12,7 @@ public enum HelpCategory {
     MUSIC("Music", "Music Commands when you are in a Voice Channel"),
     GAME("Game", "Commands to play Small fun games"),
     UTIL("Utilities", "Commands to generate String and Images"),
+    SETTINGS("Settings", "Commands to get and change Server Settings"),
     VAR_FOR_USE("", ""),
     UNKNOWN("UNKNOWN", "UNKNOWN"),
     OWNER("Owner", "Only Owners can use these commands and normal members can't see these commands");

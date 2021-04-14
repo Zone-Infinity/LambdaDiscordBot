@@ -4,13 +4,14 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.config.Prefix;
+import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
 import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -39,7 +40,7 @@ public class HelpCommand implements ICommand {
     public void handle(CommandContext ctx) {
         List<String> args = ctx.getArgs();
         TextChannel channel = ctx.getChannel();
-        String prefix = Prefix.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
+        String prefix = GuildSettings.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
 
         if (args.isEmpty()) {
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
@@ -64,6 +65,7 @@ public class HelpCommand implements ICommand {
                     .addField("<:Adorable:755717988677845033> Images", getCategoryHelp(HelpCategory.IMAGES), true)
                     .addBlankField(true)
                     .addField("\uD83D\uDEE0 Utils", getCategoryHelp(HelpCategory.UTIL), true)
+                    .addField("⚙️ Settings", getCategoryHelp(HelpCategory.SETTINGS), true)
                     .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
 
             channel.sendMessage(embed.build()).queue();

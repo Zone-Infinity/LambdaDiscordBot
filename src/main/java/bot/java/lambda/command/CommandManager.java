@@ -11,6 +11,7 @@ import bot.java.lambda.command.commands.info.*;
 import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.command.commands.settings.SetPrefixCommand;
 import bot.java.lambda.command.commands.utils.*;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
