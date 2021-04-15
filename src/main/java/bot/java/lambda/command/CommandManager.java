@@ -12,6 +12,7 @@ import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.command.commands.settings.SetPrefixCommand;
+import bot.java.lambda.command.commands.settings.SetWelcomeMessage;
 import bot.java.lambda.command.commands.utils.*;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
@@ -48,7 +49,6 @@ public class CommandManager {
         addCommand(new IDCommand());
         // addCommand(new UserInfoCommand());
         addCommand(new BotInfoCommand(this));
-        addCommand(new SetPrefixCommand());
         addCommand(new VoteCommand());
 
         // Common Commands
@@ -124,6 +124,9 @@ public class CommandManager {
         addCommand(new PasteCommand());
         addCommand(new ShortenUrlCommand());
 
+        // Settings Commands
+        addCommand(new SetPrefixCommand());
+        addCommand(new SetWelcomeMessage());
     }
 
     private void addCommand(ICommand cmd) {

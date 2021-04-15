@@ -5,33 +5,35 @@ import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.SettingCommand;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
+import bot.java.lambda.database.WelcomeSetting;
 
 import java.util.List;
 
-public class SetPrefixCommand implements SettingCommand {
+public class SetWelcomeMessage implements SettingCommand {
+
     @Override
     public void updateSetting(CommandContext ctx) {
-        final List<String> args = ctx.getArgs();
         final long guildId = ctx.getGuild().getIdLong();
 
-        final String newPrefix = String.join("", args);
+        final String newMessage = ctx.getMessage().getContentRaw().replaceFirst("(?i)(>setwelcomemessage|>welcomemessage)", "");
 
-        GuildSettings.PREFIXES.put(guildId, newPrefix);
+        final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.get(guildId);
 
-        DatabaseManager.INSTANCE.setPrefix(guildId, newPrefix);
+        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeMessage(newMessage));
 
-        ctx.getChannel().sendMessage("New Prefix set to `" + newPrefix + "`").queue();
+        DatabaseManager.INSTANCE.setWelcomeMessage(guildId, newMessage);
+
+        ctx.getChannel().sendMessage("New Prefix set to : ```" + newMessage + "```").queue();
     }
 
     @Override
     public String getName() {
-        return "setprefix";
+        return "setwelcomemessage";
     }
 
     @Override
     public String getHelp(String prefix) {
-        return "Sets the prefix for this server\n" +
-                "Usage: " + prefix + "setprefix <prefix>";
+        return "null";
     }
 
     @Override
@@ -40,12 +42,7 @@ public class SetPrefixCommand implements SettingCommand {
     }
 
     @Override
-    public int getCoolDown() {
-        return 60;
-    }
-
-    @Override
     public List<String> getAliases() {
-        return List.of("sp", "prefix");
+        return List.of("welcomemessage");
     }
 }

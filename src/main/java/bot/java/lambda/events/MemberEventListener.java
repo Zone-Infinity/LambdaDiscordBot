@@ -79,7 +79,7 @@ public class MemberEventListener extends ListenerAdapter {
 
         graphics.drawImage(background, 0, 0, null);
 
-        Font font = new Font(Font.SANS_SERIF, Font.BOLD, image.getWidth() / 30);
+        Font font = new Font("Comic Sans MS", Font.BOLD, image.getWidth() / 30);
         graphics.setFont(font);
         FontMetrics metrics = graphics.getFontMetrics(font);
         graphics.drawString(text, backgroundWidth / 2 - metrics.stringWidth(text) / 2, backgroundHeight - (backgroundHeight / 5));

@@ -38,17 +38,15 @@ public class SQLiteDataSource implements DatabaseManager {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         config.setMaximumPoolSize(20);
-        config.setConnectionTimeout(300000);
-        config.setLeakDetectionThreshold(300000);
 
         ds = new HikariDataSource(config);
 
-        try (final Statement statement = getConnection().createStatement()) {
+        try (Connection connection = getConnection();
+             final Statement statement = connection.createStatement()) {
             final String defaultPrefix = Config.get("prefix");
             final String defaultWelcomeMessage = Config.get("welcome_message");
 
             // Make flip channel , music logs on
-            // language=SQLITE-SQL
             statement.execute("CREATE TABLE IF NOT EXISTS guild_settings (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "guild_id VARCHAR(20) NOT NULL," +
@@ -106,9 +104,8 @@ public class SQLiteDataSource implements DatabaseManager {
 
     @Override
     public WelcomeSetting getWelcomeSettings(long guildId) {
-        try (Connection connection = getConnection();
-             final PreparedStatement preparedStatement = connection
-                     // language=SQLITE-SQL
+        try (
+             final PreparedStatement preparedStatement = getConnection()
                      .prepareStatement("SELECT welcome_channel_id, welcome_message, welcome_background FROM guild_settings WHERE guild_id = ?")
         ) {
             preparedStatement.setString(1, String.valueOf(guildId));
@@ -123,9 +120,8 @@ public class SQLiteDataSource implements DatabaseManager {
                 }
             }
 
-            try (Connection conn = getConnection();
-                 final PreparedStatement insertStatement = conn
-                         // language=SQLITE-SQL
+            try (
+                 final PreparedStatement insertStatement = getConnection()
                          .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
             ) {
                 insertStatement.setString(1, String.valueOf(guildId));
@@ -143,22 +139,21 @@ public class SQLiteDataSource implements DatabaseManager {
     public String getSetting(Setting setting, long guildId) {
         final String settingName = setting.getName();
 
-        try (Connection connection = getConnection();
-             final PreparedStatement preparedStatement = connection
-                     // language=SQLITE-SQL
+        try (
+             final PreparedStatement preparedStatement = getConnection()
                      .prepareStatement("SELECT " + settingName + " FROM guild_settings WHERE guild_id = ?")
         ) {
             preparedStatement.setString(1, String.valueOf(guildId));
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultSet.getString(settingName);
+                    final String settingValue = resultSet.getString(settingName);
+                    return settingValue;
                 }
             }
 
-            try (Connection conn = getConnection();
-                 final PreparedStatement insertStatement = conn
-                         // language=SQLITE-SQL
+            try (
+                 final PreparedStatement insertStatement = getConnection()
                          .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
             ) {
                 insertStatement.setString(1, String.valueOf(guildId));
@@ -174,9 +169,8 @@ public class SQLiteDataSource implements DatabaseManager {
     }
 
     public void setSetting(Setting setting, long guildId, String newValue) {
-        try (Connection connection = getConnection();
-             final PreparedStatement preparedStatement = connection
-                     // language=SQLITE-SQL
+        try (
+             final PreparedStatement preparedStatement = getConnection()
                      .prepareStatement("UPDATE guild_settings SET " + setting.getName() + " = ? WHERE guild_id = ?")
         ) {
             preparedStatement.setString(1, newValue);
