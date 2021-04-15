@@ -23,6 +23,6 @@ public class SetWelcomeChannel implements SettingCommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return null;
+        return HelpCategory.SETTINGS;
     }
 }
