@@ -147,6 +147,7 @@ public class SQLiteDataSource implements DatabaseManager {
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    @SuppressWarnings("UnnecessaryLocalVariable")
                     final String settingValue = resultSet.getString(settingName);
                     return settingValue;
                 }

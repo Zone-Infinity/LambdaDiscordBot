@@ -33,7 +33,12 @@ public class SetWelcomeMessage implements SettingCommand {
 
     @Override
     public String getHelp(String prefix) {
-        return "null";
+        return "Sets the welcome message for this server\n" +
+                "Usage: " + prefix + "setwelcomemessage <message>\n" +
+                "Variables: " +
+                "   {user} -> Name of the user joined\n" +
+                "   {user.mention} -> Mention user joined\n" +
+                "   {guild} -> Name of this server";
     }
 
     @Override
