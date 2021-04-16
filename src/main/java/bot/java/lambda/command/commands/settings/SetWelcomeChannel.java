@@ -3,11 +3,66 @@ package bot.java.lambda.command.commands.settings;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.SettingCommand;
+import bot.java.lambda.config.GuildSettings;
+import bot.java.lambda.database.DatabaseManager;
+import bot.java.lambda.database.Setting;
+import bot.java.lambda.database.WelcomeSetting;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.TextChannel;
+
+import java.util.List;
 
 public class SetWelcomeChannel implements SettingCommand {
     @Override
     public void updateSetting(CommandContext ctx) {
+        final Guild guild = ctx.getGuild();
+        String channelId;
 
+
+        final List<TextChannel> mentionedChannels = ctx.getMessage().getMentionedChannels();
+
+        if (mentionedChannels.isEmpty()) {
+            channelId = ctx.getArgs().get(0);
+            if (guild.getTextChannelById(channelId) == null) {
+                ctx.getChannel().sendMessage("No TextChannel exists with this ID - `" + channelId + "`").queue();
+                return;
+            }
+        } else {
+            channelId = mentionedChannels.get(0).getId();
+        }
+
+        updateSettingSilently(ctx);
+
+        ctx.getChannel().sendMessage("New Welcome Channel set to : <#" + channelId + ">").queue();
+    }
+
+    @Override
+    public void updateSettingSilently(CommandContext ctx) {
+        final Guild guild = ctx.getGuild();
+        final long guildId = guild.getIdLong();
+        String channelId;
+
+        final List<TextChannel> mentionedChannels = ctx.getMessage().getMentionedChannels();
+
+        if (ctx.getArgs().isEmpty()) channelId = "-1";
+        else if (mentionedChannels.isEmpty()) {
+            channelId = ctx.getArgs().get(0);
+            if (guild.getTextChannelById(channelId) == null) {
+                return;
+            }
+        } else {
+            channelId = mentionedChannels.get(0).getId();
+        }
+
+
+        final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getWelcomeSettings);
+        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeChannelId(channelId));
+        DatabaseManager.INSTANCE.setWelcomeChannelId(guildId, channelId);
+    }
+
+    @Override
+    public Setting getSetting() {
+        return Setting.WELCOME_CHANNEL_ID;
     }
 
     @Override

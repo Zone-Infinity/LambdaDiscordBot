@@ -16,9 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -69,25 +66,21 @@ public class MemberEventListener extends ListenerAdapter {
         int avatarX = backgroundWidth / 2 - avatar.getWidth(null) / 2;
         int avatarY = (backgroundHeight - 50) / 2 - avatar.getHeight(null) / 2;
 
-        Graphics graphics = image.getGraphics();
-        graphics.drawImage(avatar, avatarX, avatarY, null);
-
-        Area clip = new Area(new RoundRectangle2D.Double(0, 0, backgroundWidth, backgroundHeight, 100, 100));
-        Area avatarCircle = new Area(new Ellipse2D.Double(avatarX, avatarY, avatar.getWidth() - 1, avatar.getHeight() - 1));
-        clip.subtract(avatarCircle);
-        graphics.setClip(clip);
-
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
         graphics.drawImage(background, 0, 0, null);
+        graphics.drawImage(ImageUtils.makeRoundedCorner(avatar, avatar.getWidth()), avatarX, avatarY, null);
 
-        Font font = new Font("Comic Sans MS", Font.BOLD, image.getWidth() / 30);
-        graphics.setFont(font);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        Font font = new Font("Uni Sans Heavy", Font.BOLD, image.getWidth() / 30);
         FontMetrics metrics = graphics.getFontMetrics(font);
+
+        graphics.setFont(font);
         graphics.drawString(text, backgroundWidth / 2 - metrics.stringWidth(text) / 2, backgroundHeight - (backgroundHeight / 5));
         graphics.setColor(new Color(0, 0, 0, 130));
         String memberNumber = "Member #" + (guild.getMemberCount() + 1);
         graphics.drawString(memberNumber, backgroundWidth / 2 - metrics.stringWidth(memberNumber) / 2, backgroundHeight - (backgroundHeight / 10));
         graphics.dispose();
 
-        return image;
+        return ImageUtils.makeRoundedCorner(image, 100);
     }
 }

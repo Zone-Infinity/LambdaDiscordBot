@@ -160,7 +160,7 @@ public class Utils {
         return ContributorIds.stream().map(id -> {
             final User user = jda.retrieveUserById(id).complete();
             return user.getName() + "λ" + user.getDiscriminator();
-        }).collect(Collectors.joining(", ")).replaceFirst(",(?!.*,)", "and");
+        }).collect(Collectors.joining(" , ")).replaceFirst(",(?!.*,)", "and");
     }
 
     public static String replaceAllEmojiString(String message, CommandContext ctx) {

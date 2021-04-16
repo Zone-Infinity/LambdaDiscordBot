@@ -89,7 +89,7 @@ public class Listener extends ListenerAdapter {
         });
 
         Bot.executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
-        Bot.executor.scheduleWithFixedDelay(status, 0, 5, TimeUnit.SECONDS);
+        Bot.executor.scheduleWithFixedDelay(status, 0, 30, TimeUnit.SECONDS);
 
         globalAuditsChannel = jda.getTextChannelById(758724135790051368L);
 

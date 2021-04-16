@@ -38,7 +38,9 @@ public class SQLiteDataSource implements DatabaseManager {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         config.setMaximumPoolSize(20);
-
+        config.setMaxLifetime(300000);
+        config.setLeakDetectionThreshold(60 * 5000);
+        config.setConnectionTimeout(120 * 1000);
         ds = new HikariDataSource(config);
 
         try (Connection connection = getConnection();
@@ -105,8 +107,9 @@ public class SQLiteDataSource implements DatabaseManager {
     @Override
     public WelcomeSetting getWelcomeSettings(long guildId) {
         try (
-             final PreparedStatement preparedStatement = getConnection()
-                     .prepareStatement("SELECT welcome_channel_id, welcome_message, welcome_background FROM guild_settings WHERE guild_id = ?")
+                Connection connection = getConnection();
+                final PreparedStatement preparedStatement = connection
+                        .prepareStatement("SELECT welcome_channel_id, welcome_message, welcome_background FROM guild_settings WHERE guild_id = ?")
         ) {
             preparedStatement.setString(1, String.valueOf(guildId));
 
@@ -121,8 +124,9 @@ public class SQLiteDataSource implements DatabaseManager {
             }
 
             try (
-                 final PreparedStatement insertStatement = getConnection()
-                         .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
+                    Connection conn = getConnection();
+                    final PreparedStatement insertStatement = conn
+                            .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
             ) {
                 insertStatement.setString(1, String.valueOf(guildId));
 
@@ -140,22 +144,23 @@ public class SQLiteDataSource implements DatabaseManager {
         final String settingName = setting.getName();
 
         try (
-             final PreparedStatement preparedStatement = getConnection()
-                     .prepareStatement("SELECT " + settingName + " FROM guild_settings WHERE guild_id = ?")
+                Connection connection = getConnection();
+                final PreparedStatement preparedStatement = connection
+                        .prepareStatement("SELECT " + settingName + " FROM guild_settings WHERE guild_id = ?")
         ) {
             preparedStatement.setString(1, String.valueOf(guildId));
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    @SuppressWarnings("UnnecessaryLocalVariable")
-                    final String settingValue = resultSet.getString(settingName);
+                    @SuppressWarnings("UnnecessaryLocalVariable") final String settingValue = resultSet.getString(settingName);
                     return settingValue;
                 }
             }
 
             try (
-                 final PreparedStatement insertStatement = getConnection()
-                         .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
+                    Connection conn = getConnection();
+                    final PreparedStatement insertStatement = conn
+                            .prepareStatement("INSERT INTO guild_settings(guild_id) VALUES(?)")
             ) {
                 insertStatement.setString(1, String.valueOf(guildId));
 
@@ -171,8 +176,9 @@ public class SQLiteDataSource implements DatabaseManager {
 
     public void setSetting(Setting setting, long guildId, String newValue) {
         try (
-             final PreparedStatement preparedStatement = getConnection()
-                     .prepareStatement("UPDATE guild_settings SET " + setting.getName() + " = ? WHERE guild_id = ?")
+                Connection connection = getConnection();
+                final PreparedStatement preparedStatement = connection
+                        .prepareStatement("UPDATE guild_settings SET " + setting.getName() + " = ? WHERE guild_id = ?")
         ) {
             preparedStatement.setString(1, newValue);
             preparedStatement.setString(2, String.valueOf(guildId));

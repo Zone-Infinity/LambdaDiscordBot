@@ -21,7 +21,12 @@ public interface SettingCommand extends ICommand {
         }
 
         if (args.isEmpty()) {
-            channel.sendMessage("Missing Arguments").queue();
+            final Setting setting = getSetting();
+            final String defaultValue = setting.getDefaultValue();
+
+            updateSettingSilently(ctx);
+
+            channel.sendMessage("`" + setting.getName() + "` changed to default : `" + defaultValue + "`").queue();
             return;
         }
 
@@ -29,5 +34,9 @@ public interface SettingCommand extends ICommand {
     }
 
     void updateSetting(CommandContext ctx);
+
+    void updateSettingSilently(CommandContext ctx);
+
+    Setting getSetting();
 }
 
