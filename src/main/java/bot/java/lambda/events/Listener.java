@@ -118,7 +118,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
-        if (!event.getGuild().getId().equals("740228383446925402")) return;
+        // if (!event.getGuild().getId().equals("740228383446925402")) return;
 
         User user = event.getAuthor();
         final Guild eventGuild = event.getGuild();
