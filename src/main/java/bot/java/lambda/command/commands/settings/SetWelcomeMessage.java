@@ -15,17 +15,16 @@ public class SetWelcomeMessage implements SettingCommand {
     @Override
     public void updateSetting(CommandContext ctx) {
         final String newMessage = ctx.getMessage().getContentRaw().replaceFirst("(?i)(>setwelcomemessage|>welcomemessage)", "");
-        updateSettingSilently(ctx);
+        updateSettingSilently(ctx, newMessage);
         ctx.getChannel().sendMessage("New Welcome Message set to : ```" + newMessage + "```").queue();
     }
 
     @Override
-    public void updateSettingSilently(CommandContext ctx) {
+    public void updateSettingSilently(CommandContext ctx, String setting) {
         final long guildId = ctx.getGuild().getIdLong();
-        final String newMessage = ctx.getMessage().getContentRaw().replaceFirst("(?i)(>setwelcomemessage|>welcomemessage)", "");
         final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getWelcomeSettings);
-        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeMessage(newMessage));
-        DatabaseManager.INSTANCE.setWelcomeMessage(guildId, newMessage);
+        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeMessage(setting));
+        DatabaseManager.INSTANCE.setWelcomeMessage(guildId, setting);
     }
 
     @Override

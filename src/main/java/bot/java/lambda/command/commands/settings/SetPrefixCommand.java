@@ -13,17 +13,15 @@ public class SetPrefixCommand implements SettingCommand {
     @Override
     public void updateSetting(CommandContext ctx) {
         final String newPrefix = String.join("", ctx.getArgs());
-        updateSettingSilently(ctx);
+        updateSettingSilently(ctx, newPrefix);
         ctx.getChannel().sendMessage("New Prefix set to `" + newPrefix + "`").queue();
     }
 
     @Override
-    public void updateSettingSilently(CommandContext ctx) {
-        final List<String> args = ctx.getArgs();
+    public void updateSettingSilently(CommandContext ctx, String setting) {
         final long guildId = ctx.getGuild().getIdLong();
-        final String newPrefix = String.join("", args);
-        GuildSettings.PREFIXES.put(guildId, newPrefix);
-        DatabaseManager.INSTANCE.setPrefix(guildId, newPrefix);
+        GuildSettings.PREFIXES.put(guildId, setting);
+        DatabaseManager.INSTANCE.setPrefix(guildId, setting);
     }
 
     @Override

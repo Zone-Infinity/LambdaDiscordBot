@@ -31,33 +31,19 @@ public class SetWelcomeChannel implements SettingCommand {
             channelId = mentionedChannels.get(0).getId();
         }
 
-        updateSettingSilently(ctx);
+        updateSettingSilently(ctx, channelId);
 
         ctx.getChannel().sendMessage("New Welcome Channel set to : <#" + channelId + ">").queue();
     }
 
     @Override
-    public void updateSettingSilently(CommandContext ctx) {
+    public void updateSettingSilently(CommandContext ctx, String setting) {
         final Guild guild = ctx.getGuild();
         final long guildId = guild.getIdLong();
-        String channelId;
-
-        final List<TextChannel> mentionedChannels = ctx.getMessage().getMentionedChannels();
-
-        if (ctx.getArgs().isEmpty()) channelId = "-1";
-        else if (mentionedChannels.isEmpty()) {
-            channelId = ctx.getArgs().get(0);
-            if (guild.getTextChannelById(channelId) == null) {
-                return;
-            }
-        } else {
-            channelId = mentionedChannels.get(0).getId();
-        }
-
 
         final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getWelcomeSettings);
-        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeChannelId(channelId));
-        DatabaseManager.INSTANCE.setWelcomeChannelId(guildId, channelId);
+        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeChannelId(setting));
+        DatabaseManager.INSTANCE.setWelcomeChannelId(guildId, setting);
     }
 
     @Override

@@ -6,6 +6,7 @@ import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
+import bot.java.lambda.utils.AuditUtils;
 import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -117,7 +118,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
-        // if(!event.getGuild().getId().equals(AuditUtils.lambdaGuildId)) return;
+        if (!event.getGuild().getId().equals("740228383446925402")) return;
 
         User user = event.getAuthor();
         final Guild eventGuild = event.getGuild();
