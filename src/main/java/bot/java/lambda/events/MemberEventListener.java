@@ -76,7 +76,7 @@ public class MemberEventListener extends ListenerAdapter {
 
         graphics.setFont(font);
         graphics.drawString(text, backgroundWidth / 2 - metrics.stringWidth(text) / 2, backgroundHeight - (backgroundHeight / 5));
-        graphics.setColor(new Color(0, 0, 0, 130));
+        graphics.setColor(new Color(255, 255, 255, 130));
         String memberNumber = "Member #" + (guild.getMemberCount() + 1);
         graphics.drawString(memberNumber, backgroundWidth / 2 - metrics.stringWidth(memberNumber) / 2, backgroundHeight - (backgroundHeight / 10));
         graphics.dispose();

@@ -6,12 +6,12 @@ import bot.java.lambda.command.type.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
+import org.apache.commons.collections4.map.LinkedMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class VoteCommand implements ICommand {
-    final Map<String, String> voteLinks = new HashMap<>();
+    final Map<String, String> voteLinks = new LinkedMap<>();
 
     public VoteCommand() {
         voteLinks.put("TopGG", "https://top.gg/bot/752052866809593906/vote");

@@ -6,8 +6,6 @@ import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
-import bot.java.lambda.utils.AuditUtils;
-import bot.java.lambda.utils.Utils;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.JDA;
@@ -44,24 +42,18 @@ public class Listener extends ListenerAdapter {
         final JDA jda = event.getJDA();
         LOGGER.info("{} is ready", jda.getSelfUser().getAsTag());
         jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
-        // jda.getPresence().setActivity(Activity.streaming("Vote Me Pls !!!", "https://top.gg/bot/752052866809593906/vote"));
+        String link = "https://www.youtube.com/watch?v=iy0dqV0Wk1o";
 
         Runnable status = () -> {
             String[] AllStatus = {
-                    jda.getGuildCache().size() + " guilds",
-                    "Loading... 0%",
-                    "Loading... " + Utils.random(5, 9) + "%",
-                    "Loading... " + Utils.random(26, 30) + "%",
-                    "Loading... " + Utils.random(40, 44) + "%",
-                    "Loading... " + Utils.random(72, 76) + "%",
-                    "Loading... " + Utils.random(94, 98) + "%",
-                    "Loading... 99%"
+                    "Learn discord.js",
+                    "in " + jda.getGuildCache().size() + " servers"
             };
             // Loading... x% , Error!, Restarting
             for (String Status : AllStatus) {
-                jda.getPresence().setActivity(Activity.watching(Status));
+                jda.getPresence().setActivity(Activity.streaming(Status, link));
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(30000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

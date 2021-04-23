@@ -1,6 +1,8 @@
 package bot.java.lambda;
 
-import bot.java.lambda.apis.Api;
+import bot.java.lambda.apis.InfinityBots;
+import bot.java.lambda.apis.ServerCountPoster;
+import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.config.Profanity;
 import bot.java.lambda.events.Listener;
@@ -18,6 +20,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -63,7 +66,9 @@ public class Bot {
         Profanity.loadProfanityList();
         jda.awaitReady();
 
-        if (!token.equals(Config.get("beta_token"))) Api.startPostingServerCount(jda, 60);
+        ServerCountPoster poster = new ServerCountPoster(jda);
+
+        poster.startPostingServerCount(Set.of(new TopGG(), new InfinityBots()), 60);
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
