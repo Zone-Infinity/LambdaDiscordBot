@@ -8,12 +8,14 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class EmojiCommand implements ICommand {
     EventWaiter waiter;
@@ -30,70 +32,48 @@ public class EmojiCommand implements ICommand {
         pageNumber = 1;
         final Guild server = ctx.getGuild();
         final List<String> args = ctx.getArgs();
-        List<Guild> guilds = new ArrayList<>();
-        for (Guild guild : ctx.getJDA().getGuilds()) {
-            if (guild.getEmotes().size() > 15) {
-                guilds.add(guild);
-            }
-        }
+        final TextChannel channel = ctx.getChannel();
+        final List<Guild> guilds = ctx.getJDA().getGuilds().stream().filter(g -> g.getEmotes().size() > 15).collect(Collectors.toList());
         int count = 0;
-        int page = 0;
-        for (Guild guild : guilds) {
-            final List<Emote> emotes = guild.getEmotes();
-            for (Emote emote : emotes) {
-                try {
-                    if (emote.isAnimated() && !Objects.equals(emote.getGuild(), server)) {
-                        continue;
-                    }
-                    listOfAllEmote.get(page).append(emote.getAsMention())
-                            .append(" - ").append("`").append(emote.getName()).append("`")
-                            .append("\n");
-                } catch (IndexOutOfBoundsException e) {
-                    e.fillInStackTrace();
-                    listOfAllEmote.add(new StringBuilder());
+        StringBuilder pageBuilder = new StringBuilder();
+        for (final Guild guild : guilds) {
+            final boolean notServer = !Objects.equals(guild, server);
+            final List<Emote> eligible = guild.getEmotes();
+            eligible.removeIf(e -> e.isAnimated() && notServer);
+            for (final Emote emote : eligible) {
+                pageBuilder.append(emote.getAsMention()).append(" - `").append(emote.getName()).append("`\n");
+                ++count;
+                if (count % 10 == 0) {
+                    listOfAllEmote.add(pageBuilder);
+                    pageBuilder = new StringBuilder();
                 }
-                if (count % 10 == 1 && count != 1) {
-                    page++;
-                }
-                count++;
             }
         }
-
-        if (args.isEmpty()) {
-            ctx.getChannel().sendMessage(EmbedUtils.getDefaultEmbed()
-                    .setTitle("Emojis you can use : Page 1 out of " + listOfAllEmote.size())
-                    .setThumbnail(null)
-                    .setDescription(listOfAllEmote.get(0))
-                    .build()).queue(
-                    message -> {
-                        message.addReaction("⬅").queue();
-                        message.addReaction("🛑").queue();
-                        message.addReaction("➡").queue();
-                        emojiPageWaiter(message, ctx);
-                    }
-            );
-            return;
+        if (count % 10 != 0) {
+            listOfAllEmote.add(pageBuilder);
         }
 
         try {
-            ctx.getChannel().sendMessage(EmbedUtils.getDefaultEmbed()
-                    .setTitle("Emojis you can use : Page " + (Integer.parseInt(args.get(0))) + " out of " + listOfAllEmote.size())
+            final int pageNum = args.isEmpty() ? 1 : Integer.parseInt(args.get(0));
+            final int totalPages = listOfAllEmote.size();
+            if (totalPages < pageNum) {
+                channel.sendMessage("Page " + pageNum + " doesn't exist.");
+                return;
+            }
+            channel.sendMessage(EmbedUtils.getDefaultEmbed()
+                    .setTitle("Emojis you can use : Page " + pageNum + " out of " + totalPages)
                     .setThumbnail(null)
-                    .setDescription(listOfAllEmote.get((Integer.parseInt(args.get(0))) - 1))
-                    .build()).queue(
-                    message -> {
-                        message.addReaction("⬅").queue();
-                        message.addReaction("🛑").queue();
-                        message.addReaction("➡").queue();
-                        emojiPageWaiter(message, ctx);
-                    }
-            );
-        } catch (NumberFormatException e) {
+                    .setDescription(listOfAllEmote.get(pageNum - 1))
+                    .build())
+                .queue(message -> {
+                    message.addReaction("-").queue();
+                    message.addReaction("🛑").queue();
+                    message.addReaction("➡").queue();
+                    emojiPageWaiter(message, ctx);
+                });
+        } catch (final NumberFormatException e) {
             e.fillInStackTrace();
-            ctx.getChannel().sendMessage("Pls provide a page number").queue();
-        } catch (IndexOutOfBoundsException e) {
-            e.fillInStackTrace();
-            ctx.getChannel().sendMessage("Only " + listOfAllEmote.size() + " page exist").queue();
+            channel.sendMessage("Please provide a number.").queue();
         }
     }
 
@@ -105,10 +85,6 @@ public class EmojiCommand implements ICommand {
                         && !e.getMessageId().equals(ctx.getMessage().getId()),
                 e -> {
                     final String asReactionCode = e.getReactionEmote().getAsReactionCode();
-                    if (!e.getUser().equals(ctx.getAuthor())) {
-                        return;
-                    }
-
                     if (!asReactionCode.equals("🛑")) {
                         if (asReactionCode.equals("➡")) {
                             pageNumber++;
