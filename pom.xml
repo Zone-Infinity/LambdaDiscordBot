@@ -14,10 +14,8 @@
     <properties>
         <main.class>bot.java.lambda.Bot</main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.14</maven.compiler.source>
-        <maven.compiler.target>1.14</maven.compiler.target>
-        <kotlin.version>1.4.32</kotlin.version>
-        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <maven.compiler.source>1.16</maven.compiler.source>
+        <maven.compiler.target>1.16</maven.compiler.target>
     </properties>
 
     <repositories>
@@ -149,7 +147,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.8.1</version>
                     <configuration>
                         <source>14</source>
                         <target>14</target>
@@ -234,8 +232,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>14</source>
-                    <target>14</target>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
         </plugins>
