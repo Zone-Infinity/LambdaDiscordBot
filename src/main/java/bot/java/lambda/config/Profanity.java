@@ -8,21 +8,15 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class Profanity {
+    private static final String PROFANITY_URL = "https://raw.githubusercontent.com/RobertJGabriel/Google-profanity-words/master/list.txt";
+
     public static void loadProfanityList() {
         try {
-            String profanityUrl = "https://raw.githubusercontent.com/RobertJGabriel/Google-profanity-words/master/list.txt";
-
-            URL url = new URL(profanityUrl);
-
-            try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(url.openStream()))) {
-
-                String inputLine;
-                while ((inputLine = in.readLine()) != null)
-                    Utils.profanityWords.add(inputLine);
-
-            }
-        } catch (IOException e) {
+            final URL url = new URL(PROFANITY_URL);
+            final BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            in.lines().forEach(Utils.profanityWords::add);
+            in.close();
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
