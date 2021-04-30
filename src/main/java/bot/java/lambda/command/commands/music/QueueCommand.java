@@ -2,9 +2,9 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
-import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.utils.Utils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
@@ -47,7 +47,8 @@ public class QueueCommand implements ICommand {
             AudioTrackInfo info = track.getInfo();
 
             builder.appendDescription(String.format(
-                    "|` %s -> %s [%s]`\n",
+                    "%s |` %s -> %s [%s]`\n",
+                    count,
                     info.title,
                     info.author,
                     Utils.getTimestamp(track.getDuration())
