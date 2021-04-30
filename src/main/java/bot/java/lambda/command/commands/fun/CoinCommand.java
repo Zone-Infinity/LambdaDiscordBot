@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.Random;
 
-public class FlipCommand implements ICommand {
+public class CoinCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         final Random random = new Random();
@@ -22,7 +22,7 @@ public class FlipCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "flip";
+        return "coin";
     }
 
     @Override

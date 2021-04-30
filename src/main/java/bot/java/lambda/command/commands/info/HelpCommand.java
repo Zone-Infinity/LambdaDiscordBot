@@ -1,7 +1,7 @@
 package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.CommandManager;
+import bot.java.lambda.CommandManager;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.GuildSettings;
@@ -11,7 +11,6 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

@@ -1,5 +1,6 @@
-package bot.java.lambda.command;
+package bot.java.lambda;
 
+import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.commands.admin.CloseCommand;
 import bot.java.lambda.command.commands.admin.EvalCommand;
@@ -36,7 +37,7 @@ public class CommandManager {
     public CommandManager(EventWaiter waiter) {
 
         // Owner Commands
-        addCommand(new EvalCommand(waiter, this));
+        addCommand(new EvalCommand(waiter));
         // addCommand(new LeaveCommand());
         // addCommand(new GuildsCommand());
         addCommand(new CloseCommand());
@@ -81,7 +82,7 @@ public class CommandManager {
         addCommand(new EchoCommand());
         addCommand(new BoredCommand());
         addCommand(new AdviceCommand());
-        addCommand(new FlipCommand());
+        addCommand(new CoinCommand());
         addCommand(new PixelCommand());
         //addCommand(new ChatCommand(waiter));
 
@@ -113,6 +114,7 @@ public class CommandManager {
         addCommand(new LoopCommand());
         addCommand(new ShuffleCommand());
         addCommand(new VolumeCommand());
+        addCommand(new RemoveCommand());
 
         // Utility Commands
         addCommand(new DefaultAvatarCommand());

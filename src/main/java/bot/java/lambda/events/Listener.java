@@ -1,7 +1,7 @@
 package bot.java.lambda.events;
 
 import bot.java.lambda.Bot;
-import bot.java.lambda.command.CommandManager;
+import bot.java.lambda.CommandManager;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.config.GuildSettings;

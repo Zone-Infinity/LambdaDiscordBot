@@ -1,7 +1,6 @@
 package bot.java.lambda.command.commands.admin;
 
 import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.command.CommandManager;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
@@ -18,31 +17,30 @@ public class EvalCommand implements ICommand {
     private final GroovyShell engine;
     private final String imports;
     private final EventWaiter waiter;
-    private final CommandManager manager;
 
-    public EvalCommand(EventWaiter waiter, CommandManager manager) {
+    public EvalCommand(EventWaiter waiter) {
         this.waiter = waiter;
         this.engine = new GroovyShell();
-        this.manager = manager;
-        this.imports = "import java.io.*\n" +
-                "import java.lang.*\n" +
-                "import java.util.*\n" +
-                "import java.util.concurrent.*\n" +
-                "import net.dv8tion.jda.core.*\n" +
-                "import net.dv8tion.jda.core.entities.*\n" +
-                "import net.dv8tion.jda.core.entities.impl.*\n" +
-                "import net.dv8tion.jda.core.managers.*\n" +
-                "import net.dv8tion.jda.core.managers.impl.*\n" +
-                "import net.dv8tion.jda.core.utils.*\n" +
-                "import net.dv8tion.jda.api.*\n" +
-                "import net.dv8tion.jda.api.entities.*\n" +
-                "import net.dv8tion.jda.api.managers.*\n" +
-                "import net.dv8tion.jda.api.managers.impl.*\n" +
-                "import net.dv8tion.jda.api.utils.*\n" +
-                "import com.jagrosh.jdautilities.commons.utils.*\n" +
-                "import com.jagrosh.jdautilities.commons.waiter.*\n" +
-                "import bot.java.lambda.utils.*\n" +
-                "";
+        this.imports = """
+                import java.io.*
+                import java.lang.*
+                import java.util.*
+                import java.util.concurrent.*
+                import net.dv8tion.jda.core.*
+                import net.dv8tion.jda.core.entities.*
+                import net.dv8tion.jda.core.entities.impl.*
+                import net.dv8tion.jda.core.managers.*
+                import net.dv8tion.jda.core.managers.impl.*
+                import net.dv8tion.jda.core.utils.*
+                import net.dv8tion.jda.api.*
+                import net.dv8tion.jda.api.entities.*
+                import net.dv8tion.jda.api.managers.*
+                import net.dv8tion.jda.api.managers.impl.*
+                import net.dv8tion.jda.api.utils.*
+                import com.jagrosh.jdautilities.commons.utils.*
+                import com.jagrosh.jdautilities.commons.waiter.*
+                import bot.java.lambda.utils.*
+                """;
     }
 
     @Override
