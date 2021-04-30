@@ -73,8 +73,13 @@ public class Listener extends ListenerAdapter {
                             e -> {
                             },
                             60, TimeUnit.SECONDS, () -> {
-                                if (!(audioManager.getConnectedChannel().getMembers().size() > 1) || player.getPlayingTrack() == null)
+                                if (!(audioManager.getConnectedChannel().getMembers().size() > 1) || player.getPlayingTrack() == null) {
+                                    musicManager.scheduler.queue.clear();
+                                    musicManager.audioPlayer.stopTrack();
+                                    musicManager.audioPlayer.setPaused(false);
+                                    musicManager.scheduler.loopEnabled = false;
                                     audioManager.closeAudioConnection();
+                                }
                             }
                     );
                 }
