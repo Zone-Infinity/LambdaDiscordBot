@@ -21,6 +21,7 @@ import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -29,6 +30,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class CommandManager {
@@ -166,7 +168,8 @@ public class CommandManager {
         final User user = event.getAuthor();
         final Guild guild = event.getGuild();
         final TextChannel channel = event.getChannel();
-        String[] split = event.getMessage().getContentRaw()
+        final Message message = event.getMessage();
+        String[] split = message.getContentRaw()
                 .replaceFirst("(?i)" + Pattern.quote(prefix) + "|" + guild.getSelfMember().getAsMention() + "( +)?", "")
                 .split("\\s+");
 
@@ -174,22 +177,27 @@ public class CommandManager {
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
-            if ((cmd.getHelpCategory().equals(HelpCategory.OWNER) || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN) || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE)) && !(Config.OWNER_IDS.contains(user.getId())))
+            if ((cmd.getHelpCategory().equals(HelpCategory.OWNER)
+                    || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN)
+                    || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE))
+                    && !(Config.OWNER_IDS.contains(user.getId())))
                 return;
 
-            /*final List<User> users = coolDown.computeIfAbsent(cmd, it -> new ArrayList<>());
-            if (users.contains(user) && !user.getId().equals(Config.get("owner_id"))) {
-                channel.sendMessage("You have to wait " + cmd.getCoolDown() + " seconds before using this command").queue();
-                return;
-            }*/
+            final Map<Long, Long> coolDowns = cmd.coolDowns;
+
+            if (coolDowns.containsKey(user.getIdLong())) {
+                long secondsLeft = ((coolDowns.get(user.getIdLong()) / 1000) + cmd.getCoolDown()) - (System.currentTimeMillis() / 1000);
+                if (secondsLeft > 0) {
+                    message.reply("You cant use that commands for another " + secondsLeft + " seconds!").mentionRepliedUser(false).queue();
+                    return;
+                }
+            }
 
             List<String> args = Arrays.asList(split).subList(1, split.length);
             CommandContext ctx = new CommandContext(event, args);
 
-            /*if (Utils.hasProfanity(String.join(" ", args))) {
-                channel.sendMessage("I don't reply to profanity").queue();
-                return;
-            }*/
+            // No cooldown found or cooldown has expired, save new cooldown
+            cmd.coolDowns.put(user.getIdLong(), System.currentTimeMillis());
 
             if (cmd.getHelpCategory().equals(HelpCategory.MUSIC)) {
                 final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(guild);
@@ -197,12 +205,6 @@ public class CommandManager {
             }
 
             cmd.handle(ctx);
-
-            /*coolDown.get(cmd).add(user);
-            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-            Runnable removeUser = () -> coolDown.get(cmd).remove(user);
-            executor.schedule(removeUser, cmd.getCoolDown(), TimeUnit.SECONDS);*/
-
         }
     }
 }

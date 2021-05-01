@@ -14,6 +14,6 @@ public class Config {
         // return System.getenv(key.toUpperCase());
     }
 
-    public static final List<String> OWNER_IDS = List.of(Config.get("owner_id"), "754696003361177620", "757050742379905056", "616969228972458008");
+    public static final List<String> OWNER_IDS = List.of(Config.get("owner_id"), "757050742379905056", "754696003361177620", "616969228972458008");
 
 }
