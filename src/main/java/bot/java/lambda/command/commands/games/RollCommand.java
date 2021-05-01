@@ -37,5 +37,4 @@ public class RollCommand implements ICommand {
     public int getCoolDown() {
         return 10;
     }
-
 }

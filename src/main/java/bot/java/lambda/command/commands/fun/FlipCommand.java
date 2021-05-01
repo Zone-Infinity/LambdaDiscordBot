@@ -7,7 +7,7 @@ import bot.java.lambda.command.type.ICommand;
 public class FlipCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
-
+        // TODO
     }
 
     @Override
@@ -25,5 +25,10 @@ public class FlipCommand implements ICommand {
     @Override
     public HelpCategory getHelpCategory() {
         return null;
+    }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
     }
 }

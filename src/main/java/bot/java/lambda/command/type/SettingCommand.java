@@ -44,6 +44,11 @@ public interface SettingCommand extends ICommand {
         }
     }
 
+    @Override
+    default int getCoolDown() {
+        return 60;
+    }
+
     void updateSetting(CommandContext ctx);
 
     void updateSettingSilently(CommandContext ctx, String setting);

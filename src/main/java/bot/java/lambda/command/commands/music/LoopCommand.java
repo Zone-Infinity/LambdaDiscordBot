@@ -57,4 +57,9 @@ public class LoopCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.MUSIC;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
+    }
 }

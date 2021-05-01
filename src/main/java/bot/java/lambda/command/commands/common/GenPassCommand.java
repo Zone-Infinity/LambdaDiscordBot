@@ -40,15 +40,15 @@ public class GenPassCommand implements ICommand {
             try {
                 if (args.get(1).equalsIgnoreCase("DM")) {
                     ctx.getMessage().addReaction("✅").queue();
-                    ctx.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here's your Pass - \n```" + password.toString() + "```").queue());
+                    ctx.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here's your Pass - \n```" + password + "```").queue());
                     channel.sendMessage("Sent you a DM").queue();
                 } else {
                     ctx.getMessage().addReaction("✅").queue();
-                    channel.sendMessage("Here's your Pass - \n``` " + password.toString() + " ```").queue();
+                    channel.sendMessage("Here's your Pass - \n``` " + password + " ```").queue();
                 }
             } catch (IndexOutOfBoundsException e) {
                 ctx.getMessage().addReaction("✅").queue();
-                channel.sendMessage("Here's your Pass - \n``` " + password.toString() + " ```").queue();
+                channel.sendMessage("Here's your Pass - \n``` " + password + " ```").queue();
             }
         } catch (NumberFormatException e) {
             e.fillInStackTrace();
@@ -79,4 +79,8 @@ public class GenPassCommand implements ICommand {
         return List.of("generatePass", "password", "genPass");
     }
 
+    @Override
+    public int getCoolDown() {
+        return 15;
+    }
 }

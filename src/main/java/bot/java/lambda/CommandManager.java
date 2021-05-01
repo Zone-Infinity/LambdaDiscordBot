@@ -183,10 +183,10 @@ public class CommandManager {
                     && !(Config.OWNER_IDS.contains(user.getId())))
                 return;
 
-            final Map<Long, Long> coolDowns = cmd.coolDowns;
+            final long userId = user.getIdLong();
 
-            if (coolDowns.containsKey(user.getIdLong())) {
-                long secondsLeft = ((coolDowns.get(user.getIdLong()) / 1000) + cmd.getCoolDown()) - (System.currentTimeMillis() / 1000);
+            if (cmd.containsCoolDown(userId)) {
+                long secondsLeft = ((cmd.getCoolDown(userId) / 1000) + cmd.getCoolDown()) - (System.currentTimeMillis() / 1000);
                 if (secondsLeft > 0) {
                     message.reply("You cant use that commands for another " + secondsLeft + " seconds!").mentionRepliedUser(false).queue();
                     return;
@@ -196,8 +196,8 @@ public class CommandManager {
             List<String> args = Arrays.asList(split).subList(1, split.length);
             CommandContext ctx = new CommandContext(event, args);
 
-            // No cooldown found or cooldown has expired, save new cooldown
-            cmd.coolDowns.put(user.getIdLong(), System.currentTimeMillis());
+            if (cmd.getHelpCategory() != HelpCategory.INFO)
+                cmd.addCoolDown(userId);
 
             if (cmd.getHelpCategory().equals(HelpCategory.MUSIC)) {
                 final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(guild);

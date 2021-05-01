@@ -82,5 +82,10 @@ public interface ImageUtilCommand extends ICommand {
         }
     }
 
+    @Override
+    default int getCoolDown() {
+        return 30;
+    }
+
     ImageUtil getUtil();
 }

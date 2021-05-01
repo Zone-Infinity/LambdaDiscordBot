@@ -18,12 +18,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TriviaCommand implements ICommand {
-    private final EventWaiter waiter;
-
-    public TriviaCommand(EventWaiter waiter) {
-        this.waiter = waiter;
-    }
+public record TriviaCommand(EventWaiter waiter) implements ICommand {
 
     @Override
     public void handle(CommandContext ctx) {

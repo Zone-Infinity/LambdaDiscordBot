@@ -46,11 +46,6 @@ public class SetPrefixCommand implements SettingCommand {
     }
 
     @Override
-    public int getCoolDown() {
-        return 60;
-    }
-
-    @Override
     public List<String> getAliases() {
         return List.of("sp", "prefix");
     }

@@ -50,4 +50,9 @@ public class UrbanCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.COM;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 15;
+    }
 }

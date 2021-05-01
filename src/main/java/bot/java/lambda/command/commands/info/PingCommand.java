@@ -1,4 +1,4 @@
-package bot.java.lambda.command.commands.common;
+package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
@@ -35,6 +35,6 @@ public class PingCommand implements ICommand {
 
     @Override
     public HelpCategory getHelpCategory() {
-        return HelpCategory.COM;
+        return HelpCategory.INFO;
     }
 }

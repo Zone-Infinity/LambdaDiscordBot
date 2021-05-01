@@ -61,5 +61,4 @@ public class _8BallCommand implements ICommand {
     public int getCoolDown() {
         return 10;
     }
-
 }

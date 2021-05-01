@@ -80,4 +80,9 @@ public class PollCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.COM;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 60;
+    }
 }

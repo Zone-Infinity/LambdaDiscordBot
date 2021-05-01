@@ -107,7 +107,7 @@ public class CountCommand implements ICommand {
 
     @Override
     public int getCoolDown() {
-        return 10;
+        return 30;
     }
 
 }

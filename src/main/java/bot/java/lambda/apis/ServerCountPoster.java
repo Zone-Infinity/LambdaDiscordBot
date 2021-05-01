@@ -6,12 +6,7 @@ import net.dv8tion.jda.api.JDA;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class ServerCountPoster {
-    private final JDA jda;
-
-    public ServerCountPoster(JDA jda) {
-        this.jda = jda;
-    }
+public record ServerCountPoster(JDA jda) {
 
     public void startPostingServerCount(Set<ServerCountSite> sites, int delay) {
         Runnable postServerCount = () -> {

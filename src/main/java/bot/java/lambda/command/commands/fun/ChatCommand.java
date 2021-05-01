@@ -108,6 +108,6 @@ public class ChatCommand implements ICommand {
 
     @Override
     public int getCoolDown() {
-        return 5;
+        return 60;
     }
 }

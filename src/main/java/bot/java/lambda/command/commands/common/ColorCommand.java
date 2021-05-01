@@ -82,4 +82,9 @@ public class ColorCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.COM;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
+    }
 }

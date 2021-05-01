@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ICommand {
-    Map<Long, Long> coolDowns = new HashedMap<>();
+    Map<String, Map<Long, Long>> coolDowns = new HashedMap<>();
 
     void handle(CommandContext ctx);
 
@@ -22,8 +22,18 @@ public interface ICommand {
         return 5;
     }
 
+    default boolean containsCoolDown(long userId) {
+        return coolDowns.computeIfAbsent(this.getName(), name -> new HashedMap<>()).containsKey(userId);
+    }
+
+    default long getCoolDown(long userId) {
+        return coolDowns.computeIfAbsent(this.getName(), name -> new HashedMap<>()).computeIfAbsent(userId, user -> System.currentTimeMillis());
+    }
+
     default void addCoolDown(long userId) {
-        coolDowns.put(userId, System.currentTimeMillis());
+        final Map<Long, Long> cmdCoolDowns = coolDowns.get(this.getName());
+        cmdCoolDowns.put(userId, System.currentTimeMillis());
+        coolDowns.put(this.getName(), cmdCoolDowns);
     }
 
     default List<String> getAliases() {

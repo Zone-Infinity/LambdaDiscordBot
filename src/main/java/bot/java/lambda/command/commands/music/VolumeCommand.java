@@ -78,6 +78,6 @@ public class VolumeCommand implements ICommand {
 
     @Override
     public int getCoolDown() {
-        return 0;
+        return 15;
     }
 }

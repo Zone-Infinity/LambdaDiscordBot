@@ -48,7 +48,7 @@ public class NowPlayingCommand implements ICommand {
 
         channel.sendMessage(EmbedUtils.embedMessage(String.format(
                 "**Playing**  [%s](%s) by %s\n" +
-                        "%s", info.title, info.uri, info.author, bar.toString()
+                        "%s", info.title, info.uri, info.author, bar
         )).build()).queue();
 
     }
@@ -71,5 +71,10 @@ public class NowPlayingCommand implements ICommand {
     @Override
     public List<String> getAliases() {
         return List.of("np", "nplaying", "nowp");
+    }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
     }
 }

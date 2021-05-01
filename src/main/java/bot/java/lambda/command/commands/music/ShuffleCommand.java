@@ -37,9 +37,4 @@ public class ShuffleCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.MUSIC;
     }
-
-    @Override
-    public int getCoolDown() {
-        return 5;
-    }
 }

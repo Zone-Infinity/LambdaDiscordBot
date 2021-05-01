@@ -37,7 +37,7 @@ public class EchoCommand implements ICommand {
         }
 
         channel.sendTyping().queue();
-        channel.sendMessage(join).queueAfter(join.length() * 10, TimeUnit.MILLISECONDS);
+        channel.sendMessage(join).queueAfter(join.length() * 10L, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -54,5 +54,10 @@ public class EchoCommand implements ICommand {
     @Override
     public HelpCategory getHelpCategory() {
         return HelpCategory.COM;
+    }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
     }
 }

@@ -19,7 +19,7 @@ public interface ServerCountSite {
 
         Request request = WebUtils.defaultRequest()
                 .post(body)
-                .addHeader("Authorization", getAuthorization())
+                .addHeader("authorization", getAuthorization())
                 .url(postUrl)
                 .build();
 
@@ -33,7 +33,7 @@ public interface ServerCountSite {
                         LOGGER.info("Couldn't Post Server Count on {} : {}", name, response.message());
                     }
                 },
-                e -> LOGGER.error("Something went wrong Posting Server Count on {}", name, e)
+                e -> LOGGER.error(e.getMessage(), name, e)
         );
     }
 

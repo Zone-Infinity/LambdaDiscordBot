@@ -30,4 +30,9 @@ public class BoredCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.FUN;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 10;
+    }
 }

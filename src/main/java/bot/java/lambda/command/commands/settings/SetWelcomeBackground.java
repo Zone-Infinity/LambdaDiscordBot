@@ -21,12 +21,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-public class SetWelcomeBackground implements SettingCommand {
-    final EventWaiter waiter;
-
-    public SetWelcomeBackground(EventWaiter waiter) {
-        this.waiter = waiter;
-    }
+public record SetWelcomeBackground(EventWaiter waiter) implements SettingCommand {
 
     @Override
     public void updateSetting(CommandContext ctx) {

@@ -99,4 +99,9 @@ public class SayCommand implements ICommand {
     public HelpCategory getHelpCategory() {
         return HelpCategory.FUN;
     }
+
+    @Override
+    public int getCoolDown() {
+        return 30;
+    }
 }
