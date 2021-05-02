@@ -30,6 +30,9 @@ this bot was made public for people who want to see how the bot works or want to
 <a href="https://top.gg/bot/752052866809593906"><img src="https://top.gg/api/widget/752052866809593906.svg" alt="Lambda λ" /></a>
 <br>
 
+[![boat]][boatLink]
+<br>
+
 [![infinity]][infinityLink]
 <br>
 
@@ -54,6 +57,10 @@ this bot was made public for people who want to see how the bot works or want to
 [dblLink]:https://discordbots.org/bot/752052866809593906
 
 [workflowStatus]:https://img.shields.io/github/workflow/status/Zone-Infinity/LambdaDiscordBot/Java%20CI%20with%20Maven?event=push
+
+[boat]: https://discord.boats/api/widget/752052866809593906
+
+[boatLink]: https://discord.boats/bot/752052866809593906
 
 [infinity]: https://infinitybotlist.com/bots/752052866809593906/widget?size=small
 
