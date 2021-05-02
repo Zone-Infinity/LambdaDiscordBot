@@ -42,7 +42,7 @@ public class SetWelcomeChannel implements SettingCommand {
         final long guildId = guild.getIdLong();
 
         final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getWelcomeSettings);
-        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeChannelId(setting));
+        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.withChannelId(setting));
         DatabaseManager.INSTANCE.setWelcomeChannelId(guildId, setting);
     }
 

@@ -28,7 +28,7 @@ public class MemberEventListener extends ListenerAdapter {
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(event.getGuild().getIdLong(), DatabaseManager.INSTANCE::getWelcomeSettings);
 
-        final String welcomeChannelId = welcomeSetting.getWelcomeChannelId();
+        final String welcomeChannelId = welcomeSetting.channelId();
         if (welcomeChannelId.equals("-1")) return;
 
         LOGGER.info("{} joined {}", event.getMember().getEffectiveName(), event.getGuild().getName());
@@ -44,8 +44,8 @@ public class MemberEventListener extends ListenerAdapter {
         final Guild guild = event.getGuild();
         final Member member = event.getMember();
 
-        final TextChannel welcomeChannel = guild.getTextChannelById(welcomeSetting.getWelcomeChannelId());
-        final String welcomeMessage = welcomeSetting.getWelcomeMessage()
+        final TextChannel welcomeChannel = guild.getTextChannelById(welcomeSetting.channelId());
+        final String welcomeMessage = welcomeSetting.message()
                 .replaceAll("\\{user}|\\{user.name}", member.getEffectiveName())
                 .replace("{guild}", guild.getName())
                 .replace("{user.mention}", member.getAsMention());
@@ -54,7 +54,7 @@ public class MemberEventListener extends ListenerAdapter {
     }
 
     public BufferedImage getWelcomeImage(User user, Guild guild, WelcomeSetting welcomeSetting) throws IOException {
-        BufferedImage background = ImageIO.read(new File("database/background/" + welcomeSetting.getWelcomeBackgroundPath() + ".png"));
+        BufferedImage background = ImageIO.read(new File("database/background/" + welcomeSetting.background() + ".png"));
         final int backgroundWidth = background.getWidth();
         final int backgroundHeight = background.getHeight();
 

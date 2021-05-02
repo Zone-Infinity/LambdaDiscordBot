@@ -51,7 +51,7 @@ public record SetWelcomeBackground(EventWaiter waiter) implements SettingCommand
         final long guildId = ctx.getGuild().getIdLong();
 
         final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getWelcomeSettings);
-        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeBackgroundPath(setting));
+        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.withBackground(setting));
         DatabaseManager.INSTANCE.setWelcomeBackground(guildId, setting);
     }
 

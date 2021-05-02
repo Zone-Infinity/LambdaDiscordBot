@@ -1,40 +1,15 @@
 package bot.java.lambda.database;
 
-public class WelcomeSetting {
-    private String welcomeChannelId;
-    private String welcomeMessage;
-    private String welcomeBackgroundPath;
-
-    WelcomeSetting(String welcomeChannelId, String welcomeMessage, String welcomeBackgroundPath) {
-        this.welcomeChannelId = welcomeChannelId;
-        this.welcomeMessage = welcomeMessage;
-        this.welcomeBackgroundPath = welcomeBackgroundPath;
+public final record WelcomeSetting(String message, String channelId, String background) {
+    public final WelcomeSetting withMessage(final String message) {
+        return new WelcomeSetting(message, channelId, background);
     }
 
-    public String getWelcomeChannelId() {
-        return welcomeChannelId;
+    public final WelcomeSetting withChannelId(final String channelId) {
+        return new WelcomeSetting(message, channelId, background);
     }
 
-    public WelcomeSetting setWelcomeChannelId(String welcomeChannelId) {
-        this.welcomeChannelId = welcomeChannelId;
-        return this;
-    }
-
-    public String getWelcomeMessage() {
-        return welcomeMessage;
-    }
-
-    public WelcomeSetting setWelcomeMessage(String welcomeMessage) {
-        this.welcomeMessage = welcomeMessage;
-        return this;
-    }
-
-    public String getWelcomeBackgroundPath() {
-        return welcomeBackgroundPath;
-    }
-
-    public WelcomeSetting setWelcomeBackgroundPath(String welcomeBackgroundPath) {
-        this.welcomeBackgroundPath = welcomeBackgroundPath;
-        return this;
+    public final WelcomeSetting withBackground(final String background) {
+        return new WelcomeSetting(message, channelId, background);
     }
 }
