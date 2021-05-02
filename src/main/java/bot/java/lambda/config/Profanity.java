@@ -1,6 +1,6 @@
 package bot.java.lambda.config;
 
-import bot.java.lambda.utils.Utils;
+import bot.java.lambda.utils.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class Profanity {
         try {
             final URL url = new URL(PROFANITY_URL);
             final BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-            in.lines().forEach(Utils.profanityWords::add);
+            in.lines().forEach(StringUtils.profanityWords::add);
             in.close();
         } catch (final IOException e) {
             e.printStackTrace();

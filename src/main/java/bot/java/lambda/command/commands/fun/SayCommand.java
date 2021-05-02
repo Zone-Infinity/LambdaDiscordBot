@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.fun;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
+import bot.java.lambda.utils.Discord;
 import bot.java.lambda.utils.Utils;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
@@ -37,10 +38,10 @@ public class SayCommand implements ICommand {
 
         final List<User> mentionedUsers = message.getMentionedUsers();
 
-        String string = Utils.replaceAllMention(message);
+        String string = Discord.replaceAllMention(message);
 
-        final String regularContent = Utils.replaceAllEmojiString(string.replaceFirst(">say", ""), ctx);
-        final String mentionedContent = Utils.replaceAllEmojiString(string.replaceFirst(">say", "").replaceFirst("<@![0-9]{18}>", ""), ctx);
+        final String regularContent = Discord.replaceAllEmojiString(string.replaceFirst(">say", ""), ctx);
+        final String mentionedContent = Discord.replaceAllEmojiString(string.replaceFirst(">say", "").replaceFirst("<@![0-9]{18}>", ""), ctx);
 
         channel.retrieveWebhooks().queue(
                 webhooks -> {

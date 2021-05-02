@@ -6,6 +6,7 @@ import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
+import bot.java.lambda.utils.Discord;
 import bot.java.lambda.utils.Utils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -30,11 +31,11 @@ public class BotInfoCommand implements ICommand {
         String prefix = GuildSettings.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
 
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                .setDescription("Made with ♥ by " + Utils.getContributorsAsTag(jda))
+                .setDescription("Made with ♥ by " + Discord.getContributorsAsTag(jda))
                 .setTitle("🤖 Bot Info", jda.getInviteUrl(Permission.MANAGE_WEBHOOKS, Permission.MESSAGE_MANAGE, Permission.VOICE_SPEAK))
                 .setAuthor("Zone Infinity λ7763", "https://images-ext-2.discordapp.net/external/A_7uQjeR6Y8ryVWMfwJT32Kkd_3oFYvVNoHBxTjI02A/https/cdn.discordapp.com/avatars/722854351600615465/883407867f1bf7dc0b7a7bf489b37c57.png", selfUser.getEffectiveAvatarUrl())
                 .addField("General 👓", "```css\n" +
-                        "Owner : [" + Utils.getZoneInfinityAsTag(jda) + "]\n" +
+                        "Owner : [" + Discord.getZoneInfinityAsTag(jda) + "]\n" +
                         "Library : [JDA]\n" +
                         "Prefix : [" + prefix + "]\n" +
                         "Command Number : [" + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()) + "]\n```", false)

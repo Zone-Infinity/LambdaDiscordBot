@@ -3,7 +3,7 @@ package bot.java.lambda.command.commands.info;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.utils.Utils;
+import bot.java.lambda.utils.Discord;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -19,7 +19,7 @@ public class EmoteUseCommand implements ICommand {
             return;
         }
 
-        final Emote emote = Utils.searchEmote(ctx, args.get(0));
+        final Emote emote = Discord.searchEmote(ctx, args.get(0));
         if (emote == null) {
             channel.sendMessage("No Emote Found").queue();
             return;

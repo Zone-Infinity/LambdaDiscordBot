@@ -3,7 +3,8 @@ package bot.java.lambda.command.commands.common;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.utils.Utils;
+import bot.java.lambda.utils.Discord;
+import bot.java.lambda.utils.StringUtils;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
@@ -23,10 +24,10 @@ public class EchoCommand implements ICommand {
             return;
         }
 
-        String join = Utils.replaceAllMention(ctx.getMessage()).replaceFirst(">echo", "");
+        String join = Discord.replaceAllMention(ctx.getMessage()).replaceFirst(">echo", "");
 
 
-        if (Utils.hasProfanity(ctx.getMessage().getContentRaw())) {
+        if (StringUtils.hasProfanity(ctx.getMessage().getContentRaw())) {
             channel.sendMessage(replies.get(new Random().nextInt(replies.size()))).queue();
             return;
         }

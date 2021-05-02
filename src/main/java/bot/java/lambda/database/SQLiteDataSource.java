@@ -1,7 +1,6 @@
 package bot.java.lambda.database;
 
 import bot.java.lambda.config.Config;
-import bot.java.lambda.utils.DatabaseUtils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
@@ -13,12 +12,13 @@ import java.sql.*;
 
 public class SQLiteDataSource implements DatabaseManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(SQLiteDataSource.class);
+    public static String DATABASE = "database/database.db";
 
     private final HikariDataSource ds;
 
     public SQLiteDataSource() {
         try {
-            final File dbFile = new File(DatabaseUtils.DatabaseDotDB);
+            final File dbFile = new File(DATABASE);
 
             if (!dbFile.exists()) {
                 if (dbFile.createNewFile()) {
@@ -32,7 +32,7 @@ public class SQLiteDataSource implements DatabaseManager {
         }
 
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:sqlite:" + DatabaseUtils.DatabaseDotDB);
+        config.setJdbcUrl("jdbc:sqlite:" + DATABASE);
         config.setConnectionTestQuery("SELECT 1");
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");

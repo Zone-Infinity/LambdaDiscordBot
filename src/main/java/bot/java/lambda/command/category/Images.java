@@ -1,21 +1,21 @@
 package bot.java.lambda.command.category;
 
-import bot.java.lambda.utils.UrlUtils;
-
 public enum Images {
-    ALPACA(UrlUtils.baseDuncteUrl + "/animal/alpaca"),
-    BIRD(UrlUtils.baseDuncteUrl + "/animal/bird"),
-    CAMEL(UrlUtils.baseDuncteUrl + "/animal/camel"),
+    ALPACA("/animal/alpaca"),
+    BIRD("/animal/bird"),
+    CAMEL("/animal/camel"),
     // CAT("https://www.nekos.life/api/v2/img/meow"),
     // COFFEE("https://coffee.alexflipnote.dev/random.json"),
-    DOG(UrlUtils.baseDuncteUrl + "/animal/dog"),
-    DUCK(UrlUtils.baseDuncteUrl + "/animal/duck"),
-    FOX(UrlUtils.baseDuncteUrl + "/animal/fox"),
-    LIZARD(UrlUtils.baseDuncteUrl + "/animal/lizard"),
-    LLAMA(UrlUtils.baseDuncteUrl + "/animal/llama"),
-    PANDA(UrlUtils.baseDuncteUrl + "/animal/panda"),
-    SEAL(UrlUtils.baseDuncteUrl + "/animal/seal"),
-    WOLF(UrlUtils.baseDuncteUrl + "/animal/wolf");
+    DOG("/animal/dog"),
+    DUCK("/animal/duck"),
+    FOX("/animal/fox"),
+    LIZARD("/animal/lizard"),
+    LLAMA("/animal/llama"),
+    PANDA("/animal/panda"),
+    SEAL("/animal/seal"),
+    WOLF("/animal/wolf");
+
+    private static final String baseDuncteUrl = "http://apis.duncte123.me";
 
     private final String url;
 

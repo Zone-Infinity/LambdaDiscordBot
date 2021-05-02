@@ -1,29 +1,13 @@
 package bot.java.lambda.utils;
 
-import bot.java.lambda.command.CommandContext;
-import bot.java.lambda.config.Config;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Emote;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class Utils {
     private static final Random RNG = new Random();
     private static final long START_TIME = System.currentTimeMillis();
-
-    private static final Pattern EMOTE_NAME_PATTERN = Pattern.compile(":(\\S+):");
-    private static final List<String> ContributorIds = List.of("722854351600615465", "616969228972458008", "757050742379905056");
-    public static final List<String> profanityWords = new ArrayList<>();
     private static final Map<String, String> emojis = new HashMap<>();
 
     static {
@@ -76,20 +60,6 @@ public class Utils {
         return emojis.getOrDefault(character.toLowerCase(), ".");
     }
 
-    public static String getAuthorRequested(GuildMessageReceivedEvent event) {
-        return "Requested by " + event.getAuthor().getName() + "λ" + event.getAuthor().getDiscriminator();
-    }
-
-    public static Emote searchEmote(CommandContext ctx, String name) {
-        return ctx.getJDA()
-                .getGuilds()
-                .stream()
-                .flatMap(guild -> guild.getEmotes().stream())
-                .filter(emote -> emote.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
-    }
-
     public static String getUptime() {
         final String timestamp = getTimestamp(System.currentTimeMillis() - START_TIME);
         final String[] split = timestamp.split(":");
@@ -131,50 +101,6 @@ public class Utils {
             case "dnd" -> "<a:Dnd:772748860057583626>";
             default -> "<a:Offline:772748768307183617>";
         };
-    }
-
-    public static boolean hasProfanity(String text) {
-        return profanityWords.stream().anyMatch(text::contains);
-    }
-
-    public static String replaceAllMention(Message message) {
-        String content = message.getContentDisplay()
-                .replace("@everyone", "<:LambdaPing:780988909433389066>everyone")
-                .replace("@here", "<:LambdaPing:780988909433389066>");
-        for (Role role : message.getMentionedRoles()) {
-            content = content.replace("@" + role.getName(), "<:LambdaPing:780988909433389066>" + role.getName());
-        }
-        return content;
-    }
-
-    public static User getZoneInfinity(JDA jda) {
-        return jda.retrieveUserById(Config.get("owner_id")).complete();
-    }
-
-    public static String getZoneInfinityAsTag(JDA jda) {
-        final User zoneInfinity = getZoneInfinity(jda);
-        return zoneInfinity.getName() + "λ" + zoneInfinity.getDiscriminator();
-    }
-
-    public static String getContributorsAsTag(JDA jda) {
-        return ContributorIds.stream().map(id -> {
-            final User user = jda.retrieveUserById(id).complete();
-            return user.getName() + "λ" + user.getDiscriminator();
-        }).collect(Collectors.joining(" , ")).replaceFirst(",(?!.*,)", "and");
-    }
-
-    public static String replaceAllEmojiString(String message, CommandContext ctx) {
-        message = message.replaceAll("<(a?):(\\w+):(\\d+)>", "{{$1;$2;$3}}");
-        Matcher matcher = EMOTE_NAME_PATTERN.matcher(message);
-        StringBuilder result = new StringBuilder();
-        if (matcher.find()) {
-            do {
-                matcher.appendReplacement(result, searchEmote(ctx, matcher.group(1)).getAsMention());
-            } while (matcher.find());
-        } else {
-            result.append(message);
-        }
-        return result.toString().replaceAll("\\{\\{(a?);(\\w+);(\\d+)}}", "<$1:$2:$3>");
     }
 
     public static int random(int lowerbound, int upperbound) {

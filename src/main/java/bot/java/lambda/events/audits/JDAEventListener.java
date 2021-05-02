@@ -1,6 +1,5 @@
 package bot.java.lambda.events.audits;
 
-import bot.java.lambda.utils.AuditUtils;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.*;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -10,12 +9,13 @@ import org.slf4j.LoggerFactory;
 
 public class JDAEventListener extends ListenerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JDAEventListener.class);
-    private static TextChannel botStatusChannel;
+    public static String botStatusChannelID = "770225299396624394";
+    private static TextChannel botStatusChannel = null;
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        botStatusChannel = event.getJDA().getTextChannelById(AuditUtils.botStatusChannelID);
-        if (botStatusChannel == null) return;
+        if (botStatusChannel == null) botStatusChannel = event.getJDA().getTextChannelById(botStatusChannelID);
+
         botStatusChannel.sendMessage("`Started`").queue();
         LOGGER.info("Started");
     }
@@ -27,8 +27,8 @@ public class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onReconnected(@NotNull ReconnectedEvent event) {
-        botStatusChannel = event.getJDA().getTextChannelById(AuditUtils.botStatusChannelID);
-        if (botStatusChannel == null) return;
+        if (botStatusChannel == null) botStatusChannel = event.getJDA().getTextChannelById(botStatusChannelID);
+
         botStatusChannel.sendMessage("`Reconnected`").queue();
         LOGGER.info("Reconnected");
     }
@@ -40,8 +40,8 @@ public class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onStatusChange(@NotNull StatusChangeEvent event) {
-        botStatusChannel = event.getJDA().getTextChannelById(AuditUtils.botStatusChannelID);
-        if (botStatusChannel == null) return;
+        if (botStatusChannel == null) botStatusChannel = event.getJDA().getTextChannelById(botStatusChannelID);
+
         botStatusChannel.sendMessageFormat("- Status changed from `%s` to `%s`"
                 , event.getOldStatus().name(), event.getNewStatus().name()).queue();
         LOGGER.info("Status changed from {} to {}", event.getOldStatus().name(), event.getNewStatus().name());

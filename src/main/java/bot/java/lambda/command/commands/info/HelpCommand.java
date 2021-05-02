@@ -1,12 +1,12 @@
 package bot.java.lambda.command.commands.info;
 
-import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.CommandManager;
+import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
-import bot.java.lambda.utils.Utils;
+import bot.java.lambda.utils.Discord;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -15,13 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class HelpCommand implements ICommand {
-
-    private final CommandManager manager;
-
-    public HelpCommand(CommandManager manager) {
-        this.manager = manager;
-    }
+public record HelpCommand(CommandManager manager) implements ICommand {
 
     private String getCategoryHelp(HelpCategory category) {
         String[] cmds = manager.getCommands()
@@ -51,7 +45,7 @@ public class HelpCommand implements ICommand {
                             "It provides you with some Common commands\n" +
                             "Some Fun and most important MUSIC !! \uD83D\uDE04 \n" +
                             "If you have any confusion about the bot, \n" +
-                            "   Contact " + Utils.getZoneInfinityAsTag(ctx.getJDA()) + "           \n" +
+                            "   Contact " + Discord.getZoneInfinityAsTag(ctx.getJDA()) + "           \n" +
                             "      for help, bugs and suggestions    ```\n" +
                             "**Take a look on these commands** <:LambdaWhite:755717368386289721>")
                     .addField("<:LambdaBlack:755717304989384714>  Commons", getCategoryHelp(HelpCategory.COM), true)

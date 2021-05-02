@@ -42,11 +42,11 @@ public class Listener extends ListenerAdapter {
         final JDA jda = event.getJDA();
         LOGGER.info("{} is ready", jda.getSelfUser().getAsTag());
         jda.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
-        String link = "https://www.youtube.com/watch?v=iy0dqV0Wk1o";
+        String link = "https://www.youtube.com/watch?v=9X0YRWmQO0E";
 
         Runnable status = () -> {
             String[] AllStatus = {
-                    "Learn discord.js",
+                    "Effortless discord.js EPISODE 4 OUT!!!",
                     "in " + jda.getGuildCache().size() + " servers"
             };
             // Loading... x% , Error!, Restarting
