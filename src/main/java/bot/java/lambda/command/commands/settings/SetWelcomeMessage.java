@@ -23,7 +23,7 @@ public class SetWelcomeMessage implements SettingCommand {
     public void updateSettingSilently(CommandContext ctx, String setting) {
         final long guildId = ctx.getGuild().getIdLong();
         final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getWelcomeSettings);
-        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.setWelcomeMessage(setting));
+        GuildSettings.WELCOME_SETTINGS.put(guildId, welcomeSetting.withMessage(setting));
         DatabaseManager.INSTANCE.setWelcomeMessage(guildId, setting);
     }
 
