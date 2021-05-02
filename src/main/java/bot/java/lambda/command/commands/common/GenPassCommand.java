@@ -7,8 +7,11 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class GenPassCommand implements ICommand {
+    private static final Random RNG = new Random();
+
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -28,27 +31,17 @@ public class GenPassCommand implements ICommand {
                 return;
             }
 
-            StringBuilder password = new StringBuilder();
-            char ch;
-            Random random = new Random();
+            String password = IntStream.generate(RNG::nextInt)
+                .mapToObj(i -> (char) (Math.abs(i) % 93 + 33))
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
 
-            for (int i = 1; i <= len; i++) {
-                ch = (char) (Math.abs(random.nextInt()) % 93 + 33);
-                password.append(ch);
-            }
-
-            try {
-                if (args.get(1).equalsIgnoreCase("DM")) {
-                    ctx.getMessage().addReaction("✅").queue();
-                    ctx.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Here's your Pass - \n```" + password + "```").queue());
-                    channel.sendMessage("Sent you a DM").queue();
-                } else {
-                    ctx.getMessage().addReaction("✅").queue();
-                    channel.sendMessage("Here's your Pass - \n``` " + password + " ```").queue();
-                }
-            } catch (IndexOutOfBoundsException e) {
-                ctx.getMessage().addReaction("✅").queue();
+            ctx.getMessage().addReaction("✅").queue();
+            if (args.size() == 1 || ! "DM".equalsIgnoreCase(args.get(1))) {
                 channel.sendMessage("Here's your Pass - \n``` " + password + " ```").queue();
+            } else {
+                ctx.getAuthor().openPrivateChannel()
+                    .queue(dc -> dc.sendMessage("Here's your Pass - \n```" + password + "```").queue());
             }
         } catch (NumberFormatException e) {
             e.fillInStackTrace();
@@ -64,9 +57,11 @@ public class GenPassCommand implements ICommand {
 
     @Override
     public String getHelp(String prefix) {
-        return "Generate Random password for you\n" +
-                "Usage : " + prefix + "genPass <length>\n" +
-                "        " + prefix + "genPass <length> dm ";
+        return """
+            Generate Random password for you\n
+            Usage : %sgenPass <length>
+                    %sgenPass <length> dm
+            """.formatted(prefix, prefix);
     }
 
     @Override
