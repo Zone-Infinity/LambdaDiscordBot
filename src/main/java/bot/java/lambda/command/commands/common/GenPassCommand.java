@@ -32,6 +32,7 @@ public class GenPassCommand implements ICommand {
             }
 
             String password = IntStream.generate(RNG::nextInt)
+                .limit(len)
                 .mapToObj(i -> (char) (Math.abs(i) % 93 + 33))
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                 .toString();
