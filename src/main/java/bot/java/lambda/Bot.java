@@ -69,14 +69,21 @@ public class Bot {
 
         ServerCountPoster poster = new ServerCountPoster(jda);
 
-        poster.startPostingServerCount(Set.of(
-                new TopGG(),
-                new InfinityBots(),
-                new Boats()
-        ), 60);
+        if (!jda.getToken().equals(Config.get("beta_token")))
+            poster.startPostingServerCount(Set.of(
+                    new TopGG(),
+                    new InfinityBots(),
+                    new Boats()
+            ), 60);
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        new Bot(Config.get("beta_token"));
+        if (args.length == 1)
+            if (args[0].equalsIgnoreCase("true")) {
+                new Bot(Config.get("beta_token"));
+                return;
+            }
+
+        new Bot(Config.get("token"));
     }
 }

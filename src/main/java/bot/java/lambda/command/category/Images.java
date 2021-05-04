@@ -15,12 +15,12 @@ public enum Images {
     SEAL("/animal/seal"),
     WOLF("/animal/wolf");
 
-    private static final String baseDuncteUrl = "http://apis.duncte123.me";
+    private static final String baseDuncteUrl = "https://apis.duncte123.me";
 
     private final String url;
 
     Images(String url) {
-        this.url = url;
+        this.url = baseDuncteUrl + url;
     }
 
     public String getUrl() {

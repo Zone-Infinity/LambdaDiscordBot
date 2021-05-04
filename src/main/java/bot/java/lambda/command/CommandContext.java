@@ -11,10 +11,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
-public class CommandContext implements ICommandContext {
-    private final GuildMessageReceivedEvent event;
-    private final List<String> args;
-
+public record CommandContext(GuildMessageReceivedEvent event,
+                             List<String> args) implements ICommandContext {
     public CommandContext(GuildMessageReceivedEvent event, List<String> args) {
         this.event = event;
         this.args = args;

@@ -33,106 +33,6 @@ public class CommandManager {
         if (loader.addAllCommands(this, waiter)) {
             LOGGER.info("Added All Commands Successfully");
         }
-
-        /*
-        // Owner Commands
-        addCommand(new EvalCommand());
-        // addCommand(new LeaveCommand());
-        // addCommand(new GuildsCommand());
-        addCommand(new CloseCommand());
-
-        // Info Commands
-        addCommand(new HelpCommand(this));
-        addCommand(new EmoteUseCommand());
-        // addCommand(new ServerInfoCommand());
-        addCommand(new ServerEmojisCommand());
-        addCommand(new ServerRolesCommand());
-        addCommand(new AvatarCommand());
-        addCommand(new IDCommand());
-        // addCommand(new UserInfoCommand());
-        addCommand(new BotInfoCommand(this));
-        addCommand(new VoteCommand());
-
-        // Common Commands
-        addCommand(new PingCommand());
-        addCommand(new InviteCommand());
-        addCommand(new GenPassCommand());
-        addCommand(new RandomCommand());
-        addCommand(new SayCommand());
-        addCommand(new EmojiCommand(waiter));
-        addCommand(new DistractorCommand());
-        addCommand(new LMGTFYCommand());
-        addCommand(new UrbanCommand());
-        addCommand(new PollCommand());
-        addCommand(new UptimeCommand());
-        addCommand(new ColorCommand());
-
-        //Game Commands
-        addCommand(new _8BallCommand());
-        addCommand(new RollCommand());
-        addCommand(new RPSCommand());
-        addCommand(new CountCommand(waiter));
-        addCommand(new TriviaCommand(waiter));
-
-        // Fun Commands
-        addCommand(new MemeCommand());
-        addCommand(new JokeCommand());
-        addCommand(new EmojifyCommand());
-        addCommand(new EchoCommand());
-        addCommand(new BoredCommand());
-        addCommand(new AdviceCommand());
-        addCommand(new CoinCommand());
-        addCommand(new PixelCommand());
-        //addCommand(new ChatCommand(waiter));
-
-        // Image Commands
-        addCommand(new CoffeeCommand());
-        addCommand(new CatCommand());
-        addCommand(new DogCommand());
-        addCommand(new LlamaCommand());
-        addCommand(new DuckCommand());
-        addCommand(new AlpacaCommand());
-        addCommand(new SealCommand());
-        addCommand(new CamelCommand());
-        addCommand(new LizardCommand());
-        addCommand(new FoxCommand());
-        addCommand(new BirdCommand());
-        addCommand(new WolfCommand());
-        addCommand(new PandaCommand());
-
-        // Music Commands
-        addCommand(new JoinCommand());
-        addCommand(new DisconnectCommand());
-        addCommand(new PlayCommand());
-        addCommand(new QueueCommand());
-        addCommand(new SkipCommand(waiter));
-        addCommand(new StopCommand(waiter));
-        addCommand(new UserCountCommand());
-        addCommand(new NowPlayingCommand());
-        addCommand(new PlaylistCommand());
-        addCommand(new LoopCommand());
-        addCommand(new ShuffleCommand());
-        addCommand(new VolumeCommand());
-        addCommand(new RemoveCommand());
-
-        // Utility Commands
-        addCommand(new DefaultAvatarCommand());
-        addCommand(new InvertCommand());
-        addCommand(new BlackAndWhiteCommand());
-        addCommand(new BlurCommand());
-        addCommand(new PixelateCommand());
-        addCommand(new DarkenCommand());
-        addCommand(new DrakeCommand());
-        addCommand(new Drake2Command());
-        addCommand(new PasteCommand());
-        addCommand(new ShortenUrlCommand());
-
-        // Settings Commands
-        addCommand(new SetPrefixCommand());
-        addCommand(new SetWelcomeChannel());
-        addCommand(new SetWelcomeMessage());
-        addCommand(new SetWelcomeBackground(waiter));
-        */
     }
 
     public void addCommand(ICommand cmd) {
@@ -172,15 +72,15 @@ public class CommandManager {
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
+            final long userId = user.getIdLong();
+
             if ((cmd.getHelpCategory().equals(HelpCategory.OWNER)
                     || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN)
                     || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE))
-                    && !(Config.OWNER_IDS.contains(user.getId())))
+                    && !(Config.OWNER_IDS.contains(userId)))
                 return;
 
-            final long userId = user.getIdLong();
-
-            if (cmd.containsCoolDown(userId)) {
+            if (cmd.containsCoolDown(userId) && !Config.OWNER_IDS.contains(userId)) {
                 long secondsLeft = ((cmd.getCoolDown(userId) / 1000) + cmd.getCoolDown()) - (System.currentTimeMillis() / 1000);
                 if (secondsLeft > 0) {
                     message.reply("You cant use that commands for another " + secondsLeft + " seconds!").mentionRepliedUser(false).queue();
