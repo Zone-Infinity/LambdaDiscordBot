@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.utils.Utils;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
+@CommandHandler
 public class QueueCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

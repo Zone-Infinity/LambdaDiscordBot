@@ -3,12 +3,14 @@ package bot.java.lambda.command.commands.admin;
 import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
 import me.duncte123.botcommons.BotCommons;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@CommandHandler
 public class CloseCommand implements ICommand {
     private static final Logger LOGGER = LoggerFactory.getLogger(CloseCommand.class);
 

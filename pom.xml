@@ -131,6 +131,13 @@
             <version>3.34.0</version>
         </dependency>
 
+        <!-- https://github.com/ronmamo/reflections -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.12</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

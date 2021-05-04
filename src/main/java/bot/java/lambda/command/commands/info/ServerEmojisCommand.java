@@ -2,10 +2,12 @@ package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.Emote;
 
+@CommandHandler
 public class ServerEmojisCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

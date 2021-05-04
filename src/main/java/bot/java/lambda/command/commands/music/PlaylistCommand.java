@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -12,6 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@CommandHandler
 public class PlaylistCommand implements ICommand {
     @SuppressWarnings("ConstantConditions")
     @Override

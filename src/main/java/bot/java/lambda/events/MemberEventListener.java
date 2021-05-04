@@ -29,11 +29,12 @@ public class MemberEventListener extends ListenerAdapter {
         final WelcomeSetting welcomeSetting = GuildSettings.WELCOME_SETTINGS.computeIfAbsent(event.getGuild().getIdLong(), DatabaseManager.INSTANCE::getWelcomeSettings);
 
         final String welcomeChannelId = welcomeSetting.channelId();
-        if (welcomeChannelId.equals("-1")) return;
 
+        if (welcomeChannelId.equals("-1")) return;
         LOGGER.info("{} joined {}", event.getMember().getEffectiveName(), event.getGuild().getName());
         try {
-            sendWelcomeMessage(event, welcomeSetting);
+            if (!welcomeSetting.channelId().equals("-1"))
+                sendWelcomeMessage(event, welcomeSetting);
         } catch (IOException e) {
             e.printStackTrace();
         }

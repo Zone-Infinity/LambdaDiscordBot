@@ -2,11 +2,13 @@ package bot.java.lambda.command.commands.games;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 
 import java.util.List;
 import java.util.Random;
 
+@CommandHandler
 public class _8BallCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

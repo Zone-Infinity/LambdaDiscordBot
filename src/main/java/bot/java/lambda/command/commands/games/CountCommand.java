@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.games;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.Guild;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@CommandHandler
 public class CountCommand implements ICommand {
 
     private final EventWaiter waiter;

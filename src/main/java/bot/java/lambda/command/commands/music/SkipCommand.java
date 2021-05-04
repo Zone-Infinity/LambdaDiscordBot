@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
@@ -17,7 +18,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("ConstantConditions")
+@CommandHandler
 public class SkipCommand implements ICommand {
     EventWaiter waiter;
 
@@ -25,6 +26,7 @@ public class SkipCommand implements ICommand {
         this.waiter = waiter;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();

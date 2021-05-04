@@ -11,7 +11,7 @@ public interface ServerCountSite {
     default void postServerCount(long serverCount) {
         final String name = getName();
         Logger LOGGER = LoggerFactory.getLogger(name);
-        String postUrl = getPostUrl();
+        String postUrl = getPostUrl().replace(":id", "752052866809593906");
 
         RequestBody body = new FormBody.Builder()
                 .add(getServerCountName(), serverCount + "")
@@ -19,7 +19,7 @@ public interface ServerCountSite {
 
         Request request = WebUtils.defaultRequest()
                 .post(body)
-                .addHeader("authorization", getAuthorization())
+                .addHeader("Authorization", getAuthorization())
                 .url(postUrl)
                 .build();
 
@@ -33,7 +33,7 @@ public interface ServerCountSite {
                         LOGGER.info("Couldn't Post Server Count on {} : {}", name, response.message());
                     }
                 },
-                e -> LOGGER.error(e.getMessage(), name, e)
+                e -> LOGGER.error(e.getMessage(), e)
         );
     }
 

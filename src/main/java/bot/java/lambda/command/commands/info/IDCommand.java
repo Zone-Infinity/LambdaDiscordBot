@@ -2,11 +2,13 @@ package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.entities.*;
 
 import java.util.List;
 
+@CommandHandler
 public class IDCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
@@ -14,9 +16,10 @@ public class IDCommand implements ICommand {
         final List<String> args = ctx.getArgs();
 
         if (args.isEmpty()) {
-            channel.sendMessageFormat("Guild ID : %s\n" +
-                    "Current Channel ID : %s\n" +
-                    "Your ID : %s", ctx.getGuild().getId(), channel.getId(), ctx.getAuthor().getId()).queue();
+            channel.sendMessageFormat("""
+                    Guild ID : %s
+                    Current Channel ID : %s
+                    Your ID : %s""", ctx.getGuild().getId(), channel.getId(), ctx.getAuthor().getId()).queue();
             return;
         }
 

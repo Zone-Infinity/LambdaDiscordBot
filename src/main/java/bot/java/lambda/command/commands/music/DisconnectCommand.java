@@ -2,9 +2,10 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
-import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.command.type.CommandHandler;
+import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -13,8 +14,9 @@ import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.List;
 
-@SuppressWarnings("ConstantConditions")
+@CommandHandler
 public class DisconnectCommand implements ICommand {
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();

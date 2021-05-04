@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.games;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+@CommandHandler
 public class RPSCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
@@ -27,8 +29,10 @@ public class RPSCommand implements ICommand {
         }
         final String s = rps[new Random().nextInt(rps.length - 1)];
 
-        StringBuilder result = new StringBuilder(String.format("You : %s\n" +
-                "Me : %s\n", args.get(0), s));
+        StringBuilder result = new StringBuilder(String.format("""
+                You : %s
+                Me : %s
+                """, args.get(0), s));
 
         if (args.get(0).toLowerCase().startsWith("r")) {
             result.append(s.startsWith("p") ? "I win !! :D" : "You win !! D:");
@@ -40,13 +44,16 @@ public class RPSCommand implements ICommand {
             result.append(s.startsWith("r") ? "I win !! :D" : "You win !! D:");
         }
 
-        channel.sendMessageFormat("You : %s\n" +
-                "Me : %s\n", args.get(0), s).queue(
+        channel.sendMessageFormat("""
+                You : %s
+                Me : %s
+                """, args.get(0), s).queue(
                 message -> {
                     if (s.equals(args.get(0))) {
-                        message.editMessage(String.format("You : %s\n" +
-                                "Me : %s\n" +
-                                "It's a tie !!!", args.get(0), s)).queueAfter(1, TimeUnit.SECONDS);
+                        message.editMessage(String.format("""
+                                You : %s
+                                Me : %s
+                                It's a tie !!!""", args.get(0), s)).queueAfter(1, TimeUnit.SECONDS);
                         return;
                     }
                     message.editMessage(result.toString()).queueAfter(1, TimeUnit.SECONDS);

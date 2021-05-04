@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -10,6 +11,7 @@ import org.apache.commons.collections4.map.LinkedMap;
 
 import java.util.Map;
 
+@CommandHandler
 public class VoteCommand implements ICommand {
     final Map<String, String> voteLinks = new LinkedMap<>();
 

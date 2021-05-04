@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
@@ -9,6 +10,7 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+@CommandHandler
 public class LoopCommand implements ICommand {
     @SuppressWarnings("ConstantConditions")
     @Override

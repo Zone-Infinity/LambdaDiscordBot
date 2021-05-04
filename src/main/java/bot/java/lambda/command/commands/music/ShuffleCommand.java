@@ -2,11 +2,13 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.command.commands.music.lavaplayer.TrackScheduler;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+@CommandHandler
 public class ShuffleCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

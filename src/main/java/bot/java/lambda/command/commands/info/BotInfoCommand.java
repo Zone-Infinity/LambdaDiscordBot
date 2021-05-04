@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.info;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.CommandManager;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
+@CommandHandler
 public class BotInfoCommand implements ICommand {
     CommandManager manager;
 

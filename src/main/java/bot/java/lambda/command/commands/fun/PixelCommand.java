@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.fun;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 
 import javax.imageio.ImageIO;
@@ -11,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
+@CommandHandler
 public class PixelCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.utils;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.utils.Utils;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -11,6 +12,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Scanner;
 
+@CommandHandler
 public class ShortenUrlCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

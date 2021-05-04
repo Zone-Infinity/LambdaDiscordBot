@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
@@ -12,6 +13,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 import java.util.concurrent.TimeUnit;
 
+@CommandHandler
 public class StopCommand implements ICommand {
     EventWaiter waiter;
 

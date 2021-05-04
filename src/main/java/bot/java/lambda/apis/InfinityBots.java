@@ -10,7 +10,7 @@ public class InfinityBots implements ServerCountSite {
 
     @Override
     public String getPostUrl() {
-        return "https://api.infinitybotlist.com/bot/752052866809593906";
+        return "https://api.infinitybotlist.com/bot/:id";
     }
 
     @Override

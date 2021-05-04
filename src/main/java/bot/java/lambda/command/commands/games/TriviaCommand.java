@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.games;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.utils.Utils;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@CommandHandler
 public record TriviaCommand(EventWaiter waiter) implements ICommand {
 
     @Override

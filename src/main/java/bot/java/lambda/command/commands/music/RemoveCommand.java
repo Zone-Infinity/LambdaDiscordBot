@@ -4,6 +4,7 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -13,6 +14,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
+@CommandHandler
 public class RemoveCommand implements ICommand {
     @SuppressWarnings("ConstantConditions")
     @Override

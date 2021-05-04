@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.utils;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -10,8 +11,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
+@CommandHandler
 public class DefaultAvatarCommand implements ICommand {
 
     @Override
@@ -88,7 +91,12 @@ public class DefaultAvatarCommand implements ICommand {
         }
 
         try {
-            BufferedImage defaultAvatar = ImageIO.read(DefaultAvatarCommand.class.getResource("/images/defaultPfp.png"));
+            final URL resource = DefaultAvatarCommand.class.getResource("/images/defaultPfp.png");
+
+            if (resource == null)
+                throw new NullPointerException("defaultPfp doesn't exist");
+
+            BufferedImage defaultAvatar = ImageIO.read(resource);
             BufferedImage newAvatar = new BufferedImage(defaultAvatar.getWidth(), defaultAvatar.getHeight(), BufferedImage.TYPE_INT_RGB);
 
             for (int i = 0; i < defaultAvatar.getHeight(); i++) {

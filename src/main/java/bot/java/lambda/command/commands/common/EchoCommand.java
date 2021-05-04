@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.common;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.utils.Discord;
 import bot.java.lambda.utils.StringUtils;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+@CommandHandler
 public class EchoCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

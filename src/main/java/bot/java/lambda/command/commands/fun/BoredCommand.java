@@ -2,10 +2,12 @@ package bot.java.lambda.command.commands.fun;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+@CommandHandler
 public class BoredCommand implements ICommand {
 
     @Override

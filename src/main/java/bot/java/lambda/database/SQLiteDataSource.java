@@ -119,7 +119,7 @@ public class SQLiteDataSource implements DatabaseManager {
                     String welcomeMessage = resultSet.getString("welcome_message");
                     String welcomeBackground = resultSet.getString("welcome_background");
 
-                    return new WelcomeSetting(welcomeChannelId, welcomeMessage, welcomeBackground);
+                    return new WelcomeSetting(welcomeMessage, welcomeChannelId, welcomeBackground);
                 }
             }
 
@@ -137,7 +137,7 @@ public class SQLiteDataSource implements DatabaseManager {
             e.printStackTrace();
         }
 
-        return new WelcomeSetting("-1", Config.get("welcome_message"), "default");
+        return new WelcomeSetting(Config.get("welcome_message"), "-1", "default");
     }
 
     public String getSetting(Setting setting, long guildId) {

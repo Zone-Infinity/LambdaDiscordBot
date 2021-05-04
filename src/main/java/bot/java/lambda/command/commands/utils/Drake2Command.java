@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.utils;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.entities.TextChannel;
 import okhttp3.*;
@@ -9,6 +10,7 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.Objects;
 
+@CommandHandler
 public class Drake2Command implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

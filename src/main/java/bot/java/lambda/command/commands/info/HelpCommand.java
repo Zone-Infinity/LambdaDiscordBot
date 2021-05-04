@@ -3,6 +3,7 @@ package bot.java.lambda.command.commands.info;
 import bot.java.lambda.CommandManager;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@CommandHandler
 public record HelpCommand(CommandManager manager) implements ICommand {
 
     private String getCategoryHelp(HelpCategory category) {

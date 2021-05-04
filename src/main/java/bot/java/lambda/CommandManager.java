@@ -2,22 +2,10 @@ package bot.java.lambda;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
-import bot.java.lambda.command.commands.admin.CloseCommand;
-import bot.java.lambda.command.commands.admin.EvalCommand;
-import bot.java.lambda.command.commands.common.*;
-import bot.java.lambda.command.commands.fun.*;
-import bot.java.lambda.command.commands.games.*;
-import bot.java.lambda.command.commands.images.*;
-import bot.java.lambda.command.commands.info.*;
-import bot.java.lambda.command.commands.music.*;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
-import bot.java.lambda.command.commands.settings.SetPrefixCommand;
-import bot.java.lambda.command.commands.settings.SetWelcomeBackground;
-import bot.java.lambda.command.commands.settings.SetWelcomeChannel;
-import bot.java.lambda.command.commands.settings.SetWelcomeMessage;
-import bot.java.lambda.command.commands.utils.*;
 import bot.java.lambda.command.type.ICommand;
+import bot.java.lambda.config.CommandLoader;
 import bot.java.lambda.config.Config;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.entities.Guild;
@@ -25,21 +13,30 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
+    private final Logger LOGGER = LoggerFactory.getLogger(CommandManager.class);
 
     public CommandManager(EventWaiter waiter) {
+        CommandLoader loader = new CommandLoader("bot.java.lambda.command.commands");
 
+        loader.loadCommands();
+        if (loader.addAllCommands(this, waiter)) {
+            LOGGER.info("Added All Commands Successfully");
+        }
+
+        /*
         // Owner Commands
-        addCommand(new EvalCommand(waiter));
+        addCommand(new EvalCommand());
         // addCommand(new LeaveCommand());
         // addCommand(new GuildsCommand());
         addCommand(new CloseCommand());
@@ -135,22 +132,20 @@ public class CommandManager {
         addCommand(new SetWelcomeChannel());
         addCommand(new SetWelcomeMessage());
         addCommand(new SetWelcomeBackground(waiter));
+        */
     }
 
-    private void addCommand(ICommand cmd) {
+    public void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
-
-        if (nameFound) {
+        if (nameFound)
             throw new IllegalArgumentException("A command with this name is already present : " + cmd.getName());
-        }
 
         boolean aliasFound = this.commands.stream().anyMatch((it) -> it.getAliases().stream().anyMatch((alias) -> cmd.getAliases().contains(alias)));
-
-        if (aliasFound) {
+        if (aliasFound)
             throw new IllegalArgumentException("A command with a alias is already present : " + cmd.getName() + " : " + cmd.getAliases());
-        }
 
         commands.add(cmd);
+        LOGGER.info("Added " + cmd.getClass().getName());
     }
 
     public List<ICommand> getCommands() {

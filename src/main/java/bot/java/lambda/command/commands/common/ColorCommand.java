@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.common;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -12,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+@CommandHandler
 public class ColorCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

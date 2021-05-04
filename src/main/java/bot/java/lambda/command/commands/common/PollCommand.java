@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.common;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.utils.Utils;
@@ -12,6 +13,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.regex.Pattern;
 
+@CommandHandler
 public class PollCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

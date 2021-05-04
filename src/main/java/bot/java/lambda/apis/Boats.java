@@ -2,20 +2,20 @@ package bot.java.lambda.apis;
 
 import bot.java.lambda.config.Config;
 
-public class TopGG implements ServerCountSite {
+public class Boats implements ServerCountSite {
     @Override
     public String getName() {
-        return "TopGG";
+        return "Boats";
     }
 
     @Override
     public String getPostUrl() {
-        return "https://top.gg/api//bots/:id/stats";
+        return "https://discord.boats/api/bot/:id";
     }
 
     @Override
     public String getAuthorization() {
-        return Config.get("TopGG_Token");
+        return Config.get("Boat_Token");
     }
 
     @Override

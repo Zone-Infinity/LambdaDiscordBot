@@ -2,9 +2,9 @@ package bot.java.lambda.command.commands.admin;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.config.Config;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import groovy.lang.GroovyShell;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
@@ -13,13 +13,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
+@CommandHandler
 public class EvalCommand implements ICommand {
     private final GroovyShell engine;
     private final String imports;
-    private final EventWaiter waiter;
 
-    public EvalCommand(EventWaiter waiter) {
-        this.waiter = waiter;
+    public EvalCommand() {
         this.engine = new GroovyShell();
         this.imports = """
                 import java.io.*
@@ -69,7 +68,6 @@ public class EvalCommand implements ICommand {
             engine.setVariable("author", ctx.getAuthor());
             engine.setVariable("ins", WebUtils.ins);
             engine.setVariable("defaultEmbed", EmbedUtils.getDefaultEmbed());
-            engine.setVariable("waiter", waiter);
 
             String script = imports + message.getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);

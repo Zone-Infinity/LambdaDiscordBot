@@ -1,14 +1,15 @@
 package bot.java.lambda;
 
+import bot.java.lambda.apis.Boats;
 import bot.java.lambda.apis.InfinityBots;
 import bot.java.lambda.apis.ServerCountPoster;
 import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.config.Config;
 import bot.java.lambda.config.Profanity;
+import bot.java.lambda.events.JDAEventListener;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MemberEventListener;
 import bot.java.lambda.events.MusicEventListener;
-import bot.java.lambda.events.audits.JDAEventListener;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.GatewayEncoding;
@@ -68,10 +69,14 @@ public class Bot {
 
         ServerCountPoster poster = new ServerCountPoster(jda);
 
-        poster.startPostingServerCount(Set.of(new TopGG(), new InfinityBots()), 60);
+        poster.startPostingServerCount(Set.of(
+                new TopGG(),
+                new InfinityBots(),
+                new Boats()
+        ), 60);
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        new Bot(Config.get("token"));
+        new Bot(Config.get("beta_token"));
     }
 }

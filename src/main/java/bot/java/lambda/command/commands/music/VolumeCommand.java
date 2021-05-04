@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.music;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 
+@CommandHandler
 public class VolumeCommand implements ICommand {
     @SuppressWarnings("ConstantConditions")
     @Override

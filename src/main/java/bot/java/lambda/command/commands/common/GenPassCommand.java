@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.common;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+@CommandHandler
 public class GenPassCommand implements ICommand {
     private static final Random RNG = new Random();
 
@@ -32,17 +34,17 @@ public class GenPassCommand implements ICommand {
             }
 
             String password = IntStream.generate(RNG::nextInt)
-                .limit(len)
-                .mapToObj(i -> (char) (Math.abs(i) % 93 + 33))
-                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-                .toString();
+                    .limit(len)
+                    .mapToObj(i -> (char) (Math.abs(i) % 93 + 33))
+                    .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                    .toString();
 
             ctx.getMessage().addReaction("✅").queue();
-            if (args.size() == 1 || ! "DM".equalsIgnoreCase(args.get(1))) {
+            if (args.size() == 1 || !"DM".equalsIgnoreCase(args.get(1))) {
                 channel.sendMessage("Here's your Pass - \n``` " + password + " ```").queue();
             } else {
                 ctx.getAuthor().openPrivateChannel()
-                    .queue(dc -> dc.sendMessage("Here's your Pass - \n```" + password + "```").queue());
+                        .queue(dc -> dc.sendMessage("Here's your Pass - \n```" + password + "```").queue());
             }
         } catch (NumberFormatException e) {
             e.fillInStackTrace();
@@ -59,10 +61,10 @@ public class GenPassCommand implements ICommand {
     @Override
     public String getHelp(String prefix) {
         return """
-            Generate Random password for you\n
-            Usage : %sgenPass <length>
-                    %sgenPass <length> dm
-            """.formatted(prefix, prefix);
+                Generate Random password for you
+                Usage : %sgenPass <length>
+                        %sgenPass <length> dm
+                """.formatted(prefix, prefix);
     }
 
     @Override

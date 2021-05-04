@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -17,6 +18,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@CommandHandler
 public class EmojiCommand implements ICommand {
     EventWaiter waiter;
     List<StringBuilder> listOfAllEmote = new ArrayList<>();
@@ -57,7 +59,7 @@ public class EmojiCommand implements ICommand {
             final int pageNum = args.isEmpty() ? 1 : Integer.parseInt(args.get(0));
             final int totalPages = listOfAllEmote.size();
             if (totalPages < pageNum) {
-                channel.sendMessage("Page " + pageNum + " doesn't exist.");
+                channel.sendMessage("Page " + pageNum + " doesn't exist.").queue();
                 return;
             }
             channel.sendMessage(EmbedUtils.getDefaultEmbed()
@@ -65,12 +67,12 @@ public class EmojiCommand implements ICommand {
                     .setThumbnail(null)
                     .setDescription(listOfAllEmote.get(pageNum - 1))
                     .build())
-                .queue(message -> {
-                    message.addReaction("-").queue();
-                    message.addReaction("🛑").queue();
-                    message.addReaction("➡").queue();
-                    emojiPageWaiter(message, ctx);
-                });
+                    .queue(message -> {
+                        message.addReaction("-").queue();
+                        message.addReaction("🛑").queue();
+                        message.addReaction("➡").queue();
+                        emojiPageWaiter(message, ctx);
+                    });
         } catch (final NumberFormatException e) {
             e.fillInStackTrace();
             channel.sendMessage("Please provide a number.").queue();

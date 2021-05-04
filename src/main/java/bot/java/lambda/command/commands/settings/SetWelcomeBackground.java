@@ -2,6 +2,7 @@ package bot.java.lambda.command.commands.settings;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
+import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.SettingCommand;
 import bot.java.lambda.config.GuildSettings;
 import bot.java.lambda.database.DatabaseManager;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+@CommandHandler
 public record SetWelcomeBackground(EventWaiter waiter) implements SettingCommand {
 
     @Override
