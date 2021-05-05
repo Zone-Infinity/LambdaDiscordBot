@@ -56,7 +56,7 @@ public class RemoveCommand implements ICommand {
         int index = -1;
 
         try {
-            index = Integer.parseInt(args.get(0));
+            index = Integer.parseInt(args.get(0)) - 1;
         } catch (NumberFormatException ignored) {
         }
 
