@@ -1,9 +1,7 @@
 package bot.java.lambda.apis;
 
 import me.duncte123.botcommons.web.WebUtils;
-import okhttp3.FormBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,17 +9,8 @@ public interface ServerCountSite {
     default void postServerCount(long serverCount) {
         final String name = getName();
         Logger LOGGER = LoggerFactory.getLogger(name);
-        String postUrl = getPostUrl().replace(":id", "752052866809593906");
 
-        RequestBody body = new FormBody.Builder()
-                .add(getServerCountName(), serverCount + "")
-                .build();
-
-        Request request = WebUtils.defaultRequest()
-                .post(body)
-                .addHeader("Authorization", getAuthorization())
-                .url(postUrl)
-                .build();
+        final Request request = getRequest(serverCount);
 
         WebUtils.ins.prepareRaw(request, r -> r).async(
                 response -> {
@@ -37,11 +26,9 @@ public interface ServerCountSite {
         );
     }
 
+    Request getRequest(long serverCount);
+
     String getName();
 
     String getPostUrl();
-
-    String getAuthorization();
-
-    String getServerCountName();
 }
