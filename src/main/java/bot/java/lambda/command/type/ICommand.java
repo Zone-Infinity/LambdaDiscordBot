@@ -1,5 +1,6 @@
 package bot.java.lambda.command.type;
 
+import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import org.apache.commons.collections4.map.HashedMap;

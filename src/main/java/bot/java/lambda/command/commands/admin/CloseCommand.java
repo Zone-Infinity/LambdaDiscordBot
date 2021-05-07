@@ -1,6 +1,5 @@
 package bot.java.lambda.command.commands.admin;
 
-import bot.java.lambda.Bot;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -28,7 +27,7 @@ public class CloseCommand implements ICommand {
                 e.fillInStackTrace();
             }
 
-            Bot.executor.shutdown();
+            ctx.getBot().getExecutor().shutdown();
             BotCommons.shutdown(ctx.getJDA());
             System.exit(0);
         }

@@ -25,11 +25,13 @@ import java.util.regex.Pattern;
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
     private final Logger LOGGER = LoggerFactory.getLogger(CommandManager.class);
+    private final Bot bot;
 
-    public CommandManager(EventWaiter waiter) {
+    public CommandManager(Bot bot, EventWaiter waiter) {
         CommandLoader loader = new CommandLoader("bot.java.lambda.command.commands");
-
         loader.loadCommands();
+
+        this.bot = bot;
         if (loader.addAllCommands(this, waiter)) {
             LOGGER.info("Added All Commands Successfully");
         }
@@ -74,11 +76,10 @@ public class CommandManager {
         if (cmd != null) {
             final long userId = user.getIdLong();
 
-            if ((cmd.getHelpCategory().equals(HelpCategory.OWNER)
-                    || cmd.getHelpCategory().equals(HelpCategory.UNKNOWN)
-                    || cmd.getHelpCategory().equals(HelpCategory.VAR_FOR_USE))
-                    && !(Config.OWNER_IDS.contains(userId)))
+            if (cmd.getHelpCategory() == (HelpCategory.OWNER) && !(Config.OWNER_IDS.contains(userId))) {
+                System.out.println("Non-Owner used Owner Command");
                 return;
+            }
 
             if (cmd.containsCoolDown(userId) && !Config.OWNER_IDS.contains(userId)) {
                 long secondsLeft = ((cmd.getCoolDown(userId) / 1000) + cmd.getCoolDown()) - (System.currentTimeMillis() / 1000);
@@ -89,12 +90,12 @@ public class CommandManager {
             }
 
             List<String> args = Arrays.asList(split).subList(1, split.length);
-            CommandContext ctx = new CommandContext(event, args);
+            CommandContext ctx = new CommandContext(bot, event, args);
 
             if (cmd.getHelpCategory() != HelpCategory.INFO)
                 cmd.addCoolDown(userId);
 
-            if (cmd.getHelpCategory().equals(HelpCategory.MUSIC)) {
+            if (cmd.getHelpCategory() == (HelpCategory.MUSIC)) {
                 final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(guild);
                 musicManager.setLastChannelId(channel.getIdLong());
             }

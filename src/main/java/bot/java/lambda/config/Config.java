@@ -13,6 +13,12 @@ public class Config {
         // return System.getenv(key.toUpperCase());
     }
 
-    public static final List<Long> OWNER_IDS = List.of(Long.parseLong(Config.get("owner_id")), 757050742379905056L, 754696003361177620L, 616969228972458008L);
+    public static final List<Long> OWNER_IDS = List.of(
+            757050742379905056L,
+            754696003361177620L,
+            616969228972458008L,
+            731719097938870354L,
+            Long.parseLong(Config.get("owner_id"))
+    );
 
 }

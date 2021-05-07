@@ -30,11 +30,13 @@ public class Listener extends ListenerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(Listener.class);
     private TextChannel globalAuditsChannel;
     private final CommandManager manager;
+    private final Bot bot;
     private final EventWaiter waiter;
 
-    public Listener(EventWaiter waiter) {
+    public Listener(Bot bot, EventWaiter waiter) {
+        this.bot = bot;
         this.waiter = waiter;
-        manager = new CommandManager(waiter);
+        manager = new CommandManager(bot, waiter);
     }
 
     @Override
@@ -86,8 +88,8 @@ public class Listener extends ListenerAdapter {
             }
         });
 
-        Bot.executor.scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
-        Bot.executor.scheduleWithFixedDelay(status, 0, 30, TimeUnit.SECONDS);
+        bot.getExecutor().scheduleWithFixedDelay(checkWhetherInactive, 0, 60, TimeUnit.SECONDS);
+        bot.getExecutor().scheduleWithFixedDelay(status, 0, 30, TimeUnit.SECONDS);
 
         globalAuditsChannel = jda.getTextChannelById(758724135790051368L);
 
