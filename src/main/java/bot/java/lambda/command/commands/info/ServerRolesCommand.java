@@ -8,7 +8,6 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 
-@CommandHandler
 public class ServerRolesCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {

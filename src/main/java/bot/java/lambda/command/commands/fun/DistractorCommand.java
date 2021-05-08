@@ -5,14 +5,13 @@ import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 
-import java.util.Objects;
-
 @CommandHandler
 public class DistractorCommand implements ICommand {
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void handle(CommandContext ctx) {
         ctx.getMessage().delete().queue();
-        ctx.getChannel().sendMessage(Objects.requireNonNull(ctx.getJDA().getGuildById(755433534495391805L)).getEmotesByName("Distractor", true).get(0).getAsMention() + "").queue();
+        ctx.getChannel().sendMessage(ctx.getJDA().getEmoteById(749479039915261972L).getAsMention()).queue();
     }
 
     @Override

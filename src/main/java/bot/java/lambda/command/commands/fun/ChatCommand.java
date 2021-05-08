@@ -2,7 +2,6 @@ package bot.java.lambda.command.commands.fun;
 
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
-import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@CommandHandler
 public class ChatCommand implements ICommand {
 
     List<User> areChatting = new ArrayList<>();
@@ -76,6 +74,7 @@ public class ChatCommand implements ICommand {
                         return;
                     }
 
+                    // TODO: Get a new Api for chatting
                     String url = "https://api.snowflakedev.xyz/chatbot?message=" + message.replaceAll(" ", "%20");
 
                     ins.getJSONObject(url).async(

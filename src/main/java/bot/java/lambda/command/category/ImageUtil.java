@@ -5,7 +5,8 @@ public enum ImageUtil {
     BLUR("blur", "Blurred "),
     DARKEN("darken", "Darkened"),
     INVERT("invert", "Inverted"),
-    PIXELATE("pixelate", "Pixelated");
+    PIXELATE("pixelate", "Pixelated"),
+    BLURPLE("", "Blurpled");
 
     private final String url;
     private final String done;

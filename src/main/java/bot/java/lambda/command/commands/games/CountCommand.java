@@ -1,5 +1,6 @@
 package bot.java.lambda.command.commands.games;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -71,11 +72,11 @@ public class CountCommand implements ICommand {
                     int i = Integer.parseInt(sb.toString());
 
                     if (i == num.get(guild)) {
-                        message.addReaction(":TickYes:755716208191602738").queue();
+                        message.addReaction(Constant.Emote.LAMBDA_SUCCESS.asReaction).queue();
                         num.replace(guild, num.get(guild) + 1);
                         waitForEvent(channel, guild);
                     } else {
-                        message.addReaction(":TickNo:755716160472875079").queue();
+                        message.addReaction(Constant.Emote.LAMBDA_FAILURE.asReaction).queue();
                         channel.sendMessage(e.getAuthor().getAsMention() + " ruined the counting on number " + (num.get(guild) - 1)).queue();
                         countGoingOnGuild.remove(guild);
                         num.replace(guild, 1);

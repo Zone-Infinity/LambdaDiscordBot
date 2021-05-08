@@ -1,5 +1,6 @@
 package bot.java.lambda.command.commands.info;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -18,11 +19,11 @@ public class InviteCommand implements ICommand {
         final String author = "Requested by " + asTag.substring(0, asTag.length() - 5) + "λ" + asTag.substring(asTag.length() - 4);
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                 .setAuthor(author)
-                .setTitle("<:LambdaLock:755716500643512370> Click here to invite me", "https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
+                .setTitle(Constant.Emote.LAMBDA_LOCK.emote + " Click here to invite me", "https://discord.com/api/oauth2/authorize?client_id=752052866809593906&permissions=540375616&scope=bot")
                 .setDescription("""
                         **Join our [Support Server](https://discord.com/invite/XCNehWVrH7)**
                         Here you go , invite me to as many servers as possible
-                        And help me becoming a verified bot <:Verified:755715351798480897>""")
+                        """ + Constant.Emote.LAMBDA_VERIFIED.emote)
                 .setThumbnail(ctx.getAuthor().getAvatarUrl())
                 .setImage("https://discord.com/api/guilds/755433534495391805/widget.png?style=banner3");
         channel.sendMessage(embed.build()).queue();

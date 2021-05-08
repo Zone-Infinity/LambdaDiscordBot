@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class EmojiCommand implements ICommand {
                     .setDescription(listOfAllEmote.get(pageNum - 1))
                     .build())
                     .queue(message -> {
-                        message.addReaction("-").queue();
+                        message.addReaction("⬅").queue();
                         message.addReaction("🛑").queue();
                         message.addReaction("➡").queue();
                         emojiPageWaiter(message, ctx);
@@ -115,7 +116,10 @@ public class EmojiCommand implements ICommand {
                                     .build()).queue();
                         }
                         emojiPageWaiter(message, ctx);
-                        //e.getReaction().removeReaction(e.getUser()).queue();
+                        try {
+                            e.getReaction().removeReaction(e.getUser()).queue();
+                        } catch (InsufficientPermissionException ignored) {
+                        }
                         return;
                     }
                     message.delete().queue();

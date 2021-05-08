@@ -1,6 +1,7 @@
 package bot.java.lambda.command.commands.info;
 
 import bot.java.lambda.CommandManager;
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -49,12 +50,12 @@ public record HelpCommand(CommandManager manager) implements ICommand {
                             "If you have any confusion about the bot, \n" +
                             "   Contact " + Discord.getZoneInfinityAsTag(ctx.getJDA()) + "           \n" +
                             "      for help, bugs and suggestions    ```\n" +
-                            "**Take a look on these commands** <:LambdaWhite:755717368386289721>")
-                    .addField("<:LambdaBlack:755717304989384714>  Commons", getCategoryHelp(HelpCategory.COM), true)
-                    .addField("<:VideoGame:755715386980171796> Games", getCategoryHelp(HelpCategory.GAME), true)
+                            "**Take a look on these commands** " + Constant.Emote.LAMBDA_WHITE.emote)
+                    .addField(Constant.Emote.LAMBDA_BLACK.emote + " Commons", getCategoryHelp(HelpCategory.COM), true)
+                    .addField(Constant.Emote.VIDEO_GAME.emote + " Games", getCategoryHelp(HelpCategory.GAME), true)
                     .addBlankField(true)
-                    .addField("<:LambdaInfo:755717519410724884> Info", getCategoryHelp(HelpCategory.INFO), true)
-                    .addField("<:Music:755716546827124787> Music", getCategoryHelp(HelpCategory.MUSIC), true)
+                    .addField(Constant.Emote.LAMBDA_INFO.emote + " Info", getCategoryHelp(HelpCategory.INFO), true)
+                    .addField(Constant.Emote.MUSIC.emote + " Music", getCategoryHelp(HelpCategory.MUSIC), true)
                     .addBlankField(true)
                     .addField("\uD83C\uDF89 Fun", getCategoryHelp(HelpCategory.FUN), true)
                     .addField("<:Adorable:755717988677845033> Images", getCategoryHelp(HelpCategory.IMAGES), true)

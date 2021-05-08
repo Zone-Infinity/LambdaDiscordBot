@@ -1,5 +1,6 @@
 package bot.java.lambda.command.commands.admin;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -17,12 +18,11 @@ public class CloseCommand implements ICommand {
     public void handle(CommandContext ctx) {
         if (ctx.getAuthor().getId().equals(Config.get("owner_id"))) {
             ctx.getChannel().sendMessage("Shutting Down").queue();
-            ctx.getMessage().addReaction("✅").queue();
-            ctx.getMessage().removeReaction("✅", ctx.getSelfUser()).queue();
+            ctx.getMessage().addReaction(Constant.Emote.LAMBDA_SUCCESS.asReaction).queue();
             LOGGER.info("Shutting Down");
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.fillInStackTrace();
             }

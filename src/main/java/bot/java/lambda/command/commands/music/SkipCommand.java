@@ -1,12 +1,13 @@
 package bot.java.lambda.command.commands.music;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
-import bot.java.lambda.command.type.CommandHandler;
-import bot.java.lambda.command.type.ICommand;
 import bot.java.lambda.command.commands.music.lavaplayer.GuildMusicManager;
 import bot.java.lambda.command.commands.music.lavaplayer.PlayerManager;
 import bot.java.lambda.command.commands.music.lavaplayer.TrackScheduler;
+import bot.java.lambda.command.type.CommandHandler;
+import bot.java.lambda.command.type.ICommand;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.api.entities.Guild;
@@ -50,8 +51,10 @@ public class SkipCommand implements ICommand {
         final List<Member> members = voiceState.getChannel().getMembers();
         final int size = members.size();
 
+        final String nextTrack = Constant.Emote.NEXT_TRACK.emote;
+
         if (size < 3) {
-            channel.sendMessage("<:NextTrack:755716597842182164> Track Skipped").queue();
+            channel.sendMessage(nextTrack + " Track Skipped").queue();
             try {
                 scheduler.nextTrack();
             } catch (IllegalStateException e) {
@@ -60,9 +63,9 @@ public class SkipCommand implements ICommand {
             return;
         }
         channel.sendMessage("React to the message to skip\n" +
-                "Need " + (size - 2) + " reactions ( only <:NextTrack:755716597842182164> )").queue(
+                "Need " + (size - 2) + " reactions ( only " + nextTrack + " )").queue(
                 message -> {
-                    message.addReaction(":NextTrack:755716597842182164").queue();
+                    message.addReaction(Constant.Emote.NEXT_TRACK.asReaction).queue();
                     waiter.waitForEvent(MessageReactionAddEvent.class,
                             e -> e.getReaction().retrieveUsers().stream().count() > size - 2 &&
                                     e.getChannel().equals(channel) &&
@@ -75,7 +78,8 @@ public class SkipCommand implements ICommand {
                                     ex.fillInStackTrace();
                                 }
                             },
-                            70, TimeUnit.SECONDS, () -> {});
+                            70, TimeUnit.SECONDS, () -> {
+                            });
                 }
         );
     }

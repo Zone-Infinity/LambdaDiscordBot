@@ -16,14 +16,25 @@ public interface ImageUtilCommand extends ICommand {
     default void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
         final List<String> args = ctx.getArgs();
+        final Message message = ctx.getMessage();
 
         if (args.isEmpty()) {
             channel.sendMessage("Please provide a URL").queue();
             return;
         }
 
+        final List<Message.Attachment> attachments = message.getAttachments();
+        if(!attachments.isEmpty()){
+            final String url = attachments.get(0).getUrl();
+            try {
+                sendImage(channel, url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
         if (Utils.isNotUrl(args.get(0))) {
-            final Message message = ctx.getMessage();
             if (message.getMentionedMembers().isEmpty()) {
                 if (message.getEmotes().isEmpty()) {
                     channel.sendMessage("Provide the correct image url").queue();
@@ -53,7 +64,7 @@ public interface ImageUtilCommand extends ICommand {
         }
     }
 
-    private void sendImage(TextChannel channel, String url) throws IOException {
+    default void sendImage(TextChannel channel, String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody req = new FormBody.Builder()
                 .add("image", url)

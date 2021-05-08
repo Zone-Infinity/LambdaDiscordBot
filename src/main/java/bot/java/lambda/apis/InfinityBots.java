@@ -1,18 +1,9 @@
 package bot.java.lambda.apis;
 
-import bot.java.lambda.config.Config;
-import me.duncte123.botcommons.web.WebUtils;
 import me.infinity.ibl.IBL;
-import okhttp3.FormBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 
-public class InfinityBots implements ServerCountSite {
-    private final IBL ibl;
-
-    public InfinityBots(IBL ibl) {
-        this.ibl = ibl;
-    }
+public record InfinityBots(IBL ibl) implements ServerCountSite {
 
     @Override
     public void postServerCount(long serverCount) {
@@ -21,6 +12,7 @@ public class InfinityBots implements ServerCountSite {
 
     @Override
     public Request getRequest(long serverCount) {
+        /*
         final String postUrl = getPostUrl().replace(":id", "752052866809593906");
 
         RequestBody body = new FormBody.Builder()
@@ -33,6 +25,8 @@ public class InfinityBots implements ServerCountSite {
                 .addHeader("authorization", Config.get("InfinityBotList_Token"))
                 .url(postUrl)
                 .build();
+                */
+        return null;
     }
 
     @Override

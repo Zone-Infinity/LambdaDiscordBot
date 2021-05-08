@@ -1,5 +1,6 @@
 package bot.java.lambda.command.commands.games;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -80,9 +81,9 @@ public record TriviaCommand(EventWaiter waiter) implements ICommand {
                                             message.clearReactions().queue();
 
                                             if (options.get(answer - 1).equals(correct_answer)) {
-                                                e.getChannel().sendMessage("You got the answer correct !! 🎉").queue();
+                                                e.getChannel().sendMessage("You got the answer correct !! " + Constant.Emote.LAMBDA_SUCCESS.emote).queue();
                                             } else {
-                                                e.getChannel().sendMessage("You got it wrong 😔").queue();
+                                                e.getChannel().sendMessage("You got it wrong " + Constant.Emote.LAMBDA_FAILURE.emote).queue();
                                             }
                                             e.getChannel().sendMessage("Correct Answer : " + correct_answer).queue();
 

@@ -1,17 +1,16 @@
 package bot.java.lambda.command.commands.admin;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.config.Config;
 import groovy.lang.GroovyShell;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
+import java.util.Map;
 
 @CommandHandler
 public class EvalCommand implements ICommand {
@@ -38,6 +37,13 @@ public class EvalCommand implements ICommand {
                 import net.dv8tion.jda.api.utils.*
                 import com.jagrosh.jdautilities.commons.utils.*
                 import com.jagrosh.jdautilities.commons.waiter.*
+                import me.duncte123.botcommons.*
+                import me.duncte123.botcommons.messaging.*
+                import me.duncte123.botcommons.text.*
+                import me.duncte123.botcommons.web.*
+                import bot.java.lambda.*
+                import bot.java.lambda.config.*
+                import bot.java.lambda.database.*
                 import bot.java.lambda.utils.*
                 """;
     }
@@ -53,26 +59,30 @@ public class EvalCommand implements ICommand {
             return;
         }
 
+        final Map<String, Object> variables = Map.of(
+                "ctx", ctx,
+                "args", args,
+                "event", ctx.getEvent(),
+                "message", message,
+                "channel", channel,
+                "jda", ctx.getJDA(),
+                "guild", ctx.getGuild(),
+                "member", ctx.getMember(),
+                "author", ctx.getAuthor()
+        );
+
         try {
-            engine.setVariable("ctx", ctx);
-            engine.setVariable("args", args);
-            engine.setVariable("event", ctx.getEvent());
-            engine.setVariable("message", message);
-            engine.setVariable("channel", channel);
-            engine.setVariable("jda", ctx.getJDA());
-            engine.setVariable("guild", ctx.getGuild());
-            engine.setVariable("member", ctx.getMember());
-            engine.setVariable("author", ctx.getAuthor());
-            engine.setVariable("ins", WebUtils.ins);
-            engine.setVariable("defaultEmbed", EmbedUtils.getDefaultEmbed());
+            variables.forEach(engine::setVariable);
+            engine.setVariable("vars", variables.keySet());
 
             String script = imports + message.getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
 
             channel.sendMessage(out == null ? "Executed without Error" : out.toString()).queue();
-
+            message.addReaction(Constant.Emote.LAMBDA_SUCCESS.asReaction).queue();
         } catch (Exception e) {
             channel.sendMessage("```" + e.getMessage() + "```").queue();
+            message.addReaction(Constant.Emote.LAMBDA_FAILURE.asReaction).queue();
         }
     }
 

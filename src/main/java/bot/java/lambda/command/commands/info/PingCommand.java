@@ -1,5 +1,6 @@
 package bot.java.lambda.command.commands.info;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -19,7 +20,7 @@ public class PingCommand implements ICommand {
                     final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                             .setTitle("PING")
                             .addField("\uD83E\uDDE1 Rest ping", ping + "ms", true)
-                            .addField("<:PingPong:755716114834522135> WS ping", (jda.getGatewayPing() == 69 ? 70 : jda.getGatewayPing()) + "ms", true);
+                            .addField(Constant.Emote.PING_PONG.emote + " WS ping", (jda.getGatewayPing() == 69 ? 70 : jda.getGatewayPing()) + "ms", true);
                     ctx.getChannel().sendMessage(embed.build()).queue();
                 }
         );

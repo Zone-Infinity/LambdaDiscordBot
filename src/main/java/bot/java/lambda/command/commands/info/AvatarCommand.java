@@ -49,7 +49,6 @@ public class AvatarCommand implements ICommand {
         }
 
         channel.sendMessage(embed.setImage(memberById.getUser().getEffectiveAvatarUrl() + "?size=2048").build()).queue();
-
     }
 
     public static boolean isDiscordID(String s) {

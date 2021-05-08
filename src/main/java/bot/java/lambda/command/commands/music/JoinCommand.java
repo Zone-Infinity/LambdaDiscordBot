@@ -1,5 +1,6 @@
 package bot.java.lambda.command.commands.music;
 
+import bot.java.lambda.Constant;
 import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
@@ -43,7 +44,7 @@ public class JoinCommand implements ICommand {
         }
 
         audioManager.openAudioConnection(memberChannel);
-        channel.sendMessageFormat("Connecting to <:Music:755716546827124787>`%s`", memberChannel.getName()).queue();
+        channel.sendMessageFormat("Connecting to " + Constant.Emote.MUSIC.emote + "`%s`", memberChannel.getName()).queue();
 
     }
 
