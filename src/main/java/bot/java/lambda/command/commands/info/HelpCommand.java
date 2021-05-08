@@ -37,8 +37,26 @@ public record HelpCommand(CommandManager manager) implements ICommand {
         List<String> args = ctx.getArgs();
         TextChannel channel = ctx.getChannel();
         String prefix = GuildSettings.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
+        final HelpCategory[] categories = HelpCategory.values();
+        String[] descEmote = {
+                Constant.Emote.LAMBDA_BLACK.emote,
+                Constant.Emote.VIDEO_GAME.emote,
+                Constant.Emote.LAMBDA_INFO.emote,
+                Constant.Emote.MUSIC.emote,
+                "\uD83C\uDF89",
+                "<:Adorable:755717988677845033>",
+                "\uD83D\uDEE0",
+                "⚙️"
+        };
+        final List<String> categoryList = IntStream.range(0, categories.length - 3)
+                .mapToObj(index -> {
+                    final HelpCategory category = categories[index];
+                    return "**" + descEmote[index] + " " + category.getCategory() + "** : `" + category.getDescription() + "`";
+                }).collect(Collectors.toList());
 
         if (args.isEmpty()) {
+            final String desc = "`" + prefix + "help <category>`\n" + String.join("\n", categoryList);
+
             final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
                     .setThumbnail(null)
                     .setTitle("**λ** Help")
@@ -51,17 +69,7 @@ public record HelpCommand(CommandManager manager) implements ICommand {
                             "   Contact " + Discord.getZoneInfinityAsTag(ctx.getJDA()) + "           \n" +
                             "      for help, bugs and suggestions    ```\n" +
                             "**Take a look on these commands** " + Constant.Emote.LAMBDA_WHITE.emote)
-                    .addField(Constant.Emote.LAMBDA_BLACK.emote + " Commons", getCategoryHelp(HelpCategory.COM), true)
-                    .addField(Constant.Emote.VIDEO_GAME.emote + " Games", getCategoryHelp(HelpCategory.GAME), true)
-                    .addBlankField(true)
-                    .addField(Constant.Emote.LAMBDA_INFO.emote + " Info", getCategoryHelp(HelpCategory.INFO), true)
-                    .addField(Constant.Emote.MUSIC.emote + " Music", getCategoryHelp(HelpCategory.MUSIC), true)
-                    .addBlankField(true)
-                    .addField("\uD83C\uDF89 Fun", getCategoryHelp(HelpCategory.FUN), true)
-                    .addField("<:Adorable:755717988677845033> Images", getCategoryHelp(HelpCategory.IMAGES), true)
-                    .addBlankField(true)
-                    .addField("\uD83D\uDEE0 Utils", getCategoryHelp(HelpCategory.UTIL), true)
-                    .addField("⚙️ Settings", getCategoryHelp(HelpCategory.SETTINGS), true)
+                    .addField("Command Categories", desc, true)
                     .setFooter("Total Commands : " + (manager.getCommands().stream().filter(it -> it.getHelpCategory() != HelpCategory.OWNER).count()), "https://media.discordapp.net/attachments/751297245068132472/753934986943528980/1tNXllYx93ipMLK44F6QWQw-removebg-preview.png");
 
             channel.sendMessage(embed.build()).queue();
@@ -79,9 +87,15 @@ public record HelpCommand(CommandManager manager) implements ICommand {
                 channel.sendMessage("Nothing found for " + search).queue();
                 return;
             }
+            String finalCategoryName = categoryName;
+            categoryName = categoryList.stream().filter(it -> it.contains(finalCategoryName)).collect(Collectors.toList()).get(0);
 
-            channel.sendMessageFormat("Command Category```%s\n" +
-                    "%s ```", categoryName, category.getDescription()).queue();
+            channel.sendMessage(EmbedUtils.getDefaultEmbed()
+                    .setThumbnail(null)
+                    .setTitle(categoryName)
+                    .setDescription("```" + category.getDescription() + "```")
+                    .addField("Commands", getCategoryHelp(category), true).build()).queue();
+
             return;
         }
 

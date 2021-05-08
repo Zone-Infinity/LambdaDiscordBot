@@ -33,7 +33,8 @@ public enum HelpCategory {
         return description;
     }
 
-    public @NotNull HelpCategory getCommand(String search) {
-        return Arrays.stream(values()).filter(it -> it.getCategory().equalsIgnoreCase(search)).findFirst().orElse(UNKNOWN);
+    @NotNull
+    public HelpCategory getCommand(String search) {
+        return Arrays.stream(values()).filter(it -> it.getCategory().equalsIgnoreCase(search) || it.toString().equalsIgnoreCase(search)).findFirst().orElse(UNKNOWN);
     }
 }
