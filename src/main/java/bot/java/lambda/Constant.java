@@ -29,7 +29,7 @@ public class Constant {
             this.emote = emote;
             this.name = emote.replaceAll("<:(\\w+):\\d+>", "$1");
             this.id = emote.replaceAll("<:\\w+:(\\d+)>", "$1");
-            this.asReaction = emote.replaceAll("^<>$", "");
+            this.asReaction = emote.replaceAll("[<>]", "");
         }
     }
 }
