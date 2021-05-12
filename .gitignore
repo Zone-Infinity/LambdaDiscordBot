@@ -1,0 +1,14 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+
+/.idea/
+/.idea/codeStyles
+
+/*.iml
+.env
+
+/target
+/src/main/java/Test/
+
+/database
