@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @CommandHandler
 public class RemoveCommand implements ICommand {
@@ -67,11 +68,12 @@ public class RemoveCommand implements ICommand {
     }
 
     private AudioTrack getTrack(BlockingQueue<AudioTrack> queue, int index) {
-        if (index >= queue.size() || index == -1) return null;
+        BlockingQueue<AudioTrack> dummyQueue = new LinkedBlockingQueue<>(queue);
+        if (index >= dummyQueue.size() || index == -1) return null;
 
-        for (int i = 0; i < queue.size(); i++) {
-            if (i == index) return queue.peek();
-            queue.remove();
+        for (int i = 0; i < dummyQueue.size(); i++) {
+            if (i == index) return dummyQueue.peek();
+            dummyQueue.remove();
         }
 
         return null;
