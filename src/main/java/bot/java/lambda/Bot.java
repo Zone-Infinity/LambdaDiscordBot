@@ -29,15 +29,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Bot {
-    private final Logger LOGGER = LoggerFactory.getLogger(Bot.class);
     private final ScheduledExecutorService executor;
-
 
     private Bot(String token) throws LoginException, InterruptedException {
         WebUtils.setUserAgent("Mozilla/5.0 (compatible; Lambda/1.1; https://github.com/Zone-Infinity/LambdaDiscordBot");
 
         EventWaiter waiter = new EventWaiter();
-        executor = new ScheduledThreadPoolExecutor(3);
+        executor = new ScheduledThreadPoolExecutor(10);
         Object[] listeners = {
                 waiter,
                 new Listener(this, waiter),
@@ -72,16 +70,22 @@ public class Bot {
         Profanity.loadProfanityList();
         jda.awaitReady();
 
-        if (jda.getToken().equals(Config.get("token"))) {
+        if (token.equals(Config.get("token"))) {
+            Logger LOGGER = LoggerFactory.getLogger(Bot.class);
             IBL ibl = new IBL.Builder(jda.getSelfUser().getId(), Config.get("InfinityBotList_Token"));
+
             LOGGER.info("Starting to Post counts on Bot Lists");
             ServerCountPoster poster = new ServerCountPoster(jda);
             poster.startPostingServerCount(Set.of(
                     new TopGG(),
                     new InfinityBots(ibl),
                     new Boats()
-            ), 60, executor);
+            ), 60, this);
         }
+    }
+
+    public ScheduledExecutorService getExecutor() {
+        return executor;
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
@@ -92,13 +96,5 @@ public class Bot {
             }
 
         new Bot(Config.get("token"));
-    }
-
-    public ScheduledExecutorService getExecutor() {
-        return executor;
-    }
-
-    public Logger getLogger() {
-        return LOGGER;
     }
 }

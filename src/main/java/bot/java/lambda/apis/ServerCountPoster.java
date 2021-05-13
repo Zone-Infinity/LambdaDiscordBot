@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public record ServerCountPoster(JDA jda) {
 
-    public void startPostingServerCount(Set<ServerCountSite> sites, int delay, ScheduledExecutorService executor) {
+    public void startPostingServerCount(Set<ServerCountSite> sites, int delay, Bot bot) {
         Runnable postServerCount = () -> {
             final long guildCount = jda.getGuildCache().size();
 
@@ -18,6 +18,6 @@ public record ServerCountPoster(JDA jda) {
             }
         };
 
-        executor.scheduleWithFixedDelay(postServerCount, 1, delay, TimeUnit.MINUTES);
+        bot.getExecutor().scheduleWithFixedDelay(postServerCount, 1, delay, TimeUnit.MINUTES);
     }
 }
