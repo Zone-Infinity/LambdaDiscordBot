@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class StringUtils {
-    private static final String normalText = "abcdefghijklmnopqrstuvwxyz_,.?!/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&<>";
-    private static final String flippedText = "ɐqɔpǝɟɓɥᴉɾʞlɯuodbɹsʇnʌʍxʎz‾'˙¿¡/\\ⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚS⊥∩ΛMX⅄Z0⇂ᘔƐㄣ5986⅋><";
+    private static final String normalText = "abcdefghijklmnopqrstuvwxyz_,.?!/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&<> ɐqɔpǝɟɓɥᴉɾʞlɯuodbɹsʇnʌʍxʎz‾'˙¿¡/\\ⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚS⊥∩ΛMX⅄Z0⇂ᘔƐㄣ59ㄥ86⅋><";
+    private static final String flippedText = "ɐqɔpǝɟɓɥᴉɾʞlɯuodbɹsʇnʌʍxʎz‾'˙¿¡/\\ⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚS⊥∩ΛMX⅄Z0⇂ᘔƐㄣ59ㄥ86⅋>< abcdefghijklmnopqrstuvwxyz_,.?!/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&<>";
 
     public static final List<String> profanityWords = new ArrayList<>();
 
