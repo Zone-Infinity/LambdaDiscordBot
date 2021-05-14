@@ -48,20 +48,15 @@ public class Bot {
                 token,
                 GatewayIntent.GUILD_MEMBERS,
                 GatewayIntent.GUILD_MESSAGES,
-                // GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.GUILD_VOICE_STATES,
                 GatewayIntent.GUILD_EMOJIS,
                 GatewayIntent.GUILD_MESSAGE_REACTIONS
         )
                 .setMemberCachePolicy(MemberCachePolicy.DEFAULT.and((member -> member.getGuild().getId().equals("755433534495391805"))))
-                // .setChunkingFilter(ChunkingFilter.ALL)
                 .enableCache(EnumSet.of(
-                        // CacheFlag.CLIENT_STATUS,
-                        // CacheFlag.ACTIVITY,
                         CacheFlag.VOICE_STATE,
                         CacheFlag.EMOTE
                 ))
-                .disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS)
                 .addEventListeners(listeners)
                 .setBulkDeleteSplittingEnabled(false)
                 .setGatewayEncoding(GatewayEncoding.ETF);

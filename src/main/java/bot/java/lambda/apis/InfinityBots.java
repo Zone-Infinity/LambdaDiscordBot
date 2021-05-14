@@ -12,20 +12,6 @@ public record InfinityBots(IBL ibl) implements ServerCountSite {
 
     @Override
     public Request getRequest(long serverCount) {
-        /*
-        final String postUrl = getPostUrl().replace(":id", "752052866809593906");
-
-        RequestBody body = new FormBody.Builder()
-                .add("servers", serverCount + "")
-                .add("shards", "1")
-                .build();
-
-        return WebUtils.defaultRequest()
-                .post(body)
-                .addHeader("authorization", Config.get("InfinityBotList_Token"))
-                .url(postUrl)
-                .build();
-                */
         return null;
     }
 
