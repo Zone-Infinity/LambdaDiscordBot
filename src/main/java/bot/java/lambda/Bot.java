@@ -52,7 +52,7 @@ public class Bot {
                 GatewayIntent.GUILD_EMOJIS,
                 GatewayIntent.GUILD_MESSAGE_REACTIONS
         )
-                .setMemberCachePolicy(MemberCachePolicy.DEFAULT.and((member -> member.getGuild().getId().equals("755433534495391805"))))
+                .setMemberCachePolicy(MemberCachePolicy.VOICE.or(MemberCachePolicy.DEFAULT.or((member -> member.getGuild().getId().equals("755433534495391805")))))
                 .enableCache(EnumSet.of(
                         CacheFlag.VOICE_STATE,
                         CacheFlag.EMOTE
