@@ -42,7 +42,7 @@ public class SayCommand implements ICommand {
         String string = Discord.replaceAllMention(message);
 
         final String regularContent = Discord.replaceAllEmojiString(string.replaceFirst(">say", ""), ctx);
-        final String mentionedContent = Discord.replaceAllEmojiString(string.replaceFirst(">say", "").replaceFirst("<@!?[0-9]{18}>", ""), ctx);
+        final String mentionedContent = Discord.replaceAllEmojiString(string.replaceFirst(">say", "").replaceFirst("<@![0-9]{18}>", ""), ctx);
 
         channel.retrieveWebhooks().queue(
                 webhooks -> {
