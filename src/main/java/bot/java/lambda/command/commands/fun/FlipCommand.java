@@ -4,7 +4,8 @@ import bot.java.lambda.command.CommandContext;
 import bot.java.lambda.command.category.HelpCategory;
 import bot.java.lambda.command.type.CommandHandler;
 import bot.java.lambda.command.type.ICommand;
-import bot.java.lambda.config.Config;
+import bot.java.lambda.config.GuildSettings;
+import bot.java.lambda.database.DatabaseManager;
 import bot.java.lambda.utils.Discord;
 import bot.java.lambda.utils.StringUtils;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -22,8 +23,9 @@ public class FlipCommand implements ICommand {
             channel.sendMessage("Missing Arguments").queue();
             return;
         }
+        String prefix = GuildSettings.PREFIXES.computeIfAbsent(ctx.getGuild().getIdLong(), DatabaseManager.INSTANCE::getPrefix);
 
-        String join = StringUtils.flipText(Discord.replaceAllMention(ctx.getMessage()).replaceFirst(Config.get("prefix") + getName(), ""));
+        String join = StringUtils.flipText(Discord.replaceAllMention(ctx.getMessage()).replaceFirst(prefix + getName(), ""));
 
         channel.sendMessage(join).queue();
     }
