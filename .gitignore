@@ -12,3 +12,7 @@
 /src/main/java/Test/
 
 /database
+
+.classpath
+.project
+.settings/

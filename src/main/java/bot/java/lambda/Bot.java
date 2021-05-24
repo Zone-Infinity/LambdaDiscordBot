@@ -5,7 +5,6 @@ import bot.java.lambda.apis.InfinityBots;
 import bot.java.lambda.apis.ServerCountPoster;
 import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.config.Config;
-import bot.java.lambda.config.Profanity;
 import bot.java.lambda.events.JDAEventListener;
 import bot.java.lambda.events.Listener;
 import bot.java.lambda.events.MemberEventListener;
@@ -61,8 +60,6 @@ public class Bot {
                 .setBulkDeleteSplittingEnabled(false)
                 .setGatewayEncoding(GatewayEncoding.ETF);
         final JDA jda = jdaBuilder.build();
-
-        Profanity.loadProfanityList();
         jda.awaitReady();
 
         if (token.equals(Config.get("token"))) {
