@@ -1,18 +1,41 @@
 # Default ignored files
 /shelf/
-/.idea/workspace.xml
 
-/.idea/
-/.idea/codeStyles
-
-/*.iml
+# Env file and Database
 .env
-
-/target
-/src/main/java/Test/
-
 /database
 
+# Mac
+.DS_Store
+
+# Maven
+target/
+dependency-reduced-pom.xml
+pom.xml.versionsBackup
+
+# Intellij
+.idea/
+*.iws
+out/
+*.iml
+.idea_modules/
+atlassian-ide-plugin.xml
+
+# Eclipse
 .classpath
 .project
+codetemplates.xml
+bin/
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
 .settings/
+.loadpath
+.recommenders
+
+# Personals
+src/main/java/Test
