@@ -10,10 +10,11 @@ import org.slf4j.LoggerFactory;
 public class JDAEventListener extends ListenerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JDAEventListener.class);
     public static String botStatusChannelID = "770225299396624394";
+    private TextChannel channel;
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        final TextChannel channel = event.getJDA().getTextChannelById(botStatusChannelID);
+        channel = event.getJDA().getTextChannelById(botStatusChannelID);
         if (channel == null) return;
         channel.sendMessage("`Started`").queue();
 
@@ -22,7 +23,6 @@ public class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onReconnected(@NotNull ReconnectedEvent event) {
-        final TextChannel channel = event.getJDA().getTextChannelById(botStatusChannelID);
         if (channel == null) return;
         channel.sendMessage("`Reconnected`").queue();
 
@@ -31,7 +31,6 @@ public class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onDisconnect(@NotNull DisconnectEvent event) {
-        final TextChannel channel = event.getJDA().getTextChannelById(botStatusChannelID);
         if (channel == null) return;
         channel.sendMessage("`Disconnected`").queue();
 
@@ -40,7 +39,6 @@ public class JDAEventListener extends ListenerAdapter {
 
     @Override
     public void onShutdown(@NotNull ShutdownEvent event) {
-        final TextChannel channel = event.getJDA().getTextChannelById(botStatusChannelID);
         if (channel == null) return;
         channel.sendMessage("`Shutdown`").queue();
         LOGGER.info("Shutdown successful");
