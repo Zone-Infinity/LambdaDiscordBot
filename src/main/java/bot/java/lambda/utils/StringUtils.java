@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class StringUtils {
-    private static final String NORMAL_TEXT = "abcdefghijklmnopqrstuvwxyz_,.?!/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&<> ɐqɔpǝɟɓɥᴉɾʞlɯuodbɹsʇnʌʍxʎz‾'˙¿¡/\\ⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚS⊥∩ΛMX⅄Z0⇂ᘔƐㄣ59ㄥ86⅋><";
+    private static final String NORMAL_TEXT =  "abcdefghijklmnopqrstuvwxyz_,.?!/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&<> ɐqɔpǝɟɓɥᴉɾʞlɯuodbɹsʇnʌʍxʎz‾'˙¿¡/\\ⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚS⊥∩ΛMX⅄Z0⇂ᘔƐㄣ59ㄥ86⅋><";
     private static final String FLIPPED_TEXT = "ɐqɔpǝɟɓɥᴉɾʞlɯuodbɹsʇnʌʍxʎz‾'˙¿¡/\\ⱯᗺƆᗡƎℲ⅁HIᒋꓘ⅂WNOԀტᴚS⊥∩ΛMX⅄Z0⇂ᘔƐㄣ59ㄥ86⅋>< abcdefghijklmnopqrstuvwxyz_,.?!/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&<>";
     private static final Map<Character, Character> LETTER_PAIRS = IntStream.range(0, NORMAL_TEXT.length())
         .boxed()
