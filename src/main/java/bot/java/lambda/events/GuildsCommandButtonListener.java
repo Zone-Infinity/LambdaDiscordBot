@@ -4,11 +4,14 @@ import bot.java.lambda.utils.Discord;
 import bot.java.lambda.utils.StringUtils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.Button;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 
 @SuppressWarnings("ConstantConditions")
@@ -48,8 +51,12 @@ public class GuildsCommandButtonListener extends ListenerAdapter {
         int page = Integer.parseInt(msg.getEmbeds().get(0).getFooter().getText());
         page = next ? page + 1 : page - 1;
 
+        final List<List<Guild>> guildsList = Discord.getGuildsList(msg.getJDA());
+        if (page == 0 || page == guildsList.size())
+            return;
+
         final EmbedBuilder embed = EmbedUtils.getDefaultEmbed()
-                .setDescription("```" + StringUtils.getGuildTable(Discord.getGuildsList(msg.getJDA()).get(page - 1), page) + "```")
+                .setDescription("```" + StringUtils.getGuildTable(guildsList.get(page - 1), page) + "```")
                 .setFooter(String.valueOf(page));
 
         msg.editMessage(embed.build()).queue();
