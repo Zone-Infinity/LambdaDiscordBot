@@ -1,5 +1,7 @@
 package bot.java.lambda.utils;
 
+import net.dv8tion.jda.api.entities.Guild;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,5 +47,40 @@ public class StringUtils {
 
     public static boolean hasProfanity(String text) {
         return profanityWords.stream().anyMatch(text::contains);
+    }
+
+    public static String getGuildTable(List<Guild> guildList, int page) {
+        StringBuilder table = new StringBuilder();
+        final int guildSize = guildList.stream()
+                .mapToInt(it -> Math.min(it.getName().length(), 22))
+                .max()
+                .orElse(0);
+        final int memberSize = guildList.stream()
+                .mapToInt(it -> String.valueOf(it.getMemberCount()).length())
+                .max()
+                .orElse(0);
+
+        String rowFormat = "║%-" +
+                (Math.max(5, String.valueOf(guildList.size()).length()) + 1) +
+                "s║%-" +
+                (Math.max(guildSize, 5) + 1) +
+                "s║%-" +
+                (Math.max(memberSize, 7) + 1) +
+                "s║%-18s║%n";
+        final String divider = String.format(rowFormat, "", "", "", "").replaceAll(" ", "═");
+
+        table.append(String.format(rowFormat, "", "", "", "").replaceFirst("║", "╔").replaceFirst("║", "╦").replaceFirst("║", "╦").replaceFirst("║", "╦").replaceFirst("║", "╗").replaceAll(" ", "═"));
+        table.append(String.format(rowFormat, "Rank ", "Name", "Members", "ID"));
+        table.append(divider);
+
+        for (int i = 0; i < guildList.size(); i++) {
+            final Guild guild = guildList.get(i);
+            final String name = guild.getName();
+            table.append(String.format(rowFormat, ((page - 1) * 10 + i + 1) + ".", name.substring(0, Math.min(22, name.length())), guild.getMemberCount(), guild.getId()));
+        }
+
+        table.append(String.format(rowFormat, "", "", "", "").replaceFirst("║", "╚").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╩").replaceFirst("║", "╝").replaceAll(" ", "═"));
+
+        return table.toString();
     }
 }

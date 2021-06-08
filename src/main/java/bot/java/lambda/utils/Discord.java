@@ -7,10 +7,12 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Discord {
     private static final List<String> CONTRIBUTOR_IDS = List.of("722854351600615465", "616969228972458008", "757050742379905056");
@@ -19,9 +21,9 @@ public class Discord {
 
     public static List<TextChannel> getTextChannel(Guild guild, String[] filters) {
         return guild.getTextChannels()
-            .stream()
-            .filter(channel -> Arrays.stream(filters).allMatch(filter -> channel.getName().contains(filter)))
-            .collect(Collectors.toList());
+                .stream()
+                .filter(channel -> Arrays.stream(filters).allMatch(filter -> channel.getName().contains(filter)))
+                .collect(Collectors.toList());
     }
 
     public static Emote searchEmote(CommandContext ctx, String name) {
@@ -76,5 +78,20 @@ public class Discord {
             result.append(message);
         }
         return result.toString().replaceAll("\\{\\{(a?);(\\w+);(\\d+)}}", "<$1:$2:$3>");
+    }
+
+    public static List<List<Guild>> getGuildsList(JDA jda) {
+        List<Guild> guilds = jda.getGuilds()
+                .stream()
+                .sorted(Comparator.comparingInt(Guild::getMemberCount).reversed())
+                .collect(Collectors.toList());
+
+        return IntStream.range(0, guilds.size())
+                .boxed()
+                .collect(Collectors.groupingBy(i -> i / 10))
+                .values()
+                .stream()
+                .map(indices -> indices.stream().map(guilds::get).collect(Collectors.toList()))
+                .collect(Collectors.toList());
     }
 }

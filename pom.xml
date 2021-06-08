@@ -6,7 +6,7 @@
 
     <groupId>me.infinity</groupId>
     <artifactId>LambdaDiscordBot</artifactId>
-    <version>1.1_3</version>
+    <version>1.1</version>
 
     <name>LambdaDiscordBot</name>
     <url>http://www.example.com</url>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.1_265</version>
+            <version>4.2.1_272</version>
         </dependency>
 
         <!-- https://github.com/JDA-Applications/JDA-Utilities -->
@@ -75,7 +75,7 @@
         <dependency>
             <groupId>me.duncte123</groupId>
             <artifactId>botCommons</artifactId>
-            <version>2.1.4</version>
+            <version>2.2.7</version>
         </dependency>
 
         <!-- https://github.com/sedmelluq/lavaplayer -->

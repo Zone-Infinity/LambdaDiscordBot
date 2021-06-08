@@ -5,10 +5,7 @@ import bot.java.lambda.apis.InfinityBots;
 import bot.java.lambda.apis.ServerCountPoster;
 import bot.java.lambda.apis.TopGG;
 import bot.java.lambda.config.Config;
-import bot.java.lambda.events.JDAEventListener;
-import bot.java.lambda.events.Listener;
-import bot.java.lambda.events.MemberEventListener;
-import bot.java.lambda.events.MusicEventListener;
+import bot.java.lambda.events.*;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.duncte123.botcommons.web.WebUtils;
 import me.infinity.ibl.IBL;
@@ -40,7 +37,8 @@ public class Bot {
                 new Listener(this, waiter),
                 new JDAEventListener(),
                 new MusicEventListener(),
-                new MemberEventListener()
+                new MemberEventListener(),
+                new GuildsCommandButtonListener()
         };
 
         JDABuilder jdaBuilder = JDABuilder.createDefault(
