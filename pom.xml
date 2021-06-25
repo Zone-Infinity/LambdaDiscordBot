@@ -46,7 +46,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.1_272</version>
+            <version>4.2.1_276</version>
         </dependency>
 
         <!-- https://github.com/JDA-Applications/JDA-Utilities -->
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>com.github.Zone-Infinity</groupId>
             <artifactId>IBL4J</artifactId>
-            <version>0.3</version>
+            <version>1.0_2</version>
         </dependency>
     </dependencies>
 

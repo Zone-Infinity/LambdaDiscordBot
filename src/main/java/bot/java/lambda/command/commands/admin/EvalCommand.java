@@ -54,10 +54,6 @@ public class EvalCommand implements ICommand {
 
         final List<String> args = ctx.getArgs();
         final Message message = ctx.getMessage();
-        if (args.isEmpty()) {
-            channel.sendMessage("Missing Arguments").queue();
-            return;
-        }
 
         final Map<String, Object> variables = Map.of(
                 "ctx", ctx,
@@ -70,6 +66,12 @@ public class EvalCommand implements ICommand {
                 "member", ctx.getMember(),
                 "author", ctx.getAuthor()
         );
+
+        if (args.isEmpty()) {
+            channel.sendMessage("Missing Arguments\n" +
+                    "Please specify your codes, also these are some variables already there : " + variables.keySet()).queue();
+            return;
+        }
 
         try {
             variables.forEach(engine::setVariable);

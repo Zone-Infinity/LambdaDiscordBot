@@ -72,7 +72,10 @@ public class Discord {
         StringBuilder result = new StringBuilder();
         if (matcher.find()) {
             do {
-                matcher.appendReplacement(result, Discord.searchEmote(ctx, matcher.group(1)).getAsMention());
+                final String name = matcher.group(1);
+                final Emote emote = Discord.searchEmote(ctx, name);
+                final String asMention = emote == null ? ":" + name + ":" : emote.getAsMention();
+                matcher.appendReplacement(result, asMention);
             } while (matcher.find());
         } else {
             result.append(message);
