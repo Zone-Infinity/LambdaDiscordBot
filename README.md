@@ -7,9 +7,8 @@
 
 # Lambda Discord Bot
 
-A **Fun** Bot which has many commands<br/>
-It provides you with some Common commands<br/>
-Some Fun and most important **MUSIC** !! 😄
+A **Fun** Bot with many commands!<br/>
+It provides you with some __common__, __fun__, and most importantly **__MUSIC__** commands!! 😄<br/>
 
 ## Support
 
